@@ -1,11 +1,18 @@
-import { core as core_corejs } from "../../core";
-var tempRect = new core_corejs.Rectangle();
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.CanvasExtract = undefined;
+
+var _core = require("../../core");
+
+var tempRect = new _core.core.Rectangle();
 
 function CanvasExtract(renderer) {
     this.renderer = renderer;
     renderer.extract = this;
 }
-
 
 CanvasExtract.prototype.constructor = CanvasExtract;
 
@@ -15,10 +22,9 @@ CanvasExtract.prototype.constructor = CanvasExtract;
  * @param target {PIXI.DisplayObject|PIXI.RenderTexture} A displayObject or renderTexture to convert. If left empty will use use the main renderer
  * @return {HTMLImageElement} HTML Image of the target
  */
-CanvasExtract.prototype.image = function ( target )
-{
-	var image = new Image();
-    image.src = this.base64( target );
+CanvasExtract.prototype.image = function (target) {
+    var image = new Image();
+    image.src = this.base64(target);
     return image;
 };
 
@@ -27,9 +33,8 @@ CanvasExtract.prototype.image = function ( target )
  * @param target {PIXI.DisplayObject|PIXI.RenderTexture} A displayObject or renderTexture to convert. If left empty will use use the main renderer
  * @return {string} A base64 encoded string of the texture.
  */
-CanvasExtract.prototype.base64 = function ( target )
-{
-    return this.canvas( target ).toDataURL();
+CanvasExtract.prototype.base64 = function (target) {
+    return this.canvas(target).toDataURL();
 };
 
 /**
@@ -37,34 +42,26 @@ CanvasExtract.prototype.base64 = function ( target )
  * @param target {PIXI.DisplayObject|PIXI.RenderTexture} A displayObject or renderTexture to convert. If left empty will use use the main renderer
  * @return {HTMLCanvasElement} A Canvas element with the texture rendered on.
  */
-CanvasExtract.prototype.canvas = function ( target )
-{
-	var renderer = this.renderer;
-	var context;
-	var resolution;
+CanvasExtract.prototype.canvas = function (target) {
+    var renderer = this.renderer;
+    var context;
+    var resolution;
     var frame;
     var renderTexture;
 
-    if(target)
-    {
-        if(target instanceof core_corejs.RenderTexture)
-        {
+    if (target) {
+        if (target instanceof _core.core.RenderTexture) {
             renderTexture = target;
-        }
-        else
-        {
+        } else {
             renderTexture = renderer.generateTexture(target);
         }
     }
 
-	if(renderTexture)
-    {
+    if (renderTexture) {
         context = renderTexture.baseTexture._canvasRenderTarget.context;
         resolution = renderTexture.baseTexture._canvasRenderTarget.resolution;
         frame = renderTexture.frame;
-    }
-    else
-    {
+    } else {
         context = renderer.rootContext;
         resolution = renderer.rootResolution;
 
@@ -76,10 +73,9 @@ CanvasExtract.prototype.canvas = function ( target )
     var width = frame.width * resolution;
     var height = frame.height * resolution;
 
-   	var canvasBuffer = new core_corejs.CanvasRenderTarget(width, height);
+    var canvasBuffer = new _core.core.CanvasRenderTarget(width, height);
     var canvasData = context.getImageData(frame.x * resolution, frame.y * resolution, width, height);
     canvasBuffer.context.putImageData(canvasData, 0, 0);
-
 
     // send the canvas back..
     return canvasBuffer.canvas;
@@ -90,34 +86,26 @@ CanvasExtract.prototype.canvas = function ( target )
  * @param target {PIXI.DisplayObject|PIXI.RenderTexture} A displayObject or renderTexture to convert. If left empty will use use the main renderer
  * @return {Uint8ClampedArray} One-dimensional array containing the pixel data of the entire texture
  */
-CanvasExtract.prototype.pixels = function ( target )
-{
+CanvasExtract.prototype.pixels = function (target) {
     var renderer = this.renderer;
     var context;
     var resolution;
     var frame;
     var renderTexture;
 
-    if(target)
-    {
-        if(target instanceof core_corejs.RenderTexture)
-        {
+    if (target) {
+        if (target instanceof _core.core.RenderTexture) {
             renderTexture = target;
-        }
-        else
-        {
+        } else {
             renderTexture = renderer.generateTexture(target);
         }
     }
 
-    if(renderTexture)
-    {
+    if (renderTexture) {
         context = renderTexture.baseTexture._canvasRenderTarget.context;
         resolution = renderTexture.baseTexture._canvasRenderTarget.resolution;
         frame = renderTexture.frame;
-    }
-    else
-    {
+    } else {
         context = renderer.rootContext;
         resolution = renderer.rootResolution;
 
@@ -133,13 +121,12 @@ CanvasExtract.prototype.pixels = function ( target )
  * Destroys the extract
  *
  */
-CanvasExtract.prototype.destroy = function ()
-{
+CanvasExtract.prototype.destroy = function () {
     this.renderer.extract = null;
     this.renderer = null;
 };
 
-core_corejs.CanvasRenderer.registerPlugin('extract', CanvasExtract);
+_core.core.CanvasRenderer.registerPlugin('extract', CanvasExtract);
 var exported_CanvasExtract = CanvasExtract;
 
 /**
@@ -148,4 +135,4 @@ var exported_CanvasExtract = CanvasExtract;
  * @memberof PIXI
  * @param renderer {PIXI.CanvasRenderer} A reference to the current renderer
  */
-export { exported_CanvasExtract as CanvasExtract };
+exports.CanvasExtract = exported_CanvasExtract;

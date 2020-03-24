@@ -1,6 +1,13 @@
-import { core as core_corejs } from "../../core";
-function CanvasPrepare() {
-}
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CanvasPrepare = undefined;
+
+var _core = require('../../core');
+
+function CanvasPrepare() {}
 
 CanvasPrepare.prototype.constructor = CanvasPrepare;
 
@@ -11,42 +18,36 @@ CanvasPrepare.prototype.constructor = CanvasPrepare;
  *        the callback function, if items have been added using `prepare.add`.
  * @param {Function} done When completed
  */
-CanvasPrepare.prototype.upload = function(displayObject, done)
-{
-    if (typeof displayObject === 'function')
-    {
-        done = displayObject;
-        displayObject = null;
-    }
-    done();
+CanvasPrepare.prototype.upload = function (displayObject, done) {
+  if (typeof displayObject === 'function') {
+    done = displayObject;
+    displayObject = null;
+  }
+  done();
 };
 
 /**
  * Stub method for registering hooks.
  * @return {PIXI.CanvasPrepare} Instance of plugin for chaining.
  */
-CanvasPrepare.prototype.register = function()
-{
-    return this;
+CanvasPrepare.prototype.register = function () {
+  return this;
 };
 
 /**
  * Stub method for adding items.
  * @return {PIXI.CanvasPrepare} Instance of plugin for chaining.
  */
-CanvasPrepare.prototype.add = function()
-{
-    return this;
+CanvasPrepare.prototype.add = function () {
+  return this;
 };
 
 /**
  * Stub method for destroying plugin.
  */
-CanvasPrepare.prototype.destroy = function()
-{
-};
+CanvasPrepare.prototype.destroy = function () {};
 
-core_corejs.CanvasRenderer.registerPlugin('prepare', CanvasPrepare);
+_core.core.CanvasRenderer.registerPlugin('prepare', CanvasPrepare);
 var exported_CanvasPrepare = CanvasPrepare;
 
 /**
@@ -56,4 +57,4 @@ var exported_CanvasPrepare = CanvasPrepare;
  * @memberof PIXI
  * @param renderer {PIXI.CanvasRenderer} A reference to the current renderer
  */
-export { exported_CanvasPrepare as CanvasPrepare };
+exports.CanvasPrepare = exported_CanvasPrepare;

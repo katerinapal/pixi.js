@@ -1,133 +1,139 @@
-import { core as core_corejs } from "../core";
-import Device from "ismobilejs";
-import * as accessibleTarget_accessibleTargetjs from "./accessibleTarget";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AccessibilityManager = undefined;
+
+var _core = require("../core");
+
+var _ismobilejs = require("ismobilejs");
+
+var _ismobilejs2 = _interopRequireDefault(_ismobilejs);
+
+var _accessibleTarget = require("./accessibleTarget");
+
+var accessibleTarget_accessibleTargetjs = _interopRequireWildcard(_accessibleTarget);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // add some extra variables to the container..
-Object.assign(
-    core_corejs.DisplayObject.prototype,
-    accessibleTarget_accessibleTargetjs
-);
-
+Object.assign(_core.core.DisplayObject.prototype, accessibleTarget_accessibleTargetjs);
 
 function AccessibilityManager(renderer) {
-	if(Device.tablet || Device.phone)
-	{
+	if (_ismobilejs2.default.tablet || _ismobilejs2.default.phone) {
 		this.createTouchHook();
 	}
 
 	// first we create a div that will sit over the pixi element. This is where the div overlays will go.
-    var div = document.createElement('div');
+	var div = document.createElement('div');
 
-    div.style.width = 100 + 'px';
-    div.style.height = 100 + 'px';
-    div.style.position = 'absolute';
-    div.style.top = 0;
-    div.style.left = 0;
-   //
-    div.style.zIndex = 2;
+	div.style.width = 100 + 'px';
+	div.style.height = 100 + 'px';
+	div.style.position = 'absolute';
+	div.style.top = 0;
+	div.style.left = 0;
+	//
+	div.style.zIndex = 2;
 
-   	/**
-   	 * This is the dom element that will sit over the pixi element. This is where the div overlays will go.
-   	 *
-   	 * @type {HTMLElement}
-   	 * @private
-   	 */
-   	this.div = div;
+	/**
+  * This is the dom element that will sit over the pixi element. This is where the div overlays will go.
+  *
+  * @type {HTMLElement}
+  * @private
+  */
+	this.div = div;
 
-   	/**
-   	 * A simple pool for storing divs.
-   	 *
-   	 * @type {*}
-   	 * @private
-   	 */
- 	this.pool = [];
+	/**
+  * A simple pool for storing divs.
+  *
+  * @type {*}
+  * @private
+  */
+	this.pool = [];
 
- 	/**
- 	 * This is a tick used to check if an object is no longer being rendered.
- 	 *
- 	 * @type {Number}
- 	 * @private
- 	 */
-   	this.renderId = 0;
+	/**
+  * This is a tick used to check if an object is no longer being rendered.
+  *
+  * @type {Number}
+  * @private
+  */
+	this.renderId = 0;
 
-   	/**
-   	 * Setting this to true will visually show the divs
-   	 *
-   	 * @type {boolean}
-   	 */
-   	this.debug = false;
+	/**
+  * Setting this to true will visually show the divs
+  *
+  * @type {boolean}
+  */
+	this.debug = false;
 
-  	/**
-     * The renderer this accessibility manager works for.
-     *
-     * @member {PIXI.SystemRenderer}
-     */
-   	this.renderer = renderer;
+	/**
+   * The renderer this accessibility manager works for.
+   *
+   * @member {PIXI.SystemRenderer}
+   */
+	this.renderer = renderer;
 
-   	/**
-     * The array of currently active accessible items.
-     *
-     * @member {Array<*>}
-     * @private
-     */
-   	this.children = [];
+	/**
+  * The array of currently active accessible items.
+  *
+  * @member {Array<*>}
+  * @private
+  */
+	this.children = [];
 
-   	/**
-     * pre-bind the functions
-	 *
- 	 * @private
-     */
-   	this._onKeyDown = this._onKeyDown.bind(this);
-   	this._onMouseMove = this._onMouseMove.bind(this);
+	/**
+  * pre-bind the functions
+ *
+ * @private
+  */
+	this._onKeyDown = this._onKeyDown.bind(this);
+	this._onMouseMove = this._onMouseMove.bind(this);
 
-   	/**
-     * stores the state of the manager. If there are no accessible objects or the mouse is moving the will be false.
-     *
-     * @member {Array<*>}
-     * @private
-     */
-   	this.isActive = false;
-   	this.isMobileAccessabillity = false;
+	/**
+  * stores the state of the manager. If there are no accessible objects or the mouse is moving the will be false.
+  *
+  * @member {Array<*>}
+  * @private
+  */
+	this.isActive = false;
+	this.isMobileAccessabillity = false;
 
-   	// let listen for tab.. once pressed we can fire up and show the accessibility layer
-   	window.addEventListener('keydown', this._onKeyDown, false);
+	// let listen for tab.. once pressed we can fire up and show the accessibility layer
+	window.addEventListener('keydown', this._onKeyDown, false);
 }
-
 
 AccessibilityManager.prototype.constructor = AccessibilityManager;
 
-AccessibilityManager.prototype.createTouchHook = function()
-{
+AccessibilityManager.prototype.createTouchHook = function () {
 	var hookDiv = document.createElement('button');
 	hookDiv.style.width = 1 + 'px';
-    hookDiv.style.height = 1 + 'px';
-    hookDiv.style.position = 'absolute';
-    hookDiv.style.top = -1000+'px';
-    hookDiv.style.left = -1000+'px';
-    hookDiv.style.zIndex = 2;
-    hookDiv.style.backgroundColor = '#FF0000';
-    hookDiv.title = 'HOOK DIV';
+	hookDiv.style.height = 1 + 'px';
+	hookDiv.style.position = 'absolute';
+	hookDiv.style.top = -1000 + 'px';
+	hookDiv.style.left = -1000 + 'px';
+	hookDiv.style.zIndex = 2;
+	hookDiv.style.backgroundColor = '#FF0000';
+	hookDiv.title = 'HOOK DIV';
 
-    hookDiv.addEventListener('focus', function(){
+	hookDiv.addEventListener('focus', function () {
 
-    	this.isMobileAccessabillity = true;
-    	this.activate();
-    	document.body.removeChild(hookDiv);
+		this.isMobileAccessabillity = true;
+		this.activate();
+		document.body.removeChild(hookDiv);
+	}.bind(this));
 
-    }.bind(this));
-
-    document.body.appendChild(hookDiv);
-
+	document.body.appendChild(hookDiv);
 };
 
 /**
  * Activating will cause the Accessibility layer to be shown. This is called when a user preses the tab key
  * @private
  */
-AccessibilityManager.prototype.activate = function()
-{
-	if(this.isActive )
-	{
+AccessibilityManager.prototype.activate = function () {
+	if (this.isActive) {
 		return;
 	}
 
@@ -138,8 +144,7 @@ AccessibilityManager.prototype.activate = function()
 
 	this.renderer.on('postrender', this.update, this);
 
-	if(this.renderer.view.parentNode)
-	{
+	if (this.renderer.view.parentNode) {
 		this.renderer.view.parentNode.appendChild(this.div);
 	}
 };
@@ -148,11 +153,9 @@ AccessibilityManager.prototype.activate = function()
  * Deactivating will cause the Accessibility layer to be hidden. This is called when a user moves the mouse
  * @private
  */
-AccessibilityManager.prototype.deactivate = function()
-{
+AccessibilityManager.prototype.deactivate = function () {
 
-	if(!this.isActive || this.isMobileAccessabillity)
-	{
+	if (!this.isActive || this.isMobileAccessabillity) {
 		return;
 	}
 
@@ -163,11 +166,9 @@ AccessibilityManager.prototype.deactivate = function()
 
 	this.renderer.off('postrender', this.update);
 
-	if(this.div.parentNode)
-	{
+	if (this.div.parentNode) {
 		this.div.parentNode.removeChild(this.div);
 	}
-
 };
 
 /**
@@ -175,21 +176,17 @@ AccessibilityManager.prototype.deactivate = function()
  * @param displayObject {PIXI.Container} the DisplayObject to check.
  * @private
  */
-AccessibilityManager.prototype.updateAccessibleObjects = function(displayObject)
-{
-	if(!displayObject.visible)
-	{
+AccessibilityManager.prototype.updateAccessibleObjects = function (displayObject) {
+	if (!displayObject.visible) {
 		return;
 	}
 
-	if(displayObject.accessible && displayObject.interactive)
-	{
-		if(!displayObject._accessibleActive)
-		{
+	if (displayObject.accessible && displayObject.interactive) {
+		if (!displayObject._accessibleActive) {
 			this.addChild(displayObject);
 		}
 
-	   	displayObject.renderId = this.renderId;
+		displayObject.renderId = this.renderId;
 	}
 
 	var children = displayObject.children;
@@ -200,22 +197,20 @@ AccessibilityManager.prototype.updateAccessibleObjects = function(displayObject)
 	}
 };
 
-
 /**
  * Before each render this function will ensure that all divs are mapped correctly to their DisplayObjects
  * @private
  */
-AccessibilityManager.prototype.update = function()
-{
-	if(!this.renderer.renderingToScreen) {
-    	return;
-  	}
+AccessibilityManager.prototype.update = function () {
+	if (!this.renderer.renderingToScreen) {
+		return;
+	}
 
 	// update children...
 	this.updateAccessibleObjects(this.renderer._lastObjectRendered);
 
 	var rect = this.renderer.view.getBoundingClientRect();
-	var sx = rect.width  / this.renderer.width;
+	var sx = rect.width / this.renderer.width;
 	var sy = rect.height / this.renderer.height;
 
 	var div = this.div;
@@ -225,54 +220,45 @@ AccessibilityManager.prototype.update = function()
 	div.style.width = this.renderer.width + 'px';
 	div.style.height = this.renderer.height + 'px';
 
-	for (var i = 0; i < this.children.length; i++)
-	{
+	for (var i = 0; i < this.children.length; i++) {
 
 		var child = this.children[i];
 
-		if(child.renderId !== this.renderId)
-		{
+		if (child.renderId !== this.renderId) {
 			child._accessibleActive = false;
 
-            core_corejs.utils.removeItems(this.children, i, 1);
-			this.div.removeChild( child._accessibleDiv );
+			_core.core.utils.removeItems(this.children, i, 1);
+			this.div.removeChild(child._accessibleDiv);
 			this.pool.push(child._accessibleDiv);
 			child._accessibleDiv = null;
 
 			i--;
 
-			if(this.children.length === 0)
-			{
+			if (this.children.length === 0) {
 				this.deactivate();
 			}
-		}
-		else
-		{
+		} else {
 			// map div to display..
 			div = child._accessibleDiv;
 			var hitArea = child.hitArea;
 			var wt = child.worldTransform;
 
-			if(child.hitArea)
-			{
-				div.style.left = ((wt.tx + (hitArea.x * wt.a)) * sx) + 'px';
-				div.style.top =  ((wt.ty + (hitArea.y * wt.d)) * sy) +  'px';
+			if (child.hitArea) {
+				div.style.left = (wt.tx + hitArea.x * wt.a) * sx + 'px';
+				div.style.top = (wt.ty + hitArea.y * wt.d) * sy + 'px';
 
-				div.style.width = (hitArea.width * wt.a * sx) + 'px';
-				div.style.height = (hitArea.height * wt.d * sy) + 'px';
-
-			}
-			else
-			{
+				div.style.width = hitArea.width * wt.a * sx + 'px';
+				div.style.height = hitArea.height * wt.d * sy + 'px';
+			} else {
 				hitArea = child.getBounds();
 
 				this.capHitArea(hitArea);
 
-				div.style.left = (hitArea.x * sx) + 'px';
-				div.style.top =  (hitArea.y * sy) +  'px';
+				div.style.left = hitArea.x * sx + 'px';
+				div.style.top = hitArea.y * sy + 'px';
 
-				div.style.width = (hitArea.width * sx) + 'px';
-				div.style.height = (hitArea.height * sy) + 'px';
+				div.style.width = hitArea.width * sx + 'px';
+				div.style.height = hitArea.height * sy + 'px';
 			}
 		}
 	}
@@ -281,74 +267,59 @@ AccessibilityManager.prototype.update = function()
 	this.renderId++;
 };
 
-AccessibilityManager.prototype.capHitArea = function (hitArea)
-{
-    if (hitArea.x < 0)
-    {
-        hitArea.width += hitArea.x;
-        hitArea.x = 0;
-    }
+AccessibilityManager.prototype.capHitArea = function (hitArea) {
+	if (hitArea.x < 0) {
+		hitArea.width += hitArea.x;
+		hitArea.x = 0;
+	}
 
-    if (hitArea.y < 0)
-    {
-        hitArea.height += hitArea.y;
-        hitArea.y = 0;
-    }
+	if (hitArea.y < 0) {
+		hitArea.height += hitArea.y;
+		hitArea.y = 0;
+	}
 
-    if ( hitArea.x + hitArea.width > this.renderer.width )
-    {
-        hitArea.width = this.renderer.width - hitArea.x;
-    }
+	if (hitArea.x + hitArea.width > this.renderer.width) {
+		hitArea.width = this.renderer.width - hitArea.x;
+	}
 
-    if ( hitArea.y + hitArea.height > this.renderer.height )
-    {
-        hitArea.height = this.renderer.height - hitArea.y;
-    }
+	if (hitArea.y + hitArea.height > this.renderer.height) {
+		hitArea.height = this.renderer.height - hitArea.y;
+	}
 };
-
 
 /**
  * Adds a DisplayObject to the accessibility manager
  * @private
  */
-AccessibilityManager.prototype.addChild = function(displayObject)
-{
-//	this.activate();
+AccessibilityManager.prototype.addChild = function (displayObject) {
+	//	this.activate();
 
 	var div = this.pool.pop();
 
-	if(!div)
-	{
+	if (!div) {
 		div = document.createElement('button');
 
-	    div.style.width = 100 + 'px';
-	    div.style.height = 100 + 'px';
-	    div.style.backgroundColor = this.debug ? 'rgba(255,0,0,0.5)' : 'transparent';
-	    div.style.position = 'absolute';
-	    div.style.zIndex = 2;
-	    div.style.borderStyle = 'none';
+		div.style.width = 100 + 'px';
+		div.style.height = 100 + 'px';
+		div.style.backgroundColor = this.debug ? 'rgba(255,0,0,0.5)' : 'transparent';
+		div.style.position = 'absolute';
+		div.style.zIndex = 2;
+		div.style.borderStyle = 'none';
 
-
-	    div.addEventListener('click', this._onClick.bind(this));
-	    div.addEventListener('focus', this._onFocus.bind(this));
-	    div.addEventListener('focusout', this._onFocusOut.bind(this));
+		div.addEventListener('click', this._onClick.bind(this));
+		div.addEventListener('focus', this._onFocus.bind(this));
+		div.addEventListener('focusout', this._onFocusOut.bind(this));
 	}
 
-
-	if(displayObject.accessibleTitle)
-	{
+	if (displayObject.accessibleTitle) {
 		div.title = displayObject.accessibleTitle;
-	}
-	else if (!displayObject.accessibleTitle && !displayObject.accessibleHint)
-	{
+	} else if (!displayObject.accessibleTitle && !displayObject.accessibleHint) {
 		div.title = 'displayObject ' + this.tabIndex;
 	}
 
-	if(displayObject.accessibleHint)
-	{
+	if (displayObject.accessibleHint) {
 		div.setAttribute('aria-label', displayObject.accessibleHint);
 	}
-
 
 	//
 
@@ -356,19 +327,16 @@ AccessibilityManager.prototype.addChild = function(displayObject)
 	displayObject._accessibleDiv = div;
 	div.displayObject = displayObject;
 
-
 	this.children.push(displayObject);
-	this.div.appendChild( displayObject._accessibleDiv );
+	this.div.appendChild(displayObject._accessibleDiv);
 	displayObject._accessibleDiv.tabIndex = displayObject.tabIndex;
 };
-
 
 /**
  * Maps the div button press to pixi's InteractionManager (click)
  * @private
  */
-AccessibilityManager.prototype._onClick = function(e)
-{
+AccessibilityManager.prototype._onClick = function (e) {
 	var interactionManager = this.renderer.plugins.interaction;
 	interactionManager.dispatchEvent(e.target.displayObject, 'click', interactionManager.eventData);
 };
@@ -377,8 +345,7 @@ AccessibilityManager.prototype._onClick = function(e)
  * Maps the div focus events to pixis InteractionManager (mouseover)
  * @private
  */
-AccessibilityManager.prototype._onFocus = function(e)
-{
+AccessibilityManager.prototype._onFocus = function (e) {
 	var interactionManager = this.renderer.plugins.interaction;
 	interactionManager.dispatchEvent(e.target.displayObject, 'mouseover', interactionManager.eventData);
 };
@@ -387,8 +354,7 @@ AccessibilityManager.prototype._onFocus = function(e)
  * Maps the div focus events to pixis InteractionManager (mouseout)
  * @private
  */
-AccessibilityManager.prototype._onFocusOut = function(e)
-{
+AccessibilityManager.prototype._onFocusOut = function (e) {
 	var interactionManager = this.renderer.plugins.interaction;
 	interactionManager.dispatchEvent(e.target.displayObject, 'mouseout', interactionManager.eventData);
 };
@@ -398,10 +364,8 @@ AccessibilityManager.prototype._onFocusOut = function(e)
  *
  * @private
  */
-AccessibilityManager.prototype._onKeyDown = function(e)
-{
-	if(e.keyCode !== 9)
-	{
+AccessibilityManager.prototype._onKeyDown = function (e) {
+	if (e.keyCode !== 9) {
 		return;
 	}
 
@@ -413,25 +377,20 @@ AccessibilityManager.prototype._onKeyDown = function(e)
  *
  * @private
  */
-AccessibilityManager.prototype._onMouseMove = function()
-{
+AccessibilityManager.prototype._onMouseMove = function () {
 	this.deactivate();
 };
-
 
 /**
  * Destroys the accessibility manager
  *
  */
-AccessibilityManager.prototype.destroy = function ()
-{
+AccessibilityManager.prototype.destroy = function () {
 	this.div = null;
 
-	for (var i = 0; i < this.children.length; i++)
-	{
+	for (var i = 0; i < this.children.length; i++) {
 		this.children[i].div = null;
 	}
-
 
 	window.document.removeEventListener('mousemove', this._onMouseMove);
 	window.removeEventListener('keydown', this._onKeyDown);
@@ -439,11 +398,10 @@ AccessibilityManager.prototype.destroy = function ()
 	this.pool = null;
 	this.children = null;
 	this.renderer = null;
-
 };
 
-core_corejs.WebGLRenderer.registerPlugin('accessibility', AccessibilityManager);
-core_corejs.CanvasRenderer.registerPlugin('accessibility', AccessibilityManager);
+_core.core.WebGLRenderer.registerPlugin('accessibility', AccessibilityManager);
+_core.core.CanvasRenderer.registerPlugin('accessibility', AccessibilityManager);
 var exported_AccessibilityManager = AccessibilityManager;
 
 /**
@@ -454,4 +412,4 @@ var exported_AccessibilityManager = AccessibilityManager;
  * @memberof PIXI
  * @param renderer {PIXI.CanvasRenderer|PIXI.WebGLRenderer} A reference to the current renderer
  */
-export { exported_AccessibilityManager as AccessibilityManager };
+exports.AccessibilityManager = exported_AccessibilityManager;

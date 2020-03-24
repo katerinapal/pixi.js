@@ -1,6 +1,14 @@
-import { BaseTexture as BaseTexture_BaseTexturejs } from "./BaseTexture";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.BaseRenderTexture = undefined;
+
+var _BaseTexture = require("./BaseTexture");
+
 function BaseRenderTexture(width, height, scaleMode, resolution) {
-    BaseTexture_BaseTexturejs.call(this, null, scaleMode);
+    _BaseTexture.BaseTexture.call(this, null, scaleMode);
 
     this.resolution = resolution || CONST.RESOLUTION;
 
@@ -37,7 +45,7 @@ function BaseRenderTexture(width, height, scaleMode, resolution) {
     this.valid = false;
 }
 
-BaseRenderTexture.prototype = Object.create(BaseTexture_BaseTexturejs.prototype);
+BaseRenderTexture.prototype = Object.create(_BaseTexture.BaseTexture.prototype);
 BaseRenderTexture.prototype.constructor = BaseRenderTexture;
 
 /**
@@ -46,15 +54,13 @@ BaseRenderTexture.prototype.constructor = BaseRenderTexture;
  * @param width {number} The width to resize to.
  * @param height {number} The height to resize to.
  */
-BaseRenderTexture.prototype.resize = function (width, height)
-{
+BaseRenderTexture.prototype.resize = function (width, height) {
 
-    if (width === this.width && height === this.height)
-    {
+    if (width === this.width && height === this.height) {
         return;
     }
 
-    this.valid = (width > 0 && height > 0);
+    this.valid = width > 0 && height > 0;
 
     this.width = width;
     this.height = height;
@@ -62,22 +68,19 @@ BaseRenderTexture.prototype.resize = function (width, height)
     this.realWidth = this.width * this.resolution;
     this.realHeight = this.height * this.resolution;
 
-    if (!this.valid)
-    {
+    if (!this.valid) {
         return;
     }
 
     this.emit('update', this);
-
 };
 
 /**
  * Destroys this texture
  *
  */
-BaseRenderTexture.prototype.destroy = function ()
-{
-    BaseTexture_BaseTexturejs.prototype.destroy.call(this, true);
+BaseRenderTexture.prototype.destroy = function () {
+    _BaseTexture.BaseTexture.prototype.destroy.call(this, true);
     this.renderer = null;
 };
 
@@ -127,5 +130,4 @@ var exported_BaseRenderTexture = BaseRenderTexture;
  * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
  * @param [resolution=1] {number} The resolution / device pixel ratio of the texture being generated
  */
-export { exported_BaseRenderTexture as BaseRenderTexture };
-
+exports.BaseRenderTexture = exported_BaseRenderTexture;

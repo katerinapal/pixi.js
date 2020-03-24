@@ -1,4 +1,11 @@
-import { Ticker as Ticker_Tickerjs } from "./Ticker";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.indexjs = undefined;
+
+var _Ticker = require("./Ticker");
 
 /**
  * The shared ticker instance used by {@link PIXI.extras.MovieClip}.
@@ -42,12 +49,12 @@ import { Ticker as Ticker_Tickerjs } from "./Ticker";
  * @type {PIXI.ticker.Ticker}
  * @memberof PIXI.ticker
  */
-var shared = new Ticker_Tickerjs();
+var shared = new _Ticker.Ticker();
 shared.autoStart = true;
 
 var indexjs_indexjs = {
-    shared: shared,
-    Ticker: Ticker_Tickerjs
+  shared: shared,
+  Ticker: _Ticker.Ticker
 };
 
-export { indexjs_indexjs as indexjs };
+exports.indexjs = indexjs_indexjs;

@@ -1,34 +1,38 @@
-import { BaseRenderTexture as BaseRenderTexture_BaseRenderTexturejs } from "./BaseRenderTexture";
-import { Texture as Texture_Texturejs } from "./Texture";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.RenderTexture = undefined;
+
+var _BaseRenderTexture = require("./BaseRenderTexture");
+
+var _Texture = require("./Texture");
+
 function RenderTexture(baseRenderTexture, frame) {
     // suport for legacy..
     this.legacyRenderer = null;
 
-    if( !(baseRenderTexture instanceof BaseRenderTexture_BaseRenderTexturejs) )
-    {
+    if (!(baseRenderTexture instanceof _BaseRenderTexture.BaseRenderTexture)) {
         var width = arguments[1];
         var height = arguments[2];
         var scaleMode = arguments[3] || 0;
         var resolution = arguments[4] || 1;
 
         // we have an old render texture..
-        console.warn('v4 RenderTexture now expects a new BaseRenderTexture. Please use RenderTexture.create('+width+', '+height+')');  // jshint ignore:line
+        console.warn('v4 RenderTexture now expects a new BaseRenderTexture. Please use RenderTexture.create(' + width + ', ' + height + ')'); // jshint ignore:line
         this.legacyRenderer = arguments[0];
 
         frame = null;
-        baseRenderTexture = new BaseRenderTexture_BaseRenderTexturejs(width, height, scaleMode, resolution);
+        baseRenderTexture = new _BaseRenderTexture.BaseRenderTexture(width, height, scaleMode, resolution);
     }
-
 
     /**
      * The base texture object that this texture uses
      *
      * @member {BaseTexture}
      */
-    Texture_Texturejs.call(this,
-        baseRenderTexture,
-        frame
-    );
+    _Texture.Texture.call(this, baseRenderTexture, frame);
 
     /**
      * This will let the renderer know if the texture is valid. If it's not then it cannot be rendered.
@@ -40,7 +44,7 @@ function RenderTexture(baseRenderTexture, frame) {
     this._updateUvs();
 }
 
-RenderTexture.prototype = Object.create(Texture_Texturejs.prototype);
+RenderTexture.prototype = Object.create(_Texture.Texture.prototype);
 RenderTexture.prototype.constructor = RenderTexture;
 
 /**
@@ -50,17 +54,15 @@ RenderTexture.prototype.constructor = RenderTexture;
  * @param height {number} The height to resize to.
  * @param doNotResizeBaseTexture {boolean} Should the baseTexture.width and height values be resized as well?
  */
-RenderTexture.prototype.resize = function (width, height, doNotResizeBaseTexture)
-{
+RenderTexture.prototype.resize = function (width, height, doNotResizeBaseTexture) {
 
     //TODO - could be not required..
-    this.valid = (width > 0 && height > 0);
+    this.valid = width > 0 && height > 0;
 
     this._frame.width = this.orig.width = width;
     this._frame.height = this.orig.height = height;
 
-    if (!doNotResizeBaseTexture)
-    {
+    if (!doNotResizeBaseTexture) {
         this.baseTexture.resize(width, height);
     }
 
@@ -74,9 +76,8 @@ RenderTexture.prototype.resize = function (width, height, doNotResizeBaseTexture
  * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
  * @param [resolution=1] {number} The resolution / device pixel ratio of the texture being generated
  */
-RenderTexture.create = function(width, height, scaleMode, resolution)
-{
-    return new RenderTexture(new BaseRenderTexture_BaseRenderTexturejs(width, height, scaleMode, resolution));
+RenderTexture.create = function (width, height, scaleMode, resolution) {
+    return new RenderTexture(new _BaseRenderTexture.BaseRenderTexture(width, height, scaleMode, resolution));
 };
 var exported_RenderTexture = RenderTexture;
 
@@ -119,4 +120,4 @@ var exported_RenderTexture = RenderTexture;
  * @param baseRenderTexture {PIXI.BaseRenderTexture} The renderer used for this RenderTexture
  * @param [frame] {PIXI.Rectangle} The rectangle frame of the texture to show
  */
-export { exported_RenderTexture as RenderTexture };
+exports.RenderTexture = exported_RenderTexture;

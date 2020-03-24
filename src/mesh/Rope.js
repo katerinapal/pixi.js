@@ -1,7 +1,16 @@
-import { Mesh as Mesh_Meshjs } from "./Mesh";
-import { core as core_corejs } from "../core";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Rope = undefined;
+
+var _Mesh = require("./Mesh");
+
+var _core = require("../core");
+
 function Rope(texture, points) {
-    Mesh_Meshjs.call(this, texture);
+    _Mesh.Mesh.call(this, texture);
 
     /*
      * @member {PIXI.Point[]} An array of points that determine the rope
@@ -35,27 +44,24 @@ function Rope(texture, points) {
      * @member {boolean}
      * @private
      */
-     this._ready = true;
+    this._ready = true;
 
-     this.refresh();
+    this.refresh();
 }
 
-
 // constructor
-Rope.prototype = Object.create(Mesh_Meshjs.prototype);
+Rope.prototype = Object.create(_Mesh.Mesh.prototype);
 Rope.prototype.constructor = Rope;
 
 /**
  * Refreshes
  *
  */
-Rope.prototype.refresh = function ()
-{
+Rope.prototype.refresh = function () {
     var points = this.points;
 
     // if too little points, or texture hasn't got UVs set yet just move on.
-    if (points.length < 1 || !this._texture._uvs)
-    {
+    if (points.length < 1 || !this._texture._uvs) {
         return;
     }
 
@@ -65,8 +71,8 @@ Rope.prototype.refresh = function ()
     var colors = this.colors;
 
     var textureUvs = this._texture._uvs;
-    var offset = new core_corejs.Point(textureUvs.x0, textureUvs.y0);
-    var factor = new core_corejs.Point(textureUvs.x2 - textureUvs.x0, textureUvs.y2 - textureUvs.y0);
+    var offset = new _core.core.Point(textureUvs.x0, textureUvs.y0);
+    var factor = new _core.core.Point(textureUvs.x2 - textureUvs.x0, textureUvs.y2 - textureUvs.y0);
 
     uvs[0] = 0 + offset.x;
     uvs[1] = 0 + offset.y;
@@ -80,24 +86,25 @@ Rope.prototype.refresh = function ()
     indices[1] = 1;
 
     var total = points.length,
-        point, index, amount;
+        point,
+        index,
+        amount;
 
-    for (var i = 1; i < total; i++)
-    {
+    for (var i = 1; i < total; i++) {
         point = points[i];
         index = i * 4;
         // time to do some smart drawing!
-        amount = i / (total-1);
+        amount = i / (total - 1);
 
         uvs[index] = amount * factor.x + offset.x;
-        uvs[index+1] = 0 + offset.y;
+        uvs[index + 1] = 0 + offset.y;
 
-        uvs[index+2] = amount * factor.x + offset.x;
-        uvs[index+3] = 1 * factor.y + offset.y;
+        uvs[index + 2] = amount * factor.x + offset.x;
+        uvs[index + 3] = 1 * factor.y + offset.y;
 
         index = i * 2;
         colors[index] = 1;
-        colors[index+1] = 1;
+        colors[index + 1] = 1;
 
         index = i * 2;
         indices[index] = index;
@@ -113,10 +120,9 @@ Rope.prototype.refresh = function ()
  *
  * @private
  */
-Rope.prototype._onTextureUpdate = function ()
-{
+Rope.prototype._onTextureUpdate = function () {
 
-    Mesh_Meshjs.prototype._onTextureUpdate.call(this);
+    _Mesh.Mesh.prototype._onTextureUpdate.call(this);
 
     // wait for the Rope ctor to finish before calling refresh
     if (this._ready) {
@@ -129,12 +135,10 @@ Rope.prototype._onTextureUpdate = function ()
  *
  * @private
  */
-Rope.prototype.updateTransform = function ()
-{
+Rope.prototype.updateTransform = function () {
     var points = this.points;
 
-    if (points.length < 1)
-    {
+    if (points.length < 1) {
         return;
     }
 
@@ -147,29 +151,28 @@ Rope.prototype.updateTransform = function ()
 
     var vertices = this.vertices;
     var total = points.length,
-        point, index, ratio, perpLength, num;
+        point,
+        index,
+        ratio,
+        perpLength,
+        num;
 
-    for (var i = 0; i < total; i++)
-    {
+    for (var i = 0; i < total; i++) {
         point = points[i];
         index = i * 4;
 
-        if (i < points.length-1)
-        {
-            nextPoint = points[i+1];
-        }
-        else
-        {
+        if (i < points.length - 1) {
+            nextPoint = points[i + 1];
+        } else {
             nextPoint = point;
         }
 
         perpY = -(nextPoint.x - lastPoint.x);
         perpX = nextPoint.y - lastPoint.y;
 
-        ratio = (1 - (i / (total-1))) * 10;
+        ratio = (1 - i / (total - 1)) * 10;
 
-        if (ratio > 1)
-        {
+        if (ratio > 1) {
             ratio = 1;
         }
 
@@ -182,9 +185,9 @@ Rope.prototype.updateTransform = function ()
         perpY *= num;
 
         vertices[index] = point.x + perpX;
-        vertices[index+1] = point.y + perpY;
-        vertices[index+2] = point.x - perpX;
-        vertices[index+3] = point.y - perpY;
+        vertices[index + 1] = point.y + perpY;
+        vertices[index + 2] = point.x - perpX;
+        vertices[index + 3] = point.y - perpY;
 
         lastPoint = point;
     }
@@ -210,4 +213,4 @@ var exported_Rope = Rope;
  * @param {PIXI.Point[]} points - An array of {@link PIXI.Point} objects to construct this rope.
  *
  */
-export { exported_Rope as Rope };
+exports.Rope = exported_Rope;

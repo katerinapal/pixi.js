@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 function TextStyle(style) {
     this.styleID = 0;
     Object.assign(this, this._defaults, style);
@@ -39,11 +44,9 @@ TextStyle.prototype._defaults = {
  *
  * @return {PIXI.TextStyle} New cloned TextStyle object
  */
-TextStyle.prototype.clone = function ()
-{
+TextStyle.prototype.clone = function () {
     var clonedProperties = {};
-    for (var key in this._defaults)
-    {
+    for (var key in this._defaults) {
         clonedProperties[key] = this[key];
     }
     return new TextStyle(clonedProperties);
@@ -52,8 +55,7 @@ TextStyle.prototype.clone = function ()
 /**
  * Resets all properties to the defaults specified in TextStyle.prototype._default
  */
-TextStyle.prototype.reset = function ()
-{
+TextStyle.prototype.reset = function () {
     Object.assign(this, this._defaults);
 };
 
@@ -61,15 +63,12 @@ TextStyle.prototype.reset = function ()
  * Create setters and getters for each of the style properties. Converts colors where necessary.
  */
 Object.defineProperties(TextStyle.prototype, {
-     align: {
-        get: function ()
-        {
+    align: {
+        get: function get() {
             return this._align;
         },
-        set: function (align)
-        {
-            if (this._align !== align)
-            {
+        set: function set(align) {
+            if (this._align !== align) {
                 this._align = align;
                 this.styleID++;
             }
@@ -77,14 +76,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     breakWords: {
-        get: function ()
-        {
+        get: function get() {
             return this._breakWords;
         },
-        set: function (breakWords)
-        {
-            if (this._breakWords !== breakWords)
-            {
+        set: function set(breakWords) {
+            if (this._breakWords !== breakWords) {
                 this._breakWords = breakWords;
                 this.styleID++;
             }
@@ -92,14 +88,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     dropShadow: {
-        get: function ()
-        {
+        get: function get() {
             return this._dropShadow;
         },
-        set: function (dropShadow)
-        {
-            if (this._dropShadow !== dropShadow)
-            {
+        set: function set(dropShadow) {
+            if (this._dropShadow !== dropShadow) {
                 this._dropShadow = dropShadow;
                 this.styleID++;
             }
@@ -107,14 +100,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     dropShadowAngle: {
-        get: function ()
-        {
+        get: function get() {
             return this._dropShadowAngle;
         },
-        set: function (dropShadowAngle)
-        {
-            if (this._dropShadowAngle !== dropShadowAngle)
-            {
+        set: function set(dropShadowAngle) {
+            if (this._dropShadowAngle !== dropShadowAngle) {
                 this._dropShadowAngle = dropShadowAngle;
                 this.styleID++;
             }
@@ -122,14 +112,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     dropShadowBlur: {
-        get: function ()
-        {
+        get: function get() {
             return this._dropShadowBlur;
         },
-        set: function (dropShadowBlur)
-        {
-            if (this._dropShadowBlur !== dropShadowBlur)
-            {
+        set: function set(dropShadowBlur) {
+            if (this._dropShadowBlur !== dropShadowBlur) {
                 this._dropShadowBlur = dropShadowBlur;
                 this.styleID++;
             }
@@ -137,15 +124,12 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     dropShadowColor: {
-        get: function ()
-        {
+        get: function get() {
             return this._dropShadowColor;
         },
-        set: function (dropShadowColor)
-        {
+        set: function set(dropShadowColor) {
             var outputColor = getColor(dropShadowColor);
-            if (this._dropShadowColor !== outputColor)
-            {
+            if (this._dropShadowColor !== outputColor) {
                 this._dropShadowColor = outputColor;
                 this.styleID++;
             }
@@ -153,14 +137,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     dropShadowDistance: {
-        get: function ()
-        {
+        get: function get() {
             return this._dropShadowDistance;
         },
-        set: function (dropShadowDistance)
-        {
-            if (this._dropShadowDistance !== dropShadowDistance)
-            {
+        set: function set(dropShadowDistance) {
+            if (this._dropShadowDistance !== dropShadowDistance) {
                 this._dropShadowDistance = dropShadowDistance;
                 this.styleID++;
             }
@@ -168,15 +149,12 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     fill: {
-        get: function ()
-        {
+        get: function get() {
             return this._fill;
         },
-        set: function (fill)
-        {
+        set: function set(fill) {
             var outputColor = getColor(fill);
-            if (this._fill !== outputColor)
-            {
+            if (this._fill !== outputColor) {
                 this._fill = outputColor;
                 this.styleID++;
             }
@@ -184,14 +162,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     fillGradientType: {
-        get: function ()
-        {
+        get: function get() {
             return this._fillGradientType;
         },
-        set: function (fillGradientType)
-        {
-            if (this._fillGradientType !== fillGradientType)
-            {
+        set: function set(fillGradientType) {
+            if (this._fillGradientType !== fillGradientType) {
                 this._fillGradientType = fillGradientType;
                 this.styleID++;
             }
@@ -199,14 +174,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     fontFamily: {
-        get: function ()
-        {
+        get: function get() {
             return this._fontFamily;
         },
-        set: function (fontFamily)
-        {
-            if (this.fontFamily !== fontFamily)
-            {
+        set: function set(fontFamily) {
+            if (this.fontFamily !== fontFamily) {
                 this._fontFamily = fontFamily;
                 this.styleID++;
             }
@@ -214,14 +186,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     fontSize: {
-        get: function ()
-        {
+        get: function get() {
             return this._fontSize;
         },
-        set: function (fontSize)
-        {
-            if (this._fontSize !== fontSize)
-            {
+        set: function set(fontSize) {
+            if (this._fontSize !== fontSize) {
                 this._fontSize = fontSize;
                 this.styleID++;
             }
@@ -229,14 +198,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     fontStyle: {
-        get: function ()
-        {
+        get: function get() {
             return this._fontStyle;
         },
-        set: function (fontStyle)
-        {
-            if (this._fontStyle !== fontStyle)
-            {
+        set: function set(fontStyle) {
+            if (this._fontStyle !== fontStyle) {
                 this._fontStyle = fontStyle;
                 this.styleID++;
             }
@@ -244,14 +210,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     fontVariant: {
-        get: function ()
-        {
+        get: function get() {
             return this._fontVariant;
         },
-        set: function (fontVariant)
-        {
-            if (this._fontVariant !== fontVariant)
-            {
+        set: function set(fontVariant) {
+            if (this._fontVariant !== fontVariant) {
                 this._fontVariant = fontVariant;
                 this.styleID++;
             }
@@ -259,14 +222,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     fontWeight: {
-        get: function ()
-        {
+        get: function get() {
             return this._fontWeight;
         },
-        set: function (fontWeight)
-        {
-            if (this._fontWeight !== fontWeight)
-            {
+        set: function set(fontWeight) {
+            if (this._fontWeight !== fontWeight) {
                 this._fontWeight = fontWeight;
                 this.styleID++;
             }
@@ -274,14 +234,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     letterSpacing: {
-        get: function ()
-        {
+        get: function get() {
             return this._letterSpacing;
         },
-        set: function (letterSpacing)
-        {
-            if (this._letterSpacing !== letterSpacing)
-            {
+        set: function set(letterSpacing) {
+            if (this._letterSpacing !== letterSpacing) {
                 this._letterSpacing = letterSpacing;
                 this.styleID++;
             }
@@ -289,14 +246,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     lineHeight: {
-        get: function ()
-        {
+        get: function get() {
             return this._lineHeight;
         },
-        set: function (lineHeight)
-        {
-            if (this._lineHeight !== lineHeight)
-            {
+        set: function set(lineHeight) {
+            if (this._lineHeight !== lineHeight) {
                 this._lineHeight = lineHeight;
                 this.styleID++;
             }
@@ -304,14 +258,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     lineJoin: {
-        get: function ()
-        {
+        get: function get() {
             return this._lineJoin;
         },
-        set: function (lineJoin)
-        {
-            if (this._lineJoin !== lineJoin)
-            {
+        set: function set(lineJoin) {
+            if (this._lineJoin !== lineJoin) {
                 this._lineJoin = lineJoin;
                 this.styleID++;
             }
@@ -319,14 +270,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     miterLimit: {
-        get: function ()
-        {
+        get: function get() {
             return this._miterLimit;
         },
-        set: function (miterLimit)
-        {
-            if (this._miterLimit !== miterLimit)
-            {
+        set: function set(miterLimit) {
+            if (this._miterLimit !== miterLimit) {
                 this._miterLimit = miterLimit;
                 this.styleID++;
             }
@@ -334,14 +282,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     padding: {
-        get: function ()
-        {
+        get: function get() {
             return this._padding;
         },
-        set: function (padding)
-        {
-            if (this._padding !== padding)
-            {
+        set: function set(padding) {
+            if (this._padding !== padding) {
                 this._padding = padding;
                 this.styleID++;
             }
@@ -349,15 +294,12 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     stroke: {
-        get: function ()
-        {
+        get: function get() {
             return this._stroke;
         },
-        set: function (stroke)
-        {
+        set: function set(stroke) {
             var outputColor = getColor(stroke);
-            if (this._stroke !== outputColor)
-            {
+            if (this._stroke !== outputColor) {
                 this._stroke = outputColor;
                 this.styleID++;
             }
@@ -365,14 +307,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     strokeThickness: {
-        get: function ()
-        {
+        get: function get() {
             return this._strokeThickness;
         },
-        set: function (strokeThickness)
-        {
-            if (this._strokeThickness !== strokeThickness)
-            {
+        set: function set(strokeThickness) {
+            if (this._strokeThickness !== strokeThickness) {
                 this._strokeThickness = strokeThickness;
                 this.styleID++;
             }
@@ -380,14 +319,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     textBaseline: {
-        get: function ()
-        {
+        get: function get() {
             return this._textBaseline;
         },
-        set: function (textBaseline)
-        {
-            if (this._textBaseline !== textBaseline)
-            {
+        set: function set(textBaseline) {
+            if (this._textBaseline !== textBaseline) {
                 this._textBaseline = textBaseline;
                 this.styleID++;
             }
@@ -395,14 +331,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     wordWrap: {
-        get: function ()
-        {
+        get: function get() {
             return this._wordWrap;
         },
-        set: function (wordWrap)
-        {
-            if (this._wordWrap !== wordWrap)
-            {
+        set: function set(wordWrap) {
+            if (this._wordWrap !== wordWrap) {
                 this._wordWrap = wordWrap;
                 this.styleID++;
             }
@@ -410,14 +343,11 @@ Object.defineProperties(TextStyle.prototype, {
     },
 
     wordWrapWidth: {
-        get: function ()
-        {
+        get: function get() {
             return this._wordWrapWidth;
         },
-        set: function (wordWrapWidth)
-        {
-            if (this._wordWrapWidth !== wordWrapWidth)
-            {
+        set: function set(wordWrapWidth) {
+            if (this._wordWrapWidth !== wordWrapWidth) {
                 this._wordWrapWidth = wordWrapWidth;
                 this.styleID++;
             }
@@ -430,18 +360,12 @@ Object.defineProperties(TextStyle.prototype, {
  *
  * @return {string} The color as a string.
  */
-function getColor(color)
-{
-    if (typeof color === 'number')
-    {
+function getColor(color) {
+    if (typeof color === 'number') {
         return utils.hex2string(color);
-    }
-    else if (Array.isArray(color))
-    {
-        for (var i = 0; i < color.length; ++i)
-        {
-            if (typeof color[i] === 'number')
-            {
+    } else if (Array.isArray(color)) {
+        for (var i = 0; i < color.length; ++i) {
+            if (typeof color[i] === 'number') {
                 color[i] = utils.hex2string(color[i]);
             }
         }
@@ -487,4 +411,4 @@ var exported_TextStyle = TextStyle;
  * @param [style.wordWrap=false] {boolean} Indicates if word wrap should be used
  * @param [style.wordWrapWidth=100] {number} The width at which text will wrap, it needs wordWrap to be set to true
  */
-export { exported_TextStyle as TextStyle };
+exports.TextStyle = exported_TextStyle;

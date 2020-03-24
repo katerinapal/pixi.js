@@ -1,142 +1,135 @@
+'use strict';
+
 describe('getLocalBounds', function () {
 
+        it('should register correct local-bounds with a LOADED Sprite', function () {
+                var parent = new PIXI.Container();
+                var texture = PIXI.RenderTexture.create(10, 10);
 
-    it('should register correct local-bounds with a LOADED Sprite', function() {
-        var parent = new PIXI.Container();
-        var texture = PIXI.RenderTexture.create(10, 10);
+                var sprite = new PIXI.Sprite(texture);
 
-        var sprite = new PIXI.Sprite(texture);
+                parent.addChild(sprite);
 
-        parent.addChild(sprite);
+                var bounds;
 
-        var bounds;
+                bounds = sprite.getLocalBounds();
 
-        bounds = sprite.getLocalBounds();
+                expect(bounds.x).to.equal(0);
+                expect(bounds.y).to.equal(0);
+                expect(bounds.width).to.equal(10);
+                expect(bounds.height).to.equal(10);
 
-        expect(bounds.x).to.equal(0);
-        expect(bounds.y).to.equal(0);
-        expect(bounds.width).to.equal(10);
-        expect(bounds.height).to.equal(10);
+                sprite.position.x = 20;
+                sprite.position.y = 20;
 
-        sprite.position.x = 20;
-        sprite.position.y = 20;
+                sprite.scale.x = 2;
+                sprite.scale.y = 2;
 
-        sprite.scale.x = 2;
-        sprite.scale.y = 2;
+                bounds = sprite.getLocalBounds();
 
-        bounds = sprite.getLocalBounds();
+                expect(bounds.x).to.equal(0);
+                expect(bounds.y).to.equal(0);
+                expect(bounds.width).to.equal(10);
+                expect(bounds.height).to.equal(10);
+        });
 
-        expect(bounds.x).to.equal(0);
-        expect(bounds.y).to.equal(0);
-        expect(bounds.width).to.equal(10);
-        expect(bounds.height).to.equal(10);
+        it('should register correct local-bounds with Graphics', function () {
+                var parent = new PIXI.Container();
 
-    });
+                var graphics = new PIXI.Graphics();
 
-    it('should register correct local-bounds with Graphics', function() {
-        var parent = new PIXI.Container();
+                graphics.beginFill(0xFF0000).drawCircle(0, 0, 10); //texture);
 
-        var graphics = new PIXI.Graphics();
+                graphics.scale.set(2);
 
-        graphics.beginFill(0xFF0000).drawCircle(0, 0, 10);//texture);
+                parent.addChild(graphics);
 
-        graphics.scale.set(2);
+                var bounds = graphics.getLocalBounds();
 
-        parent.addChild(graphics);
+                expect(bounds.x).to.equal(-10);
+                expect(bounds.y).to.equal(-10);
+                expect(bounds.width).to.equal(20);
+                expect(bounds.height).to.equal(20);
+        });
 
-        var bounds = graphics.getLocalBounds();
+        it('should register correct local-bounds with an empty Container', function () {
+                var parent = new PIXI.Container();
 
-        expect(bounds.x).to.equal(-10);
-        expect(bounds.y).to.equal(-10);
-        expect(bounds.width).to.equal(20);
-        expect(bounds.height).to.equal(20);
+                var container = new PIXI.Container(); //Graphics().beginFill(0xFF0000).drawCircle(0, 0, 10, 10);//texture);
 
-    });
+                parent.addChild(container);
 
-    it('should register correct local-bounds with an empty Container', function() {
-        var parent = new PIXI.Container();
+                var bounds = container.getLocalBounds();
 
-        var container = new PIXI.Container();//Graphics().beginFill(0xFF0000).drawCircle(0, 0, 10, 10);//texture);
+                expect(bounds.x).to.equal(0);
+                expect(bounds.y).to.equal(0);
+                expect(bounds.width).to.equal(0);
+                expect(bounds.height).to.equal(0);
+        });
 
-        parent.addChild(container);
+        it('should register correct local-bounds with an item that has already had its parent Container transformed', function () {
+                var parent = new PIXI.Container();
 
-        var bounds = container.getLocalBounds();
+                var container = new PIXI.Container(); //Graphics().beginFill(0xFF0000).drawCircle(0, 0, 10, 10);//texture);
 
-        expect(bounds.x).to.equal(0);
-        expect(bounds.y).to.equal(0);
-        expect(bounds.width).to.equal(0);
-        expect(bounds.height).to.equal(0);
-
-
-    });
-
-    it('should register correct local-bounds with an item that has already had its parent Container transformed', function() {
-        var parent = new PIXI.Container();
-
-        var container = new PIXI.Container();//Graphics().beginFill(0xFF0000).drawCircle(0, 0, 10, 10);//texture);
-
-        var graphics = new PIXI.Graphics().beginFill(0xFF0000).drawRect(0, 0, 10, 10);//texture);
+                var graphics = new PIXI.Graphics().beginFill(0xFF0000).drawRect(0, 0, 10, 10); //texture);
 
 
-        parent.addChild(container);
-        container.addChild(graphics);
+                parent.addChild(container);
+                container.addChild(graphics);
 
-        container.position.x = 100;
-        container.position.y = 100;
+                container.position.x = 100;
+                container.position.y = 100;
 
-        var bounds = container.getLocalBounds();
+                var bounds = container.getLocalBounds();
 
-        expect(bounds.x).to.equal(0);
-        expect(bounds.y).to.equal(0);
-        expect(bounds.width).to.equal(10);
-        expect(bounds.height).to.equal(10);
+                expect(bounds.x).to.equal(0);
+                expect(bounds.y).to.equal(0);
+                expect(bounds.width).to.equal(10);
+                expect(bounds.height).to.equal(10);
+        });
 
+        it('should register correct local-bounds with a Mesh', function () {
+                var parent = new PIXI.Container();
 
+                var texture = PIXI.RenderTexture.create(10, 10);
 
-    });
+                var plane = new PIXI.mesh.Plane(texture);
 
-    it('should register correct local-bounds with a Mesh', function() {
-        var parent = new PIXI.Container();
+                parent.addChild(plane);
 
-        var texture = PIXI.RenderTexture.create(10, 10);
+                plane.position.x = 20;
+                plane.position.y = 20;
 
-        var plane = new PIXI.mesh.Plane(texture);
+                var bounds = plane.getLocalBounds();
 
-        parent.addChild(plane);
+                expect(bounds.x).to.equal(0);
+                expect(bounds.y).to.equal(0);
+                expect(bounds.width).to.equal(10);
+                expect(bounds.height).to.equal(10);
+        });
 
-        plane.position.x = 20;
-        plane.position.y = 20;
+        it('should register correct local-bounds with a cachAsBitmap item inside after a render', function () {
+                var parent = new PIXI.Container();
 
-        var bounds = plane.getLocalBounds();
+                var graphic = new PIXI.Graphics();
 
-        expect(bounds.x).to.equal(0);
-        expect(bounds.y).to.equal(0);
-        expect(bounds.width).to.equal(10);
-        expect(bounds.height).to.equal(10);
-    });
+                graphic.beginFill(0xffffff);
+                graphic.drawRect(0, 0, 100, 100);
+                graphic.endFill();
+                graphic.cacheAsBitmap = true;
 
-    it('should register correct local-bounds with a cachAsBitmap item inside after a render', function() {
-        var parent = new PIXI.Container();
+                parent.addChild(graphic);
 
-        var graphic = new PIXI.Graphics();
+                var renderer = new PIXI.CanvasRenderer(100, 100);
+                renderer.sayHello = function () {};
+                renderer.render(parent);
 
-        graphic.beginFill(0xffffff);
-        graphic.drawRect(0,0,100,100);
-        graphic.endFill();
-        graphic.cacheAsBitmap=true;
+                var bounds = parent.getLocalBounds();
 
-        parent.addChild(graphic);
-
-
-        var renderer = new PIXI.CanvasRenderer(100, 100);
-        renderer.sayHello = function(){};
-        renderer.render(parent);
-
-        var bounds = parent.getLocalBounds();
-
-        expect(bounds.x).to.equal(0);
-        expect(bounds.y).to.equal(0);
-        expect(bounds.width).to.equal(100);
-        expect(bounds.height).to.equal(100);
-    });
+                expect(bounds.x).to.equal(0);
+                expect(bounds.y).to.equal(0);
+                expect(bounds.width).to.equal(100);
+                expect(bounds.height).to.equal(100);
+        });
 });

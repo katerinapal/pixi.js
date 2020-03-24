@@ -1,6 +1,8 @@
+'use strict';
+
 describe('PIXI.Container', function () {
     describe('parent', function () {
-        it('should be present when adding children to Container', function() {
+        it('should be present when adding children to Container', function () {
             var container = new PIXI.Container(),
                 child = new PIXI.DisplayObject();
 
@@ -18,12 +20,12 @@ describe('PIXI.Container', function () {
                 triggeredAdded = false,
                 triggeredRemoved = false;
 
-            child.on('added', function(to) {
+            child.on('added', function (to) {
                 triggeredAdded = true;
                 expect(container.children.length).to.be.equals(1);
                 expect(child.parent).to.be.equals(to);
             });
-            child.on('removed', function(from) {
+            child.on('removed', function (from) {
                 triggeredRemoved = true;
                 expect(container.children.length).to.be.equals(0);
                 expect(child.parent).to.be.null;
@@ -37,6 +39,5 @@ describe('PIXI.Container', function () {
             container.removeChild(child);
             expect(triggeredRemoved).to.be.true;
         });
-
     });
 });

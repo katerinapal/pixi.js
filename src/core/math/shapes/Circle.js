@@ -1,4 +1,12 @@
-import { Rectangle as Rectangle_Rectanglejs } from "./Rectangle";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Circle = undefined;
+
+var _Rectangle = require("./Rectangle");
+
 function Circle(x, y, radius) {
     /**
      * @member {number}
@@ -36,8 +44,7 @@ Circle.prototype.constructor = Circle;
  *
  * @return {PIXI.Circle} a copy of the Circle
  */
-Circle.prototype.clone = function ()
-{
+Circle.prototype.clone = function () {
     return new Circle(this.x, this.y, this.radius);
 };
 
@@ -48,21 +55,19 @@ Circle.prototype.clone = function ()
  * @param y {number} The Y coordinate of the point to test
  * @return {boolean} Whether the x/y coordinates are within this Circle
  */
-Circle.prototype.contains = function (x, y)
-{
-    if (this.radius <= 0)
-    {
+Circle.prototype.contains = function (x, y) {
+    if (this.radius <= 0) {
         return false;
     }
 
-    var dx = (this.x - x),
-        dy = (this.y - y),
+    var dx = this.x - x,
+        dy = this.y - y,
         r2 = this.radius * this.radius;
 
     dx *= dx;
     dy *= dy;
 
-    return (dx + dy <= r2);
+    return dx + dy <= r2;
 };
 
 /**
@@ -70,9 +75,8 @@ Circle.prototype.contains = function (x, y)
 *
 * @return {PIXI.Rectangle} the framing rectangle
 */
-Circle.prototype.getBounds = function ()
-{
-    return new Rectangle_Rectanglejs(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+Circle.prototype.getBounds = function () {
+    return new _Rectangle.Rectangle(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
 };
 var exported_Circle = Circle;
 
@@ -85,4 +89,4 @@ var exported_Circle = Circle;
  * @param y {number} The Y coordinate of the center of this circle
  * @param radius {number} The radius of the circle
  */
-export { exported_Circle as Circle };
+exports.Circle = exported_Circle;

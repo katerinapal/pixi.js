@@ -1,3 +1,5 @@
+"use strict";
+
 var accessibleTarget_accessible = false;
 var accessibleTarget_accessibleTitle = null;
 var accessibleTarget_accessibleHint = null;

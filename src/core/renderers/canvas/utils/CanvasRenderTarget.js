@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 function CanvasRenderTarget(width, height, resolution) {
     /**
      * The Canvas object that belongs to this CanvasRenderTarget.
@@ -28,12 +33,10 @@ Object.defineProperties(CanvasRenderTarget.prototype, {
      * @memberof PIXI.CanvasRenderTarget#
      */
     width: {
-        get: function ()
-        {
+        get: function get() {
             return this.canvas.width;
         },
-        set: function (val)
-        {
+        set: function set(val) {
             this.canvas.width = val;
         }
     },
@@ -44,12 +47,10 @@ Object.defineProperties(CanvasRenderTarget.prototype, {
      * @memberof PIXI.CanvasRenderTarget#
      */
     height: {
-        get: function ()
-        {
+        get: function get() {
             return this.canvas.height;
         },
-        set: function (val)
-        {
+        set: function set(val) {
             this.canvas.height = val;
         }
     }
@@ -60,10 +61,9 @@ Object.defineProperties(CanvasRenderTarget.prototype, {
  *
  * @private
  */
-CanvasRenderTarget.prototype.clear = function ()
-{
+CanvasRenderTarget.prototype.clear = function () {
     this.context.setTransform(1, 0, 0, 1, 0, 0);
-    this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 };
 
 /**
@@ -72,8 +72,7 @@ CanvasRenderTarget.prototype.clear = function ()
  * @param width {number} the new width of the canvas
  * @param height {number} the new height of the canvas
  */
-CanvasRenderTarget.prototype.resize = function (width, height)
-{
+CanvasRenderTarget.prototype.resize = function (width, height) {
 
     this.canvas.width = width * this.resolution;
     this.canvas.height = height * this.resolution;
@@ -83,8 +82,7 @@ CanvasRenderTarget.prototype.resize = function (width, height)
  * Destroys this canvas.
  *
  */
-CanvasRenderTarget.prototype.destroy = function ()
-{
+CanvasRenderTarget.prototype.destroy = function () {
     this.context = null;
     this.canvas = null;
 };
@@ -99,4 +97,4 @@ var exported_CanvasRenderTarget = CanvasRenderTarget;
  * @param height {number} the height for the newly created canvas
  * @param [resolution=1] The resolution / device pixel ratio of the canvas
  */
-export { exported_CanvasRenderTarget as CanvasRenderTarget };
+exports.CanvasRenderTarget = exported_CanvasRenderTarget;

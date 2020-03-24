@@ -1,18 +1,29 @@
-import { core as core_corejs } from "../../core";
-import glslify from "glslify";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.FXAAFilter = undefined;
+
+var _core = require("../../core");
+
+var _glslify = require("glslify");
+
+var _glslify2 = _interopRequireDefault(_glslify);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function FXAAFilter() {
     //TODO - needs work
-    core_corejs.Filter.call(this,
+    _core.core.Filter.call(this,
 
-        // vertex shader
-        glslify('./fxaa.vert'),
-        // fragment shader
-        glslify('./fxaa.frag')
-    );
-
+    // vertex shader
+    (0, _glslify2.default)('./fxaa.vert'),
+    // fragment shader
+    (0, _glslify2.default)('./fxaa.frag'));
 }
 
-FXAAFilter.prototype = Object.create(core_corejs.Filter.prototype);
+FXAAFilter.prototype = Object.create(_core.core.Filter.prototype);
 FXAAFilter.prototype.constructor = FXAAFilter;
 
 var exported_FXAAFilter = FXAAFilter;
@@ -30,4 +41,4 @@ var exported_FXAAFilter = FXAAFilter;
  * @memberof PIXI
  *
  */
-export { exported_FXAAFilter as FXAAFilter };
+exports.FXAAFilter = exported_FXAAFilter;

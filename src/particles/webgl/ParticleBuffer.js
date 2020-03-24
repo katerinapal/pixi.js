@@ -1,5 +1,18 @@
-import glCore from "pixi-gl-core";
-import {     createIndicesForQuads as coreutilscreateIndicesForQuads_createIndicesForQuadsjs, } from "../../core/utils/createIndicesForQuads";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ParticleBuffer = undefined;
+
+var _pixiGlCore = require("pixi-gl-core");
+
+var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
+
+var _createIndicesForQuads = require("../../core/utils/createIndicesForQuads");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function ParticleBuffer(gl, properties, dynamicPropertyFlags, size) {
     /**
      * The current WebGL drawing context.
@@ -43,26 +56,21 @@ function ParticleBuffer(gl, properties, dynamicPropertyFlags, size) {
      */
     this.staticProperties = [];
 
-    for (var i = 0; i < properties.length; i++)
-    {
+    for (var i = 0; i < properties.length; i++) {
         var property = properties[i];
 
         // Make copy of properties object so that when we edit the offset it doesn't
         // change all other instances of the object literal
-        property = 
-        {
-            attribute:property.attribute,
-            size:property.size,
-            uploadFunction:property.uploadFunction,
-            offset:property.offset
+        property = {
+            attribute: property.attribute,
+            size: property.size,
+            uploadFunction: property.uploadFunction,
+            offset: property.offset
         };
 
-        if(dynamicPropertyFlags[i])
-        {
+        if (dynamicPropertyFlags[i]) {
             this.dynamicProperties.push(property);
-        }
-        else
-        {
+        } else {
             this.staticProperties.push(property);
         }
     }
@@ -76,7 +84,6 @@ function ParticleBuffer(gl, properties, dynamicPropertyFlags, size) {
     this.dynamicData = null;
 
     this.initBuffers();
-
 }
 
 ParticleBuffer.prototype.constructor = ParticleBuffer;
@@ -86,28 +93,24 @@ ParticleBuffer.prototype.constructor = ParticleBuffer;
  *
  * @private
  */
-ParticleBuffer.prototype.initBuffers = function ()
-{
+ParticleBuffer.prototype.initBuffers = function () {
     var gl = this.gl;
     var i;
     var property;
 
     var dynamicOffset = 0;
 
-
     /**
      * Holds the indices of the geometry (quads) to draw
      *
      * @member {Uint16Array}
      */
-    this.indices = coreutilscreateIndicesForQuads_createIndicesForQuadsjs(this.size);
-    this.indexBuffer = glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
-
+    this.indices = (0, _createIndicesForQuads.createIndicesForQuads)(this.size);
+    this.indexBuffer = _pixiGlCore2.default.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
 
     this.dynamicStride = 0;
 
-    for (i = 0; i < this.dynamicProperties.length; i++)
-    {
+    for (i = 0; i < this.dynamicProperties.length; i++) {
         property = this.dynamicProperties[i];
 
         property.offset = dynamicOffset;
@@ -115,39 +118,32 @@ ParticleBuffer.prototype.initBuffers = function ()
         this.dynamicStride += property.size;
     }
 
-    this.dynamicData = new Float32Array( this.size * this.dynamicStride * 4);
-    this.dynamicBuffer = glCore.GLBuffer.createVertexBuffer(gl, this.dynamicData, gl.STREAM_DRAW);
+    this.dynamicData = new Float32Array(this.size * this.dynamicStride * 4);
+    this.dynamicBuffer = _pixiGlCore2.default.GLBuffer.createVertexBuffer(gl, this.dynamicData, gl.STREAM_DRAW);
 
     // static //
     var staticOffset = 0;
     this.staticStride = 0;
 
-    for (i = 0; i < this.staticProperties.length; i++)
-    {
+    for (i = 0; i < this.staticProperties.length; i++) {
         property = this.staticProperties[i];
 
         property.offset = staticOffset;
         staticOffset += property.size;
         this.staticStride += property.size;
-
-
     }
 
-    this.staticData = new Float32Array( this.size * this.staticStride * 4);
-    this.staticBuffer = glCore.GLBuffer.createVertexBuffer(gl, this.staticData, gl.STATIC_DRAW);
+    this.staticData = new Float32Array(this.size * this.staticStride * 4);
+    this.staticBuffer = _pixiGlCore2.default.GLBuffer.createVertexBuffer(gl, this.staticData, gl.STATIC_DRAW);
 
+    this.vao = new _pixiGlCore2.default.VertexArrayObject(gl).addIndex(this.indexBuffer);
 
-    this.vao = new glCore.VertexArrayObject(gl)
-    .addIndex(this.indexBuffer);
-
-    for (i = 0; i < this.dynamicProperties.length; i++)
-    {
+    for (i = 0; i < this.dynamicProperties.length; i++) {
         property = this.dynamicProperties[i];
         this.vao.addAttribute(this.dynamicBuffer, property.attribute, gl.FLOAT, false, this.dynamicStride * 4, property.offset * 4);
     }
 
-    for (i = 0; i < this.staticProperties.length; i++)
-    {
+    for (i = 0; i < this.staticProperties.length; i++) {
         property = this.staticProperties[i];
         this.vao.addAttribute(this.staticBuffer, property.attribute, gl.FLOAT, false, this.staticStride * 4, property.offset * 4);
     }
@@ -157,10 +153,8 @@ ParticleBuffer.prototype.initBuffers = function ()
  * Uploads the dynamic properties.
  *
  */
-ParticleBuffer.prototype.uploadDynamic = function(children, startIndex, amount)
-{
-    for (var i = 0; i < this.dynamicProperties.length; i++)
-    {
+ParticleBuffer.prototype.uploadDynamic = function (children, startIndex, amount) {
+    for (var i = 0; i < this.dynamicProperties.length; i++) {
         var property = this.dynamicProperties[i];
         property.uploadFunction(children, startIndex, amount, this.dynamicData, this.dynamicStride, property.offset);
     }
@@ -172,10 +166,8 @@ ParticleBuffer.prototype.uploadDynamic = function(children, startIndex, amount)
  * Uploads the static properties.
  *
  */
-ParticleBuffer.prototype.uploadStatic = function(children, startIndex, amount)
-{
-    for (var i = 0; i < this.staticProperties.length; i++)
-    {
+ParticleBuffer.prototype.uploadStatic = function (children, startIndex, amount) {
+    for (var i = 0; i < this.staticProperties.length; i++) {
         var property = this.staticProperties[i];
         property.uploadFunction(children, startIndex, amount, this.staticData, this.staticStride, property.offset);
     }
@@ -187,8 +179,7 @@ ParticleBuffer.prototype.uploadStatic = function(children, startIndex, amount)
  * Binds the buffers to the GPU
  *
  */
-ParticleBuffer.prototype.bind = function ()
-{
+ParticleBuffer.prototype.bind = function () {
     this.vao.bind();
 };
 
@@ -196,8 +187,7 @@ ParticleBuffer.prototype.bind = function ()
  * Destroys the ParticleBuffer.
  *
  */
-ParticleBuffer.prototype.destroy = function ()
-{
+ParticleBuffer.prototype.destroy = function () {
     this.dynamicProperties = null;
     this.dynamicData = null;
     this.dynamicBuffer.destroy();
@@ -226,4 +216,4 @@ var exported_ParticleBuffer = ParticleBuffer;
  * @private
  * @memberof PIXI
  */
-export { exported_ParticleBuffer as ParticleBuffer };
+exports.ParticleBuffer = exported_ParticleBuffer;

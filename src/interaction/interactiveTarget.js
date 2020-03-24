@@ -1,3 +1,5 @@
+"use strict";
+
 var interactiveTarget_interactive = false;
 var interactiveTarget_interactiveChildren = true;
 var interactiveTarget_hitArea = null;

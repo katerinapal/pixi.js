@@ -1,7 +1,19 @@
-import earcut from "earcut";
-import { buildLine as buildLine_buildLinejs } from "./buildLine";
-var buildRoundedRectangle = function (graphicsData, webGLData)
-{
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.buildRoundedRectangle = undefined;
+
+var _earcut = require("earcut");
+
+var _earcut2 = _interopRequireDefault(_earcut);
+
+var _buildLine = require("./buildLine");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var buildRoundedRectangle = function buildRoundedRectangle(graphicsData, webGLData) {
     var rrectData = graphicsData.shape;
     var x = rrectData.x;
     var y = rrectData.y;
@@ -20,8 +32,7 @@ var buildRoundedRectangle = function (graphicsData, webGLData)
     // this tiny number deals with the issue that occurs when points overlap and earcut fails to triangulate the item.
     // TODO - fix this properly, this is not very elegant.. but it works for now.
 
-    if (graphicsData.fill)
-    {
+    if (graphicsData.fill) {
         var color = utils.hex2rgb(graphicsData.fillColor);
         var alpha = graphicsData.fillAlpha;
 
@@ -32,39 +43,36 @@ var buildRoundedRectangle = function (graphicsData, webGLData)
         var verts = webGLData.points;
         var indices = webGLData.indices;
 
-        var vecPos = verts.length/6;
+        var vecPos = verts.length / 6;
 
-        var triangles = earcut(recPoints, null, 2);
+        var triangles = (0, _earcut2.default)(recPoints, null, 2);
 
         var i = 0;
-        for (i = 0; i < triangles.length; i+=3)
-        {
+        for (i = 0; i < triangles.length; i += 3) {
             indices.push(triangles[i] + vecPos);
             indices.push(triangles[i] + vecPos);
-            indices.push(triangles[i+1] + vecPos);
-            indices.push(triangles[i+2] + vecPos);
-            indices.push(triangles[i+2] + vecPos);
+            indices.push(triangles[i + 1] + vecPos);
+            indices.push(triangles[i + 2] + vecPos);
+            indices.push(triangles[i + 2] + vecPos);
         }
 
-        for (i = 0; i < recPoints.length; i++)
-        {
+        for (i = 0; i < recPoints.length; i++) {
             verts.push(recPoints[i], recPoints[++i], r, g, b, alpha);
         }
     }
 
-    if (graphicsData.lineWidth)
-    {
+    if (graphicsData.lineWidth) {
         var tempPoints = graphicsData.points;
 
         graphicsData.points = recPoints;
 
-        buildLine_buildLinejs(graphicsData, webGLData);
+        (0, _buildLine.buildLine)(graphicsData, webGLData);
 
         graphicsData.points = tempPoints;
     }
 };
 
-let exported_buildRoundedRectangle = buildRoundedRectangle;
+var exported_buildRoundedRectangle = buildRoundedRectangle;
 
 /**
  * Calculate the points for a quadratic bezier curve. (helper function..)
@@ -83,7 +91,7 @@ let exported_buildRoundedRectangle = buildRoundedRectangle;
  * @param [out] {number[]} The output array to add points into. If not passed, a new array is created.
  * @return {number[]} an array of points
  */
-var quadraticBezierCurve = function (fromX, fromY, cpX, cpY, toX, toY, out)// jshint ignore:line
+var quadraticBezierCurve = function quadraticBezierCurve(fromX, fromY, cpX, cpY, toX, toY, out) // jshint ignore:line
 {
     var xa,
         ya,
@@ -94,25 +102,25 @@ var quadraticBezierCurve = function (fromX, fromY, cpX, cpY, toX, toY, out)// js
         n = 20,
         points = out || [];
 
-    function getPt(n1 , n2, perc) {
+    function getPt(n1, n2, perc) {
         var diff = n2 - n1;
 
-        return n1 + ( diff * perc );
+        return n1 + diff * perc;
     }
 
     var j = 0;
-    for (var i = 0; i <= n; i++ ) {
+    for (var i = 0; i <= n; i++) {
         j = i / n;
 
         // The Green Line
-        xa = getPt( fromX , cpX , j );
-        ya = getPt( fromY , cpY , j );
-        xb = getPt( cpX , toX , j );
-        yb = getPt( cpY , toY , j );
+        xa = getPt(fromX, cpX, j);
+        ya = getPt(fromY, cpY, j);
+        xb = getPt(cpX, toX, j);
+        yb = getPt(cpY, toY, j);
 
         // The Black Dot
-        x = getPt( xa , xb , j );
-        y = getPt( ya , yb , j );
+        x = getPt(xa, xb, j);
+        y = getPt(ya, yb, j);
 
         points.push(x, y);
     }
@@ -120,5 +128,4 @@ var quadraticBezierCurve = function (fromX, fromY, cpX, cpY, toX, toY, out)// js
     return points;
 };
 
-
-export { exported_buildRoundedRectangle as buildRoundedRectangle };
+exports.buildRoundedRectangle = exported_buildRoundedRectangle;

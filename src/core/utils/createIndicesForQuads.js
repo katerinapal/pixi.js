@@ -1,14 +1,17 @@
-var createIndicesForQuads = function (size)
-{
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var createIndicesForQuads = function createIndicesForQuads(size) {
     // the total number of indices in our array, there are 6 points per quad.
 
     var totalIndices = size * 6;
 
     var indices = new Uint16Array(totalIndices);
 
-	// fill the indices with the quads to draw
-    for (var i=0, j=0; i < totalIndices; i += 6, j += 4)
-    {
+    // fill the indices with the quads to draw
+    for (var i = 0, j = 0; i < totalIndices; i += 6, j += 4) {
         indices[i + 0] = j + 0;
         indices[i + 1] = j + 1;
         indices[i + 2] = j + 2;
@@ -20,5 +23,5 @@ var createIndicesForQuads = function (size)
     return indices;
 };
 
-let exported_createIndicesForQuads = createIndicesForQuads;
-export { exported_createIndicesForQuads as createIndicesForQuads };
+var exported_createIndicesForQuads = createIndicesForQuads;
+exports.createIndicesForQuads = exported_createIndicesForQuads;

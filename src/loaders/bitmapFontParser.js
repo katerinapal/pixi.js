@@ -1,9 +1,25 @@
-import resourceloader_resourceloader from "resource-loader";
-import { core as core_corejs } from "../core";
-import { indexjs as extras_indexjsjs } from "../extras";
-import path from "path";
-var Resource = resourceloader_resourceloader.Resource;
+"use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.bitmapFontParserjs = undefined;
+
+var _resourceLoader = require("resource-loader");
+
+var _resourceLoader2 = _interopRequireDefault(_resourceLoader);
+
+var _core = require("../core");
+
+var _extras = require("../extras");
+
+var _path = require("path");
+
+var _path2 = _interopRequireDefault(_path);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Resource = _resourceLoader2.default.Resource;
 
 function parse(resource, texture) {
     var data = {};
@@ -18,37 +34,29 @@ function parse(resource, texture) {
     //parse letters
     var letters = resource.data.getElementsByTagName('char');
 
-    for (var i = 0; i < letters.length; i++)
-    {
+    for (var i = 0; i < letters.length; i++) {
         var charCode = parseInt(letters[i].getAttribute('id'), 10);
 
-        var textureRect = new core_corejs.Rectangle(
-            parseInt(letters[i].getAttribute('x'), 10) + texture.frame.x,
-            parseInt(letters[i].getAttribute('y'), 10) + texture.frame.y,
-            parseInt(letters[i].getAttribute('width'), 10),
-            parseInt(letters[i].getAttribute('height'), 10)
-        );
+        var textureRect = new _core.core.Rectangle(parseInt(letters[i].getAttribute('x'), 10) + texture.frame.x, parseInt(letters[i].getAttribute('y'), 10) + texture.frame.y, parseInt(letters[i].getAttribute('width'), 10), parseInt(letters[i].getAttribute('height'), 10));
 
         data.chars[charCode] = {
             xOffset: parseInt(letters[i].getAttribute('xoffset'), 10),
             yOffset: parseInt(letters[i].getAttribute('yoffset'), 10),
             xAdvance: parseInt(letters[i].getAttribute('xadvance'), 10),
             kerning: {},
-            texture: new core_corejs.Texture(texture.baseTexture, textureRect)
+            texture: new _core.core.Texture(texture.baseTexture, textureRect)
 
         };
     }
 
     //parse kernings
     var kernings = resource.data.getElementsByTagName('kerning');
-    for (i = 0; i < kernings.length; i++)
-    {
+    for (i = 0; i < kernings.length; i++) {
         var first = parseInt(kernings[i].getAttribute('first'), 10);
         var second = parseInt(kernings[i].getAttribute('second'), 10);
         var amount = parseInt(kernings[i].getAttribute('amount'), 10);
 
-        if(data.chars[second])
-        {
+        if (data.chars[second]) {
             data.chars[second].kerning[first] = amount;
         }
     }
@@ -57,31 +65,22 @@ function parse(resource, texture) {
 
     // I'm leaving this as a temporary fix so we can test the bitmap fonts in v3
     // but it's very likely to change
-    extras_indexjsjs.BitmapText.fonts[data.font] = data;
+    _extras.indexjs.BitmapText.fonts[data.font] = data;
 }
 
-
-var exportedObject = function ()
-{
-    return function (resource, next)
-    {
+var exportedObject = function exportedObject() {
+    return function (resource, next) {
         // skip if no data or not xml data
-        if (!resource.data || !resource.isXml)
-        {
+        if (!resource.data || !resource.isXml) {
             return next();
         }
 
         // skip if not bitmap font data, using some silly duck-typing
-        if (
-            resource.data.getElementsByTagName('page').length === 0 ||
-            resource.data.getElementsByTagName('info').length === 0 ||
-            resource.data.getElementsByTagName('info')[0].getAttribute('face') === null
-            )
-        {
+        if (resource.data.getElementsByTagName('page').length === 0 || resource.data.getElementsByTagName('info').length === 0 || resource.data.getElementsByTagName('info')[0].getAttribute('face') === null) {
             return next();
         }
 
-        var xmlUrl = !resource.isDataUrl ? path.dirname(resource.url) : '';
+        var xmlUrl = !resource.isDataUrl ? _path2.default.dirname(resource.url) : '';
 
         if (resource.isDataUrl) {
             if (xmlUrl === '.') {
@@ -98,19 +97,18 @@ var exportedObject = function ()
                 xmlUrl = xmlUrl.replace(this.baseUrl, '');
             }
         }
-        
+
         // if there is an xmlUrl now, it needs a trailing slash. Ensure that it does if the string isn't empty.
         if (xmlUrl && xmlUrl.charAt(xmlUrl.length - 1) !== '/') {
             xmlUrl += '/';
         }
-        
+
         var textureUrl = xmlUrl + resource.data.getElementsByTagName('page')[0].getAttribute('file');
-        if (core_corejs.utils.TextureCache[textureUrl]) {
+        if (_core.core.utils.TextureCache[textureUrl]) {
             //reuse existing texture
-            parse(resource, core_corejs.utils.TextureCache[textureUrl]);
+            parse(resource, _core.core.utils.TextureCache[textureUrl]);
             next();
-        }
-        else {
+        } else {
             var loadOptions = {
                 crossOrigin: resource.crossOrigin,
                 loadType: Resource.LOAD_TYPE.IMAGE,
@@ -125,5 +123,5 @@ var exportedObject = function ()
     };
 };
 
-
-export { exportedObject as bitmapFontParserjs };;
+exports.bitmapFontParserjs = exportedObject;
+;

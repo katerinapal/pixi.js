@@ -1,11 +1,22 @@
-import { SystemRenderer as SystemRenderer_SystemRendererjs } from "../SystemRenderer";
-import { CanvasMaskManager as utilsCanvasMaskManager_CanvasMaskManagerjs } from "./utils/CanvasMaskManager";
-import { CanvasRenderTarget as utilsCanvasRenderTarget_CanvasRenderTargetjs } from "./utils/CanvasRenderTarget";
-import {     mapCanvasBlendModesToPixi as utilsmapCanvasBlendModesToPixi_mapCanvasBlendModesToPixijs, } from "./utils/mapCanvasBlendModesToPixi";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.CanvasRenderer = undefined;
+
+var _SystemRenderer = require("../SystemRenderer");
+
+var _CanvasMaskManager = require("./utils/CanvasMaskManager");
+
+var _CanvasRenderTarget = require("./utils/CanvasRenderTarget");
+
+var _mapCanvasBlendModesToPixi = require("./utils/mapCanvasBlendModesToPixi");
+
 function CanvasRenderer(width, height, options) {
     options = options || {};
 
-    SystemRenderer_SystemRendererjs.call(this, 'Canvas', width, height, options);
+    _SystemRenderer.SystemRenderer.call(this, 'Canvas', width, height, options);
 
     this.type = CONST.RENDERER_TYPE.CANVAS;
 
@@ -29,7 +40,7 @@ function CanvasRenderer(width, height, options) {
      *
      * @member {PIXI.CanvasMaskManager}
      */
-    this.maskManager = new utilsCanvasMaskManager_CanvasMaskManagerjs(this);
+    this.maskManager = new _CanvasMaskManager.CanvasMaskManager(this);
 
     /**
      * The canvas property used to set the canvas smoothing property.
@@ -38,29 +49,21 @@ function CanvasRenderer(width, height, options) {
      */
     this.smoothProperty = 'imageSmoothingEnabled';
 
-    if (!this.rootContext.imageSmoothingEnabled)
-    {
-        if (this.rootContext.webkitImageSmoothingEnabled)
-        {
+    if (!this.rootContext.imageSmoothingEnabled) {
+        if (this.rootContext.webkitImageSmoothingEnabled) {
             this.smoothProperty = 'webkitImageSmoothingEnabled';
-        }
-        else if (this.rootContext.mozImageSmoothingEnabled)
-        {
+        } else if (this.rootContext.mozImageSmoothingEnabled) {
             this.smoothProperty = 'mozImageSmoothingEnabled';
-        }
-        else if (this.rootContext.oImageSmoothingEnabled)
-        {
+        } else if (this.rootContext.oImageSmoothingEnabled) {
             this.smoothProperty = 'oImageSmoothingEnabled';
-        }
-        else if (this.rootContext.msImageSmoothingEnabled)
-        {
+        } else if (this.rootContext.msImageSmoothingEnabled) {
             this.smoothProperty = 'msImageSmoothingEnabled';
         }
     }
 
     this.initPlugins();
 
-    this.blendModes = utilsmapCanvasBlendModesToPixi_mapCanvasBlendModesToPixijs();
+    this.blendModes = (0, _mapCanvasBlendModesToPixi.mapCanvasBlendModesToPixi)();
     this._activeBlendMode = null;
 
     this.context = null;
@@ -70,10 +73,9 @@ function CanvasRenderer(width, height, options) {
 }
 
 // constructor
-CanvasRenderer.prototype = Object.create(SystemRenderer_SystemRendererjs.prototype);
-CanvasRenderer.prototype.constructor =  CanvasRenderer;
+CanvasRenderer.prototype = Object.create(_SystemRenderer.SystemRenderer.prototype);
+CanvasRenderer.prototype.constructor = CanvasRenderer;
 utils.pluginTarget.mixin(CanvasRenderer);
-
 
 /**
  * Renders the object to this canvas view
@@ -84,35 +86,30 @@ utils.pluginTarget.mixin(CanvasRenderer);
  * @param [transform] {PIXI.Transform} A transformation to be applied
  * @param [skipUpdateTransform=false] {boolean} Whether to skip the update transform
  */
-CanvasRenderer.prototype.render = function (displayObject, renderTexture, clear, transform, skipUpdateTransform)
-{
+CanvasRenderer.prototype.render = function (displayObject, renderTexture, clear, transform, skipUpdateTransform) {
 
-    if (!this.view){
-      return;
+    if (!this.view) {
+        return;
     }
 
-     // can be handy to know!
+    // can be handy to know!
     this.renderingToScreen = !renderTexture;
 
     this.emit('prerender');
 
-    if(renderTexture)
-    {
+    if (renderTexture) {
         renderTexture = renderTexture.baseTexture || renderTexture;
 
-        if(!renderTexture._canvasRenderTarget)
-        {
+        if (!renderTexture._canvasRenderTarget) {
 
-            renderTexture._canvasRenderTarget = new utilsCanvasRenderTarget_CanvasRenderTargetjs(renderTexture.width, renderTexture.height, renderTexture.resolution);
+            renderTexture._canvasRenderTarget = new _CanvasRenderTarget.CanvasRenderTarget(renderTexture.width, renderTexture.height, renderTexture.resolution);
             renderTexture.source = renderTexture._canvasRenderTarget.canvas;
             renderTexture.valid = true;
         }
 
         this.context = renderTexture._canvasRenderTarget.context;
         this.resolution = renderTexture._canvasRenderTarget.resolution;
-    }
-    else
-    {
+    } else {
 
         this.context = this.rootContext;
         this.resolution = this.rootResolution;
@@ -120,58 +117,46 @@ CanvasRenderer.prototype.render = function (displayObject, renderTexture, clear,
 
     var context = this.context;
 
-    if(!renderTexture)
-    {
+    if (!renderTexture) {
         this._lastObjectRendered = displayObject;
     }
 
-
-
-
-    if(!skipUpdateTransform)
-    {
+    if (!skipUpdateTransform) {
         // update the scene graph
         var cacheParent = displayObject.parent;
         var tempWt = this._tempDisplayObjectParent.transform.worldTransform;
 
-        if(transform)
-        {
+        if (transform) {
             transform.copy(tempWt);
-        }
-        else
-        {
+        } else {
             tempWt.identity();
         }
 
         displayObject.parent = this._tempDisplayObjectParent;
         displayObject.updateTransform();
         displayObject.parent = cacheParent;
-       // displayObject.hitArea = //TODO add a temp hit area
+        // displayObject.hitArea = //TODO add a temp hit area
     }
-
 
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.globalAlpha = 1;
     context.globalCompositeOperation = this.blendModes[CONST.BLEND_MODES.NORMAL];
 
-    if (navigator.isCocoonJS && this.view.screencanvas)
-    {
+    if (navigator.isCocoonJS && this.view.screencanvas) {
         context.fillStyle = 'black';
         context.clear();
     }
 
-    if(clear !== undefined ? clear : this.clearBeforeRender)
-    {
+    if (clear !== undefined ? clear : this.clearBeforeRender) {
         if (this.renderingToScreen) {
             if (this.transparent) {
                 context.clearRect(0, 0, this.width, this.height);
-            }
-            else {
+            } else {
                 context.fillStyle = this._backgroundColorString;
                 context.fillRect(0, 0, this.width, this.height);
             }
         } //else {
-            //TODO: implement background for CanvasRenderTarget or RenderTexture?
+        //TODO: implement background for CanvasRenderTarget or RenderTexture?
         //}
     }
 
@@ -185,11 +170,9 @@ CanvasRenderer.prototype.render = function (displayObject, renderTexture, clear,
     this.emit('postrender');
 };
 
-
-CanvasRenderer.prototype.setBlendMode = function (blendMode)
-{
-    if(this._activeBlendMode === blendMode) {
-      return;
+CanvasRenderer.prototype.setBlendMode = function (blendMode) {
+    if (this._activeBlendMode === blendMode) {
+        return;
     }
 
     this.context.globalCompositeOperation = this.blendModes[blendMode];
@@ -200,12 +183,11 @@ CanvasRenderer.prototype.setBlendMode = function (blendMode)
  *
  * @param [removeView=false] {boolean} Removes the Canvas element from the DOM.
  */
-CanvasRenderer.prototype.destroy = function (removeView)
-{
+CanvasRenderer.prototype.destroy = function (removeView) {
     this.destroyPlugins();
 
     // call the base destroy
-    SystemRenderer_SystemRendererjs.prototype.destroy.call(this, removeView);
+    _SystemRenderer.SystemRenderer.prototype.destroy.call(this, removeView);
 
     this.context = null;
 
@@ -225,17 +207,14 @@ CanvasRenderer.prototype.destroy = function (removeView)
  * @param width {number} The new width of the canvas view
  * @param height {number} The new height of the canvas view
  */
-CanvasRenderer.prototype.resize = function (width, height)
-{
-    SystemRenderer_SystemRendererjs.prototype.resize.call(this, width, height);
+CanvasRenderer.prototype.resize = function (width, height) {
+    _SystemRenderer.SystemRenderer.prototype.resize.call(this, width, height);
 
     //reset the scale mode.. oddly this seems to be reset when the canvas is resized.
     //surely a browser bug?? Let pixi fix that for you..
-    if(this.smoothProperty)
-    {
-        this.rootContext[this.smoothProperty] = (CONST.SCALE_MODES.DEFAULT === CONST.SCALE_MODES.LINEAR);
+    if (this.smoothProperty) {
+        this.rootContext[this.smoothProperty] = CONST.SCALE_MODES.DEFAULT === CONST.SCALE_MODES.LINEAR;
     }
-
 };
 var exported_CanvasRenderer = CanvasRenderer;
 
@@ -258,4 +237,4 @@ var exported_CanvasRenderer = CanvasRenderer;
  *      not before the new render pass.
  * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
  */
-export { exported_CanvasRenderer as CanvasRenderer };
+exports.CanvasRenderer = exported_CanvasRenderer;

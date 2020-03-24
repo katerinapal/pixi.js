@@ -1,25 +1,33 @@
-import { core as core_corejs } from "../core";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.InteractionData = undefined;
+
+var _core = require("../core");
+
 function InteractionData() {
-    /**
-     * This point stores the global coords of where the touch/mouse event happened
-     *
-     * @member {PIXI.Point}
-     */
-    this.global = new core_corejs.Point();
+  /**
+   * This point stores the global coords of where the touch/mouse event happened
+   *
+   * @member {PIXI.Point}
+   */
+  this.global = new _core.core.Point();
 
-    /**
-     * The target Sprite that was interacted with
-     *
-     * @member {PIXI.Sprite}
-     */
-    this.target = null;
+  /**
+   * The target Sprite that was interacted with
+   *
+   * @member {PIXI.Sprite}
+   */
+  this.target = null;
 
-    /**
-     * When passed to an event handler, this will be the original DOM Event that was captured
-     *
-     * @member {Event}
-     */
-    this.originalEvent = null;
+  /**
+   * When passed to an event handler, this will be the original DOM Event that was captured
+   *
+   * @member {Event}
+   */
+  this.originalEvent = null;
 }
 
 InteractionData.prototype.constructor = InteractionData;
@@ -32,9 +40,8 @@ InteractionData.prototype.constructor = InteractionData;
  * @param [globalPos] {PIXI.Point} A Point object containing your custom global coords, optional (otherwise will use the current global coords)
  * @return {PIXI.Point} A point containing the coordinates of the InteractionData position relative to the DisplayObject
  */
-InteractionData.prototype.getLocalPosition = function (displayObject, point, globalPos)
-{
-    return displayObject.worldTransform.applyInverse(globalPos || this.global, point);
+InteractionData.prototype.getLocalPosition = function (displayObject, point, globalPos) {
+  return displayObject.worldTransform.applyInverse(globalPos || this.global, point);
 };
 var exported_InteractionData = InteractionData;
 
@@ -44,4 +51,4 @@ var exported_InteractionData = InteractionData;
  * @class
  * @memberof PIXI.interaction
  */
-export { exported_InteractionData as InteractionData };
+exports.InteractionData = exported_InteractionData;

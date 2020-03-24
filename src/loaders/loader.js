@@ -1,32 +1,43 @@
-import ResourceLoader from "resource-loader";
-import { textureParserjs as textureParser_textureParserjsjs } from "./textureParser";
-import { spritesheetParserjs as spritesheetParser_spritesheetParserjsjs } from "./spritesheetParser";
-import { bitmapFontParserjs as bitmapFontParser_bitmapFontParserjsjs } from "./bitmapFontParser";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Loader = undefined;
+
+var _resourceLoader = require("resource-loader");
+
+var _resourceLoader2 = _interopRequireDefault(_resourceLoader);
+
+var _textureParser = require("./textureParser");
+
+var _spritesheetParser = require("./spritesheetParser");
+
+var _bitmapFontParser = require("./bitmapFontParser");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function Loader(baseUrl, concurrency) {
-    ResourceLoader.call(this, baseUrl, concurrency);
+    _resourceLoader2.default.call(this, baseUrl, concurrency);
 
     for (var i = 0; i < Loader._pixiMiddleware.length; ++i) {
         this.use(Loader._pixiMiddleware[i]());
     }
 }
 
-Loader.prototype = Object.create(ResourceLoader.prototype);
+Loader.prototype = Object.create(_resourceLoader2.default.prototype);
 Loader.prototype.constructor = Loader;
 
 Loader._pixiMiddleware = [
-    // parse any blob into more usable objects (e.g. Image)
-    ResourceLoader.middleware.parsing.blob,
-    textureParser_textureParserjsjs,
-    spritesheetParser_spritesheetParserjsjs,
-    bitmapFontParser_bitmapFontParserjsjs
-];
+// parse any blob into more usable objects (e.g. Image)
+_resourceLoader2.default.middleware.parsing.blob, _textureParser.textureParserjs, _spritesheetParser.spritesheetParserjs, _bitmapFontParser.bitmapFontParserjs];
 
 Loader.addPixiMiddleware = function (fn) {
     Loader._pixiMiddleware.push(fn);
 };
 
 // Add custom extentions
-var Resource = ResourceLoader.Resource;
+var Resource = _resourceLoader2.default.Resource;
 
 Resource.setExtensionXhrType('fnt', Resource.XHR_RESPONSE_TYPE.DOCUMENT);
 var exported_Loader = Loader;
@@ -54,4 +65,4 @@ var exported_Loader = Loader;
  * @param [concurrency=10] {number} The number of resources to load concurrently.
  * @see https://github.com/englercj/resource-loader
  */
-export { exported_Loader as Loader };
+exports.Loader = exported_Loader;

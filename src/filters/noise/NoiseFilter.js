@@ -1,17 +1,29 @@
-import { core as core_corejs } from "../../core";
-import glslify from "glslify";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.NoiseFilter = undefined;
+
+var _core = require("../../core");
+
+var _glslify = require("glslify");
+
+var _glslify2 = _interopRequireDefault(_glslify);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function NoiseFilter() {
-    core_corejs.Filter.call(this,
-        // vertex shader
-        glslify('../fragments/default.vert'),
-        // fragment shader
-        glslify('./noise.frag')
-    );
+    _core.core.Filter.call(this,
+    // vertex shader
+    (0, _glslify2.default)('../fragments/default.vert'),
+    // fragment shader
+    (0, _glslify2.default)('./noise.frag'));
 
     this.noise = 0.5;
 }
 
-NoiseFilter.prototype = Object.create(core_corejs.Filter.prototype);
+NoiseFilter.prototype = Object.create(_core.core.Filter.prototype);
 NoiseFilter.prototype.constructor = NoiseFilter;
 
 Object.defineProperties(NoiseFilter.prototype, {
@@ -23,12 +35,10 @@ Object.defineProperties(NoiseFilter.prototype, {
      * @default 0.5
      */
     noise: {
-        get: function ()
-        {
+        get: function get() {
             return this.uniforms.noise;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this.uniforms.noise = value;
         }
     }
@@ -47,4 +57,4 @@ var exported_NoiseFilter = NoiseFilter;
  * @extends PIXI.Filter
  * @memberof PIXI.filters
  */
-export { exported_NoiseFilter as NoiseFilter };
+exports.NoiseFilter = exported_NoiseFilter;

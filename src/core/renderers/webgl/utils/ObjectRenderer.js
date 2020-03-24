@@ -1,37 +1,41 @@
-import { WebGLManager as managersWebGLManager_WebGLManagerjs } from "../managers/WebGLManager";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ObjectRenderer = undefined;
+
+var _WebGLManager = require("../managers/WebGLManager");
+
 function ObjectRenderer(renderer) {
-    managersWebGLManager_WebGLManagerjs.call(this, renderer);
+  _WebGLManager.WebGLManager.call(this, renderer);
 }
 
-
-ObjectRenderer.prototype = Object.create(managersWebGLManager_WebGLManagerjs.prototype);
+ObjectRenderer.prototype = Object.create(_WebGLManager.WebGLManager.prototype);
 ObjectRenderer.prototype.constructor = ObjectRenderer;
 
 /**
  * Starts the renderer and sets the shader
  *
  */
-ObjectRenderer.prototype.start = function ()
-{
-    // set the shader..
+ObjectRenderer.prototype.start = function () {
+  // set the shader..
 };
 
 /**
  * Stops the renderer
  *
  */
-ObjectRenderer.prototype.stop = function ()
-{
-    this.flush();
+ObjectRenderer.prototype.stop = function () {
+  this.flush();
 };
 
 /**
  * Stub method for rendering content and emptying the current batch.
  *
  */
-ObjectRenderer.prototype.flush = function ()
-{
-    // flush!
+ObjectRenderer.prototype.flush = function () {
+  // flush!
 };
 
 /**
@@ -41,7 +45,7 @@ ObjectRenderer.prototype.flush = function ()
  */
 ObjectRenderer.prototype.render = function (object) // jshint unused:false
 {
-    // render the object
+  // render the object
 };
 var exported_ObjectRenderer = ObjectRenderer;
 
@@ -53,4 +57,4 @@ var exported_ObjectRenderer = ObjectRenderer;
  * @memberof PIXI
  * @param renderer {PIXI.WebGLRenderer} The renderer this object renderer works for.
  */
-export { exported_ObjectRenderer as ObjectRenderer };
+exports.ObjectRenderer = exported_ObjectRenderer;

@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 function TextureUvs() {
     this.x0 = 0;
@@ -22,13 +27,11 @@ function TextureUvs() {
  * @param rotate {number} Rotation of frame, see {@link PIXI.GroupD8}
  * @private
  */
-TextureUvs.prototype.set = function (frame, baseFrame, rotate)
-{
+TextureUvs.prototype.set = function (frame, baseFrame, rotate) {
     var tw = baseFrame.width;
     var th = baseFrame.height;
 
-    if(rotate)
-    {
+    if (rotate) {
         //width and height div 2 div baseFrame size
         var w2 = frame.width / 2 / tw;
         var h2 = frame.height / 2 / th;
@@ -47,9 +50,7 @@ TextureUvs.prototype.set = function (frame, baseFrame, rotate)
         rotate = GroupD8.add(rotate, 2);
         this.x3 = cX + w2 * GroupD8.uX(rotate);
         this.y3 = cY + h2 * GroupD8.uY(rotate);
-    }
-    else
-    {
+    } else {
 
         this.x0 = frame.x / tw;
         this.y0 = frame.y / th;
@@ -64,10 +65,10 @@ TextureUvs.prototype.set = function (frame, baseFrame, rotate)
         this.y3 = (frame.y + frame.height) / th;
     }
 
-    this.uvsUint32[0] = (((this.y0 * 65535) & 0xFFFF) << 16) | ((this.x0 * 65535) & 0xFFFF);
-    this.uvsUint32[1] = (((this.y1 * 65535) & 0xFFFF) << 16) | ((this.x1 * 65535) & 0xFFFF);
-    this.uvsUint32[2] = (((this.y2 * 65535) & 0xFFFF) << 16) | ((this.x2 * 65535) & 0xFFFF);
-    this.uvsUint32[3] = (((this.y3 * 65535) & 0xFFFF) << 16) | ((this.x3 * 65535) & 0xFFFF);
+    this.uvsUint32[0] = (this.y0 * 65535 & 0xFFFF) << 16 | this.x0 * 65535 & 0xFFFF;
+    this.uvsUint32[1] = (this.y1 * 65535 & 0xFFFF) << 16 | this.x1 * 65535 & 0xFFFF;
+    this.uvsUint32[2] = (this.y2 * 65535 & 0xFFFF) << 16 | this.x2 * 65535 & 0xFFFF;
+    this.uvsUint32[3] = (this.y3 * 65535 & 0xFFFF) << 16 | this.x3 * 65535 & 0xFFFF;
 };
 var exported_TextureUvs = TextureUvs;
 
@@ -78,4 +79,4 @@ var exported_TextureUvs = TextureUvs;
  * @private
  * @memberof PIXI
  */
-export { exported_TextureUvs as TextureUvs };
+exports.TextureUvs = exported_TextureUvs;

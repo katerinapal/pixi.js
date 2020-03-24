@@ -1,5 +1,17 @@
-import pixiglcore_pixiglcore from "pixi-gl-core";
-var defaultValue = pixiglcore_pixiglcore.shader.defaultValue;
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.extractUniformsFromSrc = undefined;
+
+var _pixiGlCore = require('pixi-gl-core');
+
+var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultValue = _pixiGlCore2.default.shader.defaultValue;
 
 function extractUniformsFromSrc(vertexSrc, fragmentSrc, mask) {
     var vertUniforms = extractUniformsFromString(vertexSrc, mask);
@@ -8,47 +20,39 @@ function extractUniformsFromSrc(vertexSrc, fragmentSrc, mask) {
     return Object.assign(vertUniforms, fragUniforms);
 }
 
-
-function extractUniformsFromString(string)
-{
+function extractUniformsFromString(string) {
     var maskRegex = new RegExp('^(projectionMatrix|uSampler|filterArea)$');
 
     var uniforms = {};
     var nameSplit;
 
-
     // clean the lines a little - remove extra spaces / teabs etc
     // then split along ';'
-    var lines = string.replace(/\s+/g,' ')
-                .split(/\s*;\s*/);
+    var lines = string.replace(/\s+/g, ' ').split(/\s*;\s*/);
 
     // loop through..
-    for (var i = 0; i < lines.length; i++)
-    {
+    for (var i = 0; i < lines.length; i++) {
         var line = lines[i].trim();
 
-        if(line.indexOf('uniform') > -1)
-        {
+        if (line.indexOf('uniform') > -1) {
             var splitLine = line.split(' ');
             var type = splitLine[1];
 
             var name = splitLine[2];
             var size = 1;
 
-            if(name.indexOf('[') > -1)
-            {
+            if (name.indexOf('[') > -1) {
                 // array!
                 nameSplit = name.split(/\[|\]/);
                 name = nameSplit[0];
                 size *= Number(nameSplit[1]);
             }
 
-            if(!name.match(maskRegex))
-            {
+            if (!name.match(maskRegex)) {
                 uniforms[name] = {
-                    value:defaultValue(type, size),
-                    name:name,
-                    type:type
+                    value: defaultValue(type, size),
+                    name: name,
+                    type: type
                 };
             }
         }
@@ -58,4 +62,4 @@ function extractUniformsFromString(string)
 }
 
 var exported_extractUniformsFromSrc = extractUniformsFromSrc;
-export { exported_extractUniformsFromSrc as extractUniformsFromSrc };
+exports.extractUniformsFromSrc = exported_extractUniformsFromSrc;

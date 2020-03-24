@@ -1,4 +1,6 @@
-import { WebGLManager as WebGLManager_WebGLManagerjs } from "./WebGLManager";
+"use strict";
+
+var _WebGLManager = require("./WebGLManager");
 
 /**
  * @class
@@ -6,9 +8,8 @@ import { WebGLManager as WebGLManager_WebGLManagerjs } from "./WebGLManager";
  * @extends PIXI.WebGLManager
  * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
  */
-function BlendModeManager(renderer)
-{
-    WebGLManager_WebGLManagerjs.call(this, renderer);
+function BlendModeManager(renderer) {
+    _WebGLManager.WebGLManager.call(this, renderer);
 
     /**
      * @member {number}
@@ -16,7 +17,7 @@ function BlendModeManager(renderer)
     this.currentBlendMode = 99999;
 }
 
-BlendModeManager.prototype = Object.create(WebGLManager_WebGLManagerjs.prototype);
+BlendModeManager.prototype = Object.create(_WebGLManager.WebGLManager.prototype);
 BlendModeManager.prototype.constructor = BlendModeManager;
 var encapsulated_BlendModeManager;
 encapsulated_BlendModeManager = BlendModeManager;
@@ -27,10 +28,8 @@ encapsulated_BlendModeManager = BlendModeManager;
  * @param blendMode {number} the blendMode, should be a Pixi const, such as `PIXI.BLEND_MODES.ADD`. See
  *  {@link PIXI.BLEND_MODES} for possible values.
  */
-BlendModeManager.prototype.setBlendMode = function (blendMode)
-{
-    if (this.currentBlendMode === blendMode)
-    {
+BlendModeManager.prototype.setBlendMode = function (blendMode) {
+    if (this.currentBlendMode === blendMode) {
         return false;
     }
 

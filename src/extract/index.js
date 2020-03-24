@@ -1,10 +1,17 @@
+"use strict";
 
-import { WebGLExtractjs as webglWebGLExtract_WebGLExtractjs } from "./webgl/WebGLExtract";
-import { CanvasExtractjs as canvasCanvasExtract_CanvasExtractjs } from "./canvas/CanvasExtract";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.indexjs = undefined;
+
+var _WebGLExtract = require("./webgl/WebGLExtract");
+
+var _CanvasExtract = require("./canvas/CanvasExtract");
 
 var indexjs_indexjs = {
-    webGL: webglWebGLExtract_WebGLExtractjs,
-    canvas: canvasCanvasExtract_CanvasExtractjs
+    webGL: _WebGLExtract.WebGLExtractjs,
+    canvas: _CanvasExtract.CanvasExtractjs
 };
 
-export { indexjs_indexjs as indexjs };
+exports.indexjs = indexjs_indexjs;

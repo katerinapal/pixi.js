@@ -1,5 +1,18 @@
-import glCore from "pixi-gl-core";
-import {  createIndicesForQuads as utilscreateIndicesForQuads_createIndicesForQuadsjs, } from "../../../utils/createIndicesForQuads";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Quad = undefined;
+
+var _pixiGlCore = require("pixi-gl-core");
+
+var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
+
+var _createIndicesForQuads = require("../../../utils/createIndicesForQuads");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function Quad(gl, state) {
     /*
      * the current WebGL drawing context
@@ -13,54 +26,43 @@ function Quad(gl, state) {
      *
      * @member {Float32Array}
      */
-    this.vertices = new Float32Array([
-        -1,-1,
-        1,-1,
-        1,1,
-        -1,1
-    ]);
+    this.vertices = new Float32Array([-1, -1, 1, -1, 1, 1, -1, 1]);
 
     /**
      * The Uvs of the quad
      *
      * @member {Float32Array}
      */
-    this.uvs = new Float32Array([
-        0,0,
-        1,0,
-        1,1,
-        0,1
-    ]);
+    this.uvs = new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]);
 
     this.interleaved = new Float32Array(8 * 2);
 
     for (var i = 0; i < 4; i++) {
-        this.interleaved[i*4] = this.vertices[(i*2)];
-        this.interleaved[(i*4)+1] = this.vertices[(i*2)+1];
-        this.interleaved[(i*4)+2] = this.uvs[i*2];
-        this.interleaved[(i*4)+3] = this.uvs[(i*2)+1];
+        this.interleaved[i * 4] = this.vertices[i * 2];
+        this.interleaved[i * 4 + 1] = this.vertices[i * 2 + 1];
+        this.interleaved[i * 4 + 2] = this.uvs[i * 2];
+        this.interleaved[i * 4 + 3] = this.uvs[i * 2 + 1];
     }
 
     /*
      * @member {Uint16Array} An array containing the indices of the vertices
      */
-    this.indices = utilscreateIndicesForQuads_createIndicesForQuadsjs(1);
+    this.indices = (0, _createIndicesForQuads.createIndicesForQuads)(1);
 
     /*
      * @member {glCore.GLBuffer} The vertex buffer
      */
-    this.vertexBuffer = glCore.GLBuffer.createVertexBuffer(gl, this.interleaved, gl.STATIC_DRAW);
+    this.vertexBuffer = _pixiGlCore2.default.GLBuffer.createVertexBuffer(gl, this.interleaved, gl.STATIC_DRAW);
 
     /*
      * @member {glCore.GLBuffer} The index buffer
      */
-    this.indexBuffer = glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
+    this.indexBuffer = _pixiGlCore2.default.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
 
     /*
      * @member {glCore.VertexArrayObject} The index buffer
      */
-    this.vao = new glCore.VertexArrayObject(gl, state);
-
+    this.vao = new _pixiGlCore2.default.VertexArrayObject(gl, state);
 }
 
 Quad.prototype.constructor = Quad;
@@ -69,12 +71,8 @@ Quad.prototype.constructor = Quad;
  * Initialises the vaos and uses the shader
  * @param shader {PIXI.Shader} the shader to use
  */
-Quad.prototype.initVao = function(shader)
-{
-    this.vao.clear()
-    .addIndex(this.indexBuffer)
-    .addAttribute(this.vertexBuffer, shader.attributes.aVertexPosition, this.gl.FLOAT, false, 4 * 4, 0)
-    .addAttribute(this.vertexBuffer, shader.attributes.aTextureCoord, this.gl.FLOAT, false, 4 * 4, 2 * 4);
+Quad.prototype.initVao = function (shader) {
+    this.vao.clear().addIndex(this.indexBuffer).addAttribute(this.vertexBuffer, shader.attributes.aVertexPosition, this.gl.FLOAT, false, 4 * 4, 0).addAttribute(this.vertexBuffer, shader.attributes.aTextureCoord, this.gl.FLOAT, false, 4 * 4, 2 * 4);
 };
 
 /**
@@ -82,8 +80,7 @@ Quad.prototype.initVao = function(shader)
  * @param targetTextureFrame {PIXI.Rectangle} the first rectangle
  * @param destinationFrame {PIXI.Rectangle} the second rectangle
  */
-Quad.prototype.map = function(targetTextureFrame, destinationFrame)
-{
+Quad.prototype.map = function (targetTextureFrame, destinationFrame) {
     var x = 0; //destinationFrame.x / targetTextureFrame.width;
     var y = 0; //destinationFrame.y / targetTextureFrame.height;
 
@@ -121,11 +118,8 @@ Quad.prototype.map = function(targetTextureFrame, destinationFrame)
 /**
  * Draws the quad
  */
-Quad.prototype.draw = function()
-{
-    this.vao.bind()
-    .draw(this.gl.TRIANGLES, 6, 0)
-    .unbind();
+Quad.prototype.draw = function () {
+    this.vao.bind().draw(this.gl.TRIANGLES, 6, 0).unbind();
 
     return this;
 };
@@ -133,13 +127,12 @@ Quad.prototype.draw = function()
 /**
  * Binds the buffer and uploads the data
  */
-Quad.prototype.upload = function()
-{
+Quad.prototype.upload = function () {
     for (var i = 0; i < 4; i++) {
-        this.interleaved[i*4] = this.vertices[(i*2)];
-        this.interleaved[(i*4)+1] = this.vertices[(i*2)+1];
-        this.interleaved[(i*4)+2] = this.uvs[i*2];
-        this.interleaved[(i*4)+3] = this.uvs[(i*2)+1];
+        this.interleaved[i * 4] = this.vertices[i * 2];
+        this.interleaved[i * 4 + 1] = this.vertices[i * 2 + 1];
+        this.interleaved[i * 4 + 2] = this.uvs[i * 2];
+        this.interleaved[i * 4 + 3] = this.uvs[i * 2 + 1];
     }
 
     this.vertexBuffer.upload(this.interleaved);
@@ -150,12 +143,11 @@ Quad.prototype.upload = function()
 /**
  * Removes this quad from WebGL
  */
-Quad.prototype.destroy = function()
-{
+Quad.prototype.destroy = function () {
     var gl = this.gl;
 
-     gl.deleteBuffer(this.vertexBuffer);
-     gl.deleteBuffer(this.indexBuffer);
+    gl.deleteBuffer(this.vertexBuffer);
+    gl.deleteBuffer(this.indexBuffer);
 };
 
 var exported_Quad = Quad;
@@ -168,4 +160,4 @@ var exported_Quad = Quad;
  * @param gl {WebGLRenderingContext} The gl context for this quad to use.
  * @param state {object} TODO: Description
  */
-export { exported_Quad as Quad };
+exports.Quad = exported_Quad;

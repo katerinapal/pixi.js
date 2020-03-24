@@ -1,21 +1,35 @@
-import { FXAAFilterjs as fxaaFXAAFilter_FXAAFilterjs } from "./fxaa/FXAAFilter";
-import { NoiseFilterjs as noiseNoiseFilter_NoiseFilterjs } from "./noise/NoiseFilter";
-import {  DisplacementFilterjs as displacementDisplacementFilter_DisplacementFilterjs, } from "./displacement/DisplacementFilter";
-import { BlurFilterjs as blurBlurFilter_BlurFilterjs } from "./blur/BlurFilter";
-import { BlurXFilterjs as blurBlurXFilter_BlurXFilterjs } from "./blur/BlurXFilter";
-import { BlurYFilterjs as blurBlurYFilter_BlurYFilterjs } from "./blur/BlurYFilter";
-import { ColorMatrixFilterjs as colormatrixColorMatrixFilter_ColorMatrixFilterjs } from "./colormatrix/ColorMatrixFilter";
-import { VoidFilterjs as voidVoidFilter_VoidFilterjs } from "./void/VoidFilter";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.indexjs = undefined;
+
+var _FXAAFilter = require("./fxaa/FXAAFilter");
+
+var _NoiseFilter = require("./noise/NoiseFilter");
+
+var _DisplacementFilter = require("./displacement/DisplacementFilter");
+
+var _BlurFilter = require("./blur/BlurFilter");
+
+var _BlurXFilter = require("./blur/BlurXFilter");
+
+var _BlurYFilter = require("./blur/BlurYFilter");
+
+var _ColorMatrixFilter = require("./colormatrix/ColorMatrixFilter");
+
+var _VoidFilter = require("./void/VoidFilter");
 
 var indexjs_indexjs = {
-    FXAAFilter:          fxaaFXAAFilter_FXAAFilterjs,
-    NoiseFilter:        noiseNoiseFilter_NoiseFilterjs,
-    DisplacementFilter: displacementDisplacementFilter_DisplacementFilterjs,
-    BlurFilter:         blurBlurFilter_BlurFilterjs,
-    BlurXFilter:        blurBlurXFilter_BlurXFilterjs,
-    BlurYFilter:        blurBlurYFilter_BlurYFilterjs,
-    ColorMatrixFilter:  colormatrixColorMatrixFilter_ColorMatrixFilterjs,
-    VoidFilter:         voidVoidFilter_VoidFilterjs
+    FXAAFilter: _FXAAFilter.FXAAFilterjs,
+    NoiseFilter: _NoiseFilter.NoiseFilterjs,
+    DisplacementFilter: _DisplacementFilter.DisplacementFilterjs,
+    BlurFilter: _BlurFilter.BlurFilterjs,
+    BlurXFilter: _BlurXFilter.BlurXFilterjs,
+    BlurYFilter: _BlurYFilter.BlurYFilterjs,
+    ColorMatrixFilter: _ColorMatrixFilter.ColorMatrixFilterjs,
+    VoidFilter: _VoidFilter.VoidFilterjs
 };
 
-export { indexjs_indexjs as indexjs };
+exports.indexjs = indexjs_indexjs;

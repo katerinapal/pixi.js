@@ -1,4 +1,12 @@
-import { Point as Point_Pointjs } from "./Point";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Matrix = undefined;
+
+var _Point = require("./Point");
+
 function Matrix() {
     /**
      * @member {number}
@@ -53,8 +61,7 @@ Matrix.prototype.constructor = Matrix;
  *
  * @param array {number[]} The array that the matrix will be populated from.
  */
-Matrix.prototype.fromArray = function (array)
-{
+Matrix.prototype.fromArray = function (array) {
     this.a = array[0];
     this.b = array[1];
     this.c = array[3];
@@ -62,7 +69,6 @@ Matrix.prototype.fromArray = function (array)
     this.tx = array[2];
     this.ty = array[5];
 };
-
 
 /**
  * sets the matrix properties
@@ -76,8 +82,7 @@ Matrix.prototype.fromArray = function (array)
  *
  * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
  */
-Matrix.prototype.set = function (a, b, c, d, tx, ty)
-{
+Matrix.prototype.set = function (a, b, c, d, tx, ty) {
     this.a = a;
     this.b = b;
     this.c = c;
@@ -88,7 +93,6 @@ Matrix.prototype.set = function (a, b, c, d, tx, ty)
     return this;
 };
 
-
 /**
  * Creates an array from the current Matrix object.
  *
@@ -96,17 +100,14 @@ Matrix.prototype.set = function (a, b, c, d, tx, ty)
  * @param [out=new Float32Array(9)] {Float32Array} If provided the array will be assigned to out
  * @return {number[]} the newly created array which contains the matrix
  */
-Matrix.prototype.toArray = function (transpose, out)
-{
-    if (!this.array)
-    {
+Matrix.prototype.toArray = function (transpose, out) {
+    if (!this.array) {
         this.array = new Float32Array(9);
     }
 
     var array = out || this.array;
 
-    if (transpose)
-    {
+    if (transpose) {
         array[0] = this.a;
         array[1] = this.b;
         array[2] = 0;
@@ -116,9 +117,7 @@ Matrix.prototype.toArray = function (transpose, out)
         array[6] = this.tx;
         array[7] = this.ty;
         array[8] = 1;
-    }
-    else
-    {
+    } else {
         array[0] = this.a;
         array[1] = this.c;
         array[2] = this.tx;
@@ -141,9 +140,8 @@ Matrix.prototype.toArray = function (transpose, out)
  * @param [newPos] {PIXI.Point} The point that the new position is assigned to (allowed to be same as input)
  * @return {PIXI.Point} The new point, transformed through this matrix
  */
-Matrix.prototype.apply = function (pos, newPos)
-{
-    newPos = newPos || new Point_Pointjs();
+Matrix.prototype.apply = function (pos, newPos) {
+    newPos = newPos || new _Point.Point();
 
     var x = pos.x;
     var y = pos.y;
@@ -162,9 +160,8 @@ Matrix.prototype.apply = function (pos, newPos)
  * @param [newPos] {PIXI.Point} The point that the new position is assigned to (allowed to be same as input)
  * @return {PIXI.Point} The new point, inverse-transformed through this matrix
  */
-Matrix.prototype.applyInverse = function (pos, newPos)
-{
-    newPos = newPos || new Point_Pointjs();
+Matrix.prototype.applyInverse = function (pos, newPos) {
+    newPos = newPos || new _Point.Point();
 
     var id = 1 / (this.a * this.d + this.c * -this.b);
 
@@ -184,8 +181,7 @@ Matrix.prototype.applyInverse = function (pos, newPos)
  * @param {number} y How much to translate y by
  * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
  */
-Matrix.prototype.translate = function (x, y)
-{
+Matrix.prototype.translate = function (x, y) {
     this.tx += x;
     this.ty += y;
 
@@ -199,8 +195,7 @@ Matrix.prototype.translate = function (x, y)
  * @param {number} y The amount to scale vertically
  * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
  */
-Matrix.prototype.scale = function (x, y)
-{
+Matrix.prototype.scale = function (x, y) {
     this.a *= x;
     this.d *= y;
     this.c *= x;
@@ -211,26 +206,24 @@ Matrix.prototype.scale = function (x, y)
     return this;
 };
 
-
 /**
  * Applies a rotation transformation to the matrix.
  *
  * @param {number} angle - The angle in radians.
  * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
  */
-Matrix.prototype.rotate = function (angle)
-{
-    var cos = Math.cos( angle );
-    var sin = Math.sin( angle );
+Matrix.prototype.rotate = function (angle) {
+    var cos = Math.cos(angle);
+    var sin = Math.sin(angle);
 
     var a1 = this.a;
     var c1 = this.c;
     var tx1 = this.tx;
 
-    this.a = a1 * cos-this.b * sin;
-    this.b = a1 * sin+this.b * cos;
-    this.c = c1 * cos-this.d * sin;
-    this.d = c1 * sin+this.d * cos;
+    this.a = a1 * cos - this.b * sin;
+    this.b = a1 * sin + this.b * cos;
+    this.c = c1 * cos - this.d * sin;
+    this.d = c1 * sin + this.d * cos;
     this.tx = tx1 * cos - this.ty * sin;
     this.ty = tx1 * sin + this.ty * cos;
 
@@ -243,17 +236,16 @@ Matrix.prototype.rotate = function (angle)
  * @param {PIXI.Matrix} matrix
  * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
  */
-Matrix.prototype.append = function (matrix)
-{
+Matrix.prototype.append = function (matrix) {
     var a1 = this.a;
     var b1 = this.b;
     var c1 = this.c;
     var d1 = this.d;
 
-    this.a  = matrix.a * a1 + matrix.b * c1;
-    this.b  = matrix.a * b1 + matrix.b * d1;
-    this.c  = matrix.c * a1 + matrix.d * c1;
-    this.d  = matrix.c * b1 + matrix.d * d1;
+    this.a = matrix.a * a1 + matrix.b * c1;
+    this.b = matrix.a * b1 + matrix.b * d1;
+    this.c = matrix.c * a1 + matrix.d * c1;
+    this.d = matrix.c * b1 + matrix.d * d1;
 
     this.tx = matrix.tx * a1 + matrix.ty * c1 + this.tx;
     this.ty = matrix.tx * b1 + matrix.ty * d1 + this.ty;
@@ -276,29 +268,28 @@ Matrix.prototype.append = function (matrix)
  *
  * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
  */
-Matrix.prototype.setTransform = function (x, y, pivotX, pivotY, scaleX, scaleY, rotation, skewX, skewY)
-{
+Matrix.prototype.setTransform = function (x, y, pivotX, pivotY, scaleX, scaleY, rotation, skewX, skewY) {
     var a, b, c, d, sr, cr, cy, sy, nsx, cx;
 
-    sr  = Math.sin(rotation);
-    cr  = Math.cos(rotation);
-    cy  = Math.cos(skewY);
-    sy  = Math.sin(skewY);
+    sr = Math.sin(rotation);
+    cr = Math.cos(rotation);
+    cy = Math.cos(skewY);
+    sy = Math.sin(skewY);
     nsx = -Math.sin(skewX);
-    cx  =  Math.cos(skewX);
+    cx = Math.cos(skewX);
 
-    a  =  cr * scaleX;
-    b  =  sr * scaleX;
-    c  = -sr * scaleY;
-    d  =  cr * scaleY;
+    a = cr * scaleX;
+    b = sr * scaleX;
+    c = -sr * scaleY;
+    d = cr * scaleY;
 
-    this.a  = cy * a + sy * c;
-    this.b  = cy * b + sy * d;
-    this.c  = nsx * a + cx * c;
-    this.d  = nsx * b + cx * d;
+    this.a = cy * a + sy * c;
+    this.b = cy * b + sy * d;
+    this.c = nsx * a + cx * c;
+    this.d = nsx * b + cx * d;
 
-    this.tx = x + ( pivotX * a + pivotY * c );
-    this.ty = y + ( pivotX * b + pivotY * d );
+    this.tx = x + (pivotX * a + pivotY * c);
+    this.ty = y + (pivotX * b + pivotY * d);
 
     return this;
 };
@@ -309,22 +300,20 @@ Matrix.prototype.setTransform = function (x, y, pivotX, pivotY, scaleX, scaleY, 
  * @param {PIXI.Matrix} matrix
  * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
  */
-Matrix.prototype.prepend = function(matrix)
-{
+Matrix.prototype.prepend = function (matrix) {
     var tx1 = this.tx;
 
-    if (matrix.a !== 1 || matrix.b !== 0 || matrix.c !== 0 || matrix.d !== 1)
-    {
+    if (matrix.a !== 1 || matrix.b !== 0 || matrix.c !== 0 || matrix.d !== 1) {
         var a1 = this.a;
         var c1 = this.c;
-        this.a  = a1*matrix.a+this.b*matrix.c;
-        this.b  = a1*matrix.b+this.b*matrix.d;
-        this.c  = c1*matrix.a+this.d*matrix.c;
-        this.d  = c1*matrix.b+this.d*matrix.d;
+        this.a = a1 * matrix.a + this.b * matrix.c;
+        this.b = a1 * matrix.b + this.b * matrix.d;
+        this.c = c1 * matrix.a + this.d * matrix.c;
+        this.d = c1 * matrix.b + this.d * matrix.d;
     }
 
-    this.tx = tx1*matrix.a+this.ty*matrix.c+matrix.tx;
-    this.ty = tx1*matrix.b+this.ty*matrix.d+matrix.ty;
+    this.tx = tx1 * matrix.a + this.ty * matrix.c + matrix.tx;
+    this.ty = tx1 * matrix.b + this.ty * matrix.d + matrix.ty;
 
     return this;
 };
@@ -334,8 +323,7 @@ Matrix.prototype.prepend = function(matrix)
  * @param transform {PIXI.Transform|PIXI.TransformStatic} the transform to apply the properties to.
  * @return {PIXI.Transform|PIXI.TransformStatic} The transform with the newly applied properies
 */
-Matrix.prototype.decompose = function(transform)
-{
+Matrix.prototype.decompose = function (transform) {
     // sort out rotation / skew..
     var a = this.a,
         b = this.b,
@@ -345,22 +333,17 @@ Matrix.prototype.decompose = function(transform)
     var skewX = Math.atan2(-c, d);
     var skewY = Math.atan2(b, a);
 
-    var delta = Math.abs(1-skewX/skewY);
+    var delta = Math.abs(1 - skewX / skewY);
 
-    if (delta < 0.00001)
-    {
+    if (delta < 0.00001) {
         transform.rotation = skewY;
 
-        if (a < 0 && d >= 0)
-        {
-            transform.rotation += (transform.rotation <= 0) ? Math.PI : -Math.PI;
+        if (a < 0 && d >= 0) {
+            transform.rotation += transform.rotation <= 0 ? Math.PI : -Math.PI;
         }
 
         transform.skew.x = transform.skew.y = 0;
-
-    }
-    else
-    {
+    } else {
         transform.skew.x = skewX;
         transform.skew.y = skewY;
     }
@@ -376,39 +359,35 @@ Matrix.prototype.decompose = function(transform)
     return transform;
 };
 
-
 /**
  * Inverts this matrix
  *
  * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
  */
-Matrix.prototype.invert = function()
-{
+Matrix.prototype.invert = function () {
     var a1 = this.a;
     var b1 = this.b;
     var c1 = this.c;
     var d1 = this.d;
     var tx1 = this.tx;
-    var n = a1*d1-b1*c1;
+    var n = a1 * d1 - b1 * c1;
 
-    this.a = d1/n;
-    this.b = -b1/n;
-    this.c = -c1/n;
-    this.d = a1/n;
-    this.tx = (c1*this.ty-d1*tx1)/n;
-    this.ty = -(a1*this.ty-b1*tx1)/n;
+    this.a = d1 / n;
+    this.b = -b1 / n;
+    this.c = -c1 / n;
+    this.d = a1 / n;
+    this.tx = (c1 * this.ty - d1 * tx1) / n;
+    this.ty = -(a1 * this.ty - b1 * tx1) / n;
 
     return this;
 };
-
 
 /**
  * Resets this Matix to an identity (default) matrix.
  *
  * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
  */
-Matrix.prototype.identity = function ()
-{
+Matrix.prototype.identity = function () {
     this.a = 1;
     this.b = 0;
     this.c = 0;
@@ -424,8 +403,7 @@ Matrix.prototype.identity = function ()
  *
  * @return {PIXI.Matrix} A copy of this matrix. Good for chaining method calls.
  */
-Matrix.prototype.clone = function ()
-{
+Matrix.prototype.clone = function () {
     var matrix = new Matrix();
     matrix.a = this.a;
     matrix.b = this.b;
@@ -442,8 +420,7 @@ Matrix.prototype.clone = function ()
  *
  * @return {PIXI.Matrix} The matrix given in parameter with its values updated.
  */
-Matrix.prototype.copy = function (matrix)
-{
+Matrix.prototype.copy = function (matrix) {
     matrix.a = this.a;
     matrix.b = this.b;
     matrix.c = this.c;
@@ -481,4 +458,4 @@ var exported_Matrix = Matrix;
  * @class
  * @memberof PIXI
  */
-export { exported_Matrix as Matrix };
+exports.Matrix = exported_Matrix;

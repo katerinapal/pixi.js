@@ -1,17 +1,32 @@
-import { loaderjs as loader_loaderjs } from "./loader";
-import { bitmapFontParserjs as bitmapFontParser_bitmapFontParserjs } from "./bitmapFontParser";
-import { spritesheetParserjs as spritesheetParser_spritesheetParserjs } from "./spritesheetParser";
-import { textureParserjs as textureParser_textureParserjs } from "./textureParser";
-import resourceloader from "resource-loader";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.indexjs = undefined;
+
+var _loader = require("./loader");
+
+var _bitmapFontParser = require("./bitmapFontParser");
+
+var _spritesheetParser = require("./spritesheetParser");
+
+var _textureParser = require("./textureParser");
+
+var _resourceLoader = require("resource-loader");
+
+var _resourceLoader2 = _interopRequireDefault(_resourceLoader);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var indexjs_indexjs = {
-    Loader:             loader_loaderjs,
+    Loader: _loader.loaderjs,
 
     // parsers
-    bitmapFontParser:   bitmapFontParser_bitmapFontParserjs,
-    spritesheetParser:  spritesheetParser_spritesheetParserjs,
-    textureParser:      textureParser_textureParserjs,
-    Resource:           resourceloader.Resource
+    bitmapFontParser: _bitmapFontParser.bitmapFontParserjs,
+    spritesheetParser: _spritesheetParser.spritesheetParserjs,
+    textureParser: _textureParser.textureParserjs,
+    Resource: _resourceLoader2.default.Resource
 };
 
-export { indexjs_indexjs as indexjs };
+exports.indexjs = indexjs_indexjs;

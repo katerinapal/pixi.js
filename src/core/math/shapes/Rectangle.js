@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 function Rectangle(x, y, width, height) {
     /**
      * @member {number}
@@ -44,19 +49,16 @@ Rectangle.prototype.constructor = Rectangle;
  */
 Rectangle.EMPTY = new Rectangle(0, 0, 0, 0);
 
-
 /**
  * Creates a clone of this Rectangle
  *
  * @return {PIXI.Rectangle} a copy of the rectangle
  */
-Rectangle.prototype.clone = function ()
-{
+Rectangle.prototype.clone = function () {
     return new Rectangle(this.x, this.y, this.width, this.height);
 };
 
-Rectangle.prototype.copy = function (rectangle)
-{
+Rectangle.prototype.copy = function (rectangle) {
     this.x = rectangle.x;
     this.y = rectangle.y;
     this.width = rectangle.width;
@@ -72,17 +74,13 @@ Rectangle.prototype.copy = function (rectangle)
  * @param y {number} The Y coordinate of the point to test
  * @return {boolean} Whether the x/y coordinates are within this Rectangle
  */
-Rectangle.prototype.contains = function (x, y)
-{
-    if (this.width <= 0 || this.height <= 0)
-    {
+Rectangle.prototype.contains = function (x, y) {
+    if (this.width <= 0 || this.height <= 0) {
         return false;
     }
 
-    if (x >= this.x && x < this.x + this.width)
-    {
-        if (y >= this.y && y < this.y + this.height)
-        {
+    if (x >= this.x && x < this.x + this.width) {
+        if (y >= this.y && y < this.y + this.height) {
             return true;
         }
     }
@@ -90,10 +88,9 @@ Rectangle.prototype.contains = function (x, y)
     return false;
 };
 
-Rectangle.prototype.pad = function (paddingX, paddingY)
-{
+Rectangle.prototype.pad = function (paddingX, paddingY) {
     paddingX = paddingX || 0;
-    paddingY = paddingY || ( (paddingY !== 0) ? paddingX : 0 );
+    paddingY = paddingY || (paddingY !== 0 ? paddingX : 0);
 
     this.x -= paddingX;
     this.y -= paddingY;
@@ -102,49 +99,42 @@ Rectangle.prototype.pad = function (paddingX, paddingY)
     this.height += paddingY * 2;
 };
 
-Rectangle.prototype.fit = function (rectangle)
-{
-    if (this.x < rectangle.x)
-    {
+Rectangle.prototype.fit = function (rectangle) {
+    if (this.x < rectangle.x) {
         this.width += this.x;
-        if(this.width < 0) {
-          this.width = 0;
+        if (this.width < 0) {
+            this.width = 0;
         }
 
         this.x = rectangle.x;
     }
 
-    if (this.y < rectangle.y)
-    {
+    if (this.y < rectangle.y) {
         this.height += this.y;
-        if(this.height < 0) {
-          this.height = 0;
+        if (this.height < 0) {
+            this.height = 0;
         }
         this.y = rectangle.y;
     }
 
-    if ( this.x + this.width > rectangle.x + rectangle.width )
-    {
+    if (this.x + this.width > rectangle.x + rectangle.width) {
         this.width = rectangle.width - this.x;
-        if(this.width < 0) {
-          this.width = 0;
+        if (this.width < 0) {
+            this.width = 0;
         }
     }
 
-    if ( this.y + this.height > rectangle.y + rectangle.height )
-    {
+    if (this.y + this.height > rectangle.y + rectangle.height) {
         this.height = rectangle.height - this.y;
-        if(this.height < 0) {
-          this.height = 0;
+        if (this.height < 0) {
+            this.height = 0;
         }
     }
 };
 
-Rectangle.prototype.enlarge = function (rect)
-{
+Rectangle.prototype.enlarge = function (rect) {
 
-    if (rect === Rectangle.EMPTY)
-    {
+    if (rect === Rectangle.EMPTY) {
         return;
     }
 
@@ -169,4 +159,4 @@ var exported_Rectangle = Rectangle;
  * @param width {number} The overall width of this rectangle
  * @param height {number} The overall height of this rectangle
  */
-export { exported_Rectangle as Rectangle };
+exports.Rectangle = exported_Rectangle;

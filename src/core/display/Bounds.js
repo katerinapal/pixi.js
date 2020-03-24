@@ -1,5 +1,13 @@
-import { indexjs as math_indexjsjs } from "../math";
-var Rectangle = math_indexjsjs.Rectangle;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Bounds = undefined;
+
+var _math = require("../math");
+
+var Rectangle = _math.indexjs.Rectangle;
 
 function Bounds() {
     /**
@@ -31,13 +39,11 @@ function Bounds() {
 
 Bounds.prototype.constructor = Bounds;
 
-Bounds.prototype.isEmpty = function()
-{
+Bounds.prototype.isEmpty = function () {
     return this.minX > this.maxX || this.minY > this.maxY;
 };
 
-Bounds.prototype.clear = function()
-{
+Bounds.prototype.clear = function () {
     this.updateID++;
 
     this.minX = Infinity;
@@ -52,8 +58,7 @@ Bounds.prototype.clear = function()
  * @param tempRect {PIXI.Rectangle} temporary object will be used if AABB is not empty
  * @returns {PIXI.Rectangle}
  */
-Bounds.prototype.getRectangle = function(rect)
-{
+Bounds.prototype.getRectangle = function (rect) {
     if (this.minX > this.maxX || this.minY > this.maxY) {
         return Rectangle.EMPTY;
     }
@@ -72,8 +77,7 @@ Bounds.prototype.getRectangle = function(rect)
  * This function should be inlined when its possible
  * @param point {PIXI.Point}
  */
-Bounds.prototype.addPoint = function (point)
-{
+Bounds.prototype.addPoint = function (point) {
     this.minX = Math.min(this.minX, point.x);
     this.maxX = Math.max(this.maxX, point.x);
     this.minY = Math.min(this.minY, point.y);
@@ -85,9 +89,11 @@ Bounds.prototype.addPoint = function (point)
  * @param vertices {Float32Array}
  * @returns {PIXI.Bounds}
  */
-Bounds.prototype.addQuad = function(vertices)
-{
-    var minX = this.minX, minY = this.minY, maxX = this.maxX, maxY = this.maxY;
+Bounds.prototype.addQuad = function (vertices) {
+    var minX = this.minX,
+        minY = this.minY,
+        maxX = this.maxX,
+        maxY = this.maxY;
 
     var x = vertices[0];
     var y = vertices[1];
@@ -131,11 +137,18 @@ Bounds.prototype.addQuad = function(vertices)
  * @param x1 {number}
  * @param y1 {number}
  */
-Bounds.prototype.addFrame = function(transform, x0, y0, x1, y1)
-{
+Bounds.prototype.addFrame = function (transform, x0, y0, x1, y1) {
     var matrix = transform.worldTransform;
-    var a = matrix.a, b = matrix.b, c = matrix.c, d = matrix.d, tx = matrix.tx, ty = matrix.ty;
-    var minX = this.minX, minY = this.minY, maxX = this.maxX, maxY = this.maxY;
+    var a = matrix.a,
+        b = matrix.b,
+        c = matrix.c,
+        d = matrix.d,
+        tx = matrix.tx,
+        ty = matrix.ty;
+    var minX = this.minX,
+        minY = this.minY,
+        maxX = this.maxX,
+        maxY = this.maxY;
 
     var x = a * x0 + c * y0 + tx;
     var y = b * x0 + d * y0 + ty;
@@ -178,17 +191,24 @@ Bounds.prototype.addFrame = function(transform, x0, y0, x1, y1)
  * @param beginOffset {number}
  * @param endOffset {number}
  */
-Bounds.prototype.addVertices = function(transform, vertices, beginOffset, endOffset)
-{
+Bounds.prototype.addVertices = function (transform, vertices, beginOffset, endOffset) {
     var matrix = transform.worldTransform;
-    var a = matrix.a, b = matrix.b, c = matrix.c, d = matrix.d, tx = matrix.tx, ty = matrix.ty;
-    var minX = this.minX, minY = this.minY, maxX = this.maxX, maxY = this.maxY;
+    var a = matrix.a,
+        b = matrix.b,
+        c = matrix.c,
+        d = matrix.d,
+        tx = matrix.tx,
+        ty = matrix.ty;
+    var minX = this.minX,
+        minY = this.minY,
+        maxX = this.maxX,
+        maxY = this.maxY;
 
-    for (var i = beginOffset; i < endOffset; i += 2)
-    {
-        var rawX = vertices[i], rawY = vertices[i + 1];
-        var x = (a * rawX) + (c * rawY) + tx;
-        var y = (d * rawY) + (b * rawX) + ty;
+    for (var i = beginOffset; i < endOffset; i += 2) {
+        var rawX = vertices[i],
+            rawY = vertices[i + 1];
+        var x = a * rawX + c * rawY + tx;
+        var y = d * rawY + b * rawX + ty;
 
         minX = x < minX ? x : minX;
         minY = y < minY ? y : minY;
@@ -202,9 +222,11 @@ Bounds.prototype.addVertices = function(transform, vertices, beginOffset, endOff
     this.maxY = maxY;
 };
 
-Bounds.prototype.addBounds = function(bounds)
-{
-    var minX = this.minX, minY = this.minY, maxX = this.maxX, maxY = this.maxY;
+Bounds.prototype.addBounds = function (bounds) {
+    var minX = this.minX,
+        minY = this.minY,
+        maxX = this.maxX,
+        maxY = this.maxY;
 
     this.minX = bounds.minX < minX ? bounds.minX : minX;
     this.minY = bounds.minY < minY ? bounds.minY : minY;
@@ -221,4 +243,4 @@ var exported_Bounds = Bounds;
  * @class
  * @memberof PIXI
  */
-export { exported_Bounds as Bounds };
+exports.Bounds = exported_Bounds;

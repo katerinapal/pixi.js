@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 function RoundedRectangle(x, y, width, height, radius) {
     /**
      * @member {number}
@@ -47,8 +52,7 @@ RoundedRectangle.prototype.constructor = RoundedRectangle;
  *
  * @return {PIXI.RoundedRectangle} a copy of the rounded rectangle
  */
-RoundedRectangle.prototype.clone = function ()
-{
+RoundedRectangle.prototype.clone = function () {
     return new RoundedRectangle(this.x, this.y, this.width, this.height, this.radius);
 };
 
@@ -59,17 +63,13 @@ RoundedRectangle.prototype.clone = function ()
  * @param y {number} The Y coordinate of the point to test
  * @return {boolean} Whether the x/y coordinates are within this Rounded Rectangle
  */
-RoundedRectangle.prototype.contains = function (x, y)
-{
-    if (this.width <= 0 || this.height <= 0)
-    {
+RoundedRectangle.prototype.contains = function (x, y) {
+    if (this.width <= 0 || this.height <= 0) {
         return false;
     }
 
-    if (x >= this.x && x <= this.x + this.width)
-    {
-        if (y >= this.y && y <= this.y + this.height)
-        {
+    if (x >= this.x && x <= this.x + this.width) {
+        if (y >= this.y && y <= this.y + this.height) {
             return true;
         }
     }
@@ -89,4 +89,4 @@ var exported_RoundedRectangle = RoundedRectangle;
  * @param height {number} The overall height of this rounded rectangle
  * @param radius {number} Controls the radius of the rounded corners
  */
-export { exported_RoundedRectangle as RoundedRectangle };
+exports.RoundedRectangle = exported_RoundedRectangle;

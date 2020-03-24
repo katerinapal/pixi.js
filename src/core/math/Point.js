@@ -1,15 +1,20 @@
-function Point(x, y) {
-    /**
-     * @member {number}
-     * @default 0
-     */
-    this.x = x || 0;
+"use strict";
 
-    /**
-     * @member {number}
-     * @default 0
-     */
-    this.y = y || 0;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function Point(x, y) {
+  /**
+   * @member {number}
+   * @default 0
+   */
+  this.x = x || 0;
+
+  /**
+   * @member {number}
+   * @default 0
+   */
+  this.y = y || 0;
 }
 
 Point.prototype.constructor = Point;
@@ -19,9 +24,8 @@ Point.prototype.constructor = Point;
  *
  * @return {PIXI.Point} a copy of the point
  */
-Point.prototype.clone = function ()
-{
-    return new Point(this.x, this.y);
+Point.prototype.clone = function () {
+  return new Point(this.x, this.y);
 };
 
 /**
@@ -30,7 +34,7 @@ Point.prototype.clone = function ()
  * @param p {PIXI.Point}
  */
 Point.prototype.copy = function (p) {
-    this.set(p.x, p.y);
+  this.set(p.x, p.y);
 };
 
 /**
@@ -40,7 +44,7 @@ Point.prototype.copy = function (p) {
  * @returns {boolean} Whether the given point equal to this point
  */
 Point.prototype.equals = function (p) {
-    return (p.x === this.x) && (p.y === this.y);
+  return p.x === this.x && p.y === this.y;
 };
 
 /**
@@ -50,10 +54,9 @@ Point.prototype.equals = function (p) {
  * @param [x=0] {number} position of the point on the x axis
  * @param [y=0] {number} position of the point on the y axis
  */
-Point.prototype.set = function (x, y)
-{
-    this.x = x || 0;
-    this.y = y || ( (y !== 0) ? this.x : 0 ) ;
+Point.prototype.set = function (x, y) {
+  this.x = x || 0;
+  this.y = y || (y !== 0 ? this.x : 0);
 };
 var exported_Point = Point;
 
@@ -66,4 +69,4 @@ var exported_Point = Point;
  * @param [x=0] {number} position of the point on the x axis
  * @param [y=0] {number} position of the point on the y axis
  */
-export { exported_Point as Point };
+exports.Point = exported_Point;

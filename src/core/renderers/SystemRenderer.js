@@ -1,26 +1,36 @@
-import { indexjs as math_indexjsjs } from "../math";
-import { Container as displayContainer_Containerjs } from "../display/Container";
-import { RenderTexture as texturesRenderTexture_RenderTexturejs } from "../textures/RenderTexture";
-import EventEmitter from "eventemitter3";
-var tempMatrix = new math_indexjsjs.Matrix();
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.SystemRenderer = undefined;
+
+var _math = require("../math");
+
+var _Container = require("../display/Container");
+
+var _RenderTexture = require("../textures/RenderTexture");
+
+var _eventemitter = require("eventemitter3");
+
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var tempMatrix = new _math.indexjs.Matrix();
 function SystemRenderer(system, width, height, options) {
-    EventEmitter.call(this);
+    _eventemitter2.default.call(this);
 
     utils.sayHello(system);
 
     // prepare options
-    if (options)
-    {
-        for (var i in CONST.DEFAULT_RENDER_OPTIONS)
-        {
-            if (typeof options[i] === 'undefined')
-            {
+    if (options) {
+        for (var i in CONST.DEFAULT_RENDER_OPTIONS) {
+            if (typeof options[i] === 'undefined') {
                 options[i] = CONST.DEFAULT_RENDER_OPTIONS[i];
             }
         }
-    }
-    else
-    {
+    } else {
         options = CONST.DEFAULT_RENDER_OPTIONS;
     }
 
@@ -143,7 +153,7 @@ function SystemRenderer(system, width, height, options) {
      * @member {PIXI.DisplayObject}
      * @private
      */
-    this._tempDisplayObjectParent = new displayContainer_Containerjs();
+    this._tempDisplayObjectParent = new _Container.Container();
 
     /**
      * The last root object that the renderer tried to render.
@@ -155,7 +165,7 @@ function SystemRenderer(system, width, height, options) {
 }
 
 // constructor
-SystemRenderer.prototype = Object.create(EventEmitter.prototype);
+SystemRenderer.prototype = Object.create(_eventemitter2.default.prototype);
 SystemRenderer.prototype.constructor = SystemRenderer;
 
 Object.defineProperties(SystemRenderer.prototype, {
@@ -165,14 +175,11 @@ Object.defineProperties(SystemRenderer.prototype, {
      * @member {number}
      * @memberof PIXI.SystemRenderer#
      */
-    backgroundColor:
-    {
-        get: function ()
-        {
+    backgroundColor: {
+        get: function get() {
             return this._backgroundColor;
         },
-        set: function (val)
-        {
+        set: function set(val) {
             this._backgroundColor = val;
             this._backgroundColorString = utils.hex2string(val);
             utils.hex2rgb(val, this._backgroundColorRgba);
@@ -193,8 +200,7 @@ SystemRenderer.prototype.resize = function (width, height) {
     this.view.width = this.width;
     this.view.height = this.height;
 
-    if (this.autoResize)
-    {
+    if (this.autoResize) {
         this.view.style.width = this.width / this.resolution + 'px';
         this.view.style.height = this.height / this.resolution + 'px';
     }
@@ -213,7 +219,7 @@ SystemRenderer.prototype.generateTexture = function (displayObject, scaleMode, r
 
     var bounds = displayObject.getLocalBounds();
 
-    var renderTexture = texturesRenderTexture_RenderTexturejs.create(bounds.width | 0, bounds.height | 0, scaleMode, resolution);
+    var renderTexture = _RenderTexture.RenderTexture.create(bounds.width | 0, bounds.height | 0, scaleMode, resolution);
 
     tempMatrix.tx = -bounds.x;
     tempMatrix.ty = -bounds.y;
@@ -229,8 +235,7 @@ SystemRenderer.prototype.generateTexture = function (displayObject, scaleMode, r
  * @param [removeView=false] {boolean} Removes the Canvas element from the DOM.
  */
 SystemRenderer.prototype.destroy = function (removeView) {
-    if (removeView && this.view.parentNode)
-    {
+    if (removeView && this.view.parentNode) {
         this.view.parentNode.removeChild(this.view);
     }
 
@@ -284,4 +289,4 @@ var exported_SystemRenderer = SystemRenderer;
  * @param [options.backgroundColor=0x000000] {number} The background color of the rendered area (shown if not transparent).
  * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
  */
-export { exported_SystemRenderer as SystemRenderer };
+exports.SystemRenderer = exported_SystemRenderer;

@@ -1,6 +1,14 @@
-export var globalCancelAnimationFrame;
-export var globalRequestAnimationFrame;
-export var globalPerformance;
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.setGlobalPerformance = setGlobalPerformance;
+exports.setGlobalRequestAnimationFrame = setGlobalRequestAnimationFrame;
+exports.setGlobalCancelAnimationFrame = setGlobalCancelAnimationFrame;
+var globalCancelAnimationFrame = exports.globalCancelAnimationFrame = undefined;
+var globalRequestAnimationFrame = exports.globalRequestAnimationFrame = undefined;
+var globalPerformance = exports.globalPerformance = undefined;
 // References:
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // https://gist.github.com/1579671
@@ -23,7 +31,7 @@ if (!(Date.now && Date.prototype.getTime)) {
 if (!(global.performance && global.performance.now)) {
     var startTime = Date.now();
     if (!global.performance) {
-        globalPerformance = {};
+        exports.globalPerformance = globalPerformance = {};
     }
     global.performance.now = function () {
         return Date.now() - startTime;
@@ -34,14 +42,13 @@ if (!(global.performance && global.performance.now)) {
 var lastTime = Date.now();
 var vendors = ['ms', 'moz', 'webkit', 'o'];
 
-for(var x = 0; x < vendors.length && !global.requestAnimationFrame; ++x) {
-    globalRequestAnimationFrame = global[vendors[x] + 'RequestAnimationFrame'];
-    globalCancelAnimationFrame = global[vendors[x] + 'CancelAnimationFrame'] ||
-        global[vendors[x] + 'CancelRequestAnimationFrame'];
+for (var x = 0; x < vendors.length && !global.requestAnimationFrame; ++x) {
+    exports.globalRequestAnimationFrame = globalRequestAnimationFrame = global[vendors[x] + 'RequestAnimationFrame'];
+    exports.globalCancelAnimationFrame = globalCancelAnimationFrame = global[vendors[x] + 'CancelAnimationFrame'] || global[vendors[x] + 'CancelRequestAnimationFrame'];
 }
 
 if (!global.requestAnimationFrame) {
-    globalRequestAnimationFrame = function (callback) {
+    exports.globalRequestAnimationFrame = globalRequestAnimationFrame = function globalRequestAnimationFrame(callback) {
         if (typeof callback !== 'function') {
             throw new TypeError(callback + 'is not a function');
         }
@@ -63,19 +70,19 @@ if (!global.requestAnimationFrame) {
 }
 
 if (!global.cancelAnimationFrame) {
-    globalCancelAnimationFrame = function(id) {
+    exports.globalCancelAnimationFrame = globalCancelAnimationFrame = function globalCancelAnimationFrame(id) {
         clearTimeout(id);
     };
 }
 
-export function setGlobalPerformance(value) {
-    globalPerformance = value;
+function setGlobalPerformance(value) {
+    exports.globalPerformance = globalPerformance = value;
 }
 
-export function setGlobalRequestAnimationFrame(value) {
-    globalRequestAnimationFrame = value;
+function setGlobalRequestAnimationFrame(value) {
+    exports.globalRequestAnimationFrame = globalRequestAnimationFrame = value;
 }
 
-export function setGlobalCancelAnimationFrame(value) {
-    globalCancelAnimationFrame = value;
+function setGlobalCancelAnimationFrame(value) {
+    exports.globalCancelAnimationFrame = globalCancelAnimationFrame = value;
 }

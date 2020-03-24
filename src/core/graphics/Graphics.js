@@ -1,16 +1,36 @@
-import { Container as displayContainer_Containerjs } from "../display/Container";
-import { RenderTexture as texturesRenderTexture_RenderTexturejs } from "../textures/RenderTexture";
-import { Texture as texturesTexture_Texturejs } from "../textures/Texture";
-import { GraphicsData as GraphicsData_GraphicsDatajs } from "./GraphicsData";
-import { Sprite as spritesSprite_Spritejs } from "../sprites/Sprite";
-import { indexjs as math_indexjsjs } from "../math";
-import { Bounds as displayBounds_Boundsjs } from "../display/Bounds";
-import { bezierCurveTo as utilsbezierCurveTo_bezierCurveTojs } from "./utils/bezierCurveTo";
-import { CanvasRenderer as rendererscanvasCanvasRenderer_CanvasRendererjs } from "../renderers/canvas/CanvasRenderer";
-var canvasRenderer, tempMatrix = new math_indexjsjs.Matrix(), tempPoint = new math_indexjsjs.Point(), tempColor1 = new Float32Array(4), tempColor2 = new Float32Array(4);
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Graphics = undefined;
+
+var _Container = require("../display/Container");
+
+var _RenderTexture = require("../textures/RenderTexture");
+
+var _Texture = require("../textures/Texture");
+
+var _GraphicsData = require("./GraphicsData");
+
+var _Sprite = require("../sprites/Sprite");
+
+var _math = require("../math");
+
+var _Bounds = require("../display/Bounds");
+
+var _bezierCurveTo = require("./utils/bezierCurveTo");
+
+var _CanvasRenderer = require("../renderers/canvas/CanvasRenderer");
+
+var canvasRenderer,
+    tempMatrix = new _math.indexjs.Matrix(),
+    tempPoint = new _math.indexjs.Point(),
+    tempColor1 = new Float32Array(4),
+    tempColor2 = new Float32Array(4);
 
 function Graphics() {
-    displayContainer_Containerjs.call(this);
+    _Container.Container.call(this);
 
     /**
      * The alpha value used when filling the Graphics object.
@@ -107,7 +127,7 @@ function Graphics() {
      * @member {PIXI.Rectangle}
      * @private
      */
-    this._localBounds = new displayBounds_Boundsjs();
+    this._localBounds = new _Bounds.Bounds();
 
     /**
      * Used to detect if the graphics object has changed. If this is set to true then the graphics
@@ -144,7 +164,6 @@ function Graphics() {
      */
     this.cachedSpriteDirty = false;
 
-
     this._spriteRect = null;
     this._fastRect = false;
 
@@ -165,7 +184,7 @@ function Graphics() {
 Graphics._SPRITE_TEXTURE = null;
 
 // constructor
-Graphics.prototype = Object.create(displayContainer_Containerjs.prototype);
+Graphics.prototype = Object.create(_Container.Container.prototype);
 Graphics.prototype.constructor = Graphics;
 
 /**
@@ -174,24 +193,22 @@ Graphics.prototype.constructor = Graphics;
  *
  * @return {PIXI.Graphics} A clone of the graphics object
  */
-Graphics.prototype.clone = function ()
-{
+Graphics.prototype.clone = function () {
     var clone = new Graphics();
 
-    clone.renderable    = this.renderable;
-    clone.fillAlpha     = this.fillAlpha;
-    clone.lineWidth     = this.lineWidth;
-    clone.lineColor     = this.lineColor;
-    clone.tint          = this.tint;
-    clone.blendMode     = this.blendMode;
-    clone.isMask        = this.isMask;
+    clone.renderable = this.renderable;
+    clone.fillAlpha = this.fillAlpha;
+    clone.lineWidth = this.lineWidth;
+    clone.lineColor = this.lineColor;
+    clone.tint = this.tint;
+    clone.blendMode = this.blendMode;
+    clone.isMask = this.isMask;
     clone.boundsPadding = this.boundsPadding;
-    clone.dirty         = 0;
+    clone.dirty = 0;
     clone.cachedSpriteDirty = this.cachedSpriteDirty;
 
     // copy graphics data
-    for (var i = 0; i < this.graphicsData.length; ++i)
-    {
+    for (var i = 0; i < this.graphicsData.length; ++i) {
         clone.graphicsData.push(this.graphicsData[i].clone());
     }
 
@@ -210,23 +227,18 @@ Graphics.prototype.clone = function ()
  * @param alpha {number} alpha of the line to draw, will update the objects stored style
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.lineStyle = function (lineWidth, color, alpha)
-{
+Graphics.prototype.lineStyle = function (lineWidth, color, alpha) {
     this.lineWidth = lineWidth || 0;
     this.lineColor = color || 0;
-    this.lineAlpha = (alpha === undefined) ? 1 : alpha;
+    this.lineAlpha = alpha === undefined ? 1 : alpha;
 
-    if (this.currentPath)
-    {
-        if (this.currentPath.shape.points.length)
-        {
+    if (this.currentPath) {
+        if (this.currentPath.shape.points.length) {
             // halfway through a line? start a new one!
-            var shape = new math_indexjsjs.Polygon(this.currentPath.shape.points.slice(-2));
+            var shape = new _math.indexjs.Polygon(this.currentPath.shape.points.slice(-2));
             shape.closed = false;
             this.drawShape(shape);
-        }
-        else
-        {
+        } else {
             // otherwise its empty so lets just set the line properties
             this.currentPath.lineWidth = this.lineWidth;
             this.currentPath.lineColor = this.lineColor;
@@ -244,9 +256,8 @@ Graphics.prototype.lineStyle = function (lineWidth, color, alpha)
  * @param y {number} the Y coordinate to move to
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.moveTo = function (x, y)
-{
-    var shape = new math_indexjsjs.Polygon([x,y]);
+Graphics.prototype.moveTo = function (x, y) {
+    var shape = new _math.indexjs.Polygon([x, y]);
     shape.closed = false;
     this.drawShape(shape);
 
@@ -261,8 +272,7 @@ Graphics.prototype.moveTo = function (x, y)
  * @param y {number} the Y coordinate to draw to
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.lineTo = function (x, y)
-{
+Graphics.prototype.lineTo = function (x, y) {
     this.currentPath.shape.points.push(x, y);
     this.dirty++;
 
@@ -279,44 +289,35 @@ Graphics.prototype.lineTo = function (x, y)
  * @param toY {number} Destination point y
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.quadraticCurveTo = function (cpX, cpY, toX, toY)
-{
-    if (this.currentPath)
-    {
-        if (this.currentPath.shape.points.length === 0)
-        {
+Graphics.prototype.quadraticCurveTo = function (cpX, cpY, toX, toY) {
+    if (this.currentPath) {
+        if (this.currentPath.shape.points.length === 0) {
             this.currentPath.shape.points = [0, 0];
         }
+    } else {
+        this.moveTo(0, 0);
     }
-    else
-    {
-        this.moveTo(0,0);
-    }
-
 
     var xa,
         ya,
         n = 20,
         points = this.currentPath.shape.points;
 
-    if (points.length === 0)
-    {
+    if (points.length === 0) {
         this.moveTo(0, 0);
     }
 
-    var fromX = points[points.length-2];
-    var fromY = points[points.length-1];
+    var fromX = points[points.length - 2];
+    var fromY = points[points.length - 1];
 
     var j = 0;
-    for (var i = 1; i <= n; ++i)
-    {
+    for (var i = 1; i <= n; ++i) {
         j = i / n;
 
-        xa = fromX + ( (cpX - fromX) * j );
-        ya = fromY + ( (cpY - fromY) * j );
+        xa = fromX + (cpX - fromX) * j;
+        ya = fromY + (cpY - fromY) * j;
 
-        points.push( xa + ( ((cpX + ( (toX - cpX) * j )) - xa) * j ),
-                     ya + ( ((cpY + ( (toY - cpY) * j )) - ya) * j ) );
+        points.push(xa + (cpX + (toX - cpX) * j - xa) * j, ya + (cpY + (toY - cpY) * j - ya) * j);
     }
 
     this.dirty++;
@@ -335,28 +336,23 @@ Graphics.prototype.quadraticCurveTo = function (cpX, cpY, toX, toY)
  * @param toY {number} Destination point y
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.bezierCurveTo = function (cpX, cpY, cpX2, cpY2, toX, toY)
-{
-    if (this.currentPath)
-    {
-        if (this.currentPath.shape.points.length === 0)
-        {
+Graphics.prototype.bezierCurveTo = function (cpX, cpY, cpX2, cpY2, toX, toY) {
+    if (this.currentPath) {
+        if (this.currentPath.shape.points.length === 0) {
             this.currentPath.shape.points = [0, 0];
         }
-    }
-    else
-    {
-        this.moveTo(0,0);
+    } else {
+        this.moveTo(0, 0);
     }
 
     var points = this.currentPath.shape.points;
 
-    var fromX = points[points.length-2];
-    var fromY = points[points.length-1];
+    var fromX = points[points.length - 2];
+    var fromY = points[points.length - 1];
 
     points.length -= 2;
 
-    utilsbezierCurveTo_bezierCurveTojs(fromX, fromY, cpX, cpY, cpX2, cpY2, toX, toY, points);
+    (0, _bezierCurveTo.bezierCurveTo)(fromX, fromY, cpX, cpY, cpX2, cpY2, toX, toY, points);
 
     this.dirty++;
 
@@ -375,38 +371,29 @@ Graphics.prototype.bezierCurveTo = function (cpX, cpY, cpX2, cpY2, toX, toY)
  * @param radius {number} The radius of the arc
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.arcTo = function (x1, y1, x2, y2, radius)
-{
-    if (this.currentPath)
-    {
-        if (this.currentPath.shape.points.length === 0)
-        {
+Graphics.prototype.arcTo = function (x1, y1, x2, y2, radius) {
+    if (this.currentPath) {
+        if (this.currentPath.shape.points.length === 0) {
             this.currentPath.shape.points.push(x1, y1);
         }
-    }
-    else
-    {
+    } else {
         this.moveTo(x1, y1);
     }
 
     var points = this.currentPath.shape.points,
-        fromX = points[points.length-2],
-        fromY = points[points.length-1],
+        fromX = points[points.length - 2],
+        fromY = points[points.length - 1],
         a1 = fromY - y1,
         b1 = fromX - x1,
-        a2 = y2   - y1,
-        b2 = x2   - x1,
+        a2 = y2 - y1,
+        b2 = x2 - x1,
         mm = Math.abs(a1 * b2 - b1 * a2);
 
-    if (mm < 1.0e-8 || radius === 0)
-    {
-        if (points[points.length-2] !== x1 || points[points.length-1] !== y1)
-        {
+    if (mm < 1.0e-8 || radius === 0) {
+        if (points[points.length - 2] !== x1 || points[points.length - 1] !== y1) {
             points.push(x1, y1);
         }
-    }
-    else
-    {
+    } else {
         var dd = a1 * a1 + b1 * b1,
             cc = a2 * a2 + b2 * b2,
             tt = a1 * a2 + b1 * b2,
@@ -421,7 +408,7 @@ Graphics.prototype.arcTo = function (x1, y1, x2, y2, radius)
             qx = b2 * (k1 + j2),
             qy = a2 * (k1 + j2),
             startAngle = Math.atan2(py - cy, px - cx),
-            endAngle   = Math.atan2(qy - cy, qx - cx);
+            endAngle = Math.atan2(qy - cy, qx - cx);
 
         this.arc(cx + x1, cy + y1, radius, startAngle, endAngle, b1 * a2 > b2 * a1);
     }
@@ -442,68 +429,56 @@ Graphics.prototype.arcTo = function (x1, y1, x2, y2, radius)
  * @param [anticlockwise=false] {boolean} Specifies whether the drawing should be counterclockwise or clockwise. False is default, and indicates clockwise, while true indicates counter-clockwise.
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.arc = function(cx, cy, radius, startAngle, endAngle, anticlockwise)
-{
+Graphics.prototype.arc = function (cx, cy, radius, startAngle, endAngle, anticlockwise) {
     anticlockwise = anticlockwise || false;
 
-    if (startAngle === endAngle)
-    {
+    if (startAngle === endAngle) {
         return this;
     }
 
-    if( !anticlockwise && endAngle <= startAngle )
-    {
+    if (!anticlockwise && endAngle <= startAngle) {
         endAngle += Math.PI * 2;
-    }
-    else if( anticlockwise && startAngle <= endAngle )
-    {
+    } else if (anticlockwise && startAngle <= endAngle) {
         startAngle += Math.PI * 2;
     }
 
-    var sweep = anticlockwise ? (startAngle - endAngle) * -1 : (endAngle - startAngle);
-    var segs =  Math.ceil(Math.abs(sweep) / (Math.PI * 2)) * 40;
+    var sweep = anticlockwise ? (startAngle - endAngle) * -1 : endAngle - startAngle;
+    var segs = Math.ceil(Math.abs(sweep) / (Math.PI * 2)) * 40;
 
-    if(sweep === 0)
-    {
+    if (sweep === 0) {
         return this;
     }
 
     var startX = cx + Math.cos(startAngle) * radius;
     var startY = cy + Math.sin(startAngle) * radius;
 
-    if (this.currentPath)
-    {
+    if (this.currentPath) {
         this.currentPath.shape.points.push(startX, startY);
-    }
-    else
-    {
+    } else {
         this.moveTo(startX, startY);
     }
 
     var points = this.currentPath.shape.points;
 
-    var theta = sweep/(segs*2);
-    var theta2 = theta*2;
+    var theta = sweep / (segs * 2);
+    var theta2 = theta * 2;
 
     var cTheta = Math.cos(theta);
     var sTheta = Math.sin(theta);
 
     var segMinus = segs - 1;
 
-    var remainder = ( segMinus % 1 ) / segMinus;
+    var remainder = segMinus % 1 / segMinus;
 
-    for(var i=0; i<=segMinus; i++)
-    {
-        var real =  i + remainder * i;
+    for (var i = 0; i <= segMinus; i++) {
+        var real = i + remainder * i;
 
-
-        var angle = ((theta) + startAngle + (theta2 * real));
+        var angle = theta + startAngle + theta2 * real;
 
         var c = Math.cos(angle);
         var s = -Math.sin(angle);
 
-        points.push(( (cTheta *  c) + (sTheta * s) ) * radius + cx,
-                    ( (cTheta * -s) + (sTheta * c) ) * radius + cy);
+        points.push((cTheta * c + sTheta * s) * radius + cx, (cTheta * -s + sTheta * c) * radius + cy);
     }
 
     this.dirty++;
@@ -519,16 +494,13 @@ Graphics.prototype.arc = function(cx, cy, radius, startAngle, endAngle, anticloc
  * @param alpha {number} the alpha of the fill
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.beginFill = function (color, alpha)
-{
+Graphics.prototype.beginFill = function (color, alpha) {
     this.filling = true;
     this.fillColor = color || 0;
-    this.fillAlpha = (alpha === undefined) ? 1 : alpha;
+    this.fillAlpha = alpha === undefined ? 1 : alpha;
 
-    if (this.currentPath)
-    {
-        if (this.currentPath.shape.points.length <= 2)
-        {
+    if (this.currentPath) {
+        if (this.currentPath.shape.points.length <= 2) {
             this.currentPath.fill = this.filling;
             this.currentPath.fillColor = this.fillColor;
             this.currentPath.fillAlpha = this.fillAlpha;
@@ -542,8 +514,7 @@ Graphics.prototype.beginFill = function (color, alpha)
  *
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.endFill = function ()
-{
+Graphics.prototype.endFill = function () {
     this.filling = false;
     this.fillColor = null;
     this.fillAlpha = 1;
@@ -559,9 +530,8 @@ Graphics.prototype.endFill = function ()
  * @param height {number} The height of the rectangle
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.drawRect = function ( x, y, width, height )
-{
-    this.drawShape(new math_indexjsjs.Rectangle(x,y, width, height));
+Graphics.prototype.drawRect = function (x, y, width, height) {
+    this.drawShape(new _math.indexjs.Rectangle(x, y, width, height));
 
     return this;
 };
@@ -575,9 +545,8 @@ Graphics.prototype.drawRect = function ( x, y, width, height )
  * @param radius {number} Radius of the rectangle corners
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.drawRoundedRect = function ( x, y, width, height, radius )
-{
-    this.drawShape(new math_indexjsjs.RoundedRectangle(x, y, width, height, radius));
+Graphics.prototype.drawRoundedRect = function (x, y, width, height, radius) {
+    this.drawShape(new _math.indexjs.RoundedRectangle(x, y, width, height, radius));
 
     return this;
 };
@@ -590,9 +559,8 @@ Graphics.prototype.drawRoundedRect = function ( x, y, width, height, radius )
  * @param radius {number} The radius of the circle
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.drawCircle = function (x, y, radius)
-{
-    this.drawShape(new math_indexjsjs.Circle(x,y, radius));
+Graphics.prototype.drawCircle = function (x, y, radius) {
+    this.drawShape(new _math.indexjs.Circle(x, y, radius));
 
     return this;
 };
@@ -606,9 +574,8 @@ Graphics.prototype.drawCircle = function (x, y, radius)
  * @param height {number} The half height of the ellipse
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.drawEllipse = function (x, y, width, height)
-{
-    this.drawShape(new math_indexjsjs.Ellipse(x, y, width, height));
+Graphics.prototype.drawEllipse = function (x, y, width, height) {
+    this.drawShape(new _math.indexjs.Ellipse(x, y, width, height));
 
     return this;
 };
@@ -619,33 +586,29 @@ Graphics.prototype.drawEllipse = function (x, y, width, height)
  * @param path {number[]|PIXI.Point[]} The path data used to construct the polygon.
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.drawPolygon = function (path)
-{
+Graphics.prototype.drawPolygon = function (path) {
     // prevents an argument assignment deopt
     // see section 3.1: https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
     var points = path;
 
     var closed = true;
 
-    if (points instanceof math_indexjsjs.Polygon)
-    {
+    if (points instanceof _math.indexjs.Polygon) {
         closed = points.closed;
         points = points.points;
     }
 
-    if (!Array.isArray(points))
-    {
+    if (!Array.isArray(points)) {
         // prevents an argument leak deopt
         // see section 3.2: https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
         points = new Array(arguments.length);
 
-        for (var i = 0; i < points.length; ++i)
-        {
+        for (var i = 0; i < points.length; ++i) {
             points[i] = arguments[i];
         }
     }
 
-    var shape = new math_indexjsjs.Polygon(points);
+    var shape = new _math.indexjs.Polygon(points);
     shape.closed = closed;
 
     this.drawShape(shape);
@@ -658,8 +621,7 @@ Graphics.prototype.drawPolygon = function (path)
  *
  * @return {PIXI.Graphics} This Graphics object. Good for chaining method calls
  */
-Graphics.prototype.clear = function ()
-{
+Graphics.prototype.clear = function () {
     this.lineWidth = 0;
     this.filling = false;
 
@@ -674,7 +636,7 @@ Graphics.prototype.clear = function ()
  * True if graphics consists of one rectangle, and thus, can be drawn like a Sprite and masked with gl.scissor
  * @returns {boolean}
  */
-Graphics.prototype.isFastRect = function() {
+Graphics.prototype.isFastRect = function () {
     return this.graphicsData.length === 1 && this.graphicsData[0].shape.type === CONST.SHAPES.RECT && !this.graphicsData[0].lineWidth;
 };
 
@@ -684,44 +646,35 @@ Graphics.prototype.isFastRect = function() {
  * @param renderer {PIXI.WebGLRenderer}
  * @private
  */
-Graphics.prototype._renderWebGL = function (renderer)
-{
+Graphics.prototype._renderWebGL = function (renderer) {
     // if the sprite is not visible or the alpha is 0 then no need to render this element
-    if(this.dirty !== this.fastRectDirty)
-    {
+    if (this.dirty !== this.fastRectDirty) {
         this.fastRectDirty = this.dirty;
         this._fastRect = this.isFastRect();
     }
 
     //TODO this check can be moved to dirty?
-    if(this._fastRect)
-    {
+    if (this._fastRect) {
         this._renderSpriteRect(renderer);
-    }
-    else
-    {
+    } else {
         renderer.setObjectRenderer(renderer.plugins.graphics);
         renderer.plugins.graphics.render(this);
     }
-
 };
 
-Graphics.prototype._renderSpriteRect = function (renderer)
-{
+Graphics.prototype._renderSpriteRect = function (renderer) {
     var rect = this.graphicsData[0].shape;
-    if(!this._spriteRect)
-    {
-        if(!Graphics._SPRITE_TEXTURE)
-        {
-            Graphics._SPRITE_TEXTURE = texturesRenderTexture_RenderTexturejs.create(10, 10);
+    if (!this._spriteRect) {
+        if (!Graphics._SPRITE_TEXTURE) {
+            Graphics._SPRITE_TEXTURE = _RenderTexture.RenderTexture.create(10, 10);
 
             var currentRenderTarget = renderer._activeRenderTarget;
             renderer.bindRenderTexture(Graphics._SPRITE_TEXTURE);
-            renderer.clear([1,1,1,1]);
+            renderer.clear([1, 1, 1, 1]);
             renderer.bindRenderTarget(currentRenderTarget);
         }
 
-        this._spriteRect = new spritesSprite_Spritejs(Graphics._SPRITE_TEXTURE);
+        this._spriteRect = new _Sprite.Sprite(Graphics._SPRITE_TEXTURE);
     }
     if (this.tint === 0xffffff) {
         this._spriteRect.tint = this.graphicsData[0].fillColor;
@@ -755,10 +708,8 @@ Graphics.prototype._renderSpriteRect = function (renderer)
  * @param renderer {PIXI.CanvasRenderer}
  * @private
  */
-Graphics.prototype._renderCanvas = function (renderer)
-{
-    if (this.isMask === true)
-    {
+Graphics.prototype._renderCanvas = function (renderer) {
+    if (this.isMask === true) {
         return;
     }
 
@@ -772,15 +723,12 @@ Graphics.prototype._renderCanvas = function (renderer)
  *  object's worldTransform.
  * @return {PIXI.Rectangle} the rectangular bounding area
  */
-Graphics.prototype._calculateBounds = function ()
-{
-    if (!this.renderable)
-    {
+Graphics.prototype._calculateBounds = function () {
+    if (!this.renderable) {
         return;
     }
 
-    if (this.boundsDirty !== this.dirty)
-    {
+    if (this.boundsDirty !== this.dirty) {
         this.boundsDirty = this.dirty;
         this.updateLocalBounds();
 
@@ -798,26 +746,21 @@ Graphics.prototype._calculateBounds = function ()
 * @param point {PIXI.Point} the point to test
 * @return {boolean} the result of the test
 */
-Graphics.prototype.containsPoint = function( point )
-{
-    this.worldTransform.applyInverse(point,  tempPoint);
+Graphics.prototype.containsPoint = function (point) {
+    this.worldTransform.applyInverse(point, tempPoint);
 
     var graphicsData = this.graphicsData;
 
-    for (var i = 0; i < graphicsData.length; i++)
-    {
+    for (var i = 0; i < graphicsData.length; i++) {
         var data = graphicsData[i];
 
-        if (!data.fill)
-        {
+        if (!data.fill) {
             continue;
         }
 
         // only deal with fills..
-        if (data.shape)
-        {
-            if ( data.shape.contains( tempPoint.x, tempPoint.y ) )
-            {
+        if (data.shape) {
+            if (data.shape.contains(tempPoint.x, tempPoint.y)) {
                 return true;
             }
         }
@@ -830,29 +773,25 @@ Graphics.prototype.containsPoint = function( point )
  * Update the bounds of the object
  *
  */
-Graphics.prototype.updateLocalBounds = function ()
-{
+Graphics.prototype.updateLocalBounds = function () {
     var minX = Infinity;
     var maxX = -Infinity;
 
     var minY = Infinity;
     var maxY = -Infinity;
 
-    if (this.graphicsData.length)
-    {
+    if (this.graphicsData.length) {
         var shape, points, x, y, w, h;
 
-        for (var i = 0; i < this.graphicsData.length; i++)
-        {
+        for (var i = 0; i < this.graphicsData.length; i++) {
             var data = this.graphicsData[i];
             var type = data.type;
             var lineWidth = data.lineWidth;
             shape = data.shape;
 
-            if (type === CONST.SHAPES.RECT || type === CONST.SHAPES.RREC)
-            {
-                x = shape.x - lineWidth/2;
-                y = shape.y - lineWidth/2;
+            if (type === CONST.SHAPES.RECT || type === CONST.SHAPES.RREC) {
+                x = shape.x - lineWidth / 2;
+                y = shape.y - lineWidth / 2;
                 w = shape.width + lineWidth;
                 h = shape.height + lineWidth;
 
@@ -861,54 +800,45 @@ Graphics.prototype.updateLocalBounds = function ()
 
                 minY = y < minY ? y : minY;
                 maxY = y + h > maxY ? y + h : maxY;
-            }
-            else if (type === CONST.SHAPES.CIRC)
-            {
+            } else if (type === CONST.SHAPES.CIRC) {
                 x = shape.x;
                 y = shape.y;
-                w = shape.radius + lineWidth/2;
-                h = shape.radius + lineWidth/2;
+                w = shape.radius + lineWidth / 2;
+                h = shape.radius + lineWidth / 2;
 
                 minX = x - w < minX ? x - w : minX;
                 maxX = x + w > maxX ? x + w : maxX;
 
                 minY = y - h < minY ? y - h : minY;
                 maxY = y + h > maxY ? y + h : maxY;
-            }
-            else if (type === CONST.SHAPES.ELIP)
-            {
+            } else if (type === CONST.SHAPES.ELIP) {
                 x = shape.x;
                 y = shape.y;
-                w = shape.width + lineWidth/2;
-                h = shape.height + lineWidth/2;
+                w = shape.width + lineWidth / 2;
+                h = shape.height + lineWidth / 2;
 
                 minX = x - w < minX ? x - w : minX;
                 maxX = x + w > maxX ? x + w : maxX;
 
                 minY = y - h < minY ? y - h : minY;
                 maxY = y + h > maxY ? y + h : maxY;
-            }
-            else
-            {
+            } else {
                 // POLY
                 points = shape.points;
 
-                for (var j = 0; j < points.length; j += 2)
-                {
+                for (var j = 0; j < points.length; j += 2) {
                     x = points[j];
-                    y = points[j+1];
+                    y = points[j + 1];
 
-                    minX = x-lineWidth < minX ? x-lineWidth : minX;
-                    maxX = x+lineWidth > maxX ? x+lineWidth : maxX;
+                    minX = x - lineWidth < minX ? x - lineWidth : minX;
+                    maxX = x + lineWidth > maxX ? x + lineWidth : maxX;
 
-                    minY = y-lineWidth < minY ? y-lineWidth : minY;
-                    maxY = y+lineWidth > maxY ? y+lineWidth : maxY;
+                    minY = y - lineWidth < minY ? y - lineWidth : minY;
+                    maxY = y + lineWidth > maxY ? y + lineWidth : maxY;
                 }
             }
         }
-    }
-    else
-    {
+    } else {
         minX = 0;
         maxX = 0;
         minY = 0;
@@ -924,32 +854,27 @@ Graphics.prototype.updateLocalBounds = function ()
     this._localBounds.maxY = maxY + padding * 2;
 };
 
-
 /**
  * Draws the given shape to this Graphics object. Can be any of Circle, Rectangle, Ellipse, Line or Polygon.
  *
  * @param shape {PIXI.Circle|PIXI.Ellipse|PIXI.Polygon|PIXI.Rectangle|PIXI.RoundedRectangle} The shape object to draw.
  * @return {PIXI.GraphicsData} The generated GraphicsData object.
  */
-Graphics.prototype.drawShape = function (shape)
-{
-    if (this.currentPath)
-    {
+Graphics.prototype.drawShape = function (shape) {
+    if (this.currentPath) {
         // check current path!
-        if (this.currentPath.shape.points.length <= 2)
-        {
+        if (this.currentPath.shape.points.length <= 2) {
             this.graphicsData.pop();
         }
     }
 
     this.currentPath = null;
 
-    var data = new GraphicsData_GraphicsDatajs(this.lineWidth, this.lineColor, this.lineAlpha, this.fillColor, this.fillAlpha, this.filling, shape);
+    var data = new _GraphicsData.GraphicsData(this.lineWidth, this.lineColor, this.lineAlpha, this.fillColor, this.fillAlpha, this.filling, shape);
 
     this.graphicsData.push(data);
 
-    if (data.type === CONST.SHAPES.POLY)
-    {
+    if (data.type === CONST.SHAPES.POLY) {
         data.shape.closed = data.shape.closed || this.filling;
         this.currentPath = data;
     }
@@ -959,17 +884,15 @@ Graphics.prototype.drawShape = function (shape)
     return data;
 };
 
-Graphics.prototype.generateCanvasTexture = function(scaleMode, resolution)
-{
+Graphics.prototype.generateCanvasTexture = function (scaleMode, resolution) {
     resolution = resolution || 1;
 
     var bounds = this.getLocalBounds();
 
-    var canvasBuffer = new texturesRenderTexture_RenderTexturejs.create(bounds.width * resolution, bounds.height * resolution);
+    var canvasBuffer = new _RenderTexture.RenderTexture.create(bounds.width * resolution, bounds.height * resolution);
 
-    if(!canvasRenderer)
-    {
-        canvasRenderer = new rendererscanvasCanvasRenderer_CanvasRendererjs();
+    if (!canvasRenderer) {
+        canvasRenderer = new _CanvasRenderer.CanvasRenderer();
     }
 
     tempMatrix.tx = -bounds.x;
@@ -977,29 +900,26 @@ Graphics.prototype.generateCanvasTexture = function(scaleMode, resolution)
 
     canvasRenderer.render(this, canvasBuffer, false, tempMatrix);
 
-    var texture = texturesTexture_Texturejs.fromCanvas(canvasBuffer.baseTexture._canvasRenderTarget.canvas, scaleMode);
+    var texture = _Texture.Texture.fromCanvas(canvasBuffer.baseTexture._canvasRenderTarget.canvas, scaleMode);
     texture.baseTexture.resolution = resolution;
 
     return texture;
 };
 
-Graphics.prototype.closePath = function ()
-{
+Graphics.prototype.closePath = function () {
     // ok so close path assumes next one is a hole!
     var currentPath = this.currentPath;
-    if (currentPath && currentPath.shape)
-    {
+    if (currentPath && currentPath.shape) {
         currentPath.shape.close();
     }
     return this;
 };
 
-Graphics.prototype.addHole = function()
-{
+Graphics.prototype.addHole = function () {
     // this is a hole!
     var hole = this.graphicsData.pop();
 
-    this.currentPath = this.graphicsData[this.graphicsData.length-1];
+    this.currentPath = this.graphicsData[this.graphicsData.length - 1];
 
     this.currentPath.addHole(hole.shape);
     this.currentPath = null;
@@ -1010,9 +930,8 @@ Graphics.prototype.addHole = function()
 /**
  * Destroys the Graphics object.
  */
-Graphics.prototype.destroy = function ()
-{
-    displayContainer_Containerjs.prototype.destroy.apply(this, arguments);
+Graphics.prototype.destroy = function () {
+    _Container.Container.prototype.destroy.apply(this, arguments);
 
     // destroy each of the GraphicsData objects
     for (var i = 0; i < this.graphicsData.length; ++i) {
@@ -1026,8 +945,7 @@ Graphics.prototype.destroy = function ()
         }
     }
 
-    if(this._spriteRect)
-    {
+    if (this._spriteRect) {
         this._spriteRect.destroy();
     }
     this.graphicsData = null;
@@ -1046,4 +964,4 @@ var exported_Graphics = Graphics;
  * @extends PIXI.Container
  * @memberof PIXI
  */
-export { exported_Graphics as Graphics };
+exports.Graphics = exported_Graphics;

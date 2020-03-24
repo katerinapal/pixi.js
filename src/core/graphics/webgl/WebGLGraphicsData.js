@@ -1,4 +1,16 @@
-import glCore from "pixi-gl-core";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.WebGLGraphicsData = undefined;
+
+var _pixiGlCore = require("pixi-gl-core");
+
+var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function WebGLGraphicsData(gl, shader, attribsState) {
 
     /**
@@ -13,7 +25,7 @@ function WebGLGraphicsData(gl, shader, attribsState) {
      * An array of color components (r,g,b)
      * @member {number[]}
      */
-    this.color = [0,0,0]; // color split!
+    this.color = [0, 0, 0]; // color split!
 
     /**
      * An array of points to draw
@@ -30,13 +42,13 @@ function WebGLGraphicsData(gl, shader, attribsState) {
      * The main buffer
      * @member {WebGLBuffer}
      */
-    this.buffer = glCore.GLBuffer.createVertexBuffer(gl);
+    this.buffer = _pixiGlCore2.default.GLBuffer.createVertexBuffer(gl);
 
     /**
      * The index buffer
      * @member {WebGLBuffer}
      */
-    this.indexBuffer = glCore.GLBuffer.createIndexBuffer(gl);
+    this.indexBuffer = _pixiGlCore2.default.GLBuffer.createIndexBuffer(gl);
 
     /**
      * Whether this graphics is dirty or not
@@ -53,12 +65,7 @@ function WebGLGraphicsData(gl, shader, attribsState) {
      */
     this.shader = shader;
 
-    this.vao =  new glCore.VertexArrayObject(gl, attribsState)
-    .addIndex(this.indexBuffer)
-    .addAttribute(this.buffer, shader.attributes.aVertexPosition, gl.FLOAT, false, 4 * 6, 0)
-    .addAttribute(this.buffer, shader.attributes.aColor, gl.FLOAT, false, 4 * 6, 2 * 4);
-
-
+    this.vao = new _pixiGlCore2.default.VertexArrayObject(gl, attribsState).addIndex(this.indexBuffer).addAttribute(this.buffer, shader.attributes.aVertexPosition, gl.FLOAT, false, 4 * 6, 0).addAttribute(this.buffer, shader.attributes.aColor, gl.FLOAT, false, 4 * 6, 2 * 4);
 }
 
 WebGLGraphicsData.prototype.constructor = WebGLGraphicsData;
@@ -66,8 +73,7 @@ WebGLGraphicsData.prototype.constructor = WebGLGraphicsData;
 /**
  * Resets the vertices and the indices
  */
-WebGLGraphicsData.prototype.reset = function ()
-{
+WebGLGraphicsData.prototype.reset = function () {
     this.points.length = 0;
     this.indices.length = 0;
 };
@@ -75,24 +81,20 @@ WebGLGraphicsData.prototype.reset = function ()
 /**
  * Binds the buffers and uploads the data
  */
-WebGLGraphicsData.prototype.upload = function ()
-{
+WebGLGraphicsData.prototype.upload = function () {
     this.glPoints = new Float32Array(this.points);
-    this.buffer.upload( this.glPoints );
+    this.buffer.upload(this.glPoints);
 
     this.glIndices = new Uint16Array(this.indices);
-    this.indexBuffer.upload( this.glIndices );
+    this.indexBuffer.upload(this.glIndices);
 
     this.dirty = false;
 };
 
-
-
 /**
  * Empties all the data
  */
-WebGLGraphicsData.prototype.destroy = function ()
-{
+WebGLGraphicsData.prototype.destroy = function () {
     this.color = null;
     this.points = null;
     this.indices = null;
@@ -121,4 +123,4 @@ var exported_WebGLGraphicsData = WebGLGraphicsData;
  * @param shader {PIXI.Shader} The shader
  * @param attribsState {object} The state for the VAO
  */
-export { exported_WebGLGraphicsData as WebGLGraphicsData };
+exports.WebGLGraphicsData = exported_WebGLGraphicsData;

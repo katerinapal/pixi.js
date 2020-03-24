@@ -1,23 +1,13 @@
+'use strict';
 
-var vertTemplate = [
-	'attribute vec2 aVertexPosition;',
-	'attribute vec2 aTextureCoord;',
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-	'uniform float strength;',
-	'uniform mat3 projectionMatrix;',
+var vertTemplate = ['attribute vec2 aVertexPosition;', 'attribute vec2 aTextureCoord;', 'uniform float strength;', 'uniform mat3 projectionMatrix;', 'varying vec2 vBlurTexCoords[%size%];', 'void main(void)', '{', 'gl_Position = vec4((projectionMatrix * vec3((aVertexPosition), 1.0)).xy, 0.0, 1.0);', '%blur%', '}'].join('\n');
 
-	'varying vec2 vBlurTexCoords[%size%];',
-
-	'void main(void)',
-	'{',
-	    'gl_Position = vec4((projectionMatrix * vec3((aVertexPosition), 1.0)).xy, 0.0, 1.0);',
-		'%blur%',
-	'}'
-].join('\n');
-
-var generateVertBlurSource = function(kernelSize, x)
-{
-    var halfLength = Math.ceil(kernelSize/2);
+var generateVertBlurSource = function generateVertBlurSource(kernelSize, x) {
+    var halfLength = Math.ceil(kernelSize / 2);
 
     var vertSource = vertTemplate;
 
@@ -25,32 +15,25 @@ var generateVertBlurSource = function(kernelSize, x)
     var template;
     var value;
 
-    if(x)
-    {
-    	template = 'vBlurTexCoords[%index%] = aTextureCoord + vec2(%sampleIndex% * strength, 0.0);';
-    }
-    else
-    {
-    	template = 'vBlurTexCoords[%index%] = aTextureCoord + vec2(0.0, %sampleIndex% * strength);';
-
+    if (x) {
+        template = 'vBlurTexCoords[%index%] = aTextureCoord + vec2(%sampleIndex% * strength, 0.0);';
+    } else {
+        template = 'vBlurTexCoords[%index%] = aTextureCoord + vec2(0.0, %sampleIndex% * strength);';
     }
 
+    for (var i = 0; i < kernelSize; i++) {
+        var blur = template.replace('%index%', i);
 
-    for (var i = 0; i < kernelSize; i++)
-    {
-    	var blur = template.replace('%index%', i);
+        value = i;
 
-    	value = i;
+        if (i >= halfLength) {
+            value = kernelSize - i - 1;
+        }
 
-    	if(i >= halfLength)
-    	{
-    		value = kernelSize - i - 1;
-    	}
+        blur = blur.replace('%sampleIndex%', i - (halfLength - 1) + '.0');
 
-    	blur = blur.replace('%sampleIndex%', (i - (halfLength-1)) + '.0');
-
-    	blurLoop += blur;
-    	blurLoop += '\n';
+        blurLoop += blur;
+        blurLoop += '\n';
     }
 
     vertSource = vertSource.replace('%blur%', blurLoop);
@@ -59,7 +42,5 @@ var generateVertBlurSource = function(kernelSize, x)
     return vertSource;
 };
 
-
-
-let exported_generateVertBlurSource = generateVertBlurSource;
-export { exported_generateVertBlurSource as generateVertBlurSource };
+var exported_generateVertBlurSource = generateVertBlurSource;
+exports.generateVertBlurSource = exported_generateVertBlurSource;

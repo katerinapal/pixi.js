@@ -1,9 +1,17 @@
-import { ParticleContainerjs as ParticleContainer_ParticleContainerjs } from "./ParticleContainer";
-import { ParticleRendererjs as webglParticleRenderer_ParticleRendererjs } from "./webgl/ParticleRenderer";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.indexjs = undefined;
+
+var _ParticleContainer = require("./ParticleContainer");
+
+var _ParticleRenderer = require("./webgl/ParticleRenderer");
 
 var indexjs_indexjs = {
-	ParticleContainer:           ParticleContainer_ParticleContainerjs,
-    ParticleRenderer: 			 webglParticleRenderer_ParticleRendererjs
+  ParticleContainer: _ParticleContainer.ParticleContainerjs,
+  ParticleRenderer: _ParticleRenderer.ParticleRendererjs
 };
 
-export { indexjs_indexjs as indexjs };
+exports.indexjs = indexjs_indexjs;

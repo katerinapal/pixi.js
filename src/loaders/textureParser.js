@@ -1,22 +1,27 @@
-import { core as core_corejs } from "../core";
+"use strict";
 
-var exportedObject = function ()
-{
-    return function (resource, next)
-    {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.textureParserjs = undefined;
+
+var _core = require("../core");
+
+var exportedObject = function exportedObject() {
+    return function (resource, next) {
         // create a new texture if the data is an Image object
-        if (resource.data && resource.isImage)
-        {
-            var baseTexture = new core_corejs.BaseTexture(resource.data, null, core_corejs.utils.getResolutionOfUrl(resource.url));
+        if (resource.data && resource.isImage) {
+            var baseTexture = new _core.core.BaseTexture(resource.data, null, _core.core.utils.getResolutionOfUrl(resource.url));
             baseTexture.imageUrl = resource.url;
-            resource.texture = new core_corejs.Texture(baseTexture);
+            resource.texture = new _core.core.Texture(baseTexture);
             // lets also add the frame to pixi's global cache for fromFrame and fromImage fucntions
-            core_corejs.utils.BaseTextureCache[resource.url] = baseTexture;
-            core_corejs.utils.TextureCache[resource.url] = resource.texture;
+            _core.core.utils.BaseTextureCache[resource.url] = baseTexture;
+            _core.core.utils.TextureCache[resource.url] = resource.texture;
         }
 
         next();
     };
 };
 
-export { exportedObject as textureParserjs };;
+exports.textureParserjs = exportedObject;
+;

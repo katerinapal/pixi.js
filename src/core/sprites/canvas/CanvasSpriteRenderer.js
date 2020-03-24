@@ -1,23 +1,30 @@
-import { CanvasRenderer as rendererscanvasCanvasRenderer_CanvasRendererjs } from "../../renderers/canvas/CanvasRenderer";
-import { indexjs as math_indexjsjs } from "../../math";
-var canvasRenderWorldTransform = new math_indexjsjs.Matrix();
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.CanvasSpriteRenderer = undefined;
+
+var _CanvasRenderer = require("../../renderers/canvas/CanvasRenderer");
+
+var _math = require("../../math");
+
+var canvasRenderWorldTransform = new _math.indexjs.Matrix();
 
 function CanvasSpriteRenderer(renderer) {
     this.renderer = renderer;
 }
 
-
 CanvasSpriteRenderer.prototype.constructor = CanvasSpriteRenderer;
 
-rendererscanvasCanvasRenderer_CanvasRendererjs.registerPlugin('sprite', CanvasSpriteRenderer);
+_CanvasRenderer.CanvasRenderer.registerPlugin('sprite', CanvasSpriteRenderer);
 
 /**
  * Renders the sprite object.
  *
  * @param sprite {PIXI.Sprite} the sprite to render when using this spritebatch
  */
-CanvasSpriteRenderer.prototype.render = function (sprite)
-{
+CanvasSpriteRenderer.prototype.render = function (sprite) {
     var texture = sprite._texture,
         renderer = this.renderer,
         wt = sprite.transform.worldTransform,
@@ -26,107 +33,63 @@ CanvasSpriteRenderer.prototype.render = function (sprite)
         width = texture._frame.width,
         height = texture._frame.height;
 
-    if (texture.orig.width <= 0 || texture.orig.height <= 0 || !texture.baseTexture.source)
-    {
+    if (texture.orig.width <= 0 || texture.orig.height <= 0 || !texture.baseTexture.source) {
         return;
     }
 
     renderer.setBlendMode(sprite.blendMode);
 
     //  Ignore null sources
-    if (texture.valid)
-    {
+    if (texture.valid) {
         renderer.context.globalAlpha = sprite.worldAlpha;
 
         // If smoothingEnabled is supported and we need to change the smoothing property for sprite texture
         var smoothingEnabled = texture.baseTexture.scaleMode === CONST.SCALE_MODES.LINEAR;
-        if (renderer.smoothProperty && renderer.context[renderer.smoothProperty] !== smoothingEnabled)
-        {
+        if (renderer.smoothProperty && renderer.context[renderer.smoothProperty] !== smoothingEnabled) {
             renderer.context[renderer.smoothProperty] = smoothingEnabled;
         }
 
         if (texture.trim) {
-            dx = texture.trim.width/2 + texture.trim.x - sprite.anchor.x * texture.orig.width;
-            dy = texture.trim.height/2 + texture.trim.y - sprite.anchor.y * texture.orig.height;
+            dx = texture.trim.width / 2 + texture.trim.x - sprite.anchor.x * texture.orig.width;
+            dy = texture.trim.height / 2 + texture.trim.y - sprite.anchor.y * texture.orig.height;
         } else {
             dx = (0.5 - sprite.anchor.x) * texture.orig.width;
             dy = (0.5 - sprite.anchor.y) * texture.orig.height;
         }
-        if(texture.rotate) {
+        if (texture.rotate) {
             wt.copy(canvasRenderWorldTransform);
             wt = canvasRenderWorldTransform;
-            math_indexjsjs.GroupD8.matrixAppendRotationInv(wt, texture.rotate, dx, dy);
+            _math.indexjs.GroupD8.matrixAppendRotationInv(wt, texture.rotate, dx, dy);
             // the anchor has already been applied above, so lets set it to zero
             dx = 0;
             dy = 0;
         }
-        dx -= width/2;
-        dy -= height/2;
+        dx -= width / 2;
+        dy -= height / 2;
         // Allow for pixel rounding
-        if (renderer.roundPixels)
-        {
-            renderer.context.setTransform(
-                wt.a,
-                wt.b,
-                wt.c,
-                wt.d,
-                (wt.tx * renderer.resolution) | 0,
-                (wt.ty * renderer.resolution) | 0
-            );
+        if (renderer.roundPixels) {
+            renderer.context.setTransform(wt.a, wt.b, wt.c, wt.d, wt.tx * renderer.resolution | 0, wt.ty * renderer.resolution | 0);
 
             dx = dx | 0;
             dy = dy | 0;
-        }
-        else
-        {
-            renderer.context.setTransform(
-                wt.a,
-                wt.b,
-                wt.c,
-                wt.d,
-                wt.tx * renderer.resolution,
-                wt.ty * renderer.resolution
-            );
+        } else {
+            renderer.context.setTransform(wt.a, wt.b, wt.c, wt.d, wt.tx * renderer.resolution, wt.ty * renderer.resolution);
         }
 
         var resolution = texture.baseTexture.resolution;
 
-        if (sprite.tint !== 0xFFFFFF)
-        {
-            if (sprite.cachedTint !== sprite.tint)
-            {
+        if (sprite.tint !== 0xFFFFFF) {
+            if (sprite.cachedTint !== sprite.tint) {
                 sprite.cachedTint = sprite.tint;
 
                 // TODO clean up caching - how to clean up the caches?
                 sprite.tintedTexture = CanvasTinter.getTintedTexture(sprite, sprite.tint);
             }
 
-            renderer.context.drawImage(
-                sprite.tintedTexture,
-                0,
-                0,
-                width * resolution,
-                height * resolution,
-                dx * renderer.resolution,
-                dy * renderer.resolution,
-                width * renderer.resolution,
-                height * renderer.resolution
-            );
-        }
-        else
-        {
+            renderer.context.drawImage(sprite.tintedTexture, 0, 0, width * resolution, height * resolution, dx * renderer.resolution, dy * renderer.resolution, width * renderer.resolution, height * renderer.resolution);
+        } else {
 
-            renderer.context.drawImage(
-                texture.baseTexture.source,
-                texture._frame.x * resolution,
-                texture._frame.y * resolution,
-                width * resolution,
-                height * resolution,
-                dx  * renderer.resolution,
-                dy  * renderer.resolution,
-                width * renderer.resolution,
-                height * renderer.resolution
-            );
+            renderer.context.drawImage(texture.baseTexture.source, texture._frame.x * resolution, texture._frame.y * resolution, width * resolution, height * resolution, dx * renderer.resolution, dy * renderer.resolution, width * renderer.resolution, height * renderer.resolution);
         }
     }
 };
@@ -135,8 +98,8 @@ CanvasSpriteRenderer.prototype.render = function (sprite)
  * destroy the sprite object.
  *
  */
-CanvasSpriteRenderer.prototype.destroy = function (){
-  this.renderer = null;
+CanvasSpriteRenderer.prototype.destroy = function () {
+    this.renderer = null;
 };
 var exported_CanvasSpriteRenderer = CanvasSpriteRenderer;
 
@@ -160,4 +123,4 @@ var exported_CanvasSpriteRenderer = CanvasSpriteRenderer;
  * @extends PIXI.ObjectRenderer
  * @param renderer {PIXI.WebGLRenderer} The renderer sprite this batch works for.
  */
-export { exported_CanvasSpriteRenderer as CanvasSpriteRenderer };
+exports.CanvasSpriteRenderer = exported_CanvasSpriteRenderer;

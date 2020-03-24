@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 function GraphicsData(lineWidth, lineColor, lineAlpha, fillColor, fillAlpha, fill, shape) {
     /*
      * @member {number} the width of the line to draw
@@ -59,25 +64,15 @@ GraphicsData.prototype.constructor = GraphicsData;
  *
  * @return {PIXI.GraphicsData} Cloned GraphicsData object
  */
-GraphicsData.prototype.clone = function ()
-{
-    return new GraphicsData(
-        this.lineWidth,
-        this.lineColor,
-        this.lineAlpha,
-        this.fillColor,
-        this.fillAlpha,
-        this.fill,
-        this.shape
-    );
+GraphicsData.prototype.clone = function () {
+    return new GraphicsData(this.lineWidth, this.lineColor, this.lineAlpha, this.fillColor, this.fillAlpha, this.fill, this.shape);
 };
 
 /**
  *
  *
  */
-GraphicsData.prototype.addHole = function (shape)
-{
+GraphicsData.prototype.addHole = function (shape) {
     this.holes.push(shape);
 };
 
@@ -103,4 +98,4 @@ var exported_GraphicsData = GraphicsData;
  * @param fill      {boolean} whether or not the shape is filled with a colour
  * @param shape     {PIXI.Circle|PIXI.Rectangle|PIXI.Ellipse|PIXI.Polygon} The shape object to draw.
  */
-export { exported_GraphicsData as GraphicsData };
+exports.GraphicsData = exported_GraphicsData;

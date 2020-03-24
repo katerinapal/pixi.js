@@ -1,24 +1,34 @@
-import { core as core_corejs } from "../core";
-import { Texture as coretexturesTexture_Texturejs } from "../core/textures/Texture";
-import { TilingShader as webglTilingShader_TilingShaderjs } from "./webgl/TilingShader";
-var tempPoint = new core_corejs.Point(), tempArray = new Float32Array(4);
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.TilingSprite = undefined;
+
+var _core = require("../core");
+
+var _Texture = require("../core/textures/Texture");
+
+var _TilingShader = require("./webgl/TilingShader");
+
+var tempPoint = new _core.core.Point(),
+    tempArray = new Float32Array(4);
 function TilingSprite(texture, width, height) {
-    core_corejs.Sprite.call(this, texture);
+    _core.core.Sprite.call(this, texture);
 
     /**
      * The scaling of the image that is being tiled
      *
      * @member {PIXI.Point}
      */
-    this.tileScale = new core_corejs.Point(1,1);
-
+    this.tileScale = new _core.core.Point(1, 1);
 
     /**
      * The offset position of the image that is being tiled
      *
      * @member {PIXI.Point}
      */
-    this.tilePosition = new core_corejs.Point(0,0);
+    this.tilePosition = new _core.core.Point(0, 0);
 
     ///// private
 
@@ -44,16 +54,15 @@ function TilingSprite(texture, width, height) {
      * @member {PIXI.TextureUvs}
      * @private
      */
-    this._uvs = new core_corejs.TextureUvs();
+    this._uvs = new _core.core.TextureUvs();
 
     this._canvasPattern = null;
 
     this._glDatas = [];
 }
 
-TilingSprite.prototype = Object.create(core_corejs.Sprite.prototype);
+TilingSprite.prototype = Object.create(_core.core.Sprite.prototype);
 TilingSprite.prototype.constructor = TilingSprite;
-
 
 Object.defineProperties(TilingSprite.prototype, {
     /**
@@ -63,12 +72,10 @@ Object.defineProperties(TilingSprite.prototype, {
      * @memberof PIXI.extras.TilingSprite#
      */
     width: {
-        get: function ()
-        {
+        get: function get() {
             return this._width;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this._width = value;
         }
     },
@@ -80,22 +87,18 @@ Object.defineProperties(TilingSprite.prototype, {
      * @memberof PIXI.extras.TilingSprite#
      */
     height: {
-        get: function ()
-        {
+        get: function get() {
             return this._height;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this._height = value;
         }
     }
 });
 
-TilingSprite.prototype._onTextureUpdate = function ()
-{
+TilingSprite.prototype._onTextureUpdate = function () {
     return;
 };
-
 
 /**
  * Renders the object using the WebGL renderer
@@ -103,28 +106,25 @@ TilingSprite.prototype._onTextureUpdate = function ()
  * @param renderer {PIXI.WebGLRenderer} The renderer
  * @private
  */
-TilingSprite.prototype._renderWebGL = function (renderer)
-{
+TilingSprite.prototype._renderWebGL = function (renderer) {
 
     // tweak our texture temporarily..
     var texture = this._texture;
 
-    if(!texture || !texture._uvs)
-    {
+    if (!texture || !texture._uvs) {
         return;
     }
 
-     // get rid of any thing that may be batching.
+    // get rid of any thing that may be batching.
     renderer.flush();
 
     var gl = renderer.gl;
     var glData = this._glDatas[renderer.CONTEXT_UID];
 
-    if(!glData)
-    {
+    if (!glData) {
         glData = {
-            shader:new webglTilingShader_TilingShaderjs(gl),
-            quad:new core_corejs.Quad(gl)
+            shader: new _TilingShader.TilingShader(gl),
+            quad: new _core.core.Quad(gl)
         };
 
         this._glDatas[renderer.CONTEXT_UID] = glData;
@@ -135,11 +135,11 @@ TilingSprite.prototype._renderWebGL = function (renderer)
     // if the sprite is trimmed and is not a tilingsprite then we need to add the extra space before transforming the sprite coords..
     var vertices = glData.quad.vertices;
 
-    vertices[0] = vertices[6] = ( this._width ) * -this.anchor.x;
+    vertices[0] = vertices[6] = this._width * -this.anchor.x;
     vertices[1] = vertices[3] = this._height * -this.anchor.y;
 
-    vertices[2] = vertices[4] = ( this._width ) * (1-this.anchor.x);
-    vertices[5] = vertices[7] = this._height * (1-this.anchor.y);
+    vertices[2] = vertices[4] = this._width * (1 - this.anchor.x);
+    vertices[5] = vertices[7] = this._height * (1 - this.anchor.y);
 
     glData.quad.upload();
 
@@ -152,8 +152,8 @@ TilingSprite.prototype._renderWebGL = function (renderer)
         textureBaseHeight = texture.baseTexture.height;
 
     var uPixelSize = glData.shader.uniforms.uPixelSize;
-    uPixelSize[0] = 1.0/textureBaseWidth;
-    uPixelSize[1] = 1.0/textureBaseHeight;
+    uPixelSize[0] = 1.0 / textureBaseWidth;
+    uPixelSize[1] = 1.0 / textureBaseHeight;
     glData.shader.uniforms.uPixelSize = uPixelSize;
 
     var uFrame = glData.shader.uniforms.uFrame;
@@ -164,24 +164,24 @@ TilingSprite.prototype._renderWebGL = function (renderer)
     glData.shader.uniforms.uFrame = uFrame;
 
     var uTransform = glData.shader.uniforms.uTransform;
-    uTransform[0] = (this.tilePosition.x % (textureWidth * this.tileScale.x)) / this._width;
-    uTransform[1] = (this.tilePosition.y % (textureHeight * this.tileScale.y)) / this._height;
-    uTransform[2] = ( textureBaseWidth / this._width ) * this.tileScale.x;
-    uTransform[3] = ( textureBaseHeight / this._height ) * this.tileScale.y;
+    uTransform[0] = this.tilePosition.x % (textureWidth * this.tileScale.x) / this._width;
+    uTransform[1] = this.tilePosition.y % (textureHeight * this.tileScale.y) / this._height;
+    uTransform[2] = textureBaseWidth / this._width * this.tileScale.x;
+    uTransform[3] = textureBaseHeight / this._height * this.tileScale.y;
     glData.shader.uniforms.uTransform = uTransform;
 
     glData.shader.uniforms.translationMatrix = this.worldTransform.toArray(true);
 
     var color = tempArray;
 
-    core_corejs.utils.hex2rgb(this.tint, color);
+    _core.core.utils.hex2rgb(this.tint, color);
     color[3] = this.worldAlpha;
 
     glData.shader.uniforms.uColor = color;
 
     renderer.bindTexture(this._texture, 0);
 
-    renderer.state.setBlendMode( this.blendMode );
+    renderer.state.setBlendMode(this.blendMode);
     glData.quad.draw();
 };
 
@@ -191,97 +191,77 @@ TilingSprite.prototype._renderWebGL = function (renderer)
  * @param renderer {PIXI.CanvasRenderer} a reference to the canvas renderer
  * @private
  */
-TilingSprite.prototype._renderCanvas = function (renderer)
-{
+TilingSprite.prototype._renderCanvas = function (renderer) {
     var texture = this._texture;
 
-    if (!texture.baseTexture.hasLoaded)
-    {
-      return;
+    if (!texture.baseTexture.hasLoaded) {
+        return;
     }
 
     var context = renderer.context,
         transform = this.worldTransform,
         resolution = renderer.resolution,
         baseTexture = texture.baseTexture,
-        modX = (this.tilePosition.x / this.tileScale.x) % texture._frame.width,
-        modY = (this.tilePosition.y / this.tileScale.y) % texture._frame.height;
+        modX = this.tilePosition.x / this.tileScale.x % texture._frame.width,
+        modY = this.tilePosition.y / this.tileScale.y % texture._frame.height;
 
     // create a nice shiny pattern!
     // TODO this needs to be refreshed if texture changes..
-    if(!this._canvasPattern)
-    {
+    if (!this._canvasPattern) {
         // cut an object from a spritesheet..
-        var tempCanvas = new core_corejs.CanvasRenderTarget(texture._frame.width, texture._frame.height);
+        var tempCanvas = new _core.core.CanvasRenderTarget(texture._frame.width, texture._frame.height);
 
         // Tint the tiling sprite
-        if (this.tint !== 0xFFFFFF)
-        {
-            if (this.cachedTint !== this.tint)
-            {
+        if (this.tint !== 0xFFFFFF) {
+            if (this.cachedTint !== this.tint) {
                 this.cachedTint = this.tint;
 
                 this.tintedTexture = CanvasTinter.getTintedTexture(this, this.tint);
             }
             tempCanvas.context.drawImage(this.tintedTexture, 0, 0);
-        }
-        else
-        {
+        } else {
             tempCanvas.context.drawImage(baseTexture.source, -texture._frame.x, -texture._frame.y);
         }
-        this._canvasPattern = tempCanvas.context.createPattern( tempCanvas.canvas, 'repeat' );
+        this._canvasPattern = tempCanvas.context.createPattern(tempCanvas.canvas, 'repeat');
     }
 
     // set context state..
     context.globalAlpha = this.worldAlpha;
-    context.setTransform(transform.a * resolution,
-                       transform.b * resolution,
-                       transform.c * resolution,
-                       transform.d * resolution,
-                       transform.tx * resolution,
-                       transform.ty * resolution);
+    context.setTransform(transform.a * resolution, transform.b * resolution, transform.c * resolution, transform.d * resolution, transform.tx * resolution, transform.ty * resolution);
 
     // TODO - this should be rolled into the setTransform above..
-    context.scale(this.tileScale.x,this.tileScale.y);
+    context.scale(this.tileScale.x, this.tileScale.y);
 
-    context.translate(modX + (this.anchor.x * -this._width ),
-                      modY + (this.anchor.y * -this._height));
+    context.translate(modX + this.anchor.x * -this._width, modY + this.anchor.y * -this._height);
 
     // check blend mode
     var compositeOperation = renderer.blendModes[this.blendMode];
-    if (compositeOperation !== renderer.context.globalCompositeOperation)
-    {
+    if (compositeOperation !== renderer.context.globalCompositeOperation) {
         context.globalCompositeOperation = compositeOperation;
     }
 
     // fill the pattern!
     context.fillStyle = this._canvasPattern;
-    context.fillRect(-modX,
-                     -modY,
-                     this._width / this.tileScale.x,
-                     this._height / this.tileScale.y);
-
+    context.fillRect(-modX, -modY, this._width / this.tileScale.x, this._height / this.tileScale.y);
 
     //TODO - pretty sure this can be deleted...
     //context.translate(-this.tilePosition.x + (this.anchor.x * this._width), -this.tilePosition.y + (this.anchor.y * this._height));
     //context.scale(1 / this.tileScale.x, 1 / this.tileScale.y);
 };
 
-
 /**
  * Returns the framing rectangle of the sprite as a Rectangle object
 *
  * @return {PIXI.Rectangle} the framing rectangle
  */
-TilingSprite.prototype.getBounds = function ()
-{
+TilingSprite.prototype.getBounds = function () {
     var width = this._width;
     var height = this._height;
 
-    var w0 = width * (1-this.anchor.x);
+    var w0 = width * (1 - this.anchor.x);
     var w1 = width * -this.anchor.x;
 
-    var h0 = height * (1-this.anchor.y);
+    var h0 = height * (1 - this.anchor.y);
     var h1 = height * -this.anchor.y;
 
     var worldTransform = this.worldTransform;
@@ -302,13 +282,10 @@ TilingSprite.prototype.getBounds = function ()
     var x3 = a * w0 + c * h0 + tx;
     var y3 = d * h0 + b * w0 + ty;
 
-    var x4 =  a * w1 + c * h0 + tx;
-    var y4 =  d * h0 + b * w1 + ty;
+    var x4 = a * w1 + c * h0 + tx;
+    var y4 = d * h0 + b * w1 + ty;
 
-    var minX,
-        maxX,
-        minY,
-        maxY;
+    var minX, maxX, minY, maxY;
 
     minX = x1;
     minX = x2 < minX ? x2 : minX;
@@ -348,21 +325,18 @@ TilingSprite.prototype.getBounds = function ()
  * Checks if a point is inside this tiling sprite
  * @param point {PIXI.Point} the point to check
  */
-TilingSprite.prototype.containsPoint = function( point )
-{
-    this.worldTransform.applyInverse(point,  tempPoint);
+TilingSprite.prototype.containsPoint = function (point) {
+    this.worldTransform.applyInverse(point, tempPoint);
 
     var width = this._width;
     var height = this._height;
     var x1 = -width * this.anchor.x;
     var y1;
 
-    if ( tempPoint.x > x1 && tempPoint.x < x1 + width )
-    {
+    if (tempPoint.x > x1 && tempPoint.x < x1 + width) {
         y1 = -height * this.anchor.y;
 
-        if ( tempPoint.y > y1 && tempPoint.y < y1 + height )
-        {
+        if (tempPoint.y > y1 && tempPoint.y < y1 + height) {
             return true;
         }
     }
@@ -375,7 +349,7 @@ TilingSprite.prototype.containsPoint = function( point )
  *
  */
 TilingSprite.prototype.destroy = function () {
-    core_corejs.Sprite.prototype.destroy.call(this);
+    _core.core.Sprite.prototype.destroy.call(this);
 
     this.tileScale = null;
     this._tileScaleOffset = null;
@@ -394,12 +368,9 @@ TilingSprite.prototype.destroy = function () {
  * @param height {number} the height of the tiling sprite
  * @return {PIXI.Texture} The newly created texture
  */
-TilingSprite.from = function (source,width,height)
-{
-    return new TilingSprite(coretexturesTexture_Texturejs.from(source),width,height);
+TilingSprite.from = function (source, width, height) {
+    return new TilingSprite(_Texture.Texture.from(source), width, height);
 };
-
-
 
 /**
  * Helper function that creates a tiling sprite that will use a texture from the TextureCache based on the frameId
@@ -412,16 +383,14 @@ TilingSprite.from = function (source,width,height)
  * @param height {number} the height of the tiling sprite
  * @return {PIXI.extras.TilingSprite} A new TilingSprite
  */
-TilingSprite.fromFrame = function (frameId,width,height)
-{
-    var texture = core_corejs.utils.TextureCache[frameId];
+TilingSprite.fromFrame = function (frameId, width, height) {
+    var texture = _core.core.utils.TextureCache[frameId];
 
-    if (!texture)
-    {
+    if (!texture) {
         throw new Error('The frameId "' + frameId + '" does not exist in the texture cache ' + this);
     }
 
-    return new TilingSprite(texture,width,height);
+    return new TilingSprite(texture, width, height);
 };
 
 /**
@@ -436,9 +405,8 @@ TilingSprite.fromFrame = function (frameId,width,height)
  * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} if you want to specify the scale mode, see {@link PIXI.SCALE_MODES} for possible values
  * @return {PIXI.extras.TilingSprite} A new TilingSprite using a texture from the texture cache matching the image id
  */
-TilingSprite.fromImage = function (imageId, width, height, crossorigin, scaleMode)
-{
-    return new TilingSprite(core_corejs.Texture.fromImage(imageId, crossorigin, scaleMode),width,height);
+TilingSprite.fromImage = function (imageId, width, height, crossorigin, scaleMode) {
+    return new TilingSprite(_core.core.Texture.fromImage(imageId, crossorigin, scaleMode), width, height);
 };
 var exported_TilingSprite = TilingSprite;
 
@@ -452,4 +420,4 @@ var exported_TilingSprite = TilingSprite;
  * @param width {number}  the width of the tiling sprite
  * @param height {number} the height of the tiling sprite
  */
-export { exported_TilingSprite as TilingSprite };
+exports.TilingSprite = exported_TilingSprite;

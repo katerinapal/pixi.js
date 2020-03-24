@@ -1,13 +1,24 @@
-import { Filter as Filter_Filterjs } from "../Filter";
-import { indexjs as math_indexjsjs } from "../../../../math";
-import glslify from "glslify";
-function SpriteMaskFilter(sprite) {
-    var maskMatrix = new math_indexjsjs.Matrix();
+"use strict";
 
-    Filter_Filterjs.call(this,
-        glslify('./spriteMaskFilter.vert'),
-        glslify('./spriteMaskFilter.frag')
-    );
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.SpriteMaskFilter = undefined;
+
+var _Filter = require("../Filter");
+
+var _math = require("../../../../math");
+
+var _glslify = require("glslify");
+
+var _glslify2 = _interopRequireDefault(_glslify);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function SpriteMaskFilter(sprite) {
+    var maskMatrix = new _math.indexjs.Matrix();
+
+    _Filter.Filter.call(this, (0, _glslify2.default)('./spriteMaskFilter.vert'), (0, _glslify2.default)('./spriteMaskFilter.frag'));
 
     sprite.renderable = false;
 
@@ -15,7 +26,7 @@ function SpriteMaskFilter(sprite) {
     this.maskMatrix = maskMatrix;
 }
 
-SpriteMaskFilter.prototype = Object.create(Filter_Filterjs.prototype);
+SpriteMaskFilter.prototype = Object.create(_Filter.Filter.prototype);
 SpriteMaskFilter.prototype.constructor = SpriteMaskFilter;
 
 /**
@@ -25,12 +36,11 @@ SpriteMaskFilter.prototype.constructor = SpriteMaskFilter;
  * @param input {PIXI.RenderTarget}
  * @param output {PIXI.RenderTarget}
  */
-SpriteMaskFilter.prototype.apply = function (filterManager, input, output)
-{
+SpriteMaskFilter.prototype.apply = function (filterManager, input, output) {
     var maskSprite = this.maskSprite;
 
     this.uniforms.mask = maskSprite._texture;
-    this.uniforms.otherMatrix = filterManager.calculateSpriteMatrix(this.maskMatrix, maskSprite );
+    this.uniforms.otherMatrix = filterManager.calculateSpriteMatrix(this.maskMatrix, maskSprite);
     this.uniforms.alpha = maskSprite.worldAlpha;
 
     filterManager.applyFilter(this, input, output);
@@ -45,4 +55,4 @@ var exported_SpriteMaskFilter = SpriteMaskFilter;
  * @memberof PIXI
  * @param sprite {PIXI.Sprite} the target sprite
  */
-export { exported_SpriteMaskFilter as SpriteMaskFilter };
+exports.SpriteMaskFilter = exported_SpriteMaskFilter;

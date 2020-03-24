@@ -1,14 +1,30 @@
-import EventEmitter from "eventemitter3";
-import { TransformStatic as TransformStatic_TransformStaticjs } from "./TransformStatic";
-import { Transform as Transform_Transformjs } from "./Transform";
-import { Bounds as Bounds_Boundsjs } from "./Bounds";
-import { indexjs as math_indexjsjs } from "../math";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.DisplayObject = undefined;
+
+var _eventemitter = require("eventemitter3");
+
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
+
+var _TransformStatic = require("./TransformStatic");
+
+var _Transform = require("./Transform");
+
+var _Bounds = require("./Bounds");
+
+var _math = require("../math");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var _tempDisplayObjectParent = new DisplayObject();
 
 function DisplayObject() {
-    EventEmitter.call(this);
+    _eventemitter2.default.call(this);
 
-    var TransformClass = CONST.TRANSFORM_MODE.DEFAULT === CONST.TRANSFORM_MODE.STATIC ? TransformStatic_TransformStaticjs : Transform_Transformjs;
+    var TransformClass = CONST.TRANSFORM_MODE.DEFAULT === CONST.TRANSFORM_MODE.STATIC ? _TransformStatic.TransformStatic : _Transform.Transform;
 
     //TODO: need to create Transform from factory
     /**
@@ -17,7 +33,7 @@ function DisplayObject() {
      *
      * @member {PIXI.TransformBase}
      */
-    this.transform =  new TransformClass();
+    this.transform = new TransformClass();
 
     /**
      * The opacity of the object.
@@ -77,7 +93,7 @@ function DisplayObject() {
      * @member {PIXI.Rectangle}
      * @private
      */
-    this._bounds = new Bounds_Boundsjs();
+    this._bounds = new _Bounds.Bounds();
     this._boundsID = 0;
     this._lastBoundsID = -1;
     this._boundsRect = null;
@@ -90,14 +106,11 @@ function DisplayObject() {
      * @private
      */
     this._mask = null;
-
-
 }
 
 // constructor
-DisplayObject.prototype = Object.create(EventEmitter.prototype);
+DisplayObject.prototype = Object.create(_eventemitter2.default.prototype);
 DisplayObject.prototype.constructor = DisplayObject;
-
 
 Object.defineProperties(DisplayObject.prototype, {
     /**
@@ -108,12 +121,10 @@ Object.defineProperties(DisplayObject.prototype, {
      * @memberof PIXI.DisplayObject#
      */
     x: {
-        get: function ()
-        {
+        get: function get() {
             return this.position.x;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this.transform.position.x = value;
         }
     },
@@ -126,12 +137,10 @@ Object.defineProperties(DisplayObject.prototype, {
      * @memberof PIXI.DisplayObject#
      */
     y: {
-        get: function ()
-        {
+        get: function get() {
             return this.position.y;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this.transform.position.y = value;
         }
     },
@@ -144,8 +153,7 @@ Object.defineProperties(DisplayObject.prototype, {
      * @readonly
      */
     worldTransform: {
-        get: function ()
-        {
+        get: function get() {
             return this.transform.worldTransform;
         }
     },
@@ -158,8 +166,7 @@ Object.defineProperties(DisplayObject.prototype, {
      * @readonly
      */
     localTransform: {
-        get: function ()
-        {
+        get: function get() {
             return this.transform.localTransform;
         }
     },
@@ -172,11 +179,10 @@ Object.defineProperties(DisplayObject.prototype, {
      * @memberof PIXI.DisplayObject#
      */
     position: {
-        get: function()
-        {
+        get: function get() {
             return this.transform.position;
         },
-        set: function(value) {
+        set: function set(value) {
             this.transform.position.copy(value);
         }
     },
@@ -189,10 +195,10 @@ Object.defineProperties(DisplayObject.prototype, {
      * @memberof PIXI.DisplayObject#
      */
     scale: {
-        get: function() {
+        get: function get() {
             return this.transform.scale;
         },
-        set: function(value) {
+        set: function set(value) {
             this.transform.scale.copy(value);
         }
     },
@@ -205,10 +211,10 @@ Object.defineProperties(DisplayObject.prototype, {
      * @memberof PIXI.DisplayObject#
      */
     pivot: {
-        get: function() {
+        get: function get() {
             return this.transform.pivot;
         },
-        set: function(value) {
+        set: function set(value) {
             this.transform.pivot.copy(value);
         }
     },
@@ -221,10 +227,10 @@ Object.defineProperties(DisplayObject.prototype, {
      * @memberof PIXI.DisplayObject#
      */
     skew: {
-        get: function() {
+        get: function get() {
             return this.transform.skew;
         },
-        set: function(value) {
+        set: function set(value) {
             this.transform.skew.copy(value);
         }
     },
@@ -236,12 +242,10 @@ Object.defineProperties(DisplayObject.prototype, {
      * @memberof PIXI.DisplayObject#
      */
     rotation: {
-        get: function ()
-        {
+        get: function get() {
             return this.transform.rotation;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this.transform.rotation = value;
         }
     },
@@ -254,13 +258,11 @@ Object.defineProperties(DisplayObject.prototype, {
      * @readonly
      */
     worldVisible: {
-        get: function ()
-        {
+        get: function get() {
             var item = this;
 
             do {
-                if (!item.visible)
-                {
+                if (!item.visible) {
                     return false;
                 }
 
@@ -282,21 +284,17 @@ Object.defineProperties(DisplayObject.prototype, {
      * @memberof PIXI.DisplayObject#
      */
     mask: {
-        get: function ()
-        {
+        get: function get() {
             return this._mask;
         },
-        set: function (value)
-        {
-            if (this._mask)
-            {
+        set: function set(value) {
+            if (this._mask) {
                 this._mask.renderable = true;
             }
 
             this._mask = value;
 
-            if (this._mask)
-            {
+            if (this._mask) {
                 this._mask.renderable = false;
             }
         }
@@ -311,12 +309,10 @@ Object.defineProperties(DisplayObject.prototype, {
      * @memberof PIXI.DisplayObject#
      */
     filters: {
-        get: function ()
-        {
+        get: function get() {
             return this._filters && this._filters.slice();
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this._filters = value && value.slice();
         }
     }
@@ -328,8 +324,7 @@ Object.defineProperties(DisplayObject.prototype, {
  *
  * TODO - Optimization pass!
  */
-DisplayObject.prototype.updateTransform = function ()
-{
+DisplayObject.prototype.updateTransform = function () {
     this.transform.updateTransform(this.parent.transform);
     // multiply the alphas..
     this.worldAlpha = this.alpha * this.parent.worldAlpha;
@@ -344,15 +339,11 @@ DisplayObject.prototype.displayObjectUpdateTransform = DisplayObject.prototype.u
  * recursively updates transform of all objects from the root to this one
  * internal function for toLocal()
  */
-DisplayObject.prototype._recursivePostUpdateTransform = function()
-{
-    if (this.parent)
-    {
+DisplayObject.prototype._recursivePostUpdateTransform = function () {
+    if (this.parent) {
         this.parent._recursivePostUpdateTransform();
         this.transform.updateTransform(this.parent.transform);
-    }
-    else
-    {
+    } else {
         this.transform.updateTransform(_tempDisplayObjectParent.transform);
     }
 };
@@ -365,34 +356,26 @@ DisplayObject.prototype._recursivePostUpdateTransform = function()
  * @param rect {PIXI.Rectangle} Optional rectangle to store the result of the bounds calculation
  * @return {PIXI.Rectangle} the rectangular bounding area
  */
-DisplayObject.prototype.getBounds = function (skipUpdate, rect)
-{
-    if(!skipUpdate)
-    {
-        if(!this.parent)
-        {
+DisplayObject.prototype.getBounds = function (skipUpdate, rect) {
+    if (!skipUpdate) {
+        if (!this.parent) {
             this.parent = _tempDisplayObjectParent;
             this.parent.transform._worldID++;
             this.updateTransform();
             this.parent = null;
-        }
-        else
-        {
+        } else {
             this._recursivePostUpdateTransform();
             this.updateTransform();
         }
     }
 
-    if(this._boundsID !== this._lastBoundsID)
-    {
+    if (this._boundsID !== this._lastBoundsID) {
         this.calculateBounds();
     }
 
-    if(!rect)
-    {
-        if(!this._boundsRect)
-        {
-            this._boundsRect = new math_indexjsjs.Rectangle();
+    if (!rect) {
+        if (!this._boundsRect) {
+            this._boundsRect = new _math.indexjs.Rectangle();
         }
 
         rect = this._boundsRect;
@@ -406,19 +389,16 @@ DisplayObject.prototype.getBounds = function (skipUpdate, rect)
  * @param rect {PIXI.Rectangle} Optional rectangle to store the result of the bounds calculation
  * @return {PIXI.Rectangle} the rectangular bounding area
  */
-DisplayObject.prototype.getLocalBounds = function (rect)
-{
+DisplayObject.prototype.getLocalBounds = function (rect) {
     var transformRef = this.transform;
     var parentRef = this.parent;
 
     this.parent = null;
     this.transform = _tempDisplayObjectParent.transform;
 
-    if(!rect)
-    {
-        if(!this._localBoundsRect)
-        {
-            this._localBoundsRect = new math_indexjsjs.Rectangle();
+    if (!rect) {
+        if (!this._localBoundsRect) {
+            this._localBoundsRect = new _math.indexjs.Rectangle();
         }
 
         rect = this._localBoundsRect;
@@ -438,23 +418,18 @@ DisplayObject.prototype.getLocalBounds = function (rect)
  * @param position {PIXI.Point} The world origin to calculate from
  * @return {PIXI.Point} A point object representing the position of this object
  */
-DisplayObject.prototype.toGlobal = function (position, point, skipUpdate)
-{
-    if(!skipUpdate)
-    {
+DisplayObject.prototype.toGlobal = function (position, point, skipUpdate) {
+    if (!skipUpdate) {
         this._recursivePostUpdateTransform();
 
         // this parent check is for just in case the item is a root object.
         // If it is we need to give it a temporary parent so that displayObjectUpdateTransform works correctly
         // this is mainly to avoid a parent check in the main loop. Every little helps for performance :)
-        if(!this.parent)
-        {
+        if (!this.parent) {
             this.parent = _tempDisplayObjectParent;
             this.displayObjectUpdateTransform();
             this.parent = null;
-        }
-        else
-        {
+        } else {
             this.displayObjectUpdateTransform();
         }
     }
@@ -471,28 +446,22 @@ DisplayObject.prototype.toGlobal = function (position, point, skipUpdate)
  * @param [point] {PIXI.Point} A Point object in which to store the value, optional (otherwise will create a new Point)
  * @return {PIXI.Point} A point object representing the position of this object
  */
-DisplayObject.prototype.toLocal = function (position, from, point, skipUpdate)
-{
-    if (from)
-    {
+DisplayObject.prototype.toLocal = function (position, from, point, skipUpdate) {
+    if (from) {
         position = from.toGlobal(position, point, skipUpdate);
     }
 
-    if(! skipUpdate)
-    {
+    if (!skipUpdate) {
         this._recursivePostUpdateTransform();
 
         // this parent check is for just in case the item is a root object.
         // If it is we need to give it a temporary parent so that displayObjectUpdateTransform works correctly
         // this is mainly to avoid a parent check in the main loop. Every little helps for performance :)
-        if(!this.parent)
-        {
+        if (!this.parent) {
             this.parent = _tempDisplayObjectParent;
             this.displayObjectUpdateTransform();
             this.parent = null;
-        }
-        else
-        {
+        } else {
             this.displayObjectUpdateTransform();
         }
     }
@@ -527,10 +496,8 @@ DisplayObject.prototype.renderCanvas = function (renderer) // jshint unused:fals
  * @param container {PIXI.Container} The Container to add this DisplayObject to
  * @return {PIXI.Container} The Container that this DisplayObject was added to
  */
-DisplayObject.prototype.setParent = function (container)
-{
-    if (!container || !container.addChild)
-    {
+DisplayObject.prototype.setParent = function (container) {
+    if (!container || !container.addChild) {
         throw new Error('setParent: Argument must be a Container');
     }
 
@@ -552,7 +519,7 @@ DisplayObject.prototype.setParent = function (container)
  * @param [pivotY=0] {number} The Y pivot value
  * @return {PIXI.DisplayObject} The DisplayObject instance
  */
-DisplayObject.prototype.setTransform = function(x, y, scaleX, scaleY, rotation, skewX, skewY, pivotX, pivotY) //jshint ignore:line
+DisplayObject.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, skewX, skewY, pivotX, pivotY) //jshint ignore:line
 {
     this.position.x = x || 0;
     this.position.y = y || 0;
@@ -572,11 +539,9 @@ DisplayObject.prototype.setTransform = function(x, y, scaleX, scaleY, rotation, 
  * all current event listeners and internal references. Do not use a DisplayObject 
  * after calling `destroy`.
  */
-DisplayObject.prototype.destroy = function ()
-{
+DisplayObject.prototype.destroy = function () {
     this.removeAllListeners();
-    if (this.parent)
-    {
+    if (this.parent) {
         this.parent.removeChild(this);
     }
     this.transform = null;
@@ -603,4 +568,4 @@ var exported_DisplayObject = DisplayObject;
  * @mixes PIXI.interaction.interactiveTarget
  * @memberof PIXI
  */
-export { exported_DisplayObject as DisplayObject };
+exports.DisplayObject = exported_DisplayObject;

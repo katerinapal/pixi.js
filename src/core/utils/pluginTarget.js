@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 /**
  * Mixins functionality to make an object have "plugins".
  *
@@ -9,8 +14,7 @@
  *
  *      pluginTarget.mixin(MyObject);
  */
-function pluginTarget(obj)
-{
+function pluginTarget(obj) {
     obj.__plugins = {};
 
     /**
@@ -19,8 +23,7 @@ function pluginTarget(obj)
      * @param pluginName {string} The events that should be listed.
      * @param ctor {Function} The constructor function for the plugin.
      */
-    obj.registerPlugin = function (pluginName, ctor)
-    {
+    obj.registerPlugin = function (pluginName, ctor) {
         obj.__plugins[pluginName] = ctor;
     };
 
@@ -28,13 +31,11 @@ function pluginTarget(obj)
      * Instantiates all the plugins of this object
      *
      */
-    obj.prototype.initPlugins = function ()
-    {
+    obj.prototype.initPlugins = function () {
         this.plugins = this.plugins || {};
 
-        for (var o in obj.__plugins)
-        {
-            this.plugins[o] = new (obj.__plugins[o])(this);
+        for (var o in obj.__plugins) {
+            this.plugins[o] = new obj.__plugins[o](this);
         }
     };
 
@@ -42,10 +43,8 @@ function pluginTarget(obj)
      * Removes all the plugins of this object
      *
      */
-    obj.prototype.destroyPlugins = function ()
-    {
-        for (var o in this.plugins)
-        {
+    obj.prototype.destroyPlugins = function () {
+        for (var o in this.plugins) {
             this.plugins[o].destroy();
             this.plugins[o] = null;
         }
@@ -54,17 +53,15 @@ function pluginTarget(obj)
     };
 }
 
-
 var pluginTargetjs_pluginTargetjs = {
     /**
      * Mixes in the properties of the pluginTarget into another object
      *
      * @param obj {object} The obj to mix into
      */
-    mixin: function mixin(obj)
-    {
+    mixin: function mixin(obj) {
         pluginTarget(obj);
     }
 };
 
-export { pluginTargetjs_pluginTargetjs as pluginTargetjs };
+exports.pluginTargetjs = pluginTargetjs_pluginTargetjs;

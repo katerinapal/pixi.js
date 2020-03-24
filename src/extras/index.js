@@ -1,14 +1,26 @@
-import { MovieClipjs as MovieClip_MovieClipjs } from "./MovieClip";
-import { TilingSpritejs as TilingSprite_TilingSpritejs } from "./TilingSprite";
-import { BitmapTextjs as BitmapText_BitmapTextjs } from "./BitmapText";
-import "./cacheAsBitmap";
-import "./getChildByName";
-import "./getGlobalPosition";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.indexjs = undefined;
+
+var _MovieClip = require("./MovieClip");
+
+var _TilingSprite = require("./TilingSprite");
+
+var _BitmapText = require("./BitmapText");
+
+require("./cacheAsBitmap");
+
+require("./getChildByName");
+
+require("./getGlobalPosition");
 
 var indexjs_indexjs = {
-    MovieClip:      MovieClip_MovieClipjs,
-    TilingSprite:   TilingSprite_TilingSpritejs,
-    BitmapText:     BitmapText_BitmapTextjs
+    MovieClip: _MovieClip.MovieClipjs,
+    TilingSprite: _TilingSprite.TilingSpritejs,
+    BitmapText: _BitmapText.BitmapTextjs
 };
 
-export { indexjs_indexjs as indexjs };
+exports.indexjs = indexjs_indexjs;

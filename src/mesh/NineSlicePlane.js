@@ -1,8 +1,16 @@
-import { Plane as Plane_Planejs } from "./Plane";
-var DEFAULT_BORDER_SIZE= 10;
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.NineSlicePlane = undefined;
+
+var _Plane = require('./Plane');
+
+var DEFAULT_BORDER_SIZE = 10;
 
 function NineSlicePlane(texture, leftWidth, topHeight, rightWidth, bottomHeight) {
-    Plane_Planejs.call(this, texture, 4, 4);
+    _Plane.Plane.call(this, texture, 4, 4);
 
     var uvs = this.uvs;
     // right and bottom uv's are always 1
@@ -61,9 +69,8 @@ function NineSlicePlane(texture, leftWidth, topHeight, rightWidth, bottomHeight)
     this.bottomHeight = typeof bottomHeight !== 'undefined' ? bottomHeight : DEFAULT_BORDER_SIZE;
 }
 
-
 // constructor
-NineSlicePlane.prototype = Object.create( Plane_Planejs.prototype );
+NineSlicePlane.prototype = Object.create(_Plane.Plane.prototype);
 NineSlicePlane.prototype.constructor = NineSlicePlane;
 
 Object.defineProperties(NineSlicePlane.prototype, {
@@ -75,12 +82,10 @@ Object.defineProperties(NineSlicePlane.prototype, {
      * @override
      */
     width: {
-        get: function ()
-        {
+        get: function get() {
             return this._width;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this._width = value;
             this.updateVerticalVertices();
         }
@@ -94,12 +99,10 @@ Object.defineProperties(NineSlicePlane.prototype, {
      * @override
      */
     height: {
-        get: function ()
-        {
-            return  this._height;
+        get: function get() {
+            return this._height;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this._height = value;
             this.updateHorizontalVertices();
         }
@@ -111,18 +114,16 @@ Object.defineProperties(NineSlicePlane.prototype, {
      * @member {number}
      */
     leftWidth: {
-        get: function()
-        {
+        get: function get() {
             return this._leftWidth;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this._leftWidth = value;
             var uvs = this.uvs;
             var vertices = this.vertices;
             uvs[2] = uvs[10] = uvs[18] = uvs[26] = this._uvw * value;
             vertices[2] = vertices[10] = vertices[18] = vertices[26] = value;
-            this.dirty=true;
+            this.dirty = true;
         }
     },
     /**
@@ -131,18 +132,16 @@ Object.defineProperties(NineSlicePlane.prototype, {
      * @member {number}
      */
     rightWidth: {
-        get: function()
-        {
+        get: function get() {
             return this._rightWidth;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this._rightWidth = value;
             var uvs = this.uvs;
             var vertices = this.vertices;
             uvs[4] = uvs[12] = uvs[20] = uvs[28] = 1 - this._uvw * value;
             vertices[4] = vertices[12] = vertices[20] = vertices[28] = this._width - value;
-            this.dirty=true;
+            this.dirty = true;
         }
     },
     /**
@@ -151,18 +150,16 @@ Object.defineProperties(NineSlicePlane.prototype, {
      * @member {number}
      */
     topHeight: {
-        get: function()
-        {
+        get: function get() {
             return this._topHeight;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this._topHeight = value;
             var uvs = this.uvs;
             var vertices = this.vertices;
             uvs[9] = uvs[11] = uvs[13] = uvs[15] = this._uvh * value;
             vertices[9] = vertices[11] = vertices[13] = vertices[15] = value;
-            this.dirty=true;
+            this.dirty = true;
         }
     },
     /**
@@ -171,34 +168,32 @@ Object.defineProperties(NineSlicePlane.prototype, {
      * @member {number}
      */
     bottomHeight: {
-        get: function()
-        {
+        get: function get() {
             return this._bottomHeight;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this._bottomHeight = value;
             var uvs = this.uvs;
             var vertices = this.vertices;
             uvs[17] = uvs[19] = uvs[21] = uvs[23] = 1 - this._uvh * value;
             vertices[17] = vertices[19] = vertices[21] = vertices[23] = this._height - value;
-            this.dirty=true;
+            this.dirty = true;
         }
     }
 });
 
-NineSlicePlane.prototype.updateHorizontalVertices = function() {
+NineSlicePlane.prototype.updateHorizontalVertices = function () {
     var vertices = this.vertices;
     vertices[9] = vertices[11] = vertices[13] = vertices[15] = this._topHeight;
     vertices[17] = vertices[19] = vertices[21] = vertices[23] = this._height - this._bottomHeight;
     vertices[25] = vertices[27] = vertices[29] = vertices[31] = this._height;
 };
 
-NineSlicePlane.prototype.updateVerticalVertices = function() {
+NineSlicePlane.prototype.updateVerticalVertices = function () {
     var vertices = this.vertices;
     vertices[2] = vertices[10] = vertices[18] = vertices[26] = this._leftWidth;
     vertices[4] = vertices[12] = vertices[20] = vertices[28] = this._width - this._rightWidth;
-    vertices[6] = vertices[14] = vertices[22] = vertices[30] = this._width ;
+    vertices[6] = vertices[14] = vertices[22] = vertices[30] = this._width;
 };
 
 /**
@@ -207,28 +202,24 @@ NineSlicePlane.prototype.updateVerticalVertices = function() {
  * @param renderer {PIXI.CanvasRenderer}
  * @private
  */
-NineSlicePlane.prototype._renderCanvas= function (renderer)
-{
+NineSlicePlane.prototype._renderCanvas = function (renderer) {
     var context = renderer.context;
     context.globalAlpha = this.worldAlpha;
 
     var transform = this.worldTransform;
     var res = renderer.resolution;
 
-    if (renderer.roundPixels)
-    {
-        context.setTransform(transform.a * res, transform.b * res, transform.c * res, transform.d * res, (transform.tx * res) | 0, (transform.ty * res) | 0);
-    }
-    else
-    {
+    if (renderer.roundPixels) {
+        context.setTransform(transform.a * res, transform.b * res, transform.c * res, transform.d * res, transform.tx * res | 0, transform.ty * res | 0);
+    } else {
         context.setTransform(transform.a * res, transform.b * res, transform.c * res, transform.d * res, transform.tx * res, transform.ty * res);
     }
-        
+
     var base = this._texture.baseTexture;
     var textureSource = base.source;
     var w = base.width;
     var h = base.height;
-    
+
     this.drawSegment(context, textureSource, w, h, 0, 1, 10, 11);
     this.drawSegment(context, textureSource, w, h, 2, 3, 12, 13);
     this.drawSegment(context, textureSource, w, h, 4, 5, 14, 15);
@@ -255,30 +246,29 @@ NineSlicePlane.prototype._renderCanvas= function (renderer)
  * @param y2
  * @private
  */
-NineSlicePlane.prototype.drawSegment= function (context, textureSource, w, h, x1, y1, x2, y2)
-{
+NineSlicePlane.prototype.drawSegment = function (context, textureSource, w, h, x1, y1, x2, y2) {
     // otherwise you get weird results when using slices of that are 0 wide or high.
     var uvs = this.uvs;
     var vertices = this.vertices;
-    
-    var sw = (uvs[x2]-uvs[x1]) * w;
-    var sh = (uvs[y2]-uvs[y1]) * h;
+
+    var sw = (uvs[x2] - uvs[x1]) * w;
+    var sh = (uvs[y2] - uvs[y1]) * h;
     var dw = vertices[x2] - vertices[x1];
     var dh = vertices[y2] - vertices[y1];
-    
+
     // make sure the source is at least 1 pixel wide and high, otherwise nothing will be drawn.
-    if (sw<1) {
-        sw=1;
+    if (sw < 1) {
+        sw = 1;
     }
-    if (sh<1) {
-        sh=1;
+    if (sh < 1) {
+        sh = 1;
     }
     // make sure destination is at least 1 pixel wide and high, otherwise you get lines when rendering close to original size.
-    if (dw<1) {
-        dw=1;
+    if (dw < 1) {
+        dw = 1;
     }
-    if (dh<1) {
-        dh=1;
+    if (dh < 1) {
+        dh = 1;
     }
     context.drawImage(textureSource, uvs[x1] * w, uvs[y1] * h, sw, sh, vertices[x1], vertices[y1], dw, dh);
 };
@@ -320,4 +310,4 @@ var exported_NineSlicePlane = NineSlicePlane;
  * @param {int} [bottomHeight=10] size of the bottom horizontal bar (D)
  *
  */
-export { exported_NineSlicePlane as NineSlicePlane };
+exports.NineSlicePlane = exported_NineSlicePlane;

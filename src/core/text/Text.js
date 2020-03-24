@@ -1,12 +1,22 @@
-import { Sprite as spritesSprite_Spritejs } from "../sprites/Sprite";
-import { Texture as texturesTexture_Texturejs } from "../textures/Texture";
-import { indexjs as math_indexjsjs } from "../math";
-import { TextStyle as TextStyle_TextStylejs } from "./TextStyle";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Text = undefined;
+
+var _Sprite = require("../sprites/Sprite");
+
+var _Texture = require("../textures/Texture");
+
+var _math = require("../math");
+
+var _TextStyle = require("./TextStyle");
 
 var defaultDestroyOptions = {
-        texture:true,
-        children:false,
-        baseTexture:true
+    texture: true,
+    children: false,
+    baseTexture: true
 };
 function Text(text, style) {
     /**
@@ -60,10 +70,10 @@ function Text(text, style) {
      */
     this._font = '';
 
-    var texture = texturesTexture_Texturejs.fromCanvas(this.canvas);
-    texture.orig = new math_indexjsjs.Rectangle();
-    texture.trim = new math_indexjsjs.Rectangle();
-    spritesSprite_Spritejs.call(this, texture);
+    var texture = _Texture.Texture.fromCanvas(this.canvas);
+    texture.orig = new _math.indexjs.Rectangle();
+    texture.trim = new _math.indexjs.Rectangle();
+    _Sprite.Sprite.call(this, texture);
 
     this.text = text;
     this.style = style;
@@ -72,7 +82,7 @@ function Text(text, style) {
 }
 
 // constructor
-Text.prototype = Object.create(spritesSprite_Spritejs.prototype);
+Text.prototype = Object.create(_Sprite.Sprite.prototype);
 Text.prototype.constructor = Text;
 
 Text.fontPropertiesCache = {};
@@ -87,14 +97,12 @@ Object.defineProperties(Text.prototype, {
      * @memberof PIXI.Text#
      */
     width: {
-        get: function ()
-        {
+        get: function get() {
             this.updateText(true);
 
             return Math.abs(this.scale.x) * this.texture.orig.width;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this.updateText(true);
 
             var sign = utils.sign(this.scale.x) || 1;
@@ -110,14 +118,12 @@ Object.defineProperties(Text.prototype, {
      * @memberof PIXI.Text#
      */
     height: {
-        get: function ()
-        {
+        get: function get() {
             this.updateText(true);
 
             return Math.abs(this.scale.y) * this._texture.orig.height;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this.updateText(true);
 
             var sign = utils.sign(this.scale.y) || 1;
@@ -133,21 +139,16 @@ Object.defineProperties(Text.prototype, {
      * @memberof PIXI.Text#
      */
     style: {
-        get: function ()
-        {
+        get: function get() {
             return this._style;
         },
-        set: function (style)
-        {
+        set: function set(style) {
 
             style = style || {};
-            if (style instanceof TextStyle_TextStylejs)
-            {
+            if (style instanceof _TextStyle.TextStyle) {
                 this._style = style;
-            }
-            else
-            {
-                this._style = new TextStyle_TextStylejs(style);
+            } else {
+                this._style = new _TextStyle.TextStyle(style);
             }
 
             this.localStyleID = -1;
@@ -162,17 +163,15 @@ Object.defineProperties(Text.prototype, {
      * @memberof PIXI.Text#
      */
     text: {
-        get: function()
-        {
+        get: function get() {
             return this._text;
         },
-        set: function (text){
+        set: function set(text) {
 
             text = text || ' ';
             text = text.toString();
 
-            if (this._text === text)
-            {
+            if (this._text === text) {
                 return;
             }
             this._text = text;
@@ -186,13 +185,11 @@ Object.defineProperties(Text.prototype, {
  * @param respectDirty {boolean} Whether to abort updating the text if the Text isn't dirty and the function is called.
  * @private
  */
-Text.prototype.updateText = function (respectDirty)
-{
+Text.prototype.updateText = function (respectDirty) {
     var style = this._style;
 
     // check if style has changed..
-    if(this.localStyleID !== style.styleID)
-    {
+    if (this.localStyleID !== style.styleID) {
         this.dirty = true;
         this.localStyleID = style.styleID;
     }
@@ -202,7 +199,7 @@ Text.prototype.updateText = function (respectDirty)
     }
 
     // build canvas api font setting from invididual components. Convert a numeric style.fontSize to px
-    var fontSizeString = (typeof style.fontSize === 'number') ? style.fontSize + 'px' : style.fontSize;
+    var fontSizeString = typeof style.fontSize === 'number' ? style.fontSize + 'px' : style.fontSize;
     this._font = style.fontStyle + ' ' + style.fontVariant + ' ' + style.fontWeight + ' ' + fontSizeString + ' ' + style.fontFamily;
 
     this.context.font = this._font;
@@ -220,44 +217,39 @@ Text.prototype.updateText = function (respectDirty)
     var fontProperties = this.determineFontProperties(this._font);
 
     var i;
-    for (i = 0; i < lines.length; i++)
-    {
-        var lineWidth = this.context.measureText(lines[i]).width + ((lines[i].length - 1) * style.letterSpacing);
+    for (i = 0; i < lines.length; i++) {
+        var lineWidth = this.context.measureText(lines[i]).width + (lines[i].length - 1) * style.letterSpacing;
         lineWidths[i] = lineWidth;
         maxLineWidth = Math.max(maxLineWidth, lineWidth);
     }
 
     var width = maxLineWidth + style.strokeThickness;
-    if (style.dropShadow)
-    {
+    if (style.dropShadow) {
         width += style.dropShadowDistance;
     }
 
     width += style.padding * 2;
 
-    this.canvas.width = Math.ceil( ( width + this.context.lineWidth ) * this.resolution );
+    this.canvas.width = Math.ceil((width + this.context.lineWidth) * this.resolution);
 
     // calculate text height
     var lineHeight = this.style.lineHeight || fontProperties.fontSize + style.strokeThickness;
 
-    var height = Math.max(lineHeight, fontProperties.fontSize  + style.strokeThickness) + (lines.length - 1) * lineHeight;
-    if (style.dropShadow)
-    {
+    var height = Math.max(lineHeight, fontProperties.fontSize + style.strokeThickness) + (lines.length - 1) * lineHeight;
+    if (style.dropShadow) {
         height += style.dropShadowDistance;
     }
 
-    this.canvas.height = Math.ceil( ( height + this._style.padding * 2 ) * this.resolution );
+    this.canvas.height = Math.ceil((height + this._style.padding * 2) * this.resolution);
 
-    this.context.scale( this.resolution, this.resolution);
+    this.context.scale(this.resolution, this.resolution);
 
-    if (navigator.isCocoonJS)
-    {
+    if (navigator.isCocoonJS) {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     }
 
-//    this.context.fillStyle="#FF0000";
-//    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    //    this.context.fillStyle="#FF0000";
+    //    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.context.font = this._font;
     this.context.strokeStyle = style.stroke;
@@ -269,8 +261,7 @@ Text.prototype.updateText = function (respectDirty)
     var linePositionX;
     var linePositionY;
 
-    if (style.dropShadow)
-    {
+    if (style.dropShadow) {
         if (style.dropShadowBlur > 0) {
             this.context.shadowColor = style.dropShadowColor;
             this.context.shadowBlur = style.dropShadowBlur;
@@ -281,30 +272,24 @@ Text.prototype.updateText = function (respectDirty)
         var xShadowOffset = Math.cos(style.dropShadowAngle) * style.dropShadowDistance;
         var yShadowOffset = Math.sin(style.dropShadowAngle) * style.dropShadowDistance;
 
-        for (i = 0; i < lines.length; i++)
-        {
+        for (i = 0; i < lines.length; i++) {
             linePositionX = style.strokeThickness / 2;
-            linePositionY = (style.strokeThickness / 2 + i * lineHeight) + fontProperties.ascent;
+            linePositionY = style.strokeThickness / 2 + i * lineHeight + fontProperties.ascent;
 
-            if (style.align === 'right')
-            {
+            if (style.align === 'right') {
                 linePositionX += maxLineWidth - lineWidths[i];
-            }
-            else if (style.align === 'center')
-            {
+            } else if (style.align === 'center') {
                 linePositionX += (maxLineWidth - lineWidths[i]) / 2;
             }
 
-            if (style.fill)
-            {
+            if (style.fill) {
                 this.drawLetterSpacing(lines[i], linePositionX + xShadowOffset + style.padding, linePositionY + yShadowOffset + style.padding);
 
-                if (style.stroke && style.strokeThickness)
-                {
+                if (style.stroke && style.strokeThickness) {
                     this.context.strokeStyle = style.dropShadowColor;
                     this.drawLetterSpacing(lines[i], linePositionX + xShadowOffset + style.padding, linePositionY + yShadowOffset + style.padding, true);
                     this.context.strokeStyle = style.stroke;
-			    }
+                }
             }
         }
     }
@@ -313,27 +298,21 @@ Text.prototype.updateText = function (respectDirty)
     this.context.fillStyle = this._generateFillStyle(style, lines);
 
     //draw lines line by line
-    for (i = 0; i < lines.length; i++)
-    {
+    for (i = 0; i < lines.length; i++) {
         linePositionX = style.strokeThickness / 2;
-        linePositionY = (style.strokeThickness / 2 + i * lineHeight) + fontProperties.ascent;
+        linePositionY = style.strokeThickness / 2 + i * lineHeight + fontProperties.ascent;
 
-        if (style.align === 'right')
-        {
+        if (style.align === 'right') {
             linePositionX += maxLineWidth - lineWidths[i];
-        }
-        else if (style.align === 'center')
-        {
+        } else if (style.align === 'center') {
             linePositionX += (maxLineWidth - lineWidths[i]) / 2;
         }
 
-        if (style.stroke && style.strokeThickness)
-        {
+        if (style.stroke && style.strokeThickness) {
             this.drawLetterSpacing(lines[i], linePositionX + style.padding, linePositionY + style.padding, true);
         }
 
-        if (style.fill)
-        {
+        if (style.fill) {
             this.drawLetterSpacing(lines[i], linePositionX + style.padding, linePositionY + style.padding);
         }
     }
@@ -349,21 +328,16 @@ Text.prototype.updateText = function (respectDirty)
  * @param {boolean} isStroke - Is this drawing for the outside stroke of the text? If not, it's for the inside fill
  * @private
  */
-Text.prototype.drawLetterSpacing = function(text, x, y, isStroke)
-{
+Text.prototype.drawLetterSpacing = function (text, x, y, isStroke) {
     var style = this._style;
 
     // letterSpacing of 0 means normal
     var letterSpacing = style.letterSpacing;
 
-    if (letterSpacing === 0)
-    {
-        if (isStroke)
-        {
+    if (letterSpacing === 0) {
+        if (isStroke) {
             this.context.strokeText(text, x, y);
-        }
-        else
-        {
+        } else {
             this.context.fillText(text, x, y);
         }
         return;
@@ -374,15 +348,11 @@ Text.prototype.drawLetterSpacing = function(text, x, y, isStroke)
         current,
         currentPosition = x;
 
-    while (index < text.length)
-    {
+    while (index < text.length) {
         current = characters[index++];
-        if (isStroke)
-        {
+        if (isStroke) {
             this.context.strokeText(current, currentPosition, y);
-        }
-        else
-        {
+        } else {
             this.context.fillText(current, currentPosition, y);
         }
         currentPosition += this.context.measureText(current).width + letterSpacing;
@@ -394,8 +364,7 @@ Text.prototype.drawLetterSpacing = function(text, x, y, isStroke)
  *
  * @private
  */
-Text.prototype.updateTexture = function ()
-{
+Text.prototype.updateTexture = function () {
     var texture = this._texture;
     var style = this._style;
 
@@ -412,13 +381,13 @@ Text.prototype.updateTexture = function ()
     texture.trim.x = -style.padding;
     texture.trim.y = -style.padding;
 
-    texture.orig.width = texture._frame.width- style.padding*2;
-    texture.orig.height = texture._frame.height - style.padding*2;
+    texture.orig.width = texture._frame.width - style.padding * 2;
+    texture.orig.height = texture._frame.height - style.padding * 2;
 
     //call sprite onTextureUpdate to update scale if _width or _height were set
     this._onTextureUpdate();
 
-    texture.baseTexture.emit('update',  texture.baseTexture);
+    texture.baseTexture.emit('update', texture.baseTexture);
 
     this.dirty = false;
 };
@@ -428,17 +397,15 @@ Text.prototype.updateTexture = function ()
  *
  * @param renderer {PIXI.WebGLRenderer} The renderer
  */
-Text.prototype.renderWebGL = function (renderer)
-{
-    if(this.resolution !== renderer.resolution)
-    {
+Text.prototype.renderWebGL = function (renderer) {
+    if (this.resolution !== renderer.resolution) {
         this.resolution = renderer.resolution;
         this.dirty = true;
     }
 
     this.updateText(true);
 
-    spritesSprite_Spritejs.prototype.renderWebGL.call(this, renderer);
+    _Sprite.Sprite.prototype.renderWebGL.call(this, renderer);
 };
 
 /**
@@ -447,17 +414,15 @@ Text.prototype.renderWebGL = function (renderer)
  * @param renderer {PIXI.CanvasRenderer} The renderer
  * @private
  */
-Text.prototype._renderCanvas = function (renderer)
-{
-    if(this.resolution !== renderer.resolution)
-    {
+Text.prototype._renderCanvas = function (renderer) {
+    if (this.resolution !== renderer.resolution) {
         this.resolution = renderer.resolution;
         this.dirty = true;
     }
 
     this.updateText(true);
 
-    spritesSprite_Spritejs.prototype._renderCanvas.call(this, renderer);
+    _Sprite.Sprite.prototype._renderCanvas.call(this, renderer);
 };
 
 /**
@@ -467,12 +432,10 @@ Text.prototype._renderCanvas = function (renderer)
  * @return {Object} Font properties object
  * @private
  */
-Text.prototype.determineFontProperties = function (fontStyle)
-{
+Text.prototype.determineFontProperties = function (fontStyle) {
     var properties = Text.fontPropertiesCache[fontStyle];
 
-    if (!properties)
-    {
+    if (!properties) {
         properties = {};
 
         var canvas = Text.fontPropertiesCanvas;
@@ -508,22 +471,16 @@ Text.prototype.determineFontProperties = function (fontStyle)
         var stop = false;
 
         // ascent. scan from top to bottom until we find a non red pixel
-        for (i = 0; i < baseline; i++)
-        {
-            for (j = 0; j < line; j += 4)
-            {
-                if (imagedata[idx + j] !== 255)
-                {
+        for (i = 0; i < baseline; i++) {
+            for (j = 0; j < line; j += 4) {
+                if (imagedata[idx + j] !== 255) {
                     stop = true;
                     break;
                 }
             }
-            if (!stop)
-            {
+            if (!stop) {
                 idx += line;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
@@ -534,22 +491,16 @@ Text.prototype.determineFontProperties = function (fontStyle)
         stop = false;
 
         // descent. scan from bottom to top until we find a non red pixel
-        for (i = height; i > baseline; i--)
-        {
-            for (j = 0; j < line; j += 4)
-            {
-                if (imagedata[idx + j] !== 255)
-                {
+        for (i = height; i > baseline; i--) {
+            for (j = 0; j < line; j += 4) {
+                if (imagedata[idx + j] !== 255) {
                     stop = true;
                     break;
                 }
             }
-            if (!stop)
-            {
+            if (!stop) {
                 idx -= line;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
@@ -571,67 +522,51 @@ Text.prototype.determineFontProperties = function (fontStyle)
  * @return {string} New string with new lines applied where required
  * @private
  */
-Text.prototype.wordWrap = function (text)
-{
+Text.prototype.wordWrap = function (text) {
     // Greedy wrapping algorithm that will wrap words as the line grows longer
     // than its horizontal bounds.
     var result = '';
     var lines = text.split('\n');
     var wordWrapWidth = this._style.wordWrapWidth;
-    for (var i = 0; i < lines.length; i++)
-    {
+    for (var i = 0; i < lines.length; i++) {
         var spaceLeft = wordWrapWidth;
         var words = lines[i].split(' ');
-        for (var j = 0; j < words.length; j++)
-        {
+        for (var j = 0; j < words.length; j++) {
             var wordWidth = this.context.measureText(words[j]).width;
-            if (this._style.breakWords && wordWidth > wordWrapWidth)
-            {
+            if (this._style.breakWords && wordWidth > wordWrapWidth) {
                 // Word should be split in the middle
                 var characters = words[j].split('');
-                for (var c = 0; c < characters.length; c++)
-                {
-                  var characterWidth = this.context.measureText(characters[c]).width;
-                  if (characterWidth > spaceLeft)
-                  {
-                    result += '\n' + characters[c];
-                    spaceLeft = wordWrapWidth - characterWidth;
-                  }
-                  else
-                  {
-                    if (c === 0)
-                    {
-                      result += ' ';
+                for (var c = 0; c < characters.length; c++) {
+                    var characterWidth = this.context.measureText(characters[c]).width;
+                    if (characterWidth > spaceLeft) {
+                        result += '\n' + characters[c];
+                        spaceLeft = wordWrapWidth - characterWidth;
+                    } else {
+                        if (c === 0) {
+                            result += ' ';
+                        }
+                        result += characters[c];
+                        spaceLeft -= characterWidth;
                     }
-                    result += characters[c];
-                    spaceLeft -= characterWidth;
-                  }
                 }
-            }
-            else
-            {
+            } else {
                 var wordWidthWithSpace = wordWidth + this.context.measureText(' ').width;
-                if (j === 0 || wordWidthWithSpace > spaceLeft)
-                {
+                if (j === 0 || wordWidthWithSpace > spaceLeft) {
                     // Skip printing the newline if it's the first word of the line that is
                     // greater than the word wrap width.
-                    if (j > 0)
-                    {
+                    if (j > 0) {
                         result += '\n';
                     }
                     result += words[j];
                     spaceLeft = wordWrapWidth - wordWidth;
-                }
-                else
-                {
+                } else {
                     spaceLeft -= wordWidthWithSpace;
                     result += ' ' + words[j];
                 }
             }
         }
 
-        if (i < lines.length-1)
-        {
+        if (i < lines.length - 1) {
             result += '\n';
         }
     }
@@ -641,8 +576,7 @@ Text.prototype.wordWrap = function (text)
 /**
  * calculates the bounds of the Text as a rectangle. The bounds calculation takes the worldTransform into account.
  */
-Text.prototype._calculateBounds = function ()
-{
+Text.prototype._calculateBounds = function () {
     this.updateText(true);
     this.calculateVertices();
     // if we have already done this on THIS frame.
@@ -653,8 +587,7 @@ Text.prototype._calculateBounds = function ()
  * Method to be called upon a TextStyle change.
  * @private
  */
-Text.prototype._onStyleChange = function ()
-{
+Text.prototype._onStyleChange = function () {
     this.dirty = true;
 };
 
@@ -663,14 +596,10 @@ Text.prototype._onStyleChange = function ()
  * @return string|Number|CanvasGradient
  * @private
  */
-Text.prototype._generateFillStyle = function (style, lines)
-{
-    if (!Array.isArray(style.fill))
-    {
+Text.prototype._generateFillStyle = function (style, lines) {
+    if (!Array.isArray(style.fill)) {
         return style.fill;
-    }
-    else
-    {
+    } else {
         // the gradient will be evenly spaced out according to how large the array is.
         // ['#FF0000', '#00FF00', '#0000FF'] would created stops at 0.25, 0.5 and 0.75
         var i;
@@ -682,28 +611,23 @@ Text.prototype._generateFillStyle = function (style, lines)
         var width = this.canvas.width / this.resolution;
         var height = this.canvas.height / this.resolution;
 
-        if (style.fillGradientType === CONST.TEXT_GRADIENT.LINEAR_VERTICAL)
-        {
+        if (style.fillGradientType === CONST.TEXT_GRADIENT.LINEAR_VERTICAL) {
             // start the gradient at the top center of the canvas, and end at the bottom middle of the canvas
             gradient = this.context.createLinearGradient(width / 2, 0, width / 2, height);
 
             // we need to repeat the gradient so that each invididual line of text has the same vertical gradient effect
             // ['#FF0000', '#00FF00', '#0000FF'] over 2 lines would create stops at 0.125, 0.25, 0.375, 0.625, 0.75, 0.875
-            totalIterations = ( style.fill.length + 1 ) * lines.length;
+            totalIterations = (style.fill.length + 1) * lines.length;
             currentIteration = 0;
-            for (i = 0; i < lines.length; i++)
-            {
+            for (i = 0; i < lines.length; i++) {
                 currentIteration += 1;
-                for (var j = 0; j < style.fill.length; j++)
-                {
-                    stop = (currentIteration / totalIterations);
+                for (var j = 0; j < style.fill.length; j++) {
+                    stop = currentIteration / totalIterations;
                     gradient.addColorStop(stop, style.fill[j]);
                     currentIteration++;
                 }
             }
-        }
-        else
-        {
+        } else {
             // start the gradient at the center left of the canvas, and end at the center right of the canvas
             gradient = this.context.createLinearGradient(0, height / 2, width, height / 2);
 
@@ -711,8 +635,7 @@ Text.prototype._generateFillStyle = function (style, lines)
             totalIterations = style.fill.length + 1;
             currentIteration = 1;
 
-            for (i = 0; i < style.fill.length; i++)
-            {
+            for (i = 0; i < style.fill.length; i++) {
                 stop = currentIteration / totalIterations;
                 gradient.addColorStop(stop, style.fill[i]);
                 currentIteration++;
@@ -734,15 +657,14 @@ Text.prototype._generateFillStyle = function (style, lines)
  * @param [options.texture=true] {boolean} Should it destroy the current texture of the sprite as well
  * @param [options.baseTexture=true] {boolean} Should it destroy the base texture of the sprite as well
  */
-Text.prototype.destroy = function (options)
-{
+Text.prototype.destroy = function (options) {
     if (typeof options === 'boolean') {
         options = { children: options };
     }
 
-    options =  Object.assign({}, defaultDestroyOptions, options);
+    options = Object.assign({}, defaultDestroyOptions, options);
 
-    spritesSprite_Spritejs.prototype.destroy.call(this, options);
+    _Sprite.Sprite.prototype.destroy.call(this, options);
 
     // make sure to reset the the context and canvas.. dont want this hanging around in memory!
     this.context = null;
@@ -768,4 +690,4 @@ var exported_Text = Text;
  * @param text {string} The string that you would like the text to display
  * @param [style] {object|PIXI.TextStyle} The style parameters
  */
-export { exported_Text as Text };
+exports.Text = exported_Text;

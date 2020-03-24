@@ -1,5 +1,9 @@
-import "./core";
-import "./interaction";
+"use strict";
+
+require("./core");
+
+require("./interaction");
+
 ({});
 
 describe('PIXI', function () {

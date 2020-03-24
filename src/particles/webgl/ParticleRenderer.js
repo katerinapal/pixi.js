@@ -1,8 +1,18 @@
-import { core as core_corejs } from "../../core";
-import { ParticleShader as ParticleShader_ParticleShaderjs } from "./ParticleShader";
-import { ParticleBuffer as ParticleBuffer_ParticleBufferjs } from "./ParticleBuffer";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ParticleRenderer = undefined;
+
+var _core = require("../../core");
+
+var _ParticleShader = require("./ParticleShader");
+
+var _ParticleBuffer = require("./ParticleBuffer");
+
 function ParticleRenderer(renderer) {
-    core_corejs.ObjectRenderer.call(this, renderer);
+    _core.core.ObjectRenderer.call(this, renderer);
 
     // 65535 is max vertex index in the index buffer (see ParticleRenderer)
     // so max number of particles is 65536 / 4 = 16384
@@ -21,106 +31,96 @@ function ParticleRenderer(renderer) {
 
     this.properties = null;
 
-    this.tempMatrix = new core_corejs.Matrix();
+    this.tempMatrix = new _core.core.Matrix();
 
     this.CONTEXT_UID = 0;
 }
 
-ParticleRenderer.prototype = Object.create(core_corejs.ObjectRenderer.prototype);
+ParticleRenderer.prototype = Object.create(_core.core.ObjectRenderer.prototype);
 ParticleRenderer.prototype.constructor = ParticleRenderer;
 
-core_corejs.WebGLRenderer.registerPlugin('particle', ParticleRenderer);
+_core.core.WebGLRenderer.registerPlugin('particle', ParticleRenderer);
 
 /**
  * When there is a WebGL context change
  *
  * @private
  */
-ParticleRenderer.prototype.onContextChange = function ()
-{
+ParticleRenderer.prototype.onContextChange = function () {
     var gl = this.renderer.gl;
 
     this.CONTEXT_UID = this.renderer.CONTEXT_UID;
 
     // setup default shader
-    this.shader = new ParticleShader_ParticleShaderjs(gl);
+    this.shader = new _ParticleShader.ParticleShader(gl);
 
     this.properties = [
-        // verticesData
-        {
-            attribute:this.shader.attributes.aVertexPosition,
-            size:2,
-            uploadFunction:this.uploadVertices,
-            offset:0
-        },
-        // positionData
-        {
-            attribute:this.shader.attributes.aPositionCoord,
-            size:2,
-            uploadFunction:this.uploadPosition,
-            offset:0
-        },
-        // rotationData
-        {
-            attribute:this.shader.attributes.aRotation,
-            size:1,
-            uploadFunction:this.uploadRotation,
-            offset:0
-        },
-        // uvsData
-        {
-            attribute:this.shader.attributes.aTextureCoord,
-            size:2,
-            uploadFunction:this.uploadUvs,
-            offset:0
-        },
-        // alphaData
-        {
-            attribute:this.shader.attributes.aColor,
-            size:1,
-            uploadFunction:this.uploadAlpha,
-            offset:0
-        }
-    ];
-
+    // verticesData
+    {
+        attribute: this.shader.attributes.aVertexPosition,
+        size: 2,
+        uploadFunction: this.uploadVertices,
+        offset: 0
+    },
+    // positionData
+    {
+        attribute: this.shader.attributes.aPositionCoord,
+        size: 2,
+        uploadFunction: this.uploadPosition,
+        offset: 0
+    },
+    // rotationData
+    {
+        attribute: this.shader.attributes.aRotation,
+        size: 1,
+        uploadFunction: this.uploadRotation,
+        offset: 0
+    },
+    // uvsData
+    {
+        attribute: this.shader.attributes.aTextureCoord,
+        size: 2,
+        uploadFunction: this.uploadUvs,
+        offset: 0
+    },
+    // alphaData
+    {
+        attribute: this.shader.attributes.aColor,
+        size: 1,
+        uploadFunction: this.uploadAlpha,
+        offset: 0
+    }];
 };
 
 /**
  * Starts a new particle batch.
  *
  */
-ParticleRenderer.prototype.start = function ()
-{
+ParticleRenderer.prototype.start = function () {
     this.renderer.bindShader(this.shader);
 };
-
 
 /**
  * Renders the particle container object.
  *
  * @param container {PIXI.ParticleContainer} The container to render using this ParticleRenderer
  */
-ParticleRenderer.prototype.render = function (container)
-{
+ParticleRenderer.prototype.render = function (container) {
     var children = container.children,
         totalChildren = children.length,
         maxSize = container._maxSize,
         batchSize = container._batchSize;
 
-    if(totalChildren === 0)
-    {
+    if (totalChildren === 0) {
         return;
-    }
-    else if(totalChildren > maxSize)
-    {
+    } else if (totalChildren > maxSize) {
         totalChildren = maxSize;
     }
 
     var buffers = container._glBuffers[this.renderer.CONTEXT_UID];
 
-    if(!buffers)
-    {
-        buffers = container._glBuffers[this.renderer.CONTEXT_UID] = this.generateBuffers( container );
+    if (!buffers) {
+        buffers = container._glBuffers[this.renderer.CONTEXT_UID] = this.generateBuffers(container);
     }
 
     // if the uvs have not updated then no point rendering just yet!
@@ -128,11 +128,10 @@ ParticleRenderer.prototype.render = function (container)
 
     var gl = this.renderer.gl;
 
-    var m = container.worldTransform.copy( this.tempMatrix );
-    m.prepend( this.renderer._activeRenderTarget.projectionMatrix );
+    var m = container.worldTransform.copy(this.tempMatrix);
+    m.prepend(this.renderer._activeRenderTarget.projectionMatrix);
     this.shader.uniforms.projectionMatrix = m.toArray(true);
     this.shader.uniforms.uAlpha = container.worldAlpha;
-
 
     // make sure the texture is bound..
     var baseTexture = children[0]._texture.baseTexture;
@@ -140,11 +139,9 @@ ParticleRenderer.prototype.render = function (container)
     this.renderer.bindTexture(baseTexture);
 
     // now lets upload and render the buffers..
-    for (var i = 0, j = 0; i < totalChildren; i += batchSize, j += 1)
-    {
-        var amount = ( totalChildren - i);
-        if(amount > batchSize)
-        {
+    for (var i = 0, j = 0; i < totalChildren; i += batchSize, j += 1) {
+        var amount = totalChildren - i;
+        if (amount > batchSize) {
             amount = batchSize;
         }
 
@@ -154,20 +151,17 @@ ParticleRenderer.prototype.render = function (container)
         buffer.uploadDynamic(children, i, amount);
 
         // we only upload the static content when we have to!
-        if(container._bufferToUpdate === j)
-        {
+        if (container._bufferToUpdate === j) {
             buffer.uploadStatic(children, i, amount);
             container._bufferToUpdate = j + 1;
         }
 
         // bind the buffer
-        buffer.vao.bind()
-        .draw(gl.TRIANGLES, amount * 6)
-        .unbind();
+        buffer.vao.bind().draw(gl.TRIANGLES, amount * 6).unbind();
 
-         // now draw those suckas!
-       // gl.drawElements(gl.TRIANGLES, amount * 6, gl.UNSIGNED_SHORT, 0);
-       //  this.renderer.drawCount++;
+        // now draw those suckas!
+        // gl.drawElements(gl.TRIANGLES, amount * 6, gl.UNSIGNED_SHORT, 0);
+        //  this.renderer.drawCount++;
     }
 };
 
@@ -176,8 +170,7 @@ ParticleRenderer.prototype.render = function (container)
  *
  * @param container {PIXI.ParticleContainer} The container to render using this ParticleRenderer
  */
-ParticleRenderer.prototype.generateBuffers = function (container)
-{
+ParticleRenderer.prototype.generateBuffers = function (container) {
     var gl = this.renderer.gl,
         buffers = [],
         size = container._maxSize,
@@ -185,9 +178,8 @@ ParticleRenderer.prototype.generateBuffers = function (container)
         dynamicPropertyFlags = container._properties,
         i;
 
-    for (i = 0; i < size; i += batchSize)
-    {
-        buffers.push(new ParticleBuffer_ParticleBufferjs(gl, this.properties, dynamicPropertyFlags, batchSize));
+    for (i = 0; i < size; i += batchSize) {
+        buffers.push(new _ParticleBuffer.ParticleBuffer(gl, this.properties, dynamicPropertyFlags, batchSize));
     }
 
     return buffers;
@@ -203,15 +195,8 @@ ParticleRenderer.prototype.generateBuffers = function (container)
  * @param stride {number}
  * @param offset {number}
  */
-ParticleRenderer.prototype.uploadVertices = function (children, startIndex, amount, array, stride, offset)
-{
-    var sprite,
-        texture,
-        trim,
-        orig,
-        sx,
-        sy,
-        w0, w1, h0, h1;
+ParticleRenderer.prototype.uploadVertices = function (children, startIndex, amount, array, stride, offset) {
+    var sprite, texture, trim, orig, sx, sy, w0, w1, h0, h1;
 
     for (var i = 0; i < amount; i++) {
 
@@ -222,22 +207,18 @@ ParticleRenderer.prototype.uploadVertices = function (children, startIndex, amou
         trim = texture.trim;
         orig = texture.orig;
 
-        if (trim)
-        {
+        if (trim) {
             // if the sprite is trimmed and is not a tilingsprite then we need to add the extra space before transforming the sprite coords..
             w1 = trim.x - sprite.anchor.x * orig.width;
             w0 = w1 + trim.width;
 
             h1 = trim.y - sprite.anchor.y * orig.height;
             h0 = h1 + trim.height;
+        } else {
+            w0 = orig.width * (1 - sprite.anchor.x);
+            w1 = orig.width * -sprite.anchor.x;
 
-        }
-        else
-        {
-            w0 = (orig.width ) * (1-sprite.anchor.x);
-            w1 = (orig.width ) * -sprite.anchor.x;
-
-            h0 = orig.height * (1-sprite.anchor.y);
+            h0 = orig.height * (1 - sprite.anchor.y);
             h1 = orig.height * -sprite.anchor.y;
         }
 
@@ -255,7 +236,6 @@ ParticleRenderer.prototype.uploadVertices = function (children, startIndex, amou
 
         offset += stride * 4;
     }
-
 };
 
 /**
@@ -267,10 +247,8 @@ ParticleRenderer.prototype.uploadVertices = function (children, startIndex, amou
  * @param stride {number}
  * @param offset {number}
  */
-ParticleRenderer.prototype.uploadPosition = function (children,startIndex, amount, array, stride, offset)
-{
-    for (var i = 0; i < amount; i++)
-    {
+ParticleRenderer.prototype.uploadPosition = function (children, startIndex, amount, array, stride, offset) {
+    for (var i = 0; i < amount; i++) {
         var spritePosition = children[startIndex + i].position;
 
         array[offset] = spritePosition.x;
@@ -287,7 +265,6 @@ ParticleRenderer.prototype.uploadPosition = function (children,startIndex, amoun
 
         offset += stride * 4;
     }
-
 };
 
 /**
@@ -299,12 +276,9 @@ ParticleRenderer.prototype.uploadPosition = function (children,startIndex, amoun
  * @param stride {number}
  * @param offset {number}
  */
-ParticleRenderer.prototype.uploadRotation = function (children,startIndex, amount, array, stride, offset)
-{
-    for (var i = 0; i < amount; i++)
-    {
+ParticleRenderer.prototype.uploadRotation = function (children, startIndex, amount, array, stride, offset) {
+    for (var i = 0; i < amount; i++) {
         var spriteRotation = children[startIndex + i].rotation;
-
 
         array[offset] = spriteRotation;
         array[offset + stride] = spriteRotation;
@@ -324,14 +298,11 @@ ParticleRenderer.prototype.uploadRotation = function (children,startIndex, amoun
  * @param stride {number}
  * @param offset {number}
  */
-ParticleRenderer.prototype.uploadUvs = function (children,startIndex, amount, array, stride, offset)
-{
-    for (var i = 0; i < amount; i++)
-    {
+ParticleRenderer.prototype.uploadUvs = function (children, startIndex, amount, array, stride, offset) {
+    for (var i = 0; i < amount; i++) {
         var textureUvs = children[startIndex + i]._texture._uvs;
 
-        if (textureUvs)
-        {
+        if (textureUvs) {
             array[offset] = textureUvs.x0;
             array[offset + 1] = textureUvs.y0;
 
@@ -345,9 +316,7 @@ ParticleRenderer.prototype.uploadUvs = function (children,startIndex, amount, ar
             array[offset + stride * 3 + 1] = textureUvs.y3;
 
             offset += stride * 4;
-        }
-        else
-        {
+        } else {
             //TODO you know this can be easier!
             array[offset] = 0;
             array[offset + 1] = 0;
@@ -375,10 +344,8 @@ ParticleRenderer.prototype.uploadUvs = function (children,startIndex, amount, ar
  * @param stride {number}
  * @param offset {number}
  */
-ParticleRenderer.prototype.uploadAlpha = function (children,startIndex, amount, array, stride, offset)
-{
-     for (var i = 0; i < amount; i++)
-     {
+ParticleRenderer.prototype.uploadAlpha = function (children, startIndex, amount, array, stride, offset) {
+    for (var i = 0; i < amount; i++) {
         var spriteAlpha = children[startIndex + i].alpha;
 
         array[offset] = spriteAlpha;
@@ -390,17 +357,15 @@ ParticleRenderer.prototype.uploadAlpha = function (children,startIndex, amount, 
     }
 };
 
-
 /**
  * Destroys the ParticleRenderer.
  *
  */
-ParticleRenderer.prototype.destroy = function ()
-{
+ParticleRenderer.prototype.destroy = function () {
     if (this.renderer.gl) {
         this.renderer.gl.deleteBuffer(this.indexBuffer);
     }
-    core_corejs.ObjectRenderer.prototype.destroy.apply(this, arguments);
+    _core.core.ObjectRenderer.prototype.destroy.apply(this, arguments);
 
     this.shader.destroy();
 
@@ -427,4 +392,4 @@ var exported_ParticleRenderer = ParticleRenderer;
  * @memberof PIXI
  * @param renderer {PIXI.WebGLRenderer} The renderer this sprite batch works for.
  */
-export { exported_ParticleRenderer as ParticleRenderer };
+exports.ParticleRenderer = exported_ParticleRenderer;

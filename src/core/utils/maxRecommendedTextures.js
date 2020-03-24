@@ -1,21 +1,26 @@
+"use strict";
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.maxRecommendedTextures = undefined;
 
-import Device from "ismobilejs";
+var _ismobilejs = require("ismobilejs");
 
-var maxRecommendedTextures = function(max)
-{
+var _ismobilejs2 = _interopRequireDefault(_ismobilejs);
 
-	if(Device.tablet || Device.phone)
-	{
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var maxRecommendedTextures = function maxRecommendedTextures(max) {
+
+	if (_ismobilejs2.default.tablet || _ismobilejs2.default.phone) {
 		// check if the res is iphone 6 or higher..
 		return 2;
-	}
-	else
-	{
+	} else {
 		// desktop should be ok
 		return max;
 	}
 };
 
-let exported_maxRecommendedTextures = maxRecommendedTextures;
-export { exported_maxRecommendedTextures as maxRecommendedTextures };
+var exported_maxRecommendedTextures = maxRecommendedTextures;
+exports.maxRecommendedTextures = exported_maxRecommendedTextures;
