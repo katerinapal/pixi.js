@@ -1,4 +1,4 @@
-var glCore = require('pixi-gl-core');
+import glCore from "pixi-gl-core";
 
 var fragTemplate = [
     'precision mediump float;',
@@ -56,6 +56,10 @@ var checkMaxIfStatmentsInShader = function(maxIfs, gl)
 
 
 
+let exported_checkMaxIfStatmentsInShader = checkMaxIfStatmentsInShader;
+
+
+
 function generateIfTestSrc(maxIfs)
 {
     var src = '';
@@ -76,4 +80,4 @@ function generateIfTestSrc(maxIfs)
     return src;
 }
 
-module.exports = checkMaxIfStatmentsInShader;
+export { exported_checkMaxIfStatmentsInShader as checkMaxIfStatmentsInShader };

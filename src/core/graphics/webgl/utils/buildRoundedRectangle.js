@@ -1,17 +1,5 @@
-var earcut = require('earcut'),
-    buildLine = require('./buildLine'),
-    utils = require('../../../utils');
-
-/**
- * Builds a rounded rectangle to draw
- *
- * Ignored from docs since it is not directly exposed.
- *
- * @ignore
- * @private
- * @param graphicsData {PIXI.WebGLGraphicsData} The graphics object containing all the necessary properties
- * @param webGLData {object} an object containing all the webGL-specific information to create this shape
- */
+import earcut from "earcut";
+import { buildLine as buildLine_buildLinejs } from "./buildLine";
 var buildRoundedRectangle = function (graphicsData, webGLData)
 {
     var rrectData = graphicsData.shape;
@@ -70,11 +58,13 @@ var buildRoundedRectangle = function (graphicsData, webGLData)
 
         graphicsData.points = recPoints;
 
-        buildLine(graphicsData, webGLData);
+        buildLine_buildLinejs(graphicsData, webGLData);
 
         graphicsData.points = tempPoints;
     }
 };
+
+let exported_buildRoundedRectangle = buildRoundedRectangle;
 
 /**
  * Calculate the points for a quadratic bezier curve. (helper function..)
@@ -131,4 +121,4 @@ var quadraticBezierCurve = function (fromX, fromY, cpX, cpY, toX, toY, out)// js
 };
 
 
-module.exports = buildRoundedRectangle;
+export { exported_buildRoundedRectangle as buildRoundedRectangle };

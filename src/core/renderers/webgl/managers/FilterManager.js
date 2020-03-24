@@ -1,36 +1,29 @@
 
-var WebGLManager = require('./WebGLManager'),
-    RenderTarget = require('../utils/RenderTarget'),
-    Quad = require('../utils/Quad'),
-    math =  require('../../../math'),
-    Shader = require('../../../Shader'),
-    filterTransforms = require('../filters/filterTransforms'),
-    bitTwiddle = require('bit-twiddle');
+import { WebGLManager as WebGLManager_WebGLManagerjs } from "./WebGLManager";
+import { RenderTarget as utilsRenderTarget_RenderTargetjs } from "../utils/RenderTarget";
+import { Quad as utilsQuad_Quadjs } from "../utils/Quad";
+import { indexjs as math_indexjsjs } from "../../../math";
+import { Shader as Shader_Shaderjs } from "../../../Shader";
+import { filterTransformsjs as filtersfilterTransforms_filterTransformsjsjs } from "../filters/filterTransforms";
+import bitTwiddle from "bit-twiddle";
 
 var FilterState = function()
 {
     this.renderTarget = null;
-    this.sourceFrame = new math.Rectangle();
-    this.destinationFrame = new math.Rectangle();
+    this.sourceFrame = new math_indexjsjs.Rectangle();
+    this.destinationFrame = new math_indexjsjs.Rectangle();
     this.filters = [];
     this.target = null;
     this.resolution = 1;
 };
 
 
-/**
- * @class
- * @memberof PIXI
- * @extends PIXI.WebGLManager
- * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
- */
-function FilterManager(renderer)
-{
-    WebGLManager.call(this, renderer);
+function FilterManager(renderer) {
+    WebGLManager_WebGLManagerjs.call(this, renderer);
 
     this.gl = this.renderer.gl;
     // know about sprites!
-    this.quad = new Quad(this.gl, renderer.state.attribState);
+    this.quad = new utilsQuad_Quadjs(this.gl, renderer.state.attribState);
 
     this.shaderCache = {};
     // todo add default!
@@ -39,9 +32,8 @@ function FilterManager(renderer)
     this.filterData = null;
 }
 
-FilterManager.prototype = Object.create(WebGLManager.prototype);
+FilterManager.prototype = Object.create(WebGLManager_WebGLManagerjs.prototype);
 FilterManager.prototype.constructor = FilterManager;
-module.exports = FilterManager;
 
 FilterManager.prototype.pushFilter = function(target, filters)
 {
@@ -181,12 +173,12 @@ FilterManager.prototype.applyFilter = function (filter, input, output, clear)
 
             if(!shader)
             {
-                shader = filter.glShaders[renderer.CONTEXT_UID] = this.shaderCache[filter.glShaderKey] = new Shader(this.gl, filter.vertexSrc, filter.fragmentSrc);
+                shader = filter.glShaders[renderer.CONTEXT_UID] = this.shaderCache[filter.glShaderKey] = new Shader_Shaderjs(this.gl, filter.vertexSrc, filter.fragmentSrc);
             }
         }
         else
         {
-            shader = filter.glShaders[renderer.CONTEXT_UID] = new Shader(this.gl, filter.vertexSrc, filter.fragmentSrc);
+            shader = filter.glShaders[renderer.CONTEXT_UID] = new Shader_Shaderjs(this.gl, filter.vertexSrc, filter.fragmentSrc);
         }
 
         //TODO - this only needs to be done once?
@@ -358,7 +350,7 @@ FilterManager.prototype.returnRenderTarget = function(renderTarget)
 FilterManager.prototype.calculateScreenSpaceMatrix = function (outputMatrix)
 {
     var currentState = this.filterData.stack[this.filterData.index];
-    return filterTransforms.calculateScreenSpaceMatrix(outputMatrix,  currentState.sourceFrame, currentState.renderTarget.size);
+    return filtersfilterTransforms_filterTransformsjsjs.calculateScreenSpaceMatrix(outputMatrix,  currentState.sourceFrame, currentState.renderTarget.size);
 };
 
 /**
@@ -370,14 +362,14 @@ FilterManager.prototype.calculateNormalizedScreenSpaceMatrix = function (outputM
 {
     var currentState = this.filterData.stack[this.filterData.index];
 
-    return filterTransforms.calculateNormalizedScreenSpaceMatrix(outputMatrix, currentState.sourceFrame, currentState.renderTarget.size, currentState.destinationFrame);
+    return filtersfilterTransforms_filterTransformsjsjs.calculateNormalizedScreenSpaceMatrix(outputMatrix, currentState.sourceFrame, currentState.renderTarget.size, currentState.destinationFrame);
 };
 
 // this will map the filter coord so that a texture can be used based on the transform of a sprite
 FilterManager.prototype.calculateSpriteMatrix = function (outputMatrix, sprite)
 {
     var currentState = this.filterData.stack[this.filterData.index];
-    return filterTransforms.calculateSpriteMatrix(outputMatrix, currentState.sourceFrame, currentState.renderTarget.size, sprite);
+    return filtersfilterTransforms_filterTransformsjsjs.calculateSpriteMatrix(outputMatrix, currentState.sourceFrame, currentState.renderTarget.size, sprite);
 };
 
 FilterManager.prototype.destroy = function()
@@ -402,7 +394,7 @@ FilterManager.prototype.getPotRenderTarget = function(gl, minWidth, minHeight, r
       this.pool[key] = [];
     }
 
-    var renderTarget = this.pool[key].pop() || new RenderTarget(gl, minWidth, minHeight, null, 1);
+    var renderTarget = this.pool[key].pop() || new utilsRenderTarget_RenderTargetjs(gl, minWidth, minHeight, null, 1);
 
     //manually tweak the resolution...
     //this will not modify the size of the frame buffer, just its resolution.
@@ -437,3 +429,12 @@ FilterManager.prototype.freePotRenderTarget = function(renderTarget)
     var key = ((minWidth & 0xFFFF) << 16) | (minHeight & 0xFFFF);
     this.pool[key].push(renderTarget);
 };
+var exported_FilterManager = FilterManager;
+
+/**
+ * @class
+ * @memberof PIXI
+ * @extends PIXI.WebGLManager
+ * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
+ */
+export { exported_FilterManager as FilterManager };

@@ -1,4 +1,4 @@
-var core = require('../core');
+import { core as core_corejs } from "../core";
 
 /**
  * The instance name of the object.
@@ -6,7 +6,7 @@ var core = require('../core');
  * @memberof PIXI.DisplayObject#
  * @member {string}
  */
-core.DisplayObject.prototype.name = null;
+core_corejs.DisplayObject.prototype.name = null;
 
 /**
 * Returns the display object in the container
@@ -15,7 +15,7 @@ core.DisplayObject.prototype.name = null;
 * @param name {string} instance name
 * @return {PIXI.DisplayObject}
 */
-core.Container.prototype.getChildByName = function (name)
+core_corejs.Container.prototype.getChildByName = function (name)
 {
     for (var i = 0; i < this.children.length; i++)
     {

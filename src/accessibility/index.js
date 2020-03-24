@@ -1,14 +1,9 @@
-/**
- * @file        Main export of the PIXI accessibility library
- * @author      Mat Groves <mat@goodboydigital.com>
- * @copyright   2013-2015 GoodBoyDigital
- * @license     {@link https://github.com/pixijs/pixi.js/blob/master/LICENSE|MIT License}
- */
+import * as accessibleTarget_accessibleTargetjs from "./accessibleTarget";
+import { AccessibilityManagerjs as AccessibilityManager_AccessibilityManagerjs } from "./AccessibilityManager";
 
-/**
- * @namespace PIXI.AccessibilityManager
- */
-module.exports = {
-    accessibleTarget:     require('./accessibleTarget'),
-    AccessibilityManager: require('./AccessibilityManager')
+var indexjs_indexjs = {
+    accessibleTarget:     accessibleTarget_accessibleTargetjs,
+    AccessibilityManager: AccessibilityManager_AccessibilityManagerjs
 };
+
+export { indexjs_indexjs as indexjs };

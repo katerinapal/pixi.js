@@ -1,17 +1,8 @@
-var CONST = require('../../../const'),
-canUseNewCanvasBlendModes = require('./canUseNewCanvasBlendModes');
-
-/**
- * Maps blend combinations to Canvas
- * @class
- * @memberof PIXI
- * @param array
- */
-function mapCanvasBlendModesToPixi(array)
-{
+import {     canUseNewCanvasBlendModes as canUseNewCanvasBlendModes_canUseNewCanvasBlendModesjs, } from "./canUseNewCanvasBlendModes";
+function mapCanvasBlendModesToPixi(array) {
     array = array || [];
 
-    if (canUseNewCanvasBlendModes())
+    if (canUseNewCanvasBlendModes_canUseNewCanvasBlendModesjs())
     {
         array[CONST.BLEND_MODES.NORMAL]        = 'source-over';
         array[CONST.BLEND_MODES.ADD]           = 'lighter'; //IS THIS OK???
@@ -56,4 +47,12 @@ function mapCanvasBlendModesToPixi(array)
     return array;
 }
 
-module.exports = mapCanvasBlendModesToPixi;
+var exported_mapCanvasBlendModesToPixi = mapCanvasBlendModesToPixi;
+
+/**
+ * Maps blend combinations to Canvas
+ * @class
+ * @memberof PIXI
+ * @param array
+ */
+export { exported_mapCanvasBlendModesToPixi as mapCanvasBlendModesToPixi };

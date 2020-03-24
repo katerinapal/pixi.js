@@ -1,17 +1,5 @@
-var buildLine = require('./buildLine'),
-    utils = require('../../../utils'),
-    earcut = require('earcut');
-
-/**
- * Builds a polygon to draw
- *
- * Ignored from docs since it is not directly exposed.
- *
- * @ignore
- * @private
- * @param graphicsData {PIXI.WebGLGraphicsData} The graphics object containing all the necessary properties
- * @param webGLData {object} an object containing all the webGL-specific information to create this shape
- */
+import { buildLine as buildLine_buildLinejs } from "./buildLine";
+import earcut from "earcut";
 var buildPoly = function (graphicsData, webGLData)
 {
     graphicsData.points = graphicsData.shape.points.slice();
@@ -71,9 +59,10 @@ var buildPoly = function (graphicsData, webGLData)
 
     if (graphicsData.lineWidth > 0)
     {
-        buildLine(graphicsData, webGLData);
+        buildLine_buildLinejs(graphicsData, webGLData);
     }
 };
 
 
-module.exports = buildPoly;
+let exported_buildPoly = buildPoly;
+export { exported_buildPoly as buildPoly };

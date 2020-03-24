@@ -1,16 +1,7 @@
-var math = require('../math'),
-    Rectangle = math.Rectangle;
+import { indexjs as math_indexjsjs } from "../math";
+var Rectangle = math_indexjsjs.Rectangle;
 
-/**
- * 'Builder' pattern for bounds rectangles
- * Axis-Aligned Bounding Box
- * It is not a shape! Its mutable thing, no 'EMPTY' or that kind of problems
- *
- * @class
- * @memberof PIXI
- */
-function Bounds()
-{
+function Bounds() {
     /**
      * @member {number}
      * @default 0
@@ -39,7 +30,6 @@ function Bounds()
 }
 
 Bounds.prototype.constructor = Bounds;
-module.exports = Bounds;
 
 Bounds.prototype.isEmpty = function()
 {
@@ -221,3 +211,14 @@ Bounds.prototype.addBounds = function(bounds)
     this.maxX = bounds.maxX > maxX ? bounds.maxX : maxX;
     this.maxY = bounds.maxY > maxY ? bounds.maxY : maxY;
 };
+var exported_Bounds = Bounds;
+
+/**
+ * 'Builder' pattern for bounds rectangles
+ * Axis-Aligned Bounding Box
+ * It is not a shape! Its mutable thing, no 'EMPTY' or that kind of problems
+ *
+ * @class
+ * @memberof PIXI
+ */
+export { exported_Bounds as Bounds };

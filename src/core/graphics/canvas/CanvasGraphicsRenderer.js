@@ -1,36 +1,12 @@
-var CanvasRenderer = require('../../renderers/canvas/CanvasRenderer'),
-    CONST = require('../../const');
-
-/**
- * @author Mat Groves
- *
- * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
- * for creating the original pixi version!
- * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
- *
- * Heavily inspired by LibGDX's CanvasGraphicsRenderer:
- * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/CanvasGraphicsRenderer.java
- */
-
-/**
- * Renderer dedicated to drawing and batching graphics objects.
- *
- * @class
- * @private
- * @memberof PIXI
- * @extends PIXI.ObjectRenderer
- * @param renderer {PIXI.SystemRenderer} The current PIXI renderer.
- */
-function CanvasGraphicsRenderer(renderer)
-{
+import { CanvasRenderer as rendererscanvasCanvasRenderer_CanvasRendererjs } from "../../renderers/canvas/CanvasRenderer";
+function CanvasGraphicsRenderer(renderer) {
     this.renderer = renderer;
 }
 
 
 CanvasGraphicsRenderer.prototype.constructor = CanvasGraphicsRenderer;
-module.exports = CanvasGraphicsRenderer;
 
-CanvasRenderer.registerPlugin('graphics', CanvasGraphicsRenderer);
+rendererscanvasCanvasRenderer_CanvasRendererjs.registerPlugin('graphics', CanvasGraphicsRenderer);
 
 /*
  * Renders a Graphics object to a canvas.
@@ -274,3 +250,26 @@ CanvasGraphicsRenderer.prototype.destroy = function ()
 {
   this.renderer = null;
 };
+var exported_CanvasGraphicsRenderer = CanvasGraphicsRenderer;
+
+/**
+ * @author Mat Groves
+ *
+ * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
+ * for creating the original pixi version!
+ * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
+ *
+ * Heavily inspired by LibGDX's CanvasGraphicsRenderer:
+ * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/CanvasGraphicsRenderer.java
+ */
+
+/**
+ * Renderer dedicated to drawing and batching graphics objects.
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ * @extends PIXI.ObjectRenderer
+ * @param renderer {PIXI.SystemRenderer} The current PIXI renderer.
+ */
+export { exported_CanvasGraphicsRenderer as CanvasGraphicsRenderer };

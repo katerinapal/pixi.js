@@ -1,4 +1,4 @@
-var math = require('../../../math');
+import { indexjs as math_indexjsjs } from "../../../math";
 
 /*
  * Calculates the mapped matrix
@@ -41,7 +41,7 @@ var calculateNormalizedScreenSpaceMatrix = function (outputMatrix, filterArea, t
 // this will map the filter coord so that a texture can be used based on the transform of a sprite
 var calculateSpriteMatrix = function (outputMatrix, filterArea, textureSize, sprite)
 {
-    var worldTransform = sprite.worldTransform.copy(math.Matrix.TEMP_MATRIX),
+    var worldTransform = sprite.worldTransform.copy(math_indexjsjs.Matrix.TEMP_MATRIX),
     texture = sprite._texture.baseTexture;
 
     // TODO unwrap?
@@ -76,8 +76,10 @@ var calculateSpriteMatrix = function (outputMatrix, filterArea, textureSize, spr
     return mappedMatrix;
 };
 
-module.exports = {
+var filterTransformsjs_filterTransformsjs = {
     calculateScreenSpaceMatrix:calculateScreenSpaceMatrix,
     calculateNormalizedScreenSpaceMatrix:calculateNormalizedScreenSpaceMatrix,
     calculateSpriteMatrix:calculateSpriteMatrix
 };
+
+export { filterTransformsjs_filterTransformsjs as filterTransformsjs };

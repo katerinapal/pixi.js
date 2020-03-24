@@ -1,20 +1,7 @@
-var utils = require('../utils'),
-    CONST = require('../const'),
-    EventEmitter = require('eventemitter3'),
-    determineCrossOrigin = require('../utils/determineCrossOrigin'),
-    bitTwiddle = require('bit-twiddle');
-
-/**
- * A texture stores the information that represents an image. All textures have a base texture.
- *
- * @class
- * @memberof PIXI
- * @param [source ]{HTMLImageElement|HTMLCanvasElement} the source object of the texture.
- * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
- * @param [resolution=1] {number} The resolution / device pixel ratio of the texture
- */
-function BaseTexture(source, scaleMode, resolution)
-{
+import EventEmitter from "eventemitter3";
+import { determineCrossOrigin as utilsdetermineCrossOrigin_determineCrossOriginjs } from "../utils/determineCrossOrigin";
+import bitTwiddle from "bit-twiddle";
+function BaseTexture(source, scaleMode, resolution) {
     EventEmitter.call(this);
 
     this.uid = utils.uid();
@@ -182,7 +169,6 @@ function BaseTexture(source, scaleMode, resolution)
 
 BaseTexture.prototype = Object.create(EventEmitter.prototype);
 BaseTexture.prototype.constructor = BaseTexture;
-module.exports = BaseTexture;
 
 /**
  * Updates the texture on all the webgl renderers, this also assumes the src has changed.
@@ -404,7 +390,7 @@ BaseTexture.fromImage = function (imageUrl, crossorigin, scaleMode)
 
         if (crossorigin === undefined && imageUrl.indexOf('data:') !== 0)
         {
-            image.crossOrigin = determineCrossOrigin(imageUrl);
+            image.crossOrigin = utilsdetermineCrossOrigin_determineCrossOriginjs(imageUrl);
         }
 
         baseTexture = new BaseTexture(image, scaleMode);
@@ -446,3 +432,15 @@ BaseTexture.fromCanvas = function (canvas, scaleMode)
 
     return baseTexture;
 };
+var exported_BaseTexture = BaseTexture;
+
+/**
+ * A texture stores the information that represents an image. All textures have a base texture.
+ *
+ * @class
+ * @memberof PIXI
+ * @param [source ]{HTMLImageElement|HTMLCanvasElement} the source object of the texture.
+ * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
+ * @param [resolution=1] {number} The resolution / device pixel ratio of the texture
+ */
+export { exported_BaseTexture as BaseTexture };

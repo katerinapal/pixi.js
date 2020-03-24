@@ -1,6 +1,5 @@
-var core = require('../core'),
-    DisplayObject = core.DisplayObject,
-    _tempMatrix = new core.Matrix();
+import { core as core_corejs } from "../core";
+var DisplayObject = core_corejs.DisplayObject, _tempMatrix = new core_corejs.Matrix();
 
 DisplayObject.prototype._cacheAsBitmap = false;
 DisplayObject.prototype._cacheData = false;
@@ -169,7 +168,7 @@ DisplayObject.prototype._initCachedDisplayObject = function (renderer)
 
     // this renderTexture will be used to store the cached DisplayObject
 
-    var renderTexture = core.RenderTexture.create(bounds.width | 0, bounds.height | 0);
+    var renderTexture = core_corejs.RenderTexture.create(bounds.width | 0, bounds.height | 0);
 
     // need to set //
     var m = _tempMatrix;
@@ -197,7 +196,7 @@ DisplayObject.prototype._initCachedDisplayObject = function (renderer)
     this.filterArea = null;
 
     // create our cached sprite
-    var cachedSprite = new core.Sprite(renderTexture);
+    var cachedSprite = new core_corejs.Sprite(renderTexture);
     cachedSprite.transform.worldTransform = this.transform.worldTransform;
     cachedSprite.anchor.x = -( bounds.x / bounds.width );
     cachedSprite.anchor.y = -( bounds.y / bounds.height );
@@ -260,7 +259,7 @@ DisplayObject.prototype._initCachedDisplayObjectCanvas = function (renderer)
 
     var cachedRenderTarget = renderer.context;
 
-    var renderTexture = new core.RenderTexture.create(bounds.width | 0, bounds.height | 0);
+    var renderTexture = new core_corejs.RenderTexture.create(bounds.width | 0, bounds.height | 0);
 
     // need to set //
     var m = _tempMatrix;
@@ -287,7 +286,7 @@ DisplayObject.prototype._initCachedDisplayObjectCanvas = function (renderer)
     this.filterArea = null;
 
     // create our cached sprite
-    var cachedSprite = new core.Sprite(renderTexture);
+    var cachedSprite = new core_corejs.Sprite(renderTexture);
     cachedSprite.transform.worldTransform = this.transform.worldTransform;
     cachedSprite.anchor.x = -( bounds.x / bounds.width );
     cachedSprite.anchor.y = -( bounds.y / bounds.height );

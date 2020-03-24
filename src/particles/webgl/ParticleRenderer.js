@@ -1,28 +1,8 @@
-var core = require('../../core'),
-    ParticleShader = require('./ParticleShader'),
-    ParticleBuffer = require('./ParticleBuffer');
-
-/**
- * @author Mat Groves
- *
- * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
- * for creating the original pixi version!
- * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
- *
- * Heavily inspired by LibGDX's ParticleRenderer:
- * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/ParticleRenderer.java
- */
-
-/**
- *
- * @class
- * @private
- * @memberof PIXI
- * @param renderer {PIXI.WebGLRenderer} The renderer this sprite batch works for.
- */
-function ParticleRenderer(renderer)
-{
-    core.ObjectRenderer.call(this, renderer);
+import { core as core_corejs } from "../../core";
+import { ParticleShader as ParticleShader_ParticleShaderjs } from "./ParticleShader";
+import { ParticleBuffer as ParticleBuffer_ParticleBufferjs } from "./ParticleBuffer";
+function ParticleRenderer(renderer) {
+    core_corejs.ObjectRenderer.call(this, renderer);
 
     // 65535 is max vertex index in the index buffer (see ParticleRenderer)
     // so max number of particles is 65536 / 4 = 16384
@@ -41,16 +21,15 @@ function ParticleRenderer(renderer)
 
     this.properties = null;
 
-    this.tempMatrix = new core.Matrix();
+    this.tempMatrix = new core_corejs.Matrix();
 
     this.CONTEXT_UID = 0;
 }
 
-ParticleRenderer.prototype = Object.create(core.ObjectRenderer.prototype);
+ParticleRenderer.prototype = Object.create(core_corejs.ObjectRenderer.prototype);
 ParticleRenderer.prototype.constructor = ParticleRenderer;
-module.exports = ParticleRenderer;
 
-core.WebGLRenderer.registerPlugin('particle', ParticleRenderer);
+core_corejs.WebGLRenderer.registerPlugin('particle', ParticleRenderer);
 
 /**
  * When there is a WebGL context change
@@ -64,7 +43,7 @@ ParticleRenderer.prototype.onContextChange = function ()
     this.CONTEXT_UID = this.renderer.CONTEXT_UID;
 
     // setup default shader
-    this.shader = new ParticleShader(gl);
+    this.shader = new ParticleShader_ParticleShaderjs(gl);
 
     this.properties = [
         // verticesData
@@ -208,7 +187,7 @@ ParticleRenderer.prototype.generateBuffers = function (container)
 
     for (i = 0; i < size; i += batchSize)
     {
-        buffers.push(new ParticleBuffer(gl, this.properties, dynamicPropertyFlags, batchSize));
+        buffers.push(new ParticleBuffer_ParticleBufferjs(gl, this.properties, dynamicPropertyFlags, batchSize));
     }
 
     return buffers;
@@ -421,10 +400,31 @@ ParticleRenderer.prototype.destroy = function ()
     if (this.renderer.gl) {
         this.renderer.gl.deleteBuffer(this.indexBuffer);
     }
-    core.ObjectRenderer.prototype.destroy.apply(this, arguments);
+    core_corejs.ObjectRenderer.prototype.destroy.apply(this, arguments);
 
     this.shader.destroy();
 
     this.indices = null;
     this.tempMatrix = null;
 };
+var exported_ParticleRenderer = ParticleRenderer;
+
+/**
+ * @author Mat Groves
+ *
+ * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
+ * for creating the original pixi version!
+ * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
+ *
+ * Heavily inspired by LibGDX's ParticleRenderer:
+ * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/ParticleRenderer.java
+ */
+
+/**
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ * @param renderer {PIXI.WebGLRenderer} The renderer this sprite batch works for.
+ */
+export { exported_ParticleRenderer as ParticleRenderer };

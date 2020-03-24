@@ -1,19 +1,14 @@
-/**
- * @file        Main export of the PIXI extras library
- * @author      Mat Groves <mat@goodboydigital.com>
- * @copyright   2013-2015 GoodBoyDigital
- * @license     {@link https://github.com/pixijs/pixi.js/blob/master/LICENSE|MIT License}
- */
+import { MovieClipjs as MovieClip_MovieClipjs } from "./MovieClip";
+import { TilingSpritejs as TilingSprite_TilingSpritejs } from "./TilingSprite";
+import { BitmapTextjs as BitmapText_BitmapTextjs } from "./BitmapText";
+import "./cacheAsBitmap";
+import "./getChildByName";
+import "./getGlobalPosition";
 
-require('./cacheAsBitmap');
-require('./getChildByName');
-require('./getGlobalPosition');
-
-/**
- * @namespace PIXI.extras
- */
-module.exports = {
-    MovieClip:      require('./MovieClip'),
-    TilingSprite:   require('./TilingSprite'),
-    BitmapText:     require('./BitmapText')
+var indexjs_indexjs = {
+    MovieClip:      MovieClip_MovieClipjs,
+    TilingSprite:   TilingSprite_TilingSpritejs,
+    BitmapText:     BitmapText_BitmapTextjs
 };
+
+export { indexjs_indexjs as indexjs };

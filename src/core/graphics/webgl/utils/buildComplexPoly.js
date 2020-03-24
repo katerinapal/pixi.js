@@ -1,7 +1,3 @@
-var utils = require('../../../utils');
-
-
-
 /**
  * Builds a complex polygon to draw
  *
@@ -69,4 +65,8 @@ var buildComplexPoly = function (graphicsData, webGLData)
 
 
 
-module.exports = buildComplexPoly;
+var encapsulated_buildComplexPoly;
+
+
+
+encapsulated_buildComplexPoly = buildComplexPoly;

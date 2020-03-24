@@ -1,15 +1,7 @@
-var GLTexture = require('pixi-gl-core').GLTexture,
-    CONST = require('../../const'),
-    RenderTarget = require('./utils/RenderTarget'),
-	utils = require('../../utils');
+import pixiglcore_pixiglcore from "pixi-gl-core";
+import { RenderTarget as utilsRenderTarget_RenderTargetjs } from "./utils/RenderTarget";
+var GLTexture = pixiglcore_pixiglcore.GLTexture;
 
-/**
- * Helper class to create a webGL Texture
- *
- * @class
- * @memberof PIXI
- * @param renderer {PIXI.WebGLRenderer} A reference to the current renderer
- */
 var TextureManager = function(renderer)
 {
     /**
@@ -34,6 +26,8 @@ var TextureManager = function(renderer)
      */
 	this._managedTextures = [];
 };
+
+let exported_TextureManager = TextureManager;
 
 TextureManager.prototype.bindTexture = function()
 {
@@ -66,7 +60,7 @@ TextureManager.prototype.updateTexture = function(texture)
     {
         if(isRenderTexture)
         {
-            var renderTarget = new RenderTarget(this.gl, texture.width, texture.height, texture.scaleMode, texture.resolution);
+            var renderTarget = new utilsRenderTarget_RenderTargetjs(this.gl, texture.width, texture.height, texture.scaleMode, texture.resolution);
             renderTarget.resize(texture.width, texture.height);
             texture._glRenderTargets[this.renderer.CONTEXT_UID] = renderTarget;
             glTexture = renderTarget.texture;
@@ -202,4 +196,4 @@ TextureManager.prototype.destroy = function()
     this._managedTextures = null;
 };
 
-module.exports = TextureManager;
+export { exported_TextureManager as TextureManager };

@@ -1,7 +1,35 @@
-var ResourceLoader = require('resource-loader'),
-    textureParser = require('./textureParser'),
-    spritesheetParser = require('./spritesheetParser'),
-    bitmapFontParser = require('./bitmapFontParser');
+import ResourceLoader from "resource-loader";
+import { textureParserjs as textureParser_textureParserjsjs } from "./textureParser";
+import { spritesheetParserjs as spritesheetParser_spritesheetParserjsjs } from "./spritesheetParser";
+import { bitmapFontParserjs as bitmapFontParser_bitmapFontParserjsjs } from "./bitmapFontParser";
+function Loader(baseUrl, concurrency) {
+    ResourceLoader.call(this, baseUrl, concurrency);
+
+    for (var i = 0; i < Loader._pixiMiddleware.length; ++i) {
+        this.use(Loader._pixiMiddleware[i]());
+    }
+}
+
+Loader.prototype = Object.create(ResourceLoader.prototype);
+Loader.prototype.constructor = Loader;
+
+Loader._pixiMiddleware = [
+    // parse any blob into more usable objects (e.g. Image)
+    ResourceLoader.middleware.parsing.blob,
+    textureParser_textureParserjsjs,
+    spritesheetParser_spritesheetParserjsjs,
+    bitmapFontParser_bitmapFontParserjsjs
+];
+
+Loader.addPixiMiddleware = function (fn) {
+    Loader._pixiMiddleware.push(fn);
+};
+
+// Add custom extentions
+var Resource = ResourceLoader.Resource;
+
+Resource.setExtensionXhrType('fnt', Resource.XHR_RESPONSE_TYPE.DOCUMENT);
+var exported_Loader = Loader;
 
 /**
  *
@@ -26,36 +54,4 @@ var ResourceLoader = require('resource-loader'),
  * @param [concurrency=10] {number} The number of resources to load concurrently.
  * @see https://github.com/englercj/resource-loader
  */
-function Loader(baseUrl, concurrency)
-{
-    ResourceLoader.call(this, baseUrl, concurrency);
-
-    for (var i = 0; i < Loader._pixiMiddleware.length; ++i) {
-        this.use(Loader._pixiMiddleware[i]());
-    }
-}
-
-Loader.prototype = Object.create(ResourceLoader.prototype);
-Loader.prototype.constructor = Loader;
-
-module.exports = Loader;
-
-Loader._pixiMiddleware = [
-    // parse any blob into more usable objects (e.g. Image)
-    ResourceLoader.middleware.parsing.blob,
-    // parse any Image objects into textures
-    textureParser,
-    // parse any spritesheet data into multiple textures
-    spritesheetParser,
-    // parse any spritesheet data into multiple textures
-    bitmapFontParser
-];
-
-Loader.addPixiMiddleware = function (fn) {
-    Loader._pixiMiddleware.push(fn);
-};
-
-// Add custom extentions
-var Resource = ResourceLoader.Resource;
-
-Resource.setExtensionXhrType('fnt', Resource.XHR_RESPONSE_TYPE.DOCUMENT);
+export { exported_Loader as Loader };

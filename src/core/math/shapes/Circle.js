@@ -1,17 +1,5 @@
-var Rectangle = require('./Rectangle'),
-    CONST = require('../../const');
-
-/**
- * The Circle object can be used to specify a hit area for displayObjects
- *
- * @class
- * @memberof PIXI
- * @param x {number} The X coordinate of the center of this circle
- * @param y {number} The Y coordinate of the center of this circle
- * @param radius {number} The radius of the circle
- */
-function Circle(x, y, radius)
-{
+import { Rectangle as Rectangle_Rectanglejs } from "./Rectangle";
+function Circle(x, y, radius) {
     /**
      * @member {number}
      * @default 0
@@ -42,7 +30,6 @@ function Circle(x, y, radius)
 }
 
 Circle.prototype.constructor = Circle;
-module.exports = Circle;
 
 /**
  * Creates a clone of this Circle instance
@@ -85,5 +72,17 @@ Circle.prototype.contains = function (x, y)
 */
 Circle.prototype.getBounds = function ()
 {
-    return new Rectangle(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+    return new Rectangle_Rectanglejs(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
 };
+var exported_Circle = Circle;
+
+/**
+ * The Circle object can be used to specify a hit area for displayObjects
+ *
+ * @class
+ * @memberof PIXI
+ * @param x {number} The X coordinate of the center of this circle
+ * @param y {number} The Y coordinate of the center of this circle
+ * @param radius {number} The radius of the circle
+ */
+export { exported_Circle as Circle };

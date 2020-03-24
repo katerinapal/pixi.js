@@ -17,11 +17,6 @@ var createColoredCanvas = function(color)
 };
 
 
-/**
- * Checks whether the Canvas BlendModes are supported by the current browser
- *
- * @return {boolean} whether they are supported
- */
 var canUseNewCanvasBlendModes = function ()
 {
     if (typeof document === 'undefined')
@@ -54,4 +49,5 @@ var canUseNewCanvasBlendModes = function ()
 };
 
 
-module.exports = canUseNewCanvasBlendModes;
+let exported_canUseNewCanvasBlendModes = canUseNewCanvasBlendModes;
+export { exported_canUseNewCanvasBlendModes as canUseNewCanvasBlendModes };

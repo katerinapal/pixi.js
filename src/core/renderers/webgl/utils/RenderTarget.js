@@ -1,21 +1,7 @@
-var math = require('../../../math'),
-    CONST = require('../../../const'),
-    GLFramebuffer = require('pixi-gl-core').GLFramebuffer;
+import { indexjs as math_indexjsjs } from "../../../math";
+import pixiglcore_pixiglcore from "pixi-gl-core";
+var GLFramebuffer = pixiglcore_pixiglcore.GLFramebuffer;
 
-/**
- * @author Mat Groves http://matgroves.com/ @Doormat23
- */
-
-/**
- * @class
- * @memberof PIXI
- * @param gl {WebGLRenderingContext} the current WebGL drawing context
- * @param [width=0] {number} the horizontal range of the filter
- * @param [height=0] {number} the vertical range of the filter
- * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
- * @param [resolution=1] {number} The current resolution / device pixel ratio
- * @param [root=false] {boolean} Whether this object is the root element or not
- */
 var RenderTarget = function(gl, width, height, scaleMode, resolution, root)
 {
     //TODO Resolution could go here ( eg low res blurs )
@@ -55,7 +41,7 @@ var RenderTarget = function(gl, width, height, scaleMode, resolution, root)
      *
      * @member {PIXI.Rectangle}
      */
-    this.size = new math.Rectangle(0, 0, 1, 1);
+    this.size = new math_indexjsjs.Rectangle(0, 0, 1, 1);
 
     /**
      * The current resolution / device pixel ratio
@@ -70,7 +56,7 @@ var RenderTarget = function(gl, width, height, scaleMode, resolution, root)
      *
      * @member {PIXI.Matrix}
      */
-    this.projectionMatrix = new math.Matrix();
+    this.projectionMatrix = new math_indexjsjs.Matrix();
 
     /**
      * The object's transform
@@ -91,7 +77,7 @@ var RenderTarget = function(gl, width, height, scaleMode, resolution, root)
      *
      * @member {glCore.GLBuffer}
      */
-    this.defaultFrame = new math.Rectangle();
+    this.defaultFrame = new math_indexjsjs.Rectangle();
     this.destinationFrame = null;
     this.sourceFrame = null;
 
@@ -167,8 +153,9 @@ var RenderTarget = function(gl, width, height, scaleMode, resolution, root)
     this.resize(width, height);
 };
 
+let exported_RenderTarget = RenderTarget;
+
 RenderTarget.prototype.constructor = RenderTarget;
-module.exports = RenderTarget;
 
 /**
  * Clears the filter texture.
@@ -316,3 +303,4 @@ RenderTarget.prototype.destroy = function ()
     this.frameBuffer = null;
     this.texture = null;
 };
+export { exported_RenderTarget as RenderTarget };

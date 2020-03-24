@@ -1,18 +1,4 @@
-var CONST = require('../../const');
-
-/**
- * The Rounded Rectangle object is an area that has nice rounded corners, as indicated by its top-left corner point (x, y) and by its width and its height and its radius.
- *
- * @class
- * @memberof PIXI
- * @param x {number} The X coordinate of the upper-left corner of the rounded rectangle
- * @param y {number} The Y coordinate of the upper-left corner of the rounded rectangle
- * @param width {number} The overall width of this rounded rectangle
- * @param height {number} The overall height of this rounded rectangle
- * @param radius {number} Controls the radius of the rounded corners
- */
-function RoundedRectangle(x, y, width, height, radius)
-{
+function RoundedRectangle(x, y, width, height, radius) {
     /**
      * @member {number}
      * @default 0
@@ -55,7 +41,6 @@ function RoundedRectangle(x, y, width, height, radius)
 }
 
 RoundedRectangle.prototype.constructor = RoundedRectangle;
-module.exports = RoundedRectangle;
 
 /**
  * Creates a clone of this Rounded Rectangle
@@ -91,3 +76,17 @@ RoundedRectangle.prototype.contains = function (x, y)
 
     return false;
 };
+var exported_RoundedRectangle = RoundedRectangle;
+
+/**
+ * The Rounded Rectangle object is an area that has nice rounded corners, as indicated by its top-left corner point (x, y) and by its width and its height and its radius.
+ *
+ * @class
+ * @memberof PIXI
+ * @param x {number} The X coordinate of the upper-left corner of the rounded rectangle
+ * @param y {number} The Y coordinate of the upper-left corner of the rounded rectangle
+ * @param width {number} The overall width of this rounded rectangle
+ * @param height {number} The overall height of this rounded rectangle
+ * @param radius {number} Controls the radius of the rounded corners
+ */
+export { exported_RoundedRectangle as RoundedRectangle };

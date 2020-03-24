@@ -55,7 +55,7 @@ function pluginTarget(obj)
 }
 
 
-module.exports = {
+var pluginTargetjs_pluginTargetjs = {
     /**
      * Mixes in the properties of the pluginTarget into another object
      *
@@ -66,3 +66,5 @@ module.exports = {
         pluginTarget(obj);
     }
 };
+
+export { pluginTargetjs_pluginTargetjs as pluginTargetjs };

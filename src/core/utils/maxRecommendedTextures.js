@@ -1,6 +1,6 @@
 
 
-var  Device = require('ismobilejs');
+import Device from "ismobilejs";
 
 var maxRecommendedTextures = function(max)
 {
@@ -17,4 +17,5 @@ var maxRecommendedTextures = function(max)
 	}
 };
 
-module.exports = maxRecommendedTextures;
+let exported_maxRecommendedTextures = maxRecommendedTextures;
+export { exported_maxRecommendedTextures as maxRecommendedTextures };

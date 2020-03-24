@@ -1,32 +1,9 @@
-var utils = require('../utils'),
-    math = require('../math'),
-    CONST = require('../const'),
-    Container = require('../display/Container'),
-    RenderTexture = require('../textures/RenderTexture'),
-    EventEmitter = require('eventemitter3'),
-    tempMatrix = new math.Matrix();
-/**
- * The CanvasRenderer draws the scene and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
- * Don't forget to add the CanvasRenderer.view to your DOM or you will not see anything :)
- *
- * @class
- * @memberof PIXI
- * @param system {string} The name of the system this renderer is for.
- * @param [width=800] {number} the width of the canvas view
- * @param [height=600] {number} the height of the canvas view
- * @param [options] {object} The optional renderer parameters
- * @param [options.view] {HTMLCanvasElement} the canvas to use as a view, optional
- * @param [options.transparent=false] {boolean} If the render view is transparent, default false
- * @param [options.autoResize=false] {boolean} If the render view is automatically resized, default false
- * @param [options.antialias=false] {boolean} sets antialias (only applicable in chrome at the moment)
- * @param [options.resolution=1] {number} The resolution / device pixel ratio of the renderer. The resolution of the renderer retina would be 2.
- * @param [options.clearBeforeRender=true] {boolean} This sets if the CanvasRenderer will clear the canvas or
- *      not before the new render pass.
- * @param [options.backgroundColor=0x000000] {number} The background color of the rendered area (shown if not transparent).
- * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
- */
-function SystemRenderer(system, width, height, options)
-{
+import { indexjs as math_indexjsjs } from "../math";
+import { Container as displayContainer_Containerjs } from "../display/Container";
+import { RenderTexture as texturesRenderTexture_RenderTexturejs } from "../textures/RenderTexture";
+import EventEmitter from "eventemitter3";
+var tempMatrix = new math_indexjsjs.Matrix();
+function SystemRenderer(system, width, height, options) {
     EventEmitter.call(this);
 
     utils.sayHello(system);
@@ -166,7 +143,7 @@ function SystemRenderer(system, width, height, options)
      * @member {PIXI.DisplayObject}
      * @private
      */
-    this._tempDisplayObjectParent = new Container();
+    this._tempDisplayObjectParent = new displayContainer_Containerjs();
 
     /**
      * The last root object that the renderer tried to render.
@@ -180,7 +157,6 @@ function SystemRenderer(system, width, height, options)
 // constructor
 SystemRenderer.prototype = Object.create(EventEmitter.prototype);
 SystemRenderer.prototype.constructor = SystemRenderer;
-module.exports = SystemRenderer;
 
 Object.defineProperties(SystemRenderer.prototype, {
     /**
@@ -237,7 +213,7 @@ SystemRenderer.prototype.generateTexture = function (displayObject, scaleMode, r
 
     var bounds = displayObject.getLocalBounds();
 
-    var renderTexture = RenderTexture.create(bounds.width | 0, bounds.height | 0, scaleMode, resolution);
+    var renderTexture = texturesRenderTexture_RenderTexturejs.create(bounds.width | 0, bounds.height | 0, scaleMode, resolution);
 
     tempMatrix.tx = -bounds.x;
     tempMatrix.ty = -bounds.y;
@@ -286,3 +262,26 @@ SystemRenderer.prototype.destroy = function (removeView) {
     this._tempDisplayObjectParent = null;
     this._lastObjectRendered = null;
 };
+var exported_SystemRenderer = SystemRenderer;
+
+/**
+ * The CanvasRenderer draws the scene and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
+ * Don't forget to add the CanvasRenderer.view to your DOM or you will not see anything :)
+ *
+ * @class
+ * @memberof PIXI
+ * @param system {string} The name of the system this renderer is for.
+ * @param [width=800] {number} the width of the canvas view
+ * @param [height=600] {number} the height of the canvas view
+ * @param [options] {object} The optional renderer parameters
+ * @param [options.view] {HTMLCanvasElement} the canvas to use as a view, optional
+ * @param [options.transparent=false] {boolean} If the render view is transparent, default false
+ * @param [options.autoResize=false] {boolean} If the render view is automatically resized, default false
+ * @param [options.antialias=false] {boolean} sets antialias (only applicable in chrome at the moment)
+ * @param [options.resolution=1] {number} The resolution / device pixel ratio of the renderer. The resolution of the renderer retina would be 2.
+ * @param [options.clearBeforeRender=true] {boolean} This sets if the CanvasRenderer will clear the canvas or
+ *      not before the new render pass.
+ * @param [options.backgroundColor=0x000000] {number} The background color of the rendered area (shown if not transparent).
+ * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
+ */
+export { exported_SystemRenderer as SystemRenderer };

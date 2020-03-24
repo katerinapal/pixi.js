@@ -1,16 +1,6 @@
-var Shader = require('../../../Shader');
-
-/**
- * This shader is used to draw simple primitive shapes for {@link PIXI.Graphics}.
- *
- * @class
- * @memberof PIXI
- * @extends PIXI.Shader
- * @param gl {WebGLRenderingContext} The webgl shader manager this shader works for.
- */
-function PrimitiveShader(gl)
-{
-    Shader.call(this,
+import { Shader as Shader_Shaderjs } from "../../../Shader";
+function PrimitiveShader(gl) {
+    Shader_Shaderjs.call(this,
         gl,
         // vertex shader
         [
@@ -41,7 +31,17 @@ function PrimitiveShader(gl)
     );
 }
 
-PrimitiveShader.prototype = Object.create(Shader.prototype);
+PrimitiveShader.prototype = Object.create(Shader_Shaderjs.prototype);
 PrimitiveShader.prototype.constructor = PrimitiveShader;
 
-module.exports = PrimitiveShader;
+var exported_PrimitiveShader = PrimitiveShader;
+
+/**
+ * This shader is used to draw simple primitive shapes for {@link PIXI.Graphics}.
+ *
+ * @class
+ * @memberof PIXI
+ * @extends PIXI.Shader
+ * @param gl {WebGLRenderingContext} The webgl shader manager this shader works for.
+ */
+export { exported_PrimitiveShader as PrimitiveShader };

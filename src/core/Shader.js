@@ -1,5 +1,5 @@
-var GLShader = require('pixi-gl-core').GLShader;
-var Const = require('./const');
+import pixiglcore_pixiglcore from "pixi-gl-core";
+var GLShader = pixiglcore_pixiglcore.GLShader;
 
 function checkPrecision(src) {
     if (src instanceof Array) {
@@ -16,20 +16,12 @@ function checkPrecision(src) {
     return src;
 }
 
-/**
- * Wrapper class, webGL Shader for Pixi.
- * Adds precision string if vertexSrc or fragmentSrc have no mention of it.
- *
- * @class
- * @memberof PIXI
- * @param gl {WebGLRenderingContext} The current WebGL rendering context
- * @param vertexSrc {string|string[]} The vertex shader source as an array of strings.
- * @param fragmentSrc {string|string[]} The fragment shader source as an array of strings.
- */
 var Shader = function(gl, vertexSrc, fragmentSrc) {
     GLShader.call(this, gl, checkPrecision(vertexSrc), checkPrecision(fragmentSrc));
 };
 
+let exported_Shader = Shader;
+
 Shader.prototype = Object.create(GLShader.prototype);
 Shader.prototype.constructor = Shader;
-module.exports = Shader;
+export { exported_Shader as Shader };

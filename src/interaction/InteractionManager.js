@@ -1,28 +1,15 @@
-var core = require('../core'),
-    InteractionData = require('./InteractionData'),
-    EventEmitter = require('eventemitter3');
+import { core as core_corejs } from "../core";
+import { InteractionData as InteractionData_InteractionDatajs } from "./InteractionData";
+import EventEmitter from "eventemitter3";
+import * as interactiveTarget_interactiveTargetjs from "./interactiveTarget";
 
 // Mix interactiveTarget into core.DisplayObject.prototype
 Object.assign(
-    core.DisplayObject.prototype,
-    require('./interactiveTarget')
+    core_corejs.DisplayObject.prototype,
+    interactiveTarget_interactiveTargetjs
 );
 
-/**
- * The interaction manager deals with mouse and touch events. Any DisplayObject can be interactive
- * if its interactive parameter is set to true
- * This manager also supports multitouch.
- *
- * @class
- * @extends EventEmitter
- * @memberof PIXI.interaction
- * @param renderer {PIXI.CanvasRenderer|PIXI.WebGLRenderer} A reference to the current renderer
- * @param [options] {object}
- * @param [options.autoPreventDefault=true] {boolean} Should the manager automatically prevent default browser actions.
- * @param [options.interactionFrequency=10] {number} Frequency increases the interaction events will be checked.
- */
-function InteractionManager(renderer, options)
-{
+function InteractionManager(renderer, options) {
     EventEmitter.call(this);
 
     options = options || {};
@@ -55,7 +42,7 @@ function InteractionManager(renderer, options)
      *
      * @member {PIXI.interaction.InteractionData}
      */
-    this.mouse = new InteractionData();
+    this.mouse = new InteractionData_InteractionDatajs();
 
     // setting the pointer to start off far off screen will mean that mouse over does
     //  not get called before we even move the mouse.
@@ -186,7 +173,7 @@ function InteractionManager(renderer, options)
      * @member {PIXI.Point}
      * @private
      */
-    this._tempPoint = new core.Point();
+    this._tempPoint = new core_corejs.Point();
 
 
     /**
@@ -314,7 +301,6 @@ function InteractionManager(renderer, options)
 
 InteractionManager.prototype = Object.create(EventEmitter.prototype);
 InteractionManager.prototype.constructor = InteractionManager;
-module.exports = InteractionManager;
 
 /**
  * Sets the DOM element which will receive mouse/touch events. This is useful for when you have
@@ -348,7 +334,7 @@ InteractionManager.prototype.addEvents = function ()
         return;
     }
 
-    core.ticker.shared.add(this.update, this);
+    core_corejs.ticker.shared.add(this.update, this);
 
     if (window.navigator.msPointerEnabled)
     {
@@ -382,7 +368,7 @@ InteractionManager.prototype.removeEvents = function ()
         return;
     }
 
-    core.ticker.shared.remove(this.update);
+    core_corejs.ticker.shared.remove(this.update);
 
     if (window.navigator.msPointerEnabled)
     {
@@ -1032,7 +1018,7 @@ InteractionManager.prototype.getTouchData = function (touchEvent)
 
     if(!touchData)
     {
-        touchData = new InteractionData();
+        touchData = new InteractionData_InteractionDatajs();
     }
 
     touchData.identifier = touchEvent.identifier;
@@ -1108,5 +1094,21 @@ InteractionManager.prototype.destroy = function () {
     this._tempPoint = null;
 };
 
-core.WebGLRenderer.registerPlugin('interaction', InteractionManager);
-core.CanvasRenderer.registerPlugin('interaction', InteractionManager);
+core_corejs.WebGLRenderer.registerPlugin('interaction', InteractionManager);
+core_corejs.CanvasRenderer.registerPlugin('interaction', InteractionManager);
+var exported_InteractionManager = InteractionManager;
+
+/**
+ * The interaction manager deals with mouse and touch events. Any DisplayObject can be interactive
+ * if its interactive parameter is set to true
+ * This manager also supports multitouch.
+ *
+ * @class
+ * @extends EventEmitter
+ * @memberof PIXI.interaction
+ * @param renderer {PIXI.CanvasRenderer|PIXI.WebGLRenderer} A reference to the current renderer
+ * @param [options] {object}
+ * @param [options.autoPreventDefault=true] {boolean} Should the manager automatically prevent default browser actions.
+ * @param [options.interactionFrequency=10] {number} Frequency increases the interaction events will be checked.
+ */
+export { exported_InteractionManager as InteractionManager };

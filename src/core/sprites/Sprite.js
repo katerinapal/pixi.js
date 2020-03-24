@@ -1,27 +1,10 @@
-var math = require('../math'),
-    Texture = require('../textures/Texture'),
-    Container = require('../display/Container'),
-    utils = require('../utils'),
-    CONST = require('../const'),
-    tempPoint = new math.Point();
+import { indexjs as math_indexjsjs } from "../math";
+import { Texture as texturesTexture_Texturejs } from "../textures/Texture";
+import { Container as displayContainer_Containerjs } from "../display/Container";
+var tempPoint = new math_indexjsjs.Point();
 
-/**
- * The Sprite object is the base for all textured objects that are rendered to the screen
- *
- * A sprite can be created directly from an image like this:
- *
- * ```js
- * var sprite = new PIXI.Sprite.fromImage('assets/image.png');
- * ```
- *
- * @class
- * @extends PIXI.Container
- * @memberof PIXI
- * @param texture {PIXI.Texture} The texture for this sprite
- */
-function Sprite(texture)
-{
-    Container.call(this);
+function Sprite(texture) {
+    displayContainer_Containerjs.call(this);
 
     /**
      * The anchor sets the origin point of the texture.
@@ -31,7 +14,7 @@ function Sprite(texture)
      *
      * @member {PIXI.ObservablePoint}
      */
-    this.anchor = new math.ObservablePoint(this.onAnchorUpdate, this);
+    this.anchor = new math_indexjsjs.ObservablePoint(this.onAnchorUpdate, this);
 
     /**
      * The texture that the sprite is using
@@ -93,7 +76,7 @@ function Sprite(texture)
     this.cachedTint = 0xFFFFFF;
 
     // call texture setter
-    this.texture = texture || Texture.EMPTY;
+    this.texture = texture || texturesTexture_Texturejs.EMPTY;
 
     /**
      * this is used to store the vertex data of the sprite (basically a quad)
@@ -112,9 +95,8 @@ function Sprite(texture)
 }
 
 // constructor
-Sprite.prototype = Object.create(Container.prototype);
+Sprite.prototype = Object.create(displayContainer_Containerjs.prototype);
 Sprite.prototype.constructor = Sprite;
-module.exports = Sprite;
 
 Object.defineProperties(Sprite.prototype, {
     /**
@@ -403,7 +385,7 @@ Sprite.prototype.getLocalBounds = function (rect)
         {
             if(!this._localBoundsRect)
             {
-                this._localBoundsRect = new math.Rectangle();
+                this._localBoundsRect = new math_indexjsjs.Rectangle();
             }
 
             rect = this._localBoundsRect;
@@ -413,7 +395,7 @@ Sprite.prototype.getLocalBounds = function (rect)
     }
     else
     {
-        return Container.prototype.getLocalBounds.call(this, rect);
+        return displayContainer_Containerjs.prototype.getLocalBounds.call(this, rect);
     }
 
 };
@@ -458,7 +440,7 @@ Sprite.prototype.containsPoint = function( point )
  */
 Sprite.prototype.destroy = function (options)
 {
-    Container.prototype.destroy.call(this, options);
+    displayContainer_Containerjs.prototype.destroy.call(this, options);
 
     this.anchor = null;
 
@@ -485,7 +467,7 @@ Sprite.prototype.destroy = function (options)
  */
 Sprite.from = function (source)
 {
-    return new Sprite(Texture.from(source));
+    return new Sprite(texturesTexture_Texturejs.from(source));
 };
 
 /**
@@ -520,5 +502,22 @@ Sprite.fromFrame = function (frameId)
  */
 Sprite.fromImage = function (imageId, crossorigin, scaleMode)
 {
-    return new Sprite(Texture.fromImage(imageId, crossorigin, scaleMode));
+    return new Sprite(texturesTexture_Texturejs.fromImage(imageId, crossorigin, scaleMode));
 };
+var exported_Sprite = Sprite;
+
+/**
+ * The Sprite object is the base for all textured objects that are rendered to the screen
+ *
+ * A sprite can be created directly from an image like this:
+ *
+ * ```js
+ * var sprite = new PIXI.Sprite.fromImage('assets/image.png');
+ * ```
+ *
+ * @class
+ * @extends PIXI.Container
+ * @memberof PIXI
+ * @param texture {PIXI.Texture} The texture for this sprite
+ */
+export { exported_Sprite as Sprite };

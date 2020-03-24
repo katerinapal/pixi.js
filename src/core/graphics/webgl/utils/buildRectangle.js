@@ -1,16 +1,4 @@
-var buildLine = require('./buildLine'),
-    utils = require('../../../utils');
-
-/**
- * Builds a rectangle to draw
- *
- * Ignored from docs since it is not directly exposed.
- *
- * @ignore
- * @private
- * @param graphicsData {PIXI.WebGLGraphicsData} The graphics object containing all the necessary properties
- * @param webGLData {object} an object containing all the webGL-specific information to create this shape
- */
+import { buildLine as buildLine_buildLinejs } from "./buildLine";
 var buildRectangle = function (graphicsData, webGLData)
 {
     // --- //
@@ -64,10 +52,11 @@ var buildRectangle = function (graphicsData, webGLData)
                   x, y];
 
 
-        buildLine(graphicsData, webGLData);
+        buildLine_buildLinejs(graphicsData, webGLData);
 
         graphicsData.points = tempPoints;
     }
 };
 
-module.exports = buildRectangle;
+let exported_buildRectangle = buildRectangle;
+export { exported_buildRectangle as buildRectangle };

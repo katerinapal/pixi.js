@@ -1,23 +1,10 @@
-var core = require('../core'),
-    glCore = require('pixi-gl-core'),
-    Shader = require('./webgl/MeshShader'),
-    tempPoint = new core.Point(),
-    tempPolygon = new core.Polygon();
+import { core as core_corejs } from "../core";
+import glCore from "pixi-gl-core";
+import { MeshShader as webglMeshShader_MeshShaderjs } from "./webgl/MeshShader";
+var tempPoint = new core_corejs.Point(), tempPolygon = new core_corejs.Polygon();
 
-/**
- * Base mesh class
- * @class
- * @extends PIXI.Container
- * @memberof PIXI.mesh
- * @param texture {PIXI.Texture} The texture to use
- * @param [vertices] {Float32Array} if you want to specify the vertices
- * @param [uvs] {Float32Array} if you want to specify the uvs
- * @param [indices] {Uint16Array} if you want to specify the indices
- * @param [drawMode] {number} the drawMode, can be any of the Mesh.DRAW_MODES consts
- */
-function Mesh(texture, vertices, uvs, indices, drawMode)
-{
-    core.Container.call(this);
+function Mesh(texture, vertices, uvs, indices, drawMode) {
+    core_corejs.Container.call(this);
 
     /**
      * The texture of the Mesh
@@ -68,7 +55,7 @@ function Mesh(texture, vertices, uvs, indices, drawMode)
      * @default PIXI.BLEND_MODES.NORMAL
      * @see PIXI.BLEND_MODES
      */
-    this.blendMode = core.BLEND_MODES.NORMAL;
+    this.blendMode = core_corejs.BLEND_MODES.NORMAL;
 
     /**
      * Triangles in canvas mode are automatically antialiased, use this value to force triangles to overlap a bit with each other.
@@ -108,9 +95,8 @@ function Mesh(texture, vertices, uvs, indices, drawMode)
 }
 
 // constructor
-Mesh.prototype = Object.create(core.Container.prototype);
+Mesh.prototype = Object.create(core_corejs.Container.prototype);
 Mesh.prototype.constructor = Mesh;
-module.exports = Mesh;
 
 Object.defineProperties(Mesh.prototype, {
     /**
@@ -156,10 +142,10 @@ Object.defineProperties(Mesh.prototype, {
      */
     tint: {
         get: function() {
-            return core.utils.rgb2hex(this.tintRgb);
+            return core_corejs.utils.rgb2hex(this.tintRgb);
         },
         set: function(value) {
-            this.tintRgb = core.utils.hex2rgb(value, this.tintRgb);
+            this.tintRgb = core_corejs.utils.hex2rgb(value, this.tintRgb);
         }
     }
 });
@@ -182,7 +168,7 @@ Mesh.prototype._renderWebGL = function (renderer)
     if(!glData)
     {
         glData = {
-            shader:new Shader(gl),
+            shader:new webglMeshShader_MeshShaderjs(gl),
             vertexBuffer:glCore.GLBuffer.createVertexBuffer(gl, this.vertices, gl.STREAM_DRAW),
             uvBuffer:glCore.GLBuffer.createVertexBuffer(gl, this.uvs, gl.STREAM_DRAW),
             indexBuffer:glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW),
@@ -499,3 +485,17 @@ Mesh.DRAW_MODES = {
     TRIANGLE_MESH: 0,
     TRIANGLES: 1
 };
+var exported_Mesh = Mesh;
+
+/**
+ * Base mesh class
+ * @class
+ * @extends PIXI.Container
+ * @memberof PIXI.mesh
+ * @param texture {PIXI.Texture} The texture to use
+ * @param [vertices] {Float32Array} if you want to specify the vertices
+ * @param [uvs] {Float32Array} if you want to specify the uvs
+ * @param [indices] {Uint16Array} if you want to specify the indices
+ * @param [drawMode] {number} the drawMode, can be any of the Mesh.DRAW_MODES consts
+ */
+export { exported_Mesh as Mesh };

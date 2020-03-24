@@ -1,40 +1,6 @@
-var core = require('../core');
-
-/**
- * The ParticleContainer class is a really fast version of the Container built solely for speed,
- * so use when you need a lot of sprites or particles. The tradeoff of the ParticleContainer is that advanced
- * functionality will not work. ParticleContainer implements only the basic object transform (position, scale, rotation).
- * Any other functionality like tinting, masking, etc will not work on sprites in this batch.
- *
- * It's extremely easy to use :
- *
- * ```js
- * var container = new ParticleContainer();
- *
- * for (var i = 0; i < 100; ++i)
- * {
- *     var sprite = new PIXI.Sprite.fromImage("myImage.png");
- *     container.addChild(sprite);
- * }
- * ```
- *
- * And here you have a hundred sprites that will be renderer at the speed of light.
- *
- * @class
- * @extends PIXI.Container
- * @memberof PIXI.particles
- * @param [maxSize=15000] {number} The maximum number of particles that can be renderer by the container.
- * @param [properties] {object} The properties of children that should be uploaded to the gpu and applied.
- * @param [properties.scale=false] {boolean} When true, scale be uploaded and applied.
- * @param [properties.position=true] {boolean} When true, position be uploaded and applied.
- * @param [properties.rotation=false] {boolean} When true, rotation be uploaded and applied.
- * @param [properties.uvs=false] {boolean} When true, uvs be uploaded and applied.
- * @param [properties.alpha=false] {boolean} When true, alpha be uploaded and applied.
- * @param [batchSize=15000] {number} Number of particles per batch.
- */
-function ParticleContainer(maxSize, properties, batchSize)
-{
-    core.Container.call(this);
+import { core as core_corejs } from "../core";
+function ParticleContainer(maxSize, properties, batchSize) {
+    core_corejs.Container.call(this);
 
     batchSize = batchSize || 15000; //CONST.SPRITE_BATCH_SIZE; // 2000 is a nice balance between mobile / desktop
     maxSize = maxSize || 15000;
@@ -96,7 +62,7 @@ function ParticleContainer(maxSize, properties, batchSize)
      * @default PIXI.BLEND_MODES.NORMAL
      * @see PIXI.BLEND_MODES
      */
-    this.blendMode = core.BLEND_MODES.NORMAL;
+    this.blendMode = core_corejs.BLEND_MODES.NORMAL;
 
     /**
      * Used for canvas renderering. If true then the elements will be positioned at the nearest pixel. This provides a nice speed boost.
@@ -111,9 +77,8 @@ function ParticleContainer(maxSize, properties, batchSize)
     this.setProperties(properties);
 }
 
-ParticleContainer.prototype = Object.create(core.Container.prototype);
+ParticleContainer.prototype = Object.create(core_corejs.Container.prototype);
 ParticleContainer.prototype.constructor = ParticleContainer;
-module.exports = ParticleContainer;
 
 /**
  * Sets the private properties array to dynamic / static based on the passed properties object
@@ -319,7 +284,7 @@ ParticleContainer.prototype.renderCanvas = function (renderer)
  *
  */
 ParticleContainer.prototype.destroy = function () {
-    core.Container.prototype.destroy.apply(this, arguments);
+    core_corejs.Container.prototype.destroy.apply(this, arguments);
 
     if (this._buffers) {
         for (var i = 0; i < this._buffers.length; ++i) {
@@ -330,3 +295,38 @@ ParticleContainer.prototype.destroy = function () {
     this._properties = null;
     this._buffers = null;
 };
+var exported_ParticleContainer = ParticleContainer;
+
+/**
+ * The ParticleContainer class is a really fast version of the Container built solely for speed,
+ * so use when you need a lot of sprites or particles. The tradeoff of the ParticleContainer is that advanced
+ * functionality will not work. ParticleContainer implements only the basic object transform (position, scale, rotation).
+ * Any other functionality like tinting, masking, etc will not work on sprites in this batch.
+ *
+ * It's extremely easy to use :
+ *
+ * ```js
+ * var container = new ParticleContainer();
+ *
+ * for (var i = 0; i < 100; ++i)
+ * {
+ *     var sprite = new PIXI.Sprite.fromImage("myImage.png");
+ *     container.addChild(sprite);
+ * }
+ * ```
+ *
+ * And here you have a hundred sprites that will be renderer at the speed of light.
+ *
+ * @class
+ * @extends PIXI.Container
+ * @memberof PIXI.particles
+ * @param [maxSize=15000] {number} The maximum number of particles that can be renderer by the container.
+ * @param [properties] {object} The properties of children that should be uploaded to the gpu and applied.
+ * @param [properties.scale=false] {boolean} When true, scale be uploaded and applied.
+ * @param [properties.position=true] {boolean} When true, position be uploaded and applied.
+ * @param [properties.rotation=false] {boolean} When true, rotation be uploaded and applied.
+ * @param [properties.uvs=false] {boolean} When true, uvs be uploaded and applied.
+ * @param [properties.alpha=false] {boolean} When true, alpha be uploaded and applied.
+ * @param [batchSize=15000] {number} Number of particles per batch.
+ */
+export { exported_ParticleContainer as ParticleContainer };

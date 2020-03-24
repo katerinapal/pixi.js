@@ -1,7 +1,6 @@
 
 
-function validateContext(gl)
-{
+function validateContext(gl) {
 	var attributes = gl.getContextAttributes();
 
 	// this is going to be fairly simple for now.. but at least we have rom to grow!
@@ -11,4 +10,5 @@ function validateContext(gl)
 	}
 }
 
-module.exports = validateContext;
+var exported_validateContext = validateContext;
+export { exported_validateContext as validateContext };

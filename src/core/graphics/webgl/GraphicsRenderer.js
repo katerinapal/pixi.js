@@ -1,29 +1,13 @@
-var utils = require('../../utils'),
-    CONST = require('../../const'),
-    ObjectRenderer = require('../../renderers/webgl/utils/ObjectRenderer'),
-    WebGLRenderer = require('../../renderers/webgl/WebGLRenderer'),
-    WebGLGraphicsData = require('./WebGLGraphicsData'),
-    PrimitiveShader = require('./shaders/PrimitiveShader'),
-
-    // some drawing functions..
-    buildPoly = require('./utils/buildPoly'),
-    buildRectangle = require('./utils/buildRectangle'),
-    buildRoundedRectangle = require('./utils/buildRoundedRectangle'),
-    buildCircle = require('./utils/buildCircle');
-
-
-
-/**
- * Renders the graphics object.
- *
- * @class
- * @memberof PIXI
- * @extends PIXI.ObjectRenderer
- * @param renderer {PIXI.WebGLRenderer} The renderer this object renderer works for.
- */
-function GraphicsRenderer(renderer)
-{
-    ObjectRenderer.call(this, renderer);
+import { ObjectRenderer as rendererswebglutilsObjectRenderer_ObjectRendererjs } from "../../renderers/webgl/utils/ObjectRenderer";
+import { WebGLRenderer as rendererswebglWebGLRenderer_WebGLRendererjs } from "../../renderers/webgl/WebGLRenderer";
+import { WebGLGraphicsData as WebGLGraphicsData_WebGLGraphicsDatajs } from "./WebGLGraphicsData";
+import { PrimitiveShader as shadersPrimitiveShader_PrimitiveShaderjs } from "./shaders/PrimitiveShader";
+import { buildPoly as utilsbuildPoly_buildPolyjs } from "./utils/buildPoly";
+import { buildRectangle as utilsbuildRectangle_buildRectanglejs } from "./utils/buildRectangle";
+import {     buildRoundedRectangle as utilsbuildRoundedRectangle_buildRoundedRectanglejs, } from "./utils/buildRoundedRectangle";
+import { buildCircle as utilsbuildCircle_buildCirclejs } from "./utils/buildCircle";
+function GraphicsRenderer(renderer) {
+    rendererswebglutilsObjectRenderer_ObjectRendererjs.call(this, renderer);
 
     this.graphicsDataPool = [];
 
@@ -35,11 +19,10 @@ function GraphicsRenderer(renderer)
     this.CONTEXT_UID = 0;
 }
 
-GraphicsRenderer.prototype = Object.create(ObjectRenderer.prototype);
+GraphicsRenderer.prototype = Object.create(rendererswebglutilsObjectRenderer_ObjectRendererjs.prototype);
 GraphicsRenderer.prototype.constructor = GraphicsRenderer;
-module.exports = GraphicsRenderer;
 
-WebGLRenderer.registerPlugin('graphics', GraphicsRenderer);
+rendererswebglWebGLRenderer_WebGLRendererjs.registerPlugin('graphics', GraphicsRenderer);
 
 /**
  * Called when there is a WebGL context change
@@ -51,7 +34,7 @@ GraphicsRenderer.prototype.onContextChange = function()
 {
     this.gl = this.renderer.gl;
     this.CONTEXT_UID = this.renderer.CONTEXT_UID;
-    this.primitiveShader = new PrimitiveShader(this.gl);
+    this.primitiveShader = new shadersPrimitiveShader_PrimitiveShaderjs(this.gl);
 };
 
 /**
@@ -60,7 +43,7 @@ GraphicsRenderer.prototype.onContextChange = function()
  */
 GraphicsRenderer.prototype.destroy = function ()
 {
-    ObjectRenderer.prototype.destroy.call(this);
+    rendererswebglutilsObjectRenderer_ObjectRendererjs.prototype.destroy.call(this);
 
     for (var i = 0; i < this.graphicsDataPool.length; ++i) {
         this.graphicsDataPool[i].destroy();
@@ -170,19 +153,19 @@ GraphicsRenderer.prototype.updateGraphics = function(graphics)
 
         if (data.type === CONST.SHAPES.POLY)
         {
-            buildPoly(data, webGLData);
+            utilsbuildPoly_buildPolyjs(data, webGLData);
         }
         if (data.type === CONST.SHAPES.RECT)
         {
-            buildRectangle(data, webGLData);
+            utilsbuildRectangle_buildRectanglejs(data, webGLData);
         }
         else if (data.type === CONST.SHAPES.CIRC || data.type === CONST.SHAPES.ELIP)
         {
-            buildCircle(data, webGLData);
+            utilsbuildCircle_buildCirclejs(data, webGLData);
         }
         else if (data.type === CONST.SHAPES.RREC)
         {
-            buildRoundedRectangle(data, webGLData);
+            utilsbuildRoundedRectangle_buildRoundedRectanglejs(data, webGLData);
         }
 
         webGL.lastIndex++;
@@ -212,7 +195,7 @@ GraphicsRenderer.prototype.getWebGLData = function (webGL, type)
 
     if (!webGLData || webGLData.points.length > 320000)
     {
-        webGLData = this.graphicsDataPool.pop() || new WebGLGraphicsData(this.renderer.gl, this.primitiveShader, this.renderer.state.attribsState);
+        webGLData = this.graphicsDataPool.pop() || new WebGLGraphicsData_WebGLGraphicsDatajs(this.renderer.gl, this.primitiveShader, this.renderer.state.attribsState);
         webGLData.reset(type);
         webGL.data.push(webGLData);
     }
@@ -221,3 +204,14 @@ GraphicsRenderer.prototype.getWebGLData = function (webGL, type)
 
     return webGLData;
 };
+var exported_GraphicsRenderer = GraphicsRenderer;
+
+/**
+ * Renders the graphics object.
+ *
+ * @class
+ * @memberof PIXI
+ * @extends PIXI.ObjectRenderer
+ * @param renderer {PIXI.WebGLRenderer} The renderer this object renderer works for.
+ */
+export { exported_GraphicsRenderer as GraphicsRenderer };

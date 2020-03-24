@@ -1,16 +1,6 @@
-var glCore = require('pixi-gl-core'),
-    createIndicesForQuads = require('../../../utils/createIndicesForQuads');
-
-/**
- * Helper class to create a quad
- *
- * @class
- * @memberof PIXI
- * @param gl {WebGLRenderingContext} The gl context for this quad to use.
- * @param state {object} TODO: Description
- */
-function Quad(gl, state)
-{
+import glCore from "pixi-gl-core";
+import {  createIndicesForQuads as utilscreateIndicesForQuads_createIndicesForQuadsjs, } from "../../../utils/createIndicesForQuads";
+function Quad(gl, state) {
     /*
      * the current WebGL drawing context
      *
@@ -54,7 +44,7 @@ function Quad(gl, state)
     /*
      * @member {Uint16Array} An array containing the indices of the vertices
      */
-    this.indices = createIndicesForQuads(1);
+    this.indices = utilscreateIndicesForQuads_createIndicesForQuadsjs(1);
 
     /*
      * @member {glCore.GLBuffer} The vertex buffer
@@ -168,4 +158,14 @@ Quad.prototype.destroy = function()
      gl.deleteBuffer(this.indexBuffer);
 };
 
-module.exports = Quad;
+var exported_Quad = Quad;
+
+/**
+ * Helper class to create a quad
+ *
+ * @class
+ * @memberof PIXI
+ * @param gl {WebGLRenderingContext} The gl context for this quad to use.
+ * @param state {object} TODO: Description
+ */
+export { exported_Quad as Quad };

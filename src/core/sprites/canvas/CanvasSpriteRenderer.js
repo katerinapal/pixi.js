@@ -1,39 +1,15 @@
-var CanvasRenderer = require('../../renderers/canvas/CanvasRenderer'),
-    CONST = require('../../const'),
-    math = require('../../math'),
-    canvasRenderWorldTransform = new math.Matrix(),
-    CanvasTinter = require('./CanvasTinter');
+import { CanvasRenderer as rendererscanvasCanvasRenderer_CanvasRendererjs } from "../../renderers/canvas/CanvasRenderer";
+import { indexjs as math_indexjsjs } from "../../math";
+var canvasRenderWorldTransform = new math_indexjsjs.Matrix();
 
-/**
- * @author Mat Groves
- *
- * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
- * for creating the original pixi version!
- * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
- *
- * Heavily inspired by LibGDX's CanvasSpriteRenderer:
- * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/CanvasSpriteRenderer.java
- */
-
-/**
- * Renderer dedicated to drawing and batching sprites.
- *
- * @class
- * @private
- * @memberof PIXI
- * @extends PIXI.ObjectRenderer
- * @param renderer {PIXI.WebGLRenderer} The renderer sprite this batch works for.
- */
-function CanvasSpriteRenderer(renderer)
-{
+function CanvasSpriteRenderer(renderer) {
     this.renderer = renderer;
 }
 
 
 CanvasSpriteRenderer.prototype.constructor = CanvasSpriteRenderer;
-module.exports = CanvasSpriteRenderer;
 
-CanvasRenderer.registerPlugin('sprite', CanvasSpriteRenderer);
+rendererscanvasCanvasRenderer_CanvasRendererjs.registerPlugin('sprite', CanvasSpriteRenderer);
 
 /**
  * Renders the sprite object.
@@ -79,7 +55,7 @@ CanvasSpriteRenderer.prototype.render = function (sprite)
         if(texture.rotate) {
             wt.copy(canvasRenderWorldTransform);
             wt = canvasRenderWorldTransform;
-            math.GroupD8.matrixAppendRotationInv(wt, texture.rotate, dx, dy);
+            math_indexjsjs.GroupD8.matrixAppendRotationInv(wt, texture.rotate, dx, dy);
             // the anchor has already been applied above, so lets set it to zero
             dx = 0;
             dy = 0;
@@ -162,3 +138,26 @@ CanvasSpriteRenderer.prototype.render = function (sprite)
 CanvasSpriteRenderer.prototype.destroy = function (){
   this.renderer = null;
 };
+var exported_CanvasSpriteRenderer = CanvasSpriteRenderer;
+
+/**
+ * @author Mat Groves
+ *
+ * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
+ * for creating the original pixi version!
+ * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
+ *
+ * Heavily inspired by LibGDX's CanvasSpriteRenderer:
+ * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/CanvasSpriteRenderer.java
+ */
+
+/**
+ * Renderer dedicated to drawing and batching sprites.
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ * @extends PIXI.ObjectRenderer
+ * @param renderer {PIXI.WebGLRenderer} The renderer sprite this batch works for.
+ */
+export { exported_CanvasSpriteRenderer as CanvasSpriteRenderer };

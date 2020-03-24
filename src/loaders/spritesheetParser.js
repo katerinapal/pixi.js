@@ -1,10 +1,11 @@
-var Resource = require('resource-loader').Resource,
-    path = require('path'),
-    core = require('../core');
+import resourceloader_resourceloader from "resource-loader";
+import path from "path";
+import { core as core_corejs } from "../core";
+var Resource = resourceloader_resourceloader.Resource;
 
 var BATCH_SIZE = 1000;
 
-module.exports = function ()
+var exportedObject = function ()
 {
     return function (resource, next)
     {
@@ -40,7 +41,7 @@ module.exports = function ()
 
             var frames = resource.data.frames;
             var frameKeys = Object.keys(frames);
-            var resolution = core.utils.getResolutionOfUrl(resource.url);
+            var resolution = core_corejs.utils.getResolutionOfUrl(resource.url);
             var batchIndex = 0;
 
             function processFrames(initialFrameIndex, maxFrames)
@@ -57,19 +58,19 @@ module.exports = function ()
 
                         var frame = null;
                         var trim = null;
-                        var orig = new core.Rectangle(0, 0, frames[i].sourceSize.w / resolution, frames[i].sourceSize.h / resolution);
+                        var orig = new core_corejs.Rectangle(0, 0, frames[i].sourceSize.w / resolution, frames[i].sourceSize.h / resolution);
 
                         if (frames[i].rotated) {
-                            frame = new core.Rectangle(rect.x / resolution, rect.y / resolution, rect.h / resolution, rect.w / resolution);
+                            frame = new core_corejs.Rectangle(rect.x / resolution, rect.y / resolution, rect.h / resolution, rect.w / resolution);
                         }
                         else {
-                            frame = new core.Rectangle(rect.x / resolution, rect.y / resolution, rect.w / resolution, rect.h / resolution);
+                            frame = new core_corejs.Rectangle(rect.x / resolution, rect.y / resolution, rect.w / resolution, rect.h / resolution);
                         }
 
                         //  Check to see if the sprite is trimmed
                         if (frames[i].trimmed)
                         {
-                            trim = new core.Rectangle(
+                            trim = new core_corejs.Rectangle(
                                 frames[i].spriteSourceSize.x / resolution,
                                 frames[i].spriteSourceSize.y / resolution,
                                 frames[i].spriteSourceSize.w / resolution,
@@ -77,10 +78,10 @@ module.exports = function ()
                              );
                         }
 
-                        resource.textures[i] = new core.Texture(res.texture.baseTexture, frame, orig, trim, frames[i].rotated ? 2 : 0);
+                        resource.textures[i] = new core_corejs.Texture(res.texture.baseTexture, frame, orig, trim, frames[i].rotated ? 2 : 0);
 
                         // lets also add the frame to pixi's global cache for fromFrame and fromImage functions
-                        core.utils.TextureCache[i] = resource.textures[i];
+                        core_corejs.utils.TextureCache[i] = resource.textures[i];
 
                     }
 
@@ -122,3 +123,5 @@ module.exports = function ()
         });
     };
 };
+
+export { exportedObject as spritesheetParserjs };;

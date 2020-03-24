@@ -1,5 +1,21 @@
-var core = require('../../core');
-var glslify  = require('glslify');
+import { core as core_corejs } from "../../core";
+import glslify from "glslify";
+function FXAAFilter() {
+    //TODO - needs work
+    core_corejs.Filter.call(this,
+
+        // vertex shader
+        glslify('./fxaa.vert'),
+        // fragment shader
+        glslify('./fxaa.frag')
+    );
+
+}
+
+FXAAFilter.prototype = Object.create(core_corejs.Filter.prototype);
+FXAAFilter.prototype.constructor = FXAAFilter;
+
+var exported_FXAAFilter = FXAAFilter;
 
 /**
  *
@@ -14,20 +30,4 @@ var glslify  = require('glslify');
  * @memberof PIXI
  *
  */
-function FXAAFilter()
-{
-    //TODO - needs work
-    core.Filter.call(this,
-
-        // vertex shader
-        glslify('./fxaa.vert'),
-        // fragment shader
-        glslify('./fxaa.frag')
-    );
-
-}
-
-FXAAFilter.prototype = Object.create(core.Filter.prototype);
-FXAAFilter.prototype.constructor = FXAAFilter;
-
-module.exports = FXAAFilter;
+export { exported_FXAAFilter as FXAAFilter };

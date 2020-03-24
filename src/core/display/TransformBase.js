@@ -1,26 +1,17 @@
-var math = require('../math');
-
-
-/**
- * Generic class to deal with traditional 2D matrix transforms
- *
- * @class
- * @memberof PIXI
- */
-function TransformBase()
-{
+import { indexjs as math_indexjsjs } from "../math";
+function TransformBase() {
     /**
      * The global matrix transform. It can be swapped temporarily by some functions like getLocalBounds()
      *
      * @member {PIXI.Matrix}
      */
-    this.worldTransform = new math.Matrix();
+    this.worldTransform = new math_indexjsjs.Matrix();
     /**
      * The local matrix transform
      * 
      * @member {PIXI.Matrix}
      */
-    this.localTransform = new math.Matrix();
+    this.localTransform = new math_indexjsjs.Matrix();
 
     this._worldID = 0;
 }
@@ -65,4 +56,12 @@ TransformBase.prototype.updateWorldTransform = TransformBase.prototype.updateTra
 
 TransformBase.IDENTITY = new TransformBase();
 
-module.exports = TransformBase;
+var exported_TransformBase = TransformBase;
+
+/**
+ * Generic class to deal with traditional 2D matrix transforms
+ *
+ * @class
+ * @memberof PIXI
+ */
+export { exported_TransformBase as TransformBase };

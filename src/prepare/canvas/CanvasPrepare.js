@@ -1,18 +1,8 @@
-var core = require('../../core');
-
-/**
- * Prepare uploads elements to the GPU. The CanvasRenderer version of prepare
- * provides the same APIs as the WebGL version, but doesn't do anything.
- * @class
- * @memberof PIXI
- * @param renderer {PIXI.CanvasRenderer} A reference to the current renderer
- */
-function CanvasPrepare()
-{
+import { core as core_corejs } from "../../core";
+function CanvasPrepare() {
 }
 
 CanvasPrepare.prototype.constructor = CanvasPrepare;
-module.exports = CanvasPrepare;
 
 /**
  * Stub method for upload.
@@ -56,4 +46,14 @@ CanvasPrepare.prototype.destroy = function()
 {
 };
 
-core.CanvasRenderer.registerPlugin('prepare', CanvasPrepare);
+core_corejs.CanvasRenderer.registerPlugin('prepare', CanvasPrepare);
+var exported_CanvasPrepare = CanvasPrepare;
+
+/**
+ * Prepare uploads elements to the GPU. The CanvasRenderer version of prepare
+ * provides the same APIs as the WebGL version, but doesn't do anything.
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.CanvasRenderer} A reference to the current renderer
+ */
+export { exported_CanvasPrepare as CanvasPrepare };

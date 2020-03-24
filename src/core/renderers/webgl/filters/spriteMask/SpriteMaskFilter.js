@@ -1,21 +1,10 @@
-var Filter = require('../Filter'),
-    math =  require('../../../../math');
+import { Filter as Filter_Filterjs } from "../Filter";
+import { indexjs as math_indexjsjs } from "../../../../math";
+import glslify from "glslify";
+function SpriteMaskFilter(sprite) {
+    var maskMatrix = new math_indexjsjs.Matrix();
 
-// @see https://github.com/substack/brfs/issues/25
-var glslify  = require('glslify');
-/**
- * The SpriteMaskFilter class
- *
- * @class
- * @extends PIXI.Filter
- * @memberof PIXI
- * @param sprite {PIXI.Sprite} the target sprite
- */
-function SpriteMaskFilter(sprite)
-{
-    var maskMatrix = new math.Matrix();
-
-    Filter.call(this,
+    Filter_Filterjs.call(this,
         glslify('./spriteMaskFilter.vert'),
         glslify('./spriteMaskFilter.frag')
     );
@@ -26,9 +15,8 @@ function SpriteMaskFilter(sprite)
     this.maskMatrix = maskMatrix;
 }
 
-SpriteMaskFilter.prototype = Object.create(Filter.prototype);
+SpriteMaskFilter.prototype = Object.create(Filter_Filterjs.prototype);
 SpriteMaskFilter.prototype.constructor = SpriteMaskFilter;
-module.exports = SpriteMaskFilter;
 
 /**
  * Applies the filter
@@ -47,3 +35,14 @@ SpriteMaskFilter.prototype.apply = function (filterManager, input, output)
 
     filterManager.applyFilter(this, input, output);
 };
+var exported_SpriteMaskFilter = SpriteMaskFilter;
+
+/**
+ * The SpriteMaskFilter class
+ *
+ * @class
+ * @extends PIXI.Filter
+ * @memberof PIXI
+ * @param sprite {PIXI.Sprite} the target sprite
+ */
+export { exported_SpriteMaskFilter as SpriteMaskFilter };

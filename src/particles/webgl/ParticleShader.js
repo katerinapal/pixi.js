@@ -1,14 +1,6 @@
-var Shader = require('../../core/Shader');
-
-/**
- * @class
- * @extends PIXI.Shader
- * @memberof PIXI
- * @param gl {PIXI.Shader} The webgl shader manager this shader works for.
- */
-function ParticleShader(gl)
-{
-    Shader.call(this,
+import { Shader as coreShader_Shaderjs } from "../../core/Shader";
+function ParticleShader(gl) {
+    coreShader_Shaderjs.call(this,
         gl,
         // vertex shader
         [
@@ -58,7 +50,15 @@ function ParticleShader(gl)
 
 }
 
-ParticleShader.prototype = Object.create(Shader.prototype);
+ParticleShader.prototype = Object.create(coreShader_Shaderjs.prototype);
 ParticleShader.prototype.constructor = ParticleShader;
 
-module.exports = ParticleShader;
+var exported_ParticleShader = ParticleShader;
+
+/**
+ * @class
+ * @extends PIXI.Shader
+ * @memberof PIXI
+ * @param gl {PIXI.Shader} The webgl shader manager this shader works for.
+ */
+export { exported_ParticleShader as ParticleShader };

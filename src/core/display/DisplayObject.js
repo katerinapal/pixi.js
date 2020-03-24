@@ -1,25 +1,14 @@
-var EventEmitter = require('eventemitter3'),
-    CONST = require('../const'),
-    TransformStatic = require('./TransformStatic'),
-    Transform = require('./Transform'),
-    Bounds = require('./Bounds'),
-    math = require('../math'),
-    _tempDisplayObjectParent = new DisplayObject();
+import EventEmitter from "eventemitter3";
+import { TransformStatic as TransformStatic_TransformStaticjs } from "./TransformStatic";
+import { Transform as Transform_Transformjs } from "./Transform";
+import { Bounds as Bounds_Boundsjs } from "./Bounds";
+import { indexjs as math_indexjsjs } from "../math";
+var _tempDisplayObjectParent = new DisplayObject();
 
-/**
- * The base class for all objects that are rendered on the screen.
- * This is an abstract class and should not be used on its own rather it should be extended.
- *
- * @class
- * @extends EventEmitter
- * @mixes PIXI.interaction.interactiveTarget
- * @memberof PIXI
- */
-function DisplayObject()
-{
+function DisplayObject() {
     EventEmitter.call(this);
 
-    var TransformClass = CONST.TRANSFORM_MODE.DEFAULT === CONST.TRANSFORM_MODE.STATIC ? TransformStatic : Transform;
+    var TransformClass = CONST.TRANSFORM_MODE.DEFAULT === CONST.TRANSFORM_MODE.STATIC ? TransformStatic_TransformStaticjs : Transform_Transformjs;
 
     //TODO: need to create Transform from factory
     /**
@@ -88,7 +77,7 @@ function DisplayObject()
      * @member {PIXI.Rectangle}
      * @private
      */
-    this._bounds = new Bounds();
+    this._bounds = new Bounds_Boundsjs();
     this._boundsID = 0;
     this._lastBoundsID = -1;
     this._boundsRect = null;
@@ -108,7 +97,6 @@ function DisplayObject()
 // constructor
 DisplayObject.prototype = Object.create(EventEmitter.prototype);
 DisplayObject.prototype.constructor = DisplayObject;
-module.exports = DisplayObject;
 
 
 Object.defineProperties(DisplayObject.prototype, {
@@ -404,7 +392,7 @@ DisplayObject.prototype.getBounds = function (skipUpdate, rect)
     {
         if(!this._boundsRect)
         {
-            this._boundsRect = new math.Rectangle();
+            this._boundsRect = new math_indexjsjs.Rectangle();
         }
 
         rect = this._boundsRect;
@@ -430,7 +418,7 @@ DisplayObject.prototype.getLocalBounds = function (rect)
     {
         if(!this._localBoundsRect)
         {
-            this._localBoundsRect = new math.Rectangle();
+            this._localBoundsRect = new math_indexjsjs.Rectangle();
         }
 
         rect = this._localBoundsRect;
@@ -604,3 +592,15 @@ DisplayObject.prototype.destroy = function ()
     this.interactive = false;
     this.interactiveChildren = false;
 };
+var exported_DisplayObject = DisplayObject;
+
+/**
+ * The base class for all objects that are rendered on the screen.
+ * This is an abstract class and should not be used on its own rather it should be extended.
+ *
+ * @class
+ * @extends EventEmitter
+ * @mixes PIXI.interaction.interactiveTarget
+ * @memberof PIXI
+ */
+export { exported_DisplayObject as DisplayObject };

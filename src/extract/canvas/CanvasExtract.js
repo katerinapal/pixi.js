@@ -1,21 +1,13 @@
-var core = require('../../core'),
-    tempRect = new core.Rectangle();
+import { core as core_corejs } from "../../core";
+var tempRect = new core_corejs.Rectangle();
 
-/**
- * The extract manager provides functionality to export content from the renderers
- * @class
- * @memberof PIXI
- * @param renderer {PIXI.CanvasRenderer} A reference to the current renderer
- */
-function CanvasExtract(renderer)
-{
+function CanvasExtract(renderer) {
     this.renderer = renderer;
     renderer.extract = this;
 }
 
 
 CanvasExtract.prototype.constructor = CanvasExtract;
-module.exports = CanvasExtract;
 
 /**
  * Will return a HTML Image of the target
@@ -55,7 +47,7 @@ CanvasExtract.prototype.canvas = function ( target )
 
     if(target)
     {
-        if(target instanceof core.RenderTexture)
+        if(target instanceof core_corejs.RenderTexture)
         {
             renderTexture = target;
         }
@@ -84,7 +76,7 @@ CanvasExtract.prototype.canvas = function ( target )
     var width = frame.width * resolution;
     var height = frame.height * resolution;
 
-   	var canvasBuffer = new core.CanvasRenderTarget(width, height);
+   	var canvasBuffer = new core_corejs.CanvasRenderTarget(width, height);
     var canvasData = context.getImageData(frame.x * resolution, frame.y * resolution, width, height);
     canvasBuffer.context.putImageData(canvasData, 0, 0);
 
@@ -108,7 +100,7 @@ CanvasExtract.prototype.pixels = function ( target )
 
     if(target)
     {
-        if(target instanceof core.RenderTexture)
+        if(target instanceof core_corejs.RenderTexture)
         {
             renderTexture = target;
         }
@@ -147,4 +139,13 @@ CanvasExtract.prototype.destroy = function ()
     this.renderer = null;
 };
 
-core.CanvasRenderer.registerPlugin('extract', CanvasExtract);
+core_corejs.CanvasRenderer.registerPlugin('extract', CanvasExtract);
+var exported_CanvasExtract = CanvasExtract;
+
+/**
+ * The extract manager provides functionality to export content from the renderers
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.CanvasRenderer} A reference to the current renderer
+ */
+export { exported_CanvasExtract as CanvasExtract };

@@ -1,7 +1,7 @@
-var defaultValue = require('pixi-gl-core').shader.defaultValue;
+import pixiglcore_pixiglcore from "pixi-gl-core";
+var defaultValue = pixiglcore_pixiglcore.shader.defaultValue;
 
-function extractUniformsFromSrc(vertexSrc, fragmentSrc, mask)
-{
+function extractUniformsFromSrc(vertexSrc, fragmentSrc, mask) {
     var vertUniforms = extractUniformsFromString(vertexSrc, mask);
     var fragUniforms = extractUniformsFromString(fragmentSrc, mask);
 
@@ -57,4 +57,5 @@ function extractUniformsFromString(string)
     return uniforms;
 }
 
-module.exports = extractUniformsFromSrc;
+var exported_extractUniformsFromSrc = extractUniformsFromSrc;
+export { exported_extractUniformsFromSrc as extractUniformsFromSrc };

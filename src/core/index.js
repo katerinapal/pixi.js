@@ -1,3 +1,39 @@
+import * as const_core from "./const";
+import * as math_obj from "./math";
+import * as utils_core from "./utils";
+import * as ticker_obj from "./ticker";
+import { core as displayDisplayObject_core } from "./display/DisplayObject";
+import { core as displayContainer_core } from "./display/Container";
+import { core as displayTransform_core } from "./display/Transform";
+import { core as displayTransformStatic_core } from "./display/TransformStatic";
+import { core as displayTransformBase_core } from "./display/TransformBase";
+import { core as spritesSprite_core } from "./sprites/Sprite";
+import { core as spritescanvasCanvasSpriteRenderer_core } from "./sprites/canvas/CanvasSpriteRenderer";
+import * as spritescanvasCanvasTinter_core from "./sprites/canvas/CanvasTinter";
+import { core as spriteswebglSpriteRenderer_core } from "./sprites/webgl/SpriteRenderer";
+import { core as textText_core } from "./text/Text";
+import { core as textTextStyle_core } from "./text/TextStyle";
+import { core as graphicsGraphics_core } from "./graphics/Graphics";
+import { core as graphicsGraphicsData_core } from "./graphics/GraphicsData";
+import { core as graphicswebglGraphicsRenderer_core } from "./graphics/webgl/GraphicsRenderer";
+import { core as graphicscanvasCanvasGraphicsRenderer_core } from "./graphics/canvas/CanvasGraphicsRenderer";
+import { core as texturesTexture_core } from "./textures/Texture";
+import { core as texturesBaseTexture_core } from "./textures/BaseTexture";
+import { core as texturesRenderTexture_core } from "./textures/RenderTexture";
+import { core as texturesBaseRenderTexture_core } from "./textures/BaseRenderTexture";
+import { core as texturesVideoBaseTexture_core } from "./textures/VideoBaseTexture";
+import { core as texturesTextureUvs_core } from "./textures/TextureUvs";
+import { core as rendererscanvasCanvasRenderer_core } from "./renderers/canvas/CanvasRenderer";
+import { core as rendererscanvasutilsCanvasRenderTarget_core } from "./renderers/canvas/utils/CanvasRenderTarget";
+import { core as Shader_core } from "./Shader";
+import { core as rendererswebglWebGLRenderer_core } from "./renderers/webgl/WebGLRenderer";
+import { core as rendererswebglmanagersWebGLManager_core } from "./renderers/webgl/managers/WebGLManager";
+import { core as rendererswebglutilsObjectRenderer_core } from "./renderers/webgl/utils/ObjectRenderer";
+import { core as rendererswebglutilsRenderTarget_core } from "./renderers/webgl/utils/RenderTarget";
+import { core as rendererswebglutilsQuad_core } from "./renderers/webgl/utils/Quad";
+import { core as rendererswebglfiltersspriteMaskSpriteMaskFilter_core } from "./renderers/webgl/filters/spriteMask/SpriteMaskFilter";
+import * as rendererswebglfiltersFilter_core from "./renderers/webgl/filters/Filter";
+import pixiglcore from "pixi-gl-core";
 /**
  * @file        Main export of the PIXI core library
  * @author      Mat Groves <mat@goodboydigital.com>
@@ -9,58 +45,58 @@
  * @namespace PIXI
  */
 // export core and const. We assign core to const so that the non-reference types in const remain in-tact
-var core = module.exports = Object.assign(require('./const'), require('./math'), {
+var core = Object.assign(const_core, math_obj, {
     // utils
-    utils: require('./utils'),
-    ticker: require('./ticker'),
+    utils: utils_core,
+    ticker: ticker_obj,
 
     // display
-    DisplayObject:          require('./display/DisplayObject'),
-    Container:              require('./display/Container'),
-    Transform:              require('./display/Transform'),
-    TransformStatic:        require('./display/TransformStatic'),
-    TransformBase:          require('./display/TransformBase'),
+    DisplayObject:          displayDisplayObject_core,
+    Container:              displayContainer_core,
+    Transform:              displayTransform_core,
+    TransformStatic:        displayTransformStatic_core,
+    TransformBase:          displayTransformBase_core,
 
     // sprites
-    Sprite:                 require('./sprites/Sprite'),
-    CanvasSpriteRenderer:     require('./sprites/canvas/CanvasSpriteRenderer'),
-    CanvasTinter:           require('./sprites/canvas/CanvasTinter'),
-    SpriteRenderer:         require('./sprites/webgl/SpriteRenderer'),
+    Sprite:                 spritesSprite_core,
+    CanvasSpriteRenderer:     spritescanvasCanvasSpriteRenderer_core,
+    CanvasTinter:           spritescanvasCanvasTinter_core,
+    SpriteRenderer:         spriteswebglSpriteRenderer_core,
 
     // text
-    Text:                   require('./text/Text'),
-    TextStyle:              require('./text/TextStyle'),
+    Text:                   textText_core,
+    TextStyle:              textTextStyle_core,
     // primitives
-    Graphics:               require('./graphics/Graphics'),
-    GraphicsData:           require('./graphics/GraphicsData'),
-    GraphicsRenderer:       require('./graphics/webgl/GraphicsRenderer'),
-    CanvasGraphicsRenderer: require('./graphics/canvas/CanvasGraphicsRenderer'),
+    Graphics:               graphicsGraphics_core,
+    GraphicsData:           graphicsGraphicsData_core,
+    GraphicsRenderer:       graphicswebglGraphicsRenderer_core,
+    CanvasGraphicsRenderer: graphicscanvasCanvasGraphicsRenderer_core,
 
     // textures
-    Texture:                require('./textures/Texture'),
-    BaseTexture:            require('./textures/BaseTexture'),
-    RenderTexture:          require('./textures/RenderTexture'),
-    BaseRenderTexture:      require('./textures/BaseRenderTexture'),
-    VideoBaseTexture:       require('./textures/VideoBaseTexture'),
-    TextureUvs:             require('./textures/TextureUvs'),
+    Texture:                texturesTexture_core,
+    BaseTexture:            texturesBaseTexture_core,
+    RenderTexture:          texturesRenderTexture_core,
+    BaseRenderTexture:      texturesBaseRenderTexture_core,
+    VideoBaseTexture:       texturesVideoBaseTexture_core,
+    TextureUvs:             texturesTextureUvs_core,
 
     // renderers - canvas
-    CanvasRenderer:         require('./renderers/canvas/CanvasRenderer'),
-    CanvasRenderTarget:     require('./renderers/canvas/utils/CanvasRenderTarget'),
+    CanvasRenderer:         rendererscanvasCanvasRenderer_core,
+    CanvasRenderTarget:     rendererscanvasutilsCanvasRenderTarget_core,
 
     // renderers - webgl
-    Shader:                 require('./Shader'),
-    WebGLRenderer:          require('./renderers/webgl/WebGLRenderer'),
-    WebGLManager:           require('./renderers/webgl/managers/WebGLManager'),
-    ObjectRenderer:         require('./renderers/webgl/utils/ObjectRenderer'),
-    RenderTarget:           require('./renderers/webgl/utils/RenderTarget'),
-    Quad:                   require('./renderers/webgl/utils/Quad'),
+    Shader:                 Shader_core,
+    WebGLRenderer:          rendererswebglWebGLRenderer_core,
+    WebGLManager:           rendererswebglmanagersWebGLManager_core,
+    ObjectRenderer:         rendererswebglutilsObjectRenderer_core,
+    RenderTarget:           rendererswebglutilsRenderTarget_core,
+    Quad:                   rendererswebglutilsQuad_core,
 
     // filters - webgl
-    SpriteMaskFilter:       require('./renderers/webgl/filters/spriteMask/SpriteMaskFilter'),
-    Filter:                 require('./renderers/webgl/filters/Filter'),
+    SpriteMaskFilter:       rendererswebglfiltersspriteMaskSpriteMaskFilter_core,
+    Filter:                 rendererswebglfiltersFilter_core,
 
-    glCore:                   require('pixi-gl-core'),
+    glCore:                   pixiglcore,
 
     /**
      * This helper function will automatically detect which renderer you should be using.
@@ -86,11 +122,13 @@ var core = module.exports = Object.assign(require('./const'), require('./math'),
         width = width || 800;
         height = height || 600;
 
-        if (!noWebGL && core.utils.isWebGLSupported())
+        if (!noWebGL && const_core.utils.isWebGLSupported())
         {
-            return new core.WebGLRenderer(width, height, options);
+            return new const_core.WebGLRenderer(width, height, options);
         }
 
-        return new core.CanvasRenderer(width, height, options);
+        return new const_core.CanvasRenderer(width, height, options);
     }
 });
+var exported_core = core;
+export { exported_core as core };

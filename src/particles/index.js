@@ -1,14 +1,9 @@
-/**
- * @file        Main export of the PIXI extras library
- * @author      Mat Groves <mat@goodboydigital.com>
- * @copyright   2013-2015 GoodBoyDigital
- * @license     {@link https://github.com/pixijs/pixi.js/blob/master/LICENSE|MIT License}
- */
+import { ParticleContainerjs as ParticleContainer_ParticleContainerjs } from "./ParticleContainer";
+import { ParticleRendererjs as webglParticleRenderer_ParticleRendererjs } from "./webgl/ParticleRenderer";
 
-/**
- * @namespace PIXI.particles
- */
-module.exports = {
-	ParticleContainer:           require('./ParticleContainer'),
-    ParticleRenderer: 			 require('./webgl/ParticleRenderer')
+var indexjs_indexjs = {
+	ParticleContainer:           ParticleContainer_ParticleContainerjs,
+    ParticleRenderer: 			 webglParticleRenderer_ParticleRendererjs
 };
+
+export { indexjs_indexjs as indexjs };

@@ -1,14 +1,4 @@
-var CONST = require('../../../const');
-
-/**
- * Maps gl blend combinations to WebGL
- * @class
- * @memberof PIXI
- * @param gl {WebGLRenderingContext} The current WebGL drawing context
- * @param array
- */
-function mapWebGLBlendModesToPixi(gl, array)
-{
+function mapWebGLBlendModesToPixi(gl, array) {
     array = array || [];
 
     //TODO - premultiply alpha would be different.
@@ -34,4 +24,13 @@ function mapWebGLBlendModesToPixi(gl, array)
     return array;
 }
 
-module.exports = mapWebGLBlendModesToPixi;
+var exported_mapWebGLBlendModesToPixi = mapWebGLBlendModesToPixi;
+
+/**
+ * Maps gl blend combinations to WebGL
+ * @class
+ * @memberof PIXI
+ * @param gl {WebGLRenderingContext} The current WebGL drawing context
+ * @param array
+ */
+export { exported_mapWebGLBlendModesToPixi as mapWebGLBlendModesToPixi };

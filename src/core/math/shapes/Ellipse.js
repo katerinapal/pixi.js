@@ -1,18 +1,5 @@
-var Rectangle = require('./Rectangle'),
-    CONST = require('../../const');
-
-/**
- * The Ellipse object can be used to specify a hit area for displayObjects
- *
- * @class
- * @memberof PIXI
- * @param x {number} The X coordinate of the center of the ellipse
- * @param y {number} The Y coordinate of the center of the ellipse
- * @param width {number} The half width of this ellipse
- * @param height {number} The half height of this ellipse
- */
-function Ellipse(x, y, width, height)
-{
+import { Rectangle as Rectangle_Rectanglejs } from "./Rectangle";
+function Ellipse(x, y, width, height) {
     /**
      * @member {number}
      * @default 0
@@ -49,7 +36,6 @@ function Ellipse(x, y, width, height)
 }
 
 Ellipse.prototype.constructor = Ellipse;
-module.exports = Ellipse;
 
 /**
  * Creates a clone of this Ellipse instance
@@ -92,5 +78,18 @@ Ellipse.prototype.contains = function (x, y)
  */
 Ellipse.prototype.getBounds = function ()
 {
-    return new Rectangle(this.x - this.width, this.y - this.height, this.width, this.height);
+    return new Rectangle_Rectanglejs(this.x - this.width, this.y - this.height, this.width, this.height);
 };
+var exported_Ellipse = Ellipse;
+
+/**
+ * The Ellipse object can be used to specify a hit area for displayObjects
+ *
+ * @class
+ * @memberof PIXI
+ * @param x {number} The X coordinate of the center of the ellipse
+ * @param y {number} The Y coordinate of the center of the ellipse
+ * @param width {number} The half width of this ellipse
+ * @param height {number} The half height of this ellipse
+ */
+export { exported_Ellipse as Ellipse };

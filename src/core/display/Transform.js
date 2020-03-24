@@ -1,46 +1,35 @@
-var math = require('../math'),
-    TransformBase = require('./TransformBase');
-
-
-/**
- * Generic class to deal with traditional 2D matrix transforms
- * local transformation is calculated from position,scale,skew and rotation
- *
- * @class
- * @extends PIXI.TransformBase
- * @memberof PIXI
- */
-function Transform()
-{
-    TransformBase.call(this);
+import { indexjs as math_indexjsjs } from "../math";
+import { TransformBase as TransformBase_TransformBasejs } from "./TransformBase";
+function Transform() {
+    TransformBase_TransformBasejs.call(this);
 
      /**
      * The coordinate of the object relative to the local coordinates of the parent.
      *
      * @member {PIXI.Point}
      */
-    this.position = new math.Point(0,0);
+    this.position = new math_indexjsjs.Point(0,0);
 
     /**
      * The scale factor of the object.
      *
      * @member {PIXI.Point}
      */
-    this.scale = new math.Point(1,1);
+    this.scale = new math_indexjsjs.Point(1,1);
 
     /**
      * The skew amount, on the x and y axis.
      *
      * @member {PIXI.ObservablePoint}
      */
-    this.skew = new math.ObservablePoint(this.updateSkew, this, 0,0);
+    this.skew = new math_indexjsjs.ObservablePoint(this.updateSkew, this, 0,0);
 
     /**
      * The pivot point of the displayObject that it rotates around
      *
      * @member {PIXI.Point}
      */
-    this.pivot = new math.Point(0,0);
+    this.pivot = new math_indexjsjs.Point(0,0);
 
     /**
      * The rotation value of the object, in radians
@@ -58,7 +47,7 @@ function Transform()
     this._cx  = Math.cos(0);//skewX);
 }
 
-Transform.prototype = Object.create(TransformBase.prototype);
+Transform.prototype = Object.create(TransformBase_TransformBasejs.prototype);
 Transform.prototype.constructor = Transform;
 
 Transform.prototype.updateSkew = function ()
@@ -152,4 +141,14 @@ Object.defineProperties(Transform.prototype, {
     }
 });
 
-module.exports = Transform;
+var exported_Transform = Transform;
+
+/**
+ * Generic class to deal with traditional 2D matrix transforms
+ * local transformation is calculated from position,scale,skew and rotation
+ *
+ * @class
+ * @extends PIXI.TransformBase
+ * @memberof PIXI
+ */
+export { exported_Transform as Transform };

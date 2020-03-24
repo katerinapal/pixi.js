@@ -1,17 +1,4 @@
-var CONST = require('../../const');
-
-/**
- * the Rectangle object is an area defined by its position, as indicated by its top-left corner point (x, y) and by its width and its height.
- *
- * @class
- * @memberof PIXI
- * @param x {number} The X coordinate of the upper-left corner of the rectangle
- * @param y {number} The Y coordinate of the upper-left corner of the rectangle
- * @param width {number} The overall width of this rectangle
- * @param height {number} The overall height of this rectangle
- */
-function Rectangle(x, y, width, height)
-{
+function Rectangle(x, y, width, height) {
     /**
      * @member {number}
      * @default 0
@@ -48,7 +35,6 @@ function Rectangle(x, y, width, height)
 }
 
 Rectangle.prototype.constructor = Rectangle;
-module.exports = Rectangle;
 
 /**
  * A constant empty rectangle.
@@ -171,3 +157,16 @@ Rectangle.prototype.enlarge = function (rect)
     this.y = y1;
     this.height = y2 - y1;
 };
+var exported_Rectangle = Rectangle;
+
+/**
+ * the Rectangle object is an area defined by its position, as indicated by its top-left corner point (x, y) and by its width and its height.
+ *
+ * @class
+ * @memberof PIXI
+ * @param x {number} The X coordinate of the upper-left corner of the rectangle
+ * @param y {number} The Y coordinate of the upper-left corner of the rectangle
+ * @param width {number} The overall width of this rectangle
+ * @param height {number} The overall height of this rectangle
+ */
+export { exported_Rectangle as Rectangle };

@@ -1,20 +1,8 @@
-var CONST = require('../const'),
-    EventEmitter = require('eventemitter3'),
-    // Internal event used by composed emitter
-    TICK = 'tick';
+import EventEmitter from "eventemitter3";
+var // Internal event used by composed emitter
+TICK = 'tick';
 
-/**
- * A Ticker class that runs an update loop that other objects listen to.
- * This class is composed around an EventEmitter object to add listeners
- * meant for execution on the next requested animation frame.
- * Animation frames are requested only when necessary,
- * e.g. When the ticker is started and the emitter has listeners.
- *
- * @class
- * @memberof PIXI.ticker
- */
-function Ticker()
-{
+function Ticker() {
     var _this = this;
 
     /**
@@ -371,4 +359,16 @@ Ticker.prototype.update = function update(currentTime)
     this.lastTime = currentTime;
 };
 
-module.exports = Ticker;
+var exported_Ticker = Ticker;
+
+/**
+ * A Ticker class that runs an update loop that other objects listen to.
+ * This class is composed around an EventEmitter object to add listeners
+ * meant for execution on the next requested animation frame.
+ * Animation frames are requested only when necessary,
+ * e.g. When the ticker is started and the emitter has listeners.
+ *
+ * @class
+ * @memberof PIXI.ticker
+ */
+export { exported_Ticker as Ticker };

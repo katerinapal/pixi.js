@@ -1,14 +1,4 @@
-var CONST = require('../../../const');
-
-/**
- * Generic Mask Stack data structure
- * @class
- * @memberof PIXI
- * @param gl {WebGLRenderingContext} The current WebGL drawing context
- * @param object
- */
-function mapWebGLDrawModesToPixi(gl, object)
-{
+function mapWebGLDrawModesToPixi(gl, object) {
 	object= object || {};
 
     object[CONST.DRAW_MODES.POINTS]         = gl.POINTS;
@@ -21,4 +11,13 @@ function mapWebGLDrawModesToPixi(gl, object)
 
 }
 
-module.exports = mapWebGLDrawModesToPixi;
+var exported_mapWebGLDrawModesToPixi = mapWebGLDrawModesToPixi;
+
+/**
+ * Generic Mask Stack data structure
+ * @class
+ * @memberof PIXI
+ * @param gl {WebGLRenderingContext} The current WebGL drawing context
+ * @param object
+ */
+export { exported_mapWebGLDrawModesToPixi as mapWebGLDrawModesToPixi };

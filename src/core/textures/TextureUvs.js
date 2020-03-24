@@ -1,13 +1,5 @@
 
-/**
- * A standard object to store the Uvs of a texture
- *
- * @class
- * @private
- * @memberof PIXI
- */
-function TextureUvs()
-{
+function TextureUvs() {
     this.x0 = 0;
     this.y0 = 0;
 
@@ -22,10 +14,6 @@ function TextureUvs()
 
     this.uvsUint32 = new Uint32Array(4);
 }
-
-module.exports = TextureUvs;
-
-var GroupD8 = require('../math/GroupD8');
 
 /**
  * Sets the texture Uvs based on the given frame information
@@ -81,3 +69,13 @@ TextureUvs.prototype.set = function (frame, baseFrame, rotate)
     this.uvsUint32[2] = (((this.y2 * 65535) & 0xFFFF) << 16) | ((this.x2 * 65535) & 0xFFFF);
     this.uvsUint32[3] = (((this.y3 * 65535) & 0xFFFF) << 16) | ((this.x3 * 65535) & 0xFFFF);
 };
+var exported_TextureUvs = TextureUvs;
+
+/**
+ * A standard object to store the Uvs of a texture
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ */
+export { exported_TextureUvs as TextureUvs };

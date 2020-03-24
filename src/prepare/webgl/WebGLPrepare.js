@@ -1,14 +1,7 @@
-var core = require('../../core'),
-    SharedTicker = core.ticker.shared;
+import { core as core_corejs } from "../../core";
+var SharedTicker = core_corejs.ticker.shared;
 
-/**
- * The prepare manager provides functionality to upload content to the GPU
- * @class
- * @memberof PIXI
- * @param renderer {PIXI.WebGLRenderer} A reference to the current renderer
- */
-function WebGLPrepare(renderer)
-{
+function WebGLPrepare(renderer) {
     /**
      * Reference to the renderer.
      * @type {PIXI.WebGLRenderer}
@@ -65,7 +58,6 @@ function WebGLPrepare(renderer)
 WebGLPrepare.UPLOADS_PER_FRAME = 4;
 
 WebGLPrepare.prototype.constructor = WebGLPrepare;
-module.exports = WebGLPrepare;
 
 /**
  * Upload all the textures and graphics to the GPU.
@@ -194,7 +186,7 @@ WebGLPrepare.prototype.add = function(item)
     }
 
     // Get childen recursively
-    if (item instanceof core.Container)
+    if (item instanceof core_corejs.Container)
     {
         for (i = item.children.length - 1; i >= 0; i--)
         {
@@ -229,7 +221,7 @@ WebGLPrepare.prototype.destroy = function()
  */
 function uploadBaseTextures(renderer, item)
 {
-    if (item instanceof core.BaseTexture)
+    if (item instanceof core_corejs.BaseTexture)
     {
         renderer.textureManager.updateTexture(item);
         return true;
@@ -245,7 +237,7 @@ function uploadBaseTextures(renderer, item)
  */
 function uploadGraphics(renderer, item)
 {
-    if (item instanceof core.Graphics)
+    if (item instanceof core_corejs.Graphics)
     {
         renderer.plugins.graphics.updateGraphics(item);
         return true;
@@ -263,7 +255,7 @@ function uploadGraphics(renderer, item)
 function findBaseTextures(item, queue)
 {
     // Objects with textures, like Sprites/Text
-    if (item instanceof core.BaseTexture)
+    if (item instanceof core_corejs.BaseTexture)
     {
         if (queue.indexOf(item) === -1)
         {
@@ -271,7 +263,7 @@ function findBaseTextures(item, queue)
         }
         return true;
     }
-    else if (item._texture && item._texture instanceof core.Texture)
+    else if (item._texture && item._texture instanceof core_corejs.Texture)
     {
         var texture = item._texture.baseTexture;
         if (queue.indexOf(texture) === -1)
@@ -292,7 +284,7 @@ function findBaseTextures(item, queue)
  */
 function findGraphics(item, queue)
 {
-    if (item instanceof core.Graphics)
+    if (item instanceof core_corejs.Graphics)
     {
         queue.push(item);
         return true;
@@ -300,4 +292,13 @@ function findGraphics(item, queue)
     return false;
 }
 
-core.WebGLRenderer.registerPlugin('prepare', WebGLPrepare);
+core_corejs.WebGLRenderer.registerPlugin('prepare', WebGLPrepare);
+var exported_WebGLPrepare = WebGLPrepare;
+
+/**
+ * The prepare manager provides functionality to upload content to the GPU
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.WebGLRenderer} A reference to the current renderer
+ */
+export { exported_WebGLPrepare as WebGLPrepare };

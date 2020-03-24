@@ -1,34 +1,11 @@
-var SystemRenderer = require('../SystemRenderer'),
-    CanvasMaskManager = require('./utils/CanvasMaskManager'),
-    CanvasRenderTarget = require('./utils/CanvasRenderTarget'),
-    mapCanvasBlendModesToPixi = require('./utils/mapCanvasBlendModesToPixi'),
-    utils = require('../../utils'),
-    CONST = require('../../const');
-
-/**
- * The CanvasRenderer draws the scene and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
- * Don't forget to add the CanvasRenderer.view to your DOM or you will not see anything :)
- *
- * @class
- * @memberof PIXI
- * @extends PIXI.SystemRenderer
- * @param [width=800] {number} the width of the canvas view
- * @param [height=600] {number} the height of the canvas view
- * @param [options] {object} The optional renderer parameters
- * @param [options.view] {HTMLCanvasElement} the canvas to use as a view, optional
- * @param [options.transparent=false] {boolean} If the render view is transparent, default false
- * @param [options.autoResize=false] {boolean} If the render view is automatically resized, default false
- * @param [options.antialias=false] {boolean} sets antialias (only applicable in chrome at the moment)
- * @param [options.resolution=1] {number} The resolution / device pixel ratio of the renderer. The resolution of the renderer retina would be 2.
- * @param [options.clearBeforeRender=true] {boolean} This sets if the CanvasRenderer will clear the canvas or
- *      not before the new render pass.
- * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
- */
-function CanvasRenderer(width, height, options)
-{
+import { SystemRenderer as SystemRenderer_SystemRendererjs } from "../SystemRenderer";
+import { CanvasMaskManager as utilsCanvasMaskManager_CanvasMaskManagerjs } from "./utils/CanvasMaskManager";
+import { CanvasRenderTarget as utilsCanvasRenderTarget_CanvasRenderTargetjs } from "./utils/CanvasRenderTarget";
+import {     mapCanvasBlendModesToPixi as utilsmapCanvasBlendModesToPixi_mapCanvasBlendModesToPixijs, } from "./utils/mapCanvasBlendModesToPixi";
+function CanvasRenderer(width, height, options) {
     options = options || {};
 
-    SystemRenderer.call(this, 'Canvas', width, height, options);
+    SystemRenderer_SystemRendererjs.call(this, 'Canvas', width, height, options);
 
     this.type = CONST.RENDERER_TYPE.CANVAS;
 
@@ -52,7 +29,7 @@ function CanvasRenderer(width, height, options)
      *
      * @member {PIXI.CanvasMaskManager}
      */
-    this.maskManager = new CanvasMaskManager(this);
+    this.maskManager = new utilsCanvasMaskManager_CanvasMaskManagerjs(this);
 
     /**
      * The canvas property used to set the canvas smoothing property.
@@ -83,7 +60,7 @@ function CanvasRenderer(width, height, options)
 
     this.initPlugins();
 
-    this.blendModes = mapCanvasBlendModesToPixi();
+    this.blendModes = utilsmapCanvasBlendModesToPixi_mapCanvasBlendModesToPixijs();
     this._activeBlendMode = null;
 
     this.context = null;
@@ -93,9 +70,8 @@ function CanvasRenderer(width, height, options)
 }
 
 // constructor
-CanvasRenderer.prototype = Object.create(SystemRenderer.prototype);
+CanvasRenderer.prototype = Object.create(SystemRenderer_SystemRendererjs.prototype);
 CanvasRenderer.prototype.constructor =  CanvasRenderer;
-module.exports = CanvasRenderer;
 utils.pluginTarget.mixin(CanvasRenderer);
 
 
@@ -127,7 +103,7 @@ CanvasRenderer.prototype.render = function (displayObject, renderTexture, clear,
         if(!renderTexture._canvasRenderTarget)
         {
 
-            renderTexture._canvasRenderTarget = new CanvasRenderTarget(renderTexture.width, renderTexture.height, renderTexture.resolution);
+            renderTexture._canvasRenderTarget = new utilsCanvasRenderTarget_CanvasRenderTargetjs(renderTexture.width, renderTexture.height, renderTexture.resolution);
             renderTexture.source = renderTexture._canvasRenderTarget.canvas;
             renderTexture.valid = true;
         }
@@ -229,7 +205,7 @@ CanvasRenderer.prototype.destroy = function (removeView)
     this.destroyPlugins();
 
     // call the base destroy
-    SystemRenderer.prototype.destroy.call(this, removeView);
+    SystemRenderer_SystemRendererjs.prototype.destroy.call(this, removeView);
 
     this.context = null;
 
@@ -251,7 +227,7 @@ CanvasRenderer.prototype.destroy = function (removeView)
  */
 CanvasRenderer.prototype.resize = function (width, height)
 {
-    SystemRenderer.prototype.resize.call(this, width, height);
+    SystemRenderer_SystemRendererjs.prototype.resize.call(this, width, height);
 
     //reset the scale mode.. oddly this seems to be reset when the canvas is resized.
     //surely a browser bug?? Let pixi fix that for you..
@@ -261,3 +237,25 @@ CanvasRenderer.prototype.resize = function (width, height)
     }
 
 };
+var exported_CanvasRenderer = CanvasRenderer;
+
+/**
+ * The CanvasRenderer draws the scene and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
+ * Don't forget to add the CanvasRenderer.view to your DOM or you will not see anything :)
+ *
+ * @class
+ * @memberof PIXI
+ * @extends PIXI.SystemRenderer
+ * @param [width=800] {number} the width of the canvas view
+ * @param [height=600] {number} the height of the canvas view
+ * @param [options] {object} The optional renderer parameters
+ * @param [options.view] {HTMLCanvasElement} the canvas to use as a view, optional
+ * @param [options.transparent=false] {boolean} If the render view is transparent, default false
+ * @param [options.autoResize=false] {boolean} If the render view is automatically resized, default false
+ * @param [options.antialias=false] {boolean} sets antialias (only applicable in chrome at the moment)
+ * @param [options.resolution=1] {number} The resolution / device pixel ratio of the renderer. The resolution of the renderer retina would be 2.
+ * @param [options.clearBeforeRender=true] {boolean} This sets if the CanvasRenderer will clear the canvas or
+ *      not before the new render pass.
+ * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
+ */
+export { exported_CanvasRenderer as CanvasRenderer };

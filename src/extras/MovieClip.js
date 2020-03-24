@@ -1,37 +1,6 @@
-var core = require('../core');
-
-/**
- * @typedef FrameObject
- * @type {object}
- * @property texture {PIXI.Texture} The {@link PIXI.Texture} of the frame
- * @property time {number} the duration of the frame in ms
- */
-
-/**
- * A MovieClip is a simple way to display an animation depicted by a list of textures.
- *
- * ```js
- * var alienImages = ["image_sequence_01.png","image_sequence_02.png","image_sequence_03.png","image_sequence_04.png"];
- * var textureArray = [];
- *
- * for (var i=0; i < 4; i++)
- * {
- *      var texture = PIXI.Texture.fromImage(alienImages[i]);
- *      textureArray.push(texture);
- * };
- *
- * var mc = new PIXI.MovieClip(textureArray);
- * ```
- *
- *
- * @class
- * @extends PIXI.Sprite
- * @memberof PIXI.extras
- * @param textures {PIXI.Texture[]|FrameObject[]} an array of {@link PIXI.Texture} or frame objects that make up the animation
- */
-function MovieClip(textures)
-{
-    core.Sprite.call(this, textures[0] instanceof core.Texture ? textures[0] : textures[0].texture);
+import { core as core_corejs } from "../core";
+function MovieClip(textures) {
+    core_corejs.Sprite.call(this, textures[0] instanceof core_corejs.Texture ? textures[0] : textures[0].texture);
 
     /**
      * @private
@@ -87,9 +56,8 @@ function MovieClip(textures)
 }
 
 // constructor
-MovieClip.prototype = Object.create(core.Sprite.prototype);
+MovieClip.prototype = Object.create(core_corejs.Sprite.prototype);
 MovieClip.prototype.constructor = MovieClip;
-module.exports = MovieClip;
 
 Object.defineProperties(MovieClip.prototype, {
     /**
@@ -122,7 +90,7 @@ Object.defineProperties(MovieClip.prototype, {
         },
         set: function (value)
         {
-            if(value[0] instanceof core.Texture)
+            if(value[0] instanceof core_corejs.Texture)
             {
                 this._textures = value;
                 this._durations = null;
@@ -173,7 +141,7 @@ MovieClip.prototype.stop = function ()
     }
 
     this.playing = false;
-    core.ticker.shared.remove(this.update, this);
+    core_corejs.ticker.shared.remove(this.update, this);
 };
 
 /**
@@ -188,7 +156,7 @@ MovieClip.prototype.play = function ()
     }
 
     this.playing = true;
-    core.ticker.shared.add(this.update, this);
+    core_corejs.ticker.shared.add(this.update, this);
 };
 
 /**
@@ -287,7 +255,7 @@ MovieClip.prototype.update = function (deltaTime)
 MovieClip.prototype.destroy = function ( )
 {
     this.stop();
-    core.Sprite.prototype.destroy.call(this);
+    core_corejs.Sprite.prototype.destroy.call(this);
 };
 
 /**
@@ -302,7 +270,7 @@ MovieClip.fromFrames = function (frames)
 
     for (var i = 0; i < frames.length; ++i)
     {
-        textures.push(core.Texture.fromFrame(frames[i]));
+        textures.push(core_corejs.Texture.fromFrame(frames[i]));
     }
 
     return new MovieClip(textures);
@@ -320,8 +288,40 @@ MovieClip.fromImages = function (images)
 
     for (var i = 0; i < images.length; ++i)
     {
-        textures.push(core.Texture.fromImage(images[i]));
+        textures.push(core_corejs.Texture.fromImage(images[i]));
     }
 
     return new MovieClip(textures);
 };
+var exported_MovieClip = MovieClip;
+
+/**
+ * @typedef FrameObject
+ * @type {object}
+ * @property texture {PIXI.Texture} The {@link PIXI.Texture} of the frame
+ * @property time {number} the duration of the frame in ms
+ */
+
+/**
+ * A MovieClip is a simple way to display an animation depicted by a list of textures.
+ *
+ * ```js
+ * var alienImages = ["image_sequence_01.png","image_sequence_02.png","image_sequence_03.png","image_sequence_04.png"];
+ * var textureArray = [];
+ *
+ * for (var i=0; i < 4; i++)
+ * {
+ *      var texture = PIXI.Texture.fromImage(alienImages[i]);
+ *      textureArray.push(texture);
+ * };
+ *
+ * var mc = new PIXI.MovieClip(textureArray);
+ * ```
+ *
+ *
+ * @class
+ * @extends PIXI.Sprite
+ * @memberof PIXI.extras
+ * @param textures {PIXI.Texture[]|FrameObject[]} an array of {@link PIXI.Texture} or frame objects that make up the animation
+ */
+export { exported_MovieClip as MovieClip };

@@ -1,23 +1,15 @@
-var core = require('../core');
-var  Device = require('ismobilejs');
+import { core as core_corejs } from "../core";
+import Device from "ismobilejs";
+import * as accessibleTarget_accessibleTargetjs from "./accessibleTarget";
 
 // add some extra variables to the container..
 Object.assign(
-    core.DisplayObject.prototype,
-    require('./accessibleTarget')
+    core_corejs.DisplayObject.prototype,
+    accessibleTarget_accessibleTargetjs
 );
 
 
-/**
- * The Accessibility manager reacreates the ability to tab and and have content read by screen readers. This is very important as it can possibly help people with disabilities access pixi content.
- * Much like interaction any DisplayObject can be made accessible. This manager will map the events as if the mouse was being used, minimizing the efferot required to implement.
- *
- * @class
- * @memberof PIXI
- * @param renderer {PIXI.CanvasRenderer|PIXI.WebGLRenderer} A reference to the current renderer
- */
-function AccessibilityManager(renderer)
-{
+function AccessibilityManager(renderer) {
 	if(Device.tablet || Device.phone)
 	{
 		this.createTouchHook();
@@ -103,7 +95,6 @@ function AccessibilityManager(renderer)
 
 
 AccessibilityManager.prototype.constructor = AccessibilityManager;
-module.exports = AccessibilityManager;
 
 AccessibilityManager.prototype.createTouchHook = function()
 {
@@ -243,7 +234,7 @@ AccessibilityManager.prototype.update = function()
 		{
 			child._accessibleActive = false;
 
-            core.utils.removeItems(this.children, i, 1);
+            core_corejs.utils.removeItems(this.children, i, 1);
 			this.div.removeChild( child._accessibleDiv );
 			this.pool.push(child._accessibleDiv);
 			child._accessibleDiv = null;
@@ -451,5 +442,16 @@ AccessibilityManager.prototype.destroy = function ()
 
 };
 
-core.WebGLRenderer.registerPlugin('accessibility', AccessibilityManager);
-core.CanvasRenderer.registerPlugin('accessibility', AccessibilityManager);
+core_corejs.WebGLRenderer.registerPlugin('accessibility', AccessibilityManager);
+core_corejs.CanvasRenderer.registerPlugin('accessibility', AccessibilityManager);
+var exported_AccessibilityManager = AccessibilityManager;
+
+/**
+ * The Accessibility manager reacreates the ability to tab and and have content read by screen readers. This is very important as it can possibly help people with disabilities access pixi content.
+ * Much like interaction any DisplayObject can be made accessible. This manager will map the events as if the mouse was being used, minimizing the efferot required to implement.
+ *
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.CanvasRenderer|PIXI.WebGLRenderer} A reference to the current renderer
+ */
+export { exported_AccessibilityManager as AccessibilityManager };

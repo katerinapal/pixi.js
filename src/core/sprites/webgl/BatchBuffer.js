@@ -20,7 +20,7 @@
      this.uint32View = new Uint32Array(this.vertices);
  };
 
- module.exports = Buffer;
+ let exported_Buffer = Buffer;
 
  Buffer.prototype.destroy = function(){
    this.vertices = null;
@@ -28,3 +28,4 @@
    this.uvs = null;
    this.colors  = null;
  };
+ export { exported_Buffer as Buffer };

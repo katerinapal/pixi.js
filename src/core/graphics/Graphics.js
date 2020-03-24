@@ -1,31 +1,16 @@
-var Container = require('../display/Container'),
-    RenderTexture = require('../textures/RenderTexture'),
-    Texture = require('../textures/Texture'),
-    GraphicsData = require('./GraphicsData'),
-    Sprite = require('../sprites/Sprite'),
-    math = require('../math'),
-    CONST = require('../const'),
-    utils = require('../utils'),
-    Bounds = require('../display/Bounds'),
-    bezierCurveTo = require('./utils/bezierCurveTo'),
-    CanvasRenderer = require('../renderers/canvas/CanvasRenderer'),
-    canvasRenderer,
-    tempMatrix = new math.Matrix(),
-    tempPoint = new math.Point(),
-    tempColor1 = new Float32Array(4),
-    tempColor2 = new Float32Array(4);
+import { Container as displayContainer_Containerjs } from "../display/Container";
+import { RenderTexture as texturesRenderTexture_RenderTexturejs } from "../textures/RenderTexture";
+import { Texture as texturesTexture_Texturejs } from "../textures/Texture";
+import { GraphicsData as GraphicsData_GraphicsDatajs } from "./GraphicsData";
+import { Sprite as spritesSprite_Spritejs } from "../sprites/Sprite";
+import { indexjs as math_indexjsjs } from "../math";
+import { Bounds as displayBounds_Boundsjs } from "../display/Bounds";
+import { bezierCurveTo as utilsbezierCurveTo_bezierCurveTojs } from "./utils/bezierCurveTo";
+import { CanvasRenderer as rendererscanvasCanvasRenderer_CanvasRendererjs } from "../renderers/canvas/CanvasRenderer";
+var canvasRenderer, tempMatrix = new math_indexjsjs.Matrix(), tempPoint = new math_indexjsjs.Point(), tempColor1 = new Float32Array(4), tempColor2 = new Float32Array(4);
 
-/**
- * The Graphics class contains methods used to draw primitive shapes such as lines, circles and
- * rectangles to the display, and to color and fill them.
- *
- * @class
- * @extends PIXI.Container
- * @memberof PIXI
- */
-function Graphics()
-{
-    Container.call(this);
+function Graphics() {
+    displayContainer_Containerjs.call(this);
 
     /**
      * The alpha value used when filling the Graphics object.
@@ -122,7 +107,7 @@ function Graphics()
      * @member {PIXI.Rectangle}
      * @private
      */
-    this._localBounds = new Bounds();
+    this._localBounds = new displayBounds_Boundsjs();
 
     /**
      * Used to detect if the graphics object has changed. If this is set to true then the graphics
@@ -180,9 +165,8 @@ function Graphics()
 Graphics._SPRITE_TEXTURE = null;
 
 // constructor
-Graphics.prototype = Object.create(Container.prototype);
+Graphics.prototype = Object.create(displayContainer_Containerjs.prototype);
 Graphics.prototype.constructor = Graphics;
-module.exports = Graphics;
 
 /**
  * Creates a new Graphics object with the same values as this one.
@@ -237,7 +221,7 @@ Graphics.prototype.lineStyle = function (lineWidth, color, alpha)
         if (this.currentPath.shape.points.length)
         {
             // halfway through a line? start a new one!
-            var shape = new math.Polygon(this.currentPath.shape.points.slice(-2));
+            var shape = new math_indexjsjs.Polygon(this.currentPath.shape.points.slice(-2));
             shape.closed = false;
             this.drawShape(shape);
         }
@@ -262,7 +246,7 @@ Graphics.prototype.lineStyle = function (lineWidth, color, alpha)
  */
 Graphics.prototype.moveTo = function (x, y)
 {
-    var shape = new math.Polygon([x,y]);
+    var shape = new math_indexjsjs.Polygon([x,y]);
     shape.closed = false;
     this.drawShape(shape);
 
@@ -372,7 +356,7 @@ Graphics.prototype.bezierCurveTo = function (cpX, cpY, cpX2, cpY2, toX, toY)
 
     points.length -= 2;
 
-    bezierCurveTo(fromX, fromY, cpX, cpY, cpX2, cpY2, toX, toY, points);
+    utilsbezierCurveTo_bezierCurveTojs(fromX, fromY, cpX, cpY, cpX2, cpY2, toX, toY, points);
 
     this.dirty++;
 
@@ -577,7 +561,7 @@ Graphics.prototype.endFill = function ()
  */
 Graphics.prototype.drawRect = function ( x, y, width, height )
 {
-    this.drawShape(new math.Rectangle(x,y, width, height));
+    this.drawShape(new math_indexjsjs.Rectangle(x,y, width, height));
 
     return this;
 };
@@ -593,7 +577,7 @@ Graphics.prototype.drawRect = function ( x, y, width, height )
  */
 Graphics.prototype.drawRoundedRect = function ( x, y, width, height, radius )
 {
-    this.drawShape(new math.RoundedRectangle(x, y, width, height, radius));
+    this.drawShape(new math_indexjsjs.RoundedRectangle(x, y, width, height, radius));
 
     return this;
 };
@@ -608,7 +592,7 @@ Graphics.prototype.drawRoundedRect = function ( x, y, width, height, radius )
  */
 Graphics.prototype.drawCircle = function (x, y, radius)
 {
-    this.drawShape(new math.Circle(x,y, radius));
+    this.drawShape(new math_indexjsjs.Circle(x,y, radius));
 
     return this;
 };
@@ -624,7 +608,7 @@ Graphics.prototype.drawCircle = function (x, y, radius)
  */
 Graphics.prototype.drawEllipse = function (x, y, width, height)
 {
-    this.drawShape(new math.Ellipse(x, y, width, height));
+    this.drawShape(new math_indexjsjs.Ellipse(x, y, width, height));
 
     return this;
 };
@@ -643,7 +627,7 @@ Graphics.prototype.drawPolygon = function (path)
 
     var closed = true;
 
-    if (points instanceof math.Polygon)
+    if (points instanceof math_indexjsjs.Polygon)
     {
         closed = points.closed;
         points = points.points;
@@ -661,7 +645,7 @@ Graphics.prototype.drawPolygon = function (path)
         }
     }
 
-    var shape = new math.Polygon(points);
+    var shape = new math_indexjsjs.Polygon(points);
     shape.closed = closed;
 
     this.drawShape(shape);
@@ -729,7 +713,7 @@ Graphics.prototype._renderSpriteRect = function (renderer)
     {
         if(!Graphics._SPRITE_TEXTURE)
         {
-            Graphics._SPRITE_TEXTURE = RenderTexture.create(10, 10);
+            Graphics._SPRITE_TEXTURE = texturesRenderTexture_RenderTexturejs.create(10, 10);
 
             var currentRenderTarget = renderer._activeRenderTarget;
             renderer.bindRenderTexture(Graphics._SPRITE_TEXTURE);
@@ -737,7 +721,7 @@ Graphics.prototype._renderSpriteRect = function (renderer)
             renderer.bindRenderTarget(currentRenderTarget);
         }
 
-        this._spriteRect = new Sprite(Graphics._SPRITE_TEXTURE);
+        this._spriteRect = new spritesSprite_Spritejs(Graphics._SPRITE_TEXTURE);
     }
     if (this.tint === 0xffffff) {
         this._spriteRect.tint = this.graphicsData[0].fillColor;
@@ -960,7 +944,7 @@ Graphics.prototype.drawShape = function (shape)
 
     this.currentPath = null;
 
-    var data = new GraphicsData(this.lineWidth, this.lineColor, this.lineAlpha, this.fillColor, this.fillAlpha, this.filling, shape);
+    var data = new GraphicsData_GraphicsDatajs(this.lineWidth, this.lineColor, this.lineAlpha, this.fillColor, this.fillAlpha, this.filling, shape);
 
     this.graphicsData.push(data);
 
@@ -981,11 +965,11 @@ Graphics.prototype.generateCanvasTexture = function(scaleMode, resolution)
 
     var bounds = this.getLocalBounds();
 
-    var canvasBuffer = new RenderTexture.create(bounds.width * resolution, bounds.height * resolution);
+    var canvasBuffer = new texturesRenderTexture_RenderTexturejs.create(bounds.width * resolution, bounds.height * resolution);
 
     if(!canvasRenderer)
     {
-        canvasRenderer = new CanvasRenderer();
+        canvasRenderer = new rendererscanvasCanvasRenderer_CanvasRendererjs();
     }
 
     tempMatrix.tx = -bounds.x;
@@ -993,7 +977,7 @@ Graphics.prototype.generateCanvasTexture = function(scaleMode, resolution)
 
     canvasRenderer.render(this, canvasBuffer, false, tempMatrix);
 
-    var texture = Texture.fromCanvas(canvasBuffer.baseTexture._canvasRenderTarget.canvas, scaleMode);
+    var texture = texturesTexture_Texturejs.fromCanvas(canvasBuffer.baseTexture._canvasRenderTarget.canvas, scaleMode);
     texture.baseTexture.resolution = resolution;
 
     return texture;
@@ -1028,7 +1012,7 @@ Graphics.prototype.addHole = function()
  */
 Graphics.prototype.destroy = function ()
 {
-    Container.prototype.destroy.apply(this, arguments);
+    displayContainer_Containerjs.prototype.destroy.apply(this, arguments);
 
     // destroy each of the GraphicsData objects
     for (var i = 0; i < this.graphicsData.length; ++i) {
@@ -1052,3 +1036,14 @@ Graphics.prototype.destroy = function ()
     this._webgl = null;
     this._localBounds = null;
 };
+var exported_Graphics = Graphics;
+
+/**
+ * The Graphics class contains methods used to draw primitive shapes such as lines, circles and
+ * rectangles to the display, and to color and fill them.
+ *
+ * @class
+ * @extends PIXI.Container
+ * @memberof PIXI
+ */
+export { exported_Graphics as Graphics };

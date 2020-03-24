@@ -1,16 +1,5 @@
+import _url from "url";
 var tempAnchor;
-var _url = require('url');
-
-/**
- * Sets the `crossOrigin` property for this resource based on if the url
- * for this resource is cross-origin. If crossOrigin was manually set, this
- * function does nothing.
- * Nipped from the resource loader!
- * @private
- * @param url {string} The url to test.
- * @param loc [location=window.location] {object} The location object to test against.
- * @return {string} The crossOrigin value to use (or empty string for none).
- */
 var determineCrossOrigin = function (url, loc) {
     // data: and javascript: urls are considered same-origin
     if (url.indexOf('data:') === 0) {
@@ -40,4 +29,5 @@ var determineCrossOrigin = function (url, loc) {
     return '';
 };
 
-module.exports = determineCrossOrigin;
+let exported_determineCrossOrigin = determineCrossOrigin;
+export { exported_determineCrossOrigin as determineCrossOrigin };

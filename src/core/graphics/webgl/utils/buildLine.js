@@ -1,16 +1,4 @@
-var math = require('../../../math'),
-    utils = require('../../../utils');
-
-/**
- * Builds a line to draw
- *
- * Ignored from docs since it is not directly exposed.
- *
- * @ignore
- * @private
- * @param graphicsData {PIXI.WebGLGraphicsData} The graphics object containing all the necessary properties
- * @param webGLData {object} an object containing all the webGL-specific information to create this shape
- */
+import { indexjs as math_indexjsjs } from "../../../math";
 var buildLine = function (graphicsData, webGLData)
 {
     // TODO OPTIMISE!
@@ -32,8 +20,8 @@ var buildLine = function (graphicsData, webGLData)
     // }
 
     // get first and last point.. figure out the middle!
-    var firstPoint = new math.Point(points[0], points[1]);
-    var lastPoint = new math.Point(points[points.length - 2], points[points.length - 1]);
+    var firstPoint = new math_indexjsjs.Point(points[0], points[1]);
+    var lastPoint = new math_indexjsjs.Point(points[points.length - 2], points[points.length - 1]);
 
     // if the first point is the last point - gonna have issues :)
     if (firstPoint.x === lastPoint.x && firstPoint.y === lastPoint.y)
@@ -44,7 +32,7 @@ var buildLine = function (graphicsData, webGLData)
         points.pop();
         points.pop();
 
-        lastPoint = new math.Point(points[points.length - 2], points[points.length - 1]);
+        lastPoint = new math_indexjsjs.Point(points[points.length - 2], points[points.length - 1]);
 
         var midPointX = lastPoint.x + (firstPoint.x - lastPoint.x) *0.5;
         var midPointY = lastPoint.y + (firstPoint.y - lastPoint.y) *0.5;
@@ -219,4 +207,5 @@ var buildLine = function (graphicsData, webGLData)
     indices.push(indexStart-1);
 };
 
-module.exports = buildLine;
+let exported_buildLine = buildLine;
+export { exported_buildLine as buildLine };

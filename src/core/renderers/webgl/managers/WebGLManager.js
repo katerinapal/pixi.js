@@ -1,10 +1,4 @@
-/**
- * @class
- * @memberof PIXI
- * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
- */
-function WebGLManager(renderer)
-{
+function WebGLManager(renderer) {
     /**
      * The renderer this manager works for.
      *
@@ -16,7 +10,6 @@ function WebGLManager(renderer)
 }
 
 WebGLManager.prototype.constructor = WebGLManager;
-module.exports = WebGLManager;
 
 /**
  * Generic method called when there is a WebGL context change.
@@ -37,3 +30,11 @@ WebGLManager.prototype.destroy = function ()
 
     this.renderer = null;
 };
+var exported_WebGLManager = WebGLManager;
+
+/**
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
+ */
+export { exported_WebGLManager as WebGLManager };

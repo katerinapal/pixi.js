@@ -1,36 +1,5 @@
-var BaseTexture = require('./BaseTexture'),
-    utils = require('../utils');
-
-/**
- * A texture of a [playing] Video.
- *
- * Video base textures mimic Pixi BaseTexture.from.... method in their creation process.
- *
- * This can be used in several ways, such as:
- *
- * ```js
- * var texture = PIXI.VideoBaseTexture.fromUrl('http://mydomain.com/video.mp4');
- *
- * var texture = PIXI.VideoBaseTexture.fromUrl({ src: 'http://mydomain.com/video.mp4', mime: 'video/mp4' });
- *
- * var texture = PIXI.VideoBaseTexture.fromUrls(['/video.webm', '/video.mp4']);
- *
- * var texture = PIXI.VideoBaseTexture.fromUrls([
- *     { src: '/video.webm', mime: 'video/webm' },
- *     { src: '/video.mp4', mime: 'video/mp4' }
- * ]);
- * ```
- *
- * See the ["deus" demo](http://www.goodboydigital.com/pixijs/examples/deus/).
- *
- * @class
- * @extends PIXI.BaseTexture
- * @memberof PIXI
- * @param source {HTMLVideoElement} Video source
- * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
- */
-function VideoBaseTexture(source, scaleMode)
-{
+import { BaseTexture as BaseTexture_BaseTexturejs } from "./BaseTexture";
+function VideoBaseTexture(source, scaleMode) {
     if (!source)
     {
         throw new Error('No video source element specified.');
@@ -44,7 +13,7 @@ function VideoBaseTexture(source, scaleMode)
         source.complete = true;
     }
 
-    BaseTexture.call(this, source, scaleMode);
+    BaseTexture_BaseTexturejs.call(this, source, scaleMode);
 
     /**
      * Should the base texture automatically update itself, set to true by default
@@ -70,9 +39,8 @@ function VideoBaseTexture(source, scaleMode)
     this.__loaded = false;
 }
 
-VideoBaseTexture.prototype = Object.create(BaseTexture.prototype);
+VideoBaseTexture.prototype = Object.create(BaseTexture_BaseTexturejs.prototype);
 VideoBaseTexture.prototype.constructor = VideoBaseTexture;
-module.exports = VideoBaseTexture;
 
 /**
  * The internal update loop of the video base texture, only runs when autoUpdate is set to true
@@ -158,7 +126,7 @@ VideoBaseTexture.prototype.destroy = function ()
         delete this.source._pixiId;
     }
 
-    BaseTexture.prototype.destroy.call(this);
+    BaseTexture_BaseTexturejs.prototype.destroy.call(this);
 };
 
 /**
@@ -239,3 +207,34 @@ function createSource(path, type)
 
     return source;
 }
+var exported_VideoBaseTexture = VideoBaseTexture;
+
+/**
+ * A texture of a [playing] Video.
+ *
+ * Video base textures mimic Pixi BaseTexture.from.... method in their creation process.
+ *
+ * This can be used in several ways, such as:
+ *
+ * ```js
+ * var texture = PIXI.VideoBaseTexture.fromUrl('http://mydomain.com/video.mp4');
+ *
+ * var texture = PIXI.VideoBaseTexture.fromUrl({ src: 'http://mydomain.com/video.mp4', mime: 'video/mp4' });
+ *
+ * var texture = PIXI.VideoBaseTexture.fromUrls(['/video.webm', '/video.mp4']);
+ *
+ * var texture = PIXI.VideoBaseTexture.fromUrls([
+ *     { src: '/video.webm', mime: 'video/webm' },
+ *     { src: '/video.mp4', mime: 'video/mp4' }
+ * ]);
+ * ```
+ *
+ * See the ["deus" demo](http://www.goodboydigital.com/pixijs/examples/deus/).
+ *
+ * @class
+ * @extends PIXI.BaseTexture
+ * @memberof PIXI
+ * @param source {HTMLVideoElement} Video source
+ * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
+ */
+export { exported_VideoBaseTexture as VideoBaseTexture };

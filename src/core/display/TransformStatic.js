@@ -1,43 +1,34 @@
-var math = require('../math'),
-    TransformBase = require('./TransformBase');
-
-/**
- * Transform that takes care about its versions
- *
- * @class
- * @extends PIXI.TransformBase
- * @memberof PIXI
- */
-function TransformStatic()
-{
-    TransformBase.call(this);
+import { indexjs as math_indexjsjs } from "../math";
+import { TransformBase as TransformBase_TransformBasejs } from "./TransformBase";
+function TransformStatic() {
+    TransformBase_TransformBasejs.call(this);
      /**
      * The coordinate of the object relative to the local coordinates of the parent.
      *
      * @member {PIXI.ObservablePoint}
      */
-    this.position = new math.ObservablePoint(this.onChange, this,0,0);
+    this.position = new math_indexjsjs.ObservablePoint(this.onChange, this,0,0);
 
     /**
      * The scale factor of the object.
      *
      * @member {PIXI.ObservablePoint}
      */
-    this.scale = new math.ObservablePoint(this.onChange, this,1,1);
+    this.scale = new math_indexjsjs.ObservablePoint(this.onChange, this,1,1);
 
     /**
      * The pivot point of the displayObject that it rotates around
      *
      * @member {PIXI.ObservablePoint}
      */
-    this.pivot = new math.ObservablePoint(this.onChange, this,0, 0);
+    this.pivot = new math_indexjsjs.ObservablePoint(this.onChange, this,0, 0);
 
     /**
      * The skew amount, on the x and y axis.
      *
      * @member {PIXI.ObservablePoint}
      */
-    this.skew = new math.ObservablePoint(this.updateSkew, this,0, 0);
+    this.skew = new math_indexjsjs.ObservablePoint(this.updateSkew, this,0, 0);
 
     this._rotation = 0;
 
@@ -52,7 +43,7 @@ function TransformStatic()
     this._currentLocalID = 0;
 }
 
-TransformStatic.prototype = Object.create(TransformBase.prototype);
+TransformStatic.prototype = Object.create(TransformBase_TransformBasejs.prototype);
 TransformStatic.prototype.constructor = TransformStatic;
 
 TransformStatic.prototype.onChange = function ()
@@ -180,4 +171,13 @@ Object.defineProperties(TransformStatic.prototype, {
     }
 });
 
-module.exports = TransformStatic;
+var exported_TransformStatic = TransformStatic;
+
+/**
+ * Transform that takes care about its versions
+ *
+ * @class
+ * @extends PIXI.TransformBase
+ * @memberof PIXI
+ */
+export { exported_TransformStatic as TransformStatic };

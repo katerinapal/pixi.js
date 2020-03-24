@@ -1,16 +1,4 @@
-var CONST = require('../../../const');
-
-/**
- * Creates a Canvas element of the given size.
- *
- * @class
- * @memberof PIXI
- * @param width {number} the width for the newly created canvas
- * @param height {number} the height for the newly created canvas
- * @param [resolution=1] The resolution / device pixel ratio of the canvas
- */
-function CanvasRenderTarget(width, height, resolution)
-{
+function CanvasRenderTarget(width, height, resolution) {
     /**
      * The Canvas object that belongs to this CanvasRenderTarget.
      *
@@ -31,7 +19,6 @@ function CanvasRenderTarget(width, height, resolution)
 }
 
 CanvasRenderTarget.prototype.constructor = CanvasRenderTarget;
-module.exports = CanvasRenderTarget;
 
 Object.defineProperties(CanvasRenderTarget.prototype, {
     /**
@@ -101,3 +88,15 @@ CanvasRenderTarget.prototype.destroy = function ()
     this.context = null;
     this.canvas = null;
 };
+var exported_CanvasRenderTarget = CanvasRenderTarget;
+
+/**
+ * Creates a Canvas element of the given size.
+ *
+ * @class
+ * @memberof PIXI
+ * @param width {number} the width for the newly created canvas
+ * @param height {number} the height for the newly created canvas
+ * @param [resolution=1] The resolution / device pixel ratio of the canvas
+ */
+export { exported_CanvasRenderTarget as CanvasRenderTarget };

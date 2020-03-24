@@ -1,33 +1,14 @@
-var Sprite = require('../sprites/Sprite'),
-    Texture = require('../textures/Texture'),
-    math = require('../math'),
-    utils = require('../utils'),
-    CONST = require('../const'),
-    TextStyle = require('./TextStyle');
+import { Sprite as spritesSprite_Spritejs } from "../sprites/Sprite";
+import { Texture as texturesTexture_Texturejs } from "../textures/Texture";
+import { indexjs as math_indexjsjs } from "../math";
+import { TextStyle as TextStyle_TextStylejs } from "./TextStyle";
 
-    var defaultDestroyOptions = {
-            texture:true,
-            children:false,
-            baseTexture:true
-    };
-/**
- * A Text Object will create a line or multiple lines of text. To split a line you can use '\n' in your text string,
- * or add a wordWrap property set to true and and wordWrapWidth property with a value in the style object.
- *
- * A Text can be created directly from a string and a style object
- *
- * ```js
- * var text = new PIXI.Text('This is a pixi text',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
- * ```
- *
- * @class
- * @extends PIXI.Sprite
- * @memberof PIXI
- * @param text {string} The string that you would like the text to display
- * @param [style] {object|PIXI.TextStyle} The style parameters
- */
-function Text(text, style)
-{
+var defaultDestroyOptions = {
+        texture:true,
+        children:false,
+        baseTexture:true
+};
+function Text(text, style) {
     /**
      * The canvas element that everything is drawn to
      *
@@ -79,10 +60,10 @@ function Text(text, style)
      */
     this._font = '';
 
-    var texture = Texture.fromCanvas(this.canvas);
-    texture.orig = new math.Rectangle();
-    texture.trim = new math.Rectangle();
-    Sprite.call(this, texture);
+    var texture = texturesTexture_Texturejs.fromCanvas(this.canvas);
+    texture.orig = new math_indexjsjs.Rectangle();
+    texture.trim = new math_indexjsjs.Rectangle();
+    spritesSprite_Spritejs.call(this, texture);
 
     this.text = text;
     this.style = style;
@@ -91,9 +72,8 @@ function Text(text, style)
 }
 
 // constructor
-Text.prototype = Object.create(Sprite.prototype);
+Text.prototype = Object.create(spritesSprite_Spritejs.prototype);
 Text.prototype.constructor = Text;
-module.exports = Text;
 
 Text.fontPropertiesCache = {};
 Text.fontPropertiesCanvas = document.createElement('canvas');
@@ -161,13 +141,13 @@ Object.defineProperties(Text.prototype, {
         {
 
             style = style || {};
-            if (style instanceof TextStyle)
+            if (style instanceof TextStyle_TextStylejs)
             {
                 this._style = style;
             }
             else
             {
-                this._style = new TextStyle(style);
+                this._style = new TextStyle_TextStylejs(style);
             }
 
             this.localStyleID = -1;
@@ -458,7 +438,7 @@ Text.prototype.renderWebGL = function (renderer)
 
     this.updateText(true);
 
-    Sprite.prototype.renderWebGL.call(this, renderer);
+    spritesSprite_Spritejs.prototype.renderWebGL.call(this, renderer);
 };
 
 /**
@@ -477,7 +457,7 @@ Text.prototype._renderCanvas = function (renderer)
 
     this.updateText(true);
 
-    Sprite.prototype._renderCanvas.call(this, renderer);
+    spritesSprite_Spritejs.prototype._renderCanvas.call(this, renderer);
 };
 
 /**
@@ -762,7 +742,7 @@ Text.prototype.destroy = function (options)
 
     options =  Object.assign({}, defaultDestroyOptions, options);
 
-    Sprite.prototype.destroy.call(this, options);
+    spritesSprite_Spritejs.prototype.destroy.call(this, options);
 
     // make sure to reset the the context and canvas.. dont want this hanging around in memory!
     this.context = null;
@@ -770,3 +750,22 @@ Text.prototype.destroy = function (options)
 
     this._style = null;
 };
+var exported_Text = Text;
+
+/**
+ * A Text Object will create a line or multiple lines of text. To split a line you can use '\n' in your text string,
+ * or add a wordWrap property set to true and and wordWrapWidth property with a value in the style object.
+ *
+ * A Text can be created directly from a string and a style object
+ *
+ * ```js
+ * var text = new PIXI.Text('This is a pixi text',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
+ * ```
+ *
+ * @class
+ * @extends PIXI.Sprite
+ * @memberof PIXI
+ * @param text {string} The string that you would like the text to display
+ * @param [style] {object|PIXI.TextStyle} The style parameters
+ */
+export { exported_Text as Text };

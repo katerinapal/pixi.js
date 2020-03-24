@@ -1,21 +1,11 @@
-var core = require('../../core'),
-    BlurXFilter = require('./BlurXFilter'),
-    BlurYFilter = require('./BlurYFilter');
+import { core as core_corejs } from "../../core";
+import { BlurXFilter as BlurXFilter_BlurXFilterjs } from "./BlurXFilter";
+import { BlurYFilter as BlurYFilter_BlurYFilterjs } from "./BlurYFilter";
+function BlurFilter(strength, quality, resolution) {
+    core_corejs.Filter.call(this);
 
-/**
- * The BlurFilter applies a Gaussian blur to an object.
- * The strength of the blur can be set for x- and y-axis separately.
- *
- * @class
- * @extends PIXI.Filter
- * @memberof PIXI.filters
- */
-function BlurFilter(strength, quality, resolution)
-{
-    core.Filter.call(this);
-
-    this.blurXFilter = new BlurXFilter();
-    this.blurYFilter = new BlurYFilter();
+    this.blurXFilter = new BlurXFilter_BlurXFilterjs();
+    this.blurYFilter = new BlurYFilter_BlurYFilterjs();
     this.resolution = 1;
 
     this.padding = 0;
@@ -24,9 +14,8 @@ function BlurFilter(strength, quality, resolution)
     this.blur = strength || 8;
 }
 
-BlurFilter.prototype = Object.create(core.Filter.prototype);
+BlurFilter.prototype = Object.create(core_corejs.Filter.prototype);
 BlurFilter.prototype.constructor = BlurFilter;
-module.exports = BlurFilter;
 
 BlurFilter.prototype.apply = function (filterManager, input, output)
 {
@@ -116,3 +105,14 @@ Object.defineProperties(BlurFilter.prototype, {
         }
     }
 });
+var exported_BlurFilter = BlurFilter;
+
+/**
+ * The BlurFilter applies a Gaussian blur to an object.
+ * The strength of the blur can be set for x- and y-axis separately.
+ *
+ * @class
+ * @extends PIXI.Filter
+ * @memberof PIXI.filters
+ */
+export { exported_BlurFilter as BlurFilter };

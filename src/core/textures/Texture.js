@@ -1,32 +1,9 @@
-var BaseTexture = require('./BaseTexture'),
-    VideoBaseTexture = require('./VideoBaseTexture'),
-    TextureUvs = require('./TextureUvs'),
-    EventEmitter = require('eventemitter3'),
-    math = require('../math'),
-    utils = require('../utils');
-
-/**
- * A texture stores the information that represents an image or part of an image. It cannot be added
- * to the display list directly. Instead use it as the texture for a Sprite. If no frame is provided then the whole image is used.
- *
- * You can directly create a texture from an image and then reuse it multiple times like this :
- *
- * ```js
- * var texture = PIXI.Texture.fromImage('assets/image.png');
- * var sprite1 = new PIXI.Sprite(texture);
- * var sprite2 = new PIXI.Sprite(texture);
- * ```
- *
- * @class
- * @memberof PIXI
- * @param baseTexture {PIXI.BaseTexture} The base texture source to create the texture from
- * @param [frame] {PIXI.Rectangle} The rectangle frame of the texture to show
- * @param [orig] {PIXI.Rectangle} The area of original texture
- * @param [trim] {PIXI.Rectangle} Trimmed rectangle of original texture
- * @param [rotate] {number} indicates how the texture was rotated by texture packer. See {@link PIXI.GroupD8}
- */
-function Texture(baseTexture, frame, orig, trim, rotate)
-{
+import { BaseTexture as BaseTexture_BaseTexturejs } from "./BaseTexture";
+import { VideoBaseTexture as VideoBaseTexture_VideoBaseTexturejs } from "./VideoBaseTexture";
+import { TextureUvs as TextureUvs_TextureUvsjs } from "./TextureUvs";
+import EventEmitter from "eventemitter3";
+import { indexjs as math_indexjsjs } from "../math";
+function Texture(baseTexture, frame, orig, trim, rotate) {
     EventEmitter.call(this);
 
     /**
@@ -39,7 +16,7 @@ function Texture(baseTexture, frame, orig, trim, rotate)
     if (!frame)
     {
         this.noFrame = true;
-        frame = new math.Rectangle(0, 0, 1, 1);
+        frame = new math_indexjsjs.Rectangle(0, 0, 1, 1);
     }
 
     if (baseTexture instanceof Texture)
@@ -113,7 +90,7 @@ function Texture(baseTexture, frame, orig, trim, rotate)
     {
         if (this.noFrame)
         {
-            frame = new math.Rectangle(0, 0, baseTexture.width, baseTexture.height);
+            frame = new math_indexjsjs.Rectangle(0, 0, baseTexture.width, baseTexture.height);
 
             // if there is no frame we should monitor for any base texture changes..
             baseTexture.on('update', this.onBaseTextureUpdated, this);
@@ -139,7 +116,6 @@ function Texture(baseTexture, frame, orig, trim, rotate)
 
 Texture.prototype = Object.create(EventEmitter.prototype);
 Texture.prototype.constructor = Texture;
-module.exports = Texture;
 
 Object.defineProperties(Texture.prototype, {
     /**
@@ -246,7 +222,7 @@ Texture.prototype.onBaseTextureLoaded = function (baseTexture)
     // TODO this code looks confusing.. boo to abusing getters and setterss!
     if (this.noFrame)
     {
-        this.frame = new math.Rectangle(0, 0, baseTexture.width, baseTexture.height);
+        this.frame = new math_indexjsjs.Rectangle(0, 0, baseTexture.width, baseTexture.height);
     }
     else
     {
@@ -331,7 +307,7 @@ Texture.prototype._updateUvs = function ()
 {
     if (!this._uvs)
     {
-        this._uvs = new TextureUvs();
+        this._uvs = new TextureUvs_TextureUvsjs();
     }
 
     this._uvs.set(this._frame, this.baseTexture, this.rotate);
@@ -355,7 +331,7 @@ Texture.fromImage = function (imageUrl, crossorigin, scaleMode)
 
     if (!texture)
     {
-        texture = new Texture(BaseTexture.fromImage(imageUrl, crossorigin, scaleMode));
+        texture = new Texture(BaseTexture_BaseTexturejs.fromImage(imageUrl, crossorigin, scaleMode));
         utils.TextureCache[imageUrl] = texture;
     }
 
@@ -392,7 +368,7 @@ Texture.fromFrame = function (frameId)
  */
 Texture.fromCanvas = function (canvas, scaleMode)
 {
-    return new Texture(BaseTexture.fromCanvas(canvas, scaleMode));
+    return new Texture(BaseTexture_BaseTexturejs.fromCanvas(canvas, scaleMode));
 };
 
 /**
@@ -411,7 +387,7 @@ Texture.fromVideo = function (video, scaleMode)
     }
     else
     {
-        return new Texture(VideoBaseTexture.fromVideo(video, scaleMode));
+        return new Texture(VideoBaseTexture_VideoBaseTexturejs.fromVideo(video, scaleMode));
     }
 };
 
@@ -425,7 +401,7 @@ Texture.fromVideo = function (video, scaleMode)
  */
 Texture.fromVideoUrl = function (videoUrl, scaleMode)
 {
-    return new Texture(VideoBaseTexture.fromUrl(videoUrl, scaleMode));
+    return new Texture(VideoBaseTexture_VideoBaseTexturejs.fromUrl(videoUrl, scaleMode));
 };
 
 /**
@@ -466,9 +442,9 @@ Texture.from = function (source)
     {
         return Texture.fromVideo(source);
     }
-    else if(source instanceof BaseTexture)
+    else if(source instanceof BaseTexture_BaseTexturejs)
     {
-        return new Texture(BaseTexture);
+        return new Texture(BaseTexture_BaseTexturejs);
     }
     else
     {
@@ -514,9 +490,33 @@ Texture.removeTextureFromCache = function (id)
  * @static
  * @constant
  */
-Texture.EMPTY = new Texture(new BaseTexture());
+Texture.EMPTY = new Texture(new BaseTexture_BaseTexturejs());
 Texture.EMPTY.destroy = function() {};
 Texture.EMPTY.on = function() {};
 Texture.EMPTY.once = function() {};
 Texture.EMPTY.emit = function() {};
+
+var exported_Texture = Texture;
+
+/**
+ * A texture stores the information that represents an image or part of an image. It cannot be added
+ * to the display list directly. Instead use it as the texture for a Sprite. If no frame is provided then the whole image is used.
+ *
+ * You can directly create a texture from an image and then reuse it multiple times like this :
+ *
+ * ```js
+ * var texture = PIXI.Texture.fromImage('assets/image.png');
+ * var sprite1 = new PIXI.Sprite(texture);
+ * var sprite2 = new PIXI.Sprite(texture);
+ * ```
+ *
+ * @class
+ * @memberof PIXI
+ * @param baseTexture {PIXI.BaseTexture} The base texture source to create the texture from
+ * @param [frame] {PIXI.Rectangle} The rectangle frame of the texture to show
+ * @param [orig] {PIXI.Rectangle} The area of original texture
+ * @param [trim] {PIXI.Rectangle} Trimmed rectangle of original texture
+ * @param [rotate] {number} indicates how the texture was rotated by texture packer. See {@link PIXI.GroupD8}
+ */
+export { exported_Texture as Texture };
 

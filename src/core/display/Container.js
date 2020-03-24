@@ -1,21 +1,6 @@
-var utils = require('../utils'),
-    DisplayObject = require('./DisplayObject');
-
-/**
- * A Container represents a collection of display objects.
- * It is the base class of all display objects that act as a container for other objects.
- *
- *```js
- * var container = new PIXI.Container();
- * container.addChild(sprite);
- * ```
- * @class
- * @extends PIXI.DisplayObject
- * @memberof PIXI
- */
-function Container()
-{
-    DisplayObject.call(this);
+import { DisplayObject as DisplayObject_DisplayObjectjs } from "./DisplayObject";
+function Container() {
+    DisplayObject_DisplayObjectjs.call(this);
 
     /**
      * The array of children of this container.
@@ -27,9 +12,8 @@ function Container()
 }
 
 // constructor
-Container.prototype = Object.create(DisplayObject.prototype);
+Container.prototype = Object.create(DisplayObject_DisplayObjectjs.prototype);
 Container.prototype.constructor = Container;
-module.exports = Container;
 
 Object.defineProperties(Container.prototype, {
     /**
@@ -571,7 +555,7 @@ Container.prototype.renderCanvas = function (renderer)
  */
 Container.prototype.destroy = function (options)
 {
-    DisplayObject.prototype.destroy.call(this);
+    DisplayObject_DisplayObjectjs.prototype.destroy.call(this);
 
     var destroyChildren = typeof options === 'boolean' ? options : options && options.children;
 
@@ -588,3 +572,18 @@ Container.prototype.destroy = function (options)
         }
     }
 };
+var exported_Container = Container;
+
+/**
+ * A Container represents a collection of display objects.
+ * It is the base class of all display objects that act as a container for other objects.
+ *
+ *```js
+ * var container = new PIXI.Container();
+ * container.addChild(sprite);
+ * ```
+ * @class
+ * @extends PIXI.DisplayObject
+ * @memberof PIXI
+ */
+export { exported_Container as Container };

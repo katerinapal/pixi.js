@@ -1,23 +1,10 @@
-var core = require('../../core');
-var glslify  = require('glslify');
-
-/**
- * The DisplacementFilter class uses the pixel values from the specified texture (called the displacement map) to perform a displacement of an object.
- * You can use this filter to apply all manor of crazy warping effects
- * Currently the r property of the texture is used to offset the x and the g property of the texture is used to offset the y.
- *
- * @class
- * @extends PIXI.Filter
- * @memberof PIXI.filters
- * @param sprite {PIXI.Sprite} The sprite used for the displacement map. (make sure its added to the scene!)
- * @param scale {number} The scale of the displacement
- */
-function DisplacementFilter(sprite, scale)
-{
-    var maskMatrix = new core.Matrix();
+import { core as core_corejs } from "../../core";
+import glslify from "glslify";
+function DisplacementFilter(sprite, scale) {
+    var maskMatrix = new core_corejs.Matrix();
     sprite.renderable = false;
 
-    core.Filter.call(this,
+    core_corejs.Filter.call(this,
         // vertex shader
 //        glslify('./displacement.vert'),
         glslify('../fragments/default-filter-matrix.vert'),
@@ -38,12 +25,11 @@ function DisplacementFilter(sprite, scale)
         scale = 20;
     }
 
-    this.scale = new core.Point(scale, scale);
+    this.scale = new core_corejs.Point(scale, scale);
 }
 
-DisplacementFilter.prototype = Object.create(core.Filter.prototype);
+DisplacementFilter.prototype = Object.create(core_corejs.Filter.prototype);
 DisplacementFilter.prototype.constructor = DisplacementFilter;
-module.exports = DisplacementFilter;
 
 DisplacementFilter.prototype.apply = function (filterManager, input, output)
 {
@@ -77,3 +63,17 @@ Object.defineProperties(DisplacementFilter.prototype, {
         }
     }
 });
+var exported_DisplacementFilter = DisplacementFilter;
+
+/**
+ * The DisplacementFilter class uses the pixel values from the specified texture (called the displacement map) to perform a displacement of an object.
+ * You can use this filter to apply all manor of crazy warping effects
+ * Currently the r property of the texture is used to offset the x and the g property of the texture is used to offset the y.
+ *
+ * @class
+ * @extends PIXI.Filter
+ * @memberof PIXI.filters
+ * @param sprite {PIXI.Sprite} The sprite used for the displacement map. (make sure its added to the scene!)
+ * @param scale {number} The scale of the displacement
+ */
+export { exported_DisplacementFilter as DisplacementFilter };

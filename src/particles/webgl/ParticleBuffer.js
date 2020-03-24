@@ -1,26 +1,6 @@
-var glCore = require('pixi-gl-core'),
-    createIndicesForQuads = require('../../core/utils/createIndicesForQuads');
-
-/**
- * @author Mat Groves
- *
- * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
- * for creating the original pixi version!
- * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
- *
- * Heavily inspired by LibGDX's ParticleBuffer:
- * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/ParticleBuffer.java
- */
-
-/**
- * The particle buffer manages the static and dynamic buffers for a particle container.
- *
- * @class
- * @private
- * @memberof PIXI
- */
-function ParticleBuffer(gl, properties, dynamicPropertyFlags, size)
-{
+import glCore from "pixi-gl-core";
+import {     createIndicesForQuads as coreutilscreateIndicesForQuads_createIndicesForQuadsjs, } from "../../core/utils/createIndicesForQuads";
+function ParticleBuffer(gl, properties, dynamicPropertyFlags, size) {
     /**
      * The current WebGL drawing context.
      *
@@ -100,7 +80,6 @@ function ParticleBuffer(gl, properties, dynamicPropertyFlags, size)
 }
 
 ParticleBuffer.prototype.constructor = ParticleBuffer;
-module.exports = ParticleBuffer;
 
 /**
  * Sets up the renderer context and necessary buffers.
@@ -121,7 +100,7 @@ ParticleBuffer.prototype.initBuffers = function ()
      *
      * @member {Uint16Array}
      */
-    this.indices = createIndicesForQuads(this.size);
+    this.indices = coreutilscreateIndicesForQuads_createIndicesForQuadsjs(this.size);
     this.indexBuffer = glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
 
 
@@ -227,3 +206,24 @@ ParticleBuffer.prototype.destroy = function ()
     this.staticData = null;
     this.staticBuffer.destroy();
 };
+var exported_ParticleBuffer = ParticleBuffer;
+
+/**
+ * @author Mat Groves
+ *
+ * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
+ * for creating the original pixi version!
+ * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
+ *
+ * Heavily inspired by LibGDX's ParticleBuffer:
+ * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/ParticleBuffer.java
+ */
+
+/**
+ * The particle buffer manages the static and dynamic buffers for a particle container.
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ */
+export { exported_ParticleBuffer as ParticleBuffer };

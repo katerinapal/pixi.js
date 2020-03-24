@@ -1,26 +1,15 @@
-var ObjectRenderer = require('../../renderers/webgl/utils/ObjectRenderer'),
-    WebGLRenderer = require('../../renderers/webgl/WebGLRenderer'),
-    createIndicesForQuads = require('../../utils/createIndicesForQuads'),
-    generateMultiTextureShader = require('./generateMultiTextureShader'),
-    checkMaxIfStatmentsInShader = require('../../renderers/webgl/utils/checkMaxIfStatmentsInShader'),
-    Buffer = require('./BatchBuffer'),
-    CONST = require('../../const'),
-    glCore = require('pixi-gl-core'),
-    bitTwiddle = require('bit-twiddle');
+import { ObjectRenderer as rendererswebglutilsObjectRenderer_ObjectRendererjs } from "../../renderers/webgl/utils/ObjectRenderer";
+import { WebGLRenderer as rendererswebglWebGLRenderer_WebGLRendererjs } from "../../renderers/webgl/WebGLRenderer";
+import {     createIndicesForQuads as utilscreateIndicesForQuads_createIndicesForQuadsjs, } from "../../utils/createIndicesForQuads";
+import {     generateMultiTextureShader as generateMultiTextureShader_generateMultiTextureShaderjs, } from "./generateMultiTextureShader";
+import {     checkMaxIfStatmentsInShader as rendererswebglutilscheckMaxIfStatmentsInShader_checkMaxIfStatmentsInShaderjs, } from "../../renderers/webgl/utils/checkMaxIfStatmentsInShader";
+import { Buffer as BatchBuffer_Bufferjs } from "./BatchBuffer";
+import glCore from "pixi-gl-core";
+import bitTwiddle from "bit-twiddle";
 
-    var TICK = 0;
-/**
- * Renderer dedicated to drawing and batching sprites.
- *
- * @class
- * @private
- * @memberof PIXI
- * @extends PIXI.ObjectRenderer
- * @param renderer {PIXI.WebGLRenderer} The renderer this sprite batch works for.
- */
-function SpriteRenderer(renderer)
-{
-    ObjectRenderer.call(this, renderer);
+var TICK = 0;
+function SpriteRenderer(renderer) {
+    rendererswebglutilsObjectRenderer_ObjectRendererjs.call(this, renderer);
 
     /**
      * Number of values sent in the vertex buffer.
@@ -50,7 +39,7 @@ function SpriteRenderer(renderer)
     this.buffers = [];
     for (var i = 1; i <= bitTwiddle.nextPow2(this.size); i*=2) {
         var numVertsTemp = i * 4 * this.vertByteSize;
-        this.buffers.push(new Buffer(numVertsTemp));
+        this.buffers.push(new BatchBuffer_Bufferjs(numVertsTemp));
     }
 
     /**
@@ -58,7 +47,7 @@ function SpriteRenderer(renderer)
      *
      * @member {Uint16Array}
      */
-    this.indices = createIndicesForQuads(this.size);
+    this.indices = utilscreateIndicesForQuads_createIndicesForQuadsjs(this.size);
 
     /**
      * The default shaders that is used if a sprite doesn't have a more specific one.
@@ -89,11 +78,10 @@ function SpriteRenderer(renderer)
 }
 
 
-SpriteRenderer.prototype = Object.create(ObjectRenderer.prototype);
+SpriteRenderer.prototype = Object.create(rendererswebglutilsObjectRenderer_ObjectRendererjs.prototype);
 SpriteRenderer.prototype.constructor = SpriteRenderer;
-module.exports = SpriteRenderer;
 
-WebGLRenderer.registerPlugin('sprite', SpriteRenderer);
+rendererswebglWebGLRenderer_WebGLRendererjs.registerPlugin('sprite', SpriteRenderer);
 
 /**
  * Sets up the renderer context and necessary buffers.
@@ -108,11 +96,11 @@ SpriteRenderer.prototype.onContextChange = function ()
     this.MAX_TEXTURES = Math.min(gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS), CONST.SPRITE_MAX_TEXTURES);
 
     // step 2: check the maximum number of if statements the shader can have too..
-    this.MAX_TEXTURES = checkMaxIfStatmentsInShader( this.MAX_TEXTURES, gl );
+    this.MAX_TEXTURES = rendererswebglutilscheckMaxIfStatmentsInShader_checkMaxIfStatmentsInShaderjs( this.MAX_TEXTURES, gl );
 
     this.shaders = new Array(this.MAX_TEXTURES);
-    this.shaders[0] = generateMultiTextureShader(gl, 1);
-    this.shaders[1] = generateMultiTextureShader(gl, 2);
+    this.shaders[0] = generateMultiTextureShader_generateMultiTextureShaderjs(gl, 1);
+    this.shaders[1] = generateMultiTextureShader_generateMultiTextureShaderjs(gl, 2);
 
     // create a couple of buffers
     this.indexBuffer = glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
@@ -347,7 +335,7 @@ SpriteRenderer.prototype.flush = function ()
 
         if(!shader)
         {
-            shader = this.shaders[groupTextureCount-1] = generateMultiTextureShader(gl, groupTextureCount);
+            shader = this.shaders[groupTextureCount-1] = generateMultiTextureShader_generateMultiTextureShaderjs(gl, groupTextureCount);
             //console.log("SHADER generated for " + textureCount + " textures")
         }
 
@@ -397,7 +385,7 @@ SpriteRenderer.prototype.destroy = function ()
     this.indexBuffer.destroy();
 
     this.renderer.off('prerender', this.onPrerender, this);
-    ObjectRenderer.prototype.destroy.call(this);
+    rendererswebglutilsObjectRenderer_ObjectRendererjs.prototype.destroy.call(this);
 
     for (i = 0; i < this.shaders.length; i++) {
 
@@ -419,3 +407,15 @@ SpriteRenderer.prototype.destroy = function ()
     }
 
 };
+var exported_SpriteRenderer = SpriteRenderer;
+
+/**
+ * Renderer dedicated to drawing and batching sprites.
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ * @extends PIXI.ObjectRenderer
+ * @param renderer {PIXI.WebGLRenderer} The renderer this sprite batch works for.
+ */
+export { exported_SpriteRenderer as SpriteRenderer };

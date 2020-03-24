@@ -1,18 +1,5 @@
-var glCore = require('pixi-gl-core');
-
-
-/**
- * An object containing WebGL specific properties to be used by the WebGL renderer
- *
- * @class
- * @private
- * @memberof PIXI
- * @param gl {WebGLRenderingContext} The current WebGL drawing context
- * @param shader {PIXI.Shader} The shader
- * @param attribsState {object} The state for the VAO
- */
-function WebGLGraphicsData(gl, shader, attribsState)
-{
+import glCore from "pixi-gl-core";
+function WebGLGraphicsData(gl, shader, attribsState) {
 
     /**
      * The current WebGL drawing context
@@ -75,7 +62,6 @@ function WebGLGraphicsData(gl, shader, attribsState)
 }
 
 WebGLGraphicsData.prototype.constructor = WebGLGraphicsData;
-module.exports = WebGLGraphicsData;
 
 /**
  * Resets the vertices and the indices
@@ -123,3 +109,16 @@ WebGLGraphicsData.prototype.destroy = function ()
     this.glPoints = null;
     this.glIndices = null;
 };
+var exported_WebGLGraphicsData = WebGLGraphicsData;
+
+/**
+ * An object containing WebGL specific properties to be used by the WebGL renderer
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ * @param gl {WebGLRenderingContext} The current WebGL drawing context
+ * @param shader {PIXI.Shader} The shader
+ * @param attribsState {object} The state for the VAO
+ */
+export { exported_WebGLGraphicsData as WebGLGraphicsData };

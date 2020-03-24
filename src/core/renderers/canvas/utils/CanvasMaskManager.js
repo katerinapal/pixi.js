@@ -1,17 +1,8 @@
-var CONST = require('../../../const');
-/**
- * A set of functions used to handle masking.
- *
- * @class
- * @memberof PIXI
- */
-function CanvasMaskManager(renderer)
-{
+function CanvasMaskManager(renderer) {
     this.renderer = renderer;
 }
 
 CanvasMaskManager.prototype.constructor = CanvasMaskManager;
-module.exports = CanvasMaskManager;
 
 /**
  * This method adds it to the current stack of masks.
@@ -158,3 +149,12 @@ CanvasMaskManager.prototype.popMask = function (renderer)
 };
 
 CanvasMaskManager.prototype.destroy = function () {};
+var exported_CanvasMaskManager = CanvasMaskManager;
+
+/**
+ * A set of functions used to handle masking.
+ *
+ * @class
+ * @memberof PIXI
+ */
+export { exported_CanvasMaskManager as CanvasMaskManager };

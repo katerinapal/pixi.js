@@ -1,6 +1,6 @@
-require('./Object.assign');
-require('./requestAnimationFrame');
-require('./Math.sign');
+import "./Object.assign";
+import "./requestAnimationFrame";
+import "./Math.sign";
 
 if(!window.ArrayBuffer){
   window.ArrayBuffer = Array;
