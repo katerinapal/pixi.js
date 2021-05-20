@@ -1,3 +1,4 @@
+"use strict";
 var buildLine = require('./buildLine'),
     CONST = require('../../../const'),
     utils = require('../../../utils');

@@ -1,3 +1,4 @@
+"use strict";
 var Mesh = require('./Mesh');
 
 /**

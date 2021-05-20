@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Generic Mask Stack data structure
  * @class

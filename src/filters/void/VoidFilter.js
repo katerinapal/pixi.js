@@ -1,3 +1,4 @@
+"use strict";
 var core = require('../../core');
 // @see https://github.com/substack/brfs/issues/25
 var glslify  = require('glslify');

@@ -1,5 +1,7 @@
 
 
+"use strict";
+
 var getMaxKernelSize = function(gl)
 {
     var maxVaryings = ( gl.getParameter(gl.MAX_VARYING_VECTORS) );

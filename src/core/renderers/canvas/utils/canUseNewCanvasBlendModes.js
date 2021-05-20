@@ -1,5 +1,7 @@
 
 
+"use strict";
+
 /**
  * Creates a little colored canvas
  * @return {canvas} a small canvas element

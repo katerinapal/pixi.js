@@ -1,3 +1,4 @@
+"use strict";
 describe('PIXI.Text', function () {
     describe('destroy', function () {
         it('should call through to Sprite.destroy', function () {

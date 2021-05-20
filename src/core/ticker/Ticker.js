@@ -1,3 +1,4 @@
+"use strict";
 var CONST = require('../const'),
     EventEmitter = require('eventemitter3'),
     // Internal event used by composed emitter

@@ -1,3 +1,4 @@
+"use strict";
 var GLShader = require('pixi-gl-core').GLShader;
 var Const = require('./const');
 

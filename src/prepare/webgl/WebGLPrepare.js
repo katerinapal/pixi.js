@@ -1,3 +1,4 @@
+"use strict";
 var core = require('../../core'),
     SharedTicker = core.ticker.shared;
 

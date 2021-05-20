@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Math classes and utilities mixed into PIXI namespace.
  *

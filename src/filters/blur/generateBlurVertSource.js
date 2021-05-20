@@ -1,4 +1,5 @@
 
+"use strict";
 var vertTemplate = [
 	'attribute vec2 aVertexPosition;',
 	'attribute vec2 aTextureCoord;',

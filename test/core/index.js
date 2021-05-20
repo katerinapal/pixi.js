@@ -1,3 +1,4 @@
+"use strict";
 require('./Bounds');
 require('./Container');
 require('./DisplayObject');

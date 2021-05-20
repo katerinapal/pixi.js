@@ -1,4 +1,5 @@
 
+"use strict";
 /**
  * A standard object to store the Uvs of a texture
  *

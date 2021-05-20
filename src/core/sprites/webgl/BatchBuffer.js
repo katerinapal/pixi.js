@@ -1,5 +1,7 @@
 
 
+ "use strict";
+
  var Buffer = function(size)
  {
 

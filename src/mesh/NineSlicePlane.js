@@ -1,3 +1,4 @@
+"use strict";
 var DEFAULT_BORDER_SIZE= 10;
 
 var Plane = require('./Plane');

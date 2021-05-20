@@ -1,3 +1,4 @@
+"use strict";
 var Sprite = require('../sprites/Sprite'),
     Texture = require('../textures/Texture'),
     math = require('../math'),
@@ -5,11 +6,11 @@ var Sprite = require('../sprites/Sprite'),
     CONST = require('../const'),
     TextStyle = require('./TextStyle');
 
-    var defaultDestroyOptions = {
-            texture:true,
-            children:false,
-            baseTexture:true
-    };
+var defaultDestroyOptions = {
+        texture:true,
+        children:false,
+        baseTexture:true
+};
 /**
  * A Text Object will create a line or multiple lines of text. To split a line you can use '\n' in your text string,
  * or add a wordWrap property set to true and and wordWrapWidth property with a value in the style object.

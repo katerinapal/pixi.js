@@ -1,3 +1,4 @@
+"use strict";
 describe('PIXI.Container', function () {
     describe('parent', function () {
         it('should be present when adding children to Container', function() {

@@ -1,3 +1,4 @@
+"use strict";
 describe('getBounds', function () {
 
     it('should register correct width and height with a LOADED Sprite', function() {

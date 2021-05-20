@@ -1,3 +1,4 @@
+"use strict";
 var BaseRenderTexture = require('./BaseRenderTexture'),
     Texture = require('./Texture');
 

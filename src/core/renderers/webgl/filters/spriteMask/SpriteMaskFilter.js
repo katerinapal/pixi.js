@@ -1,3 +1,4 @@
+"use strict";
 var Filter = require('../Filter'),
     math =  require('../../../../math');
 

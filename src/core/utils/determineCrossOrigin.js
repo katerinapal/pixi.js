@@ -1,3 +1,4 @@
+"use strict";
 var tempAnchor;
 var _url = require('url');
 

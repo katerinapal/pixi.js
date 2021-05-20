@@ -1,3 +1,4 @@
+"use strict";
 var core = require('../core'),
     ObservablePoint = require('../core/math/ObservablePoint');
 

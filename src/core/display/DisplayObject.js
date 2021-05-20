@@ -1,3 +1,4 @@
+"use strict";
 var EventEmitter = require('eventemitter3'),
     CONST = require('../const'),
     TransformStatic = require('./TransformStatic'),

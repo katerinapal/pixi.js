@@ -1,3 +1,4 @@
+"use strict";
 var BaseTexture = require('./BaseTexture'),
     CONST = require('../const');
 

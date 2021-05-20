@@ -1,3 +1,4 @@
+"use strict";
 describe('PIXI.interaction.InteractionData', function() {
     describe('getLocalPosition', function() {
         it('should populate second parameter with result', function() {

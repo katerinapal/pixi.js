@@ -1,3 +1,4 @@
+"use strict";
 var earcut = require('earcut'),
     buildLine = require('./buildLine'),
     utils = require('../../../utils');

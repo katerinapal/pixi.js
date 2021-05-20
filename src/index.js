@@ -1,3 +1,4 @@
+"use strict";
 // run the polyfills
 require('./polyfill');
 

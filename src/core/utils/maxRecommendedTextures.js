@@ -1,5 +1,7 @@
 
 
+"use strict";
+
 var  Device = require('ismobilejs');
 
 var maxRecommendedTextures = function(max)

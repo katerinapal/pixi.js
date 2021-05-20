@@ -1,3 +1,4 @@
+"use strict";
 describe('PIXI.Sprite', function () {
     describe('width', function () {
         it('should not be negative for nagative scale.x', function () {

@@ -1,3 +1,4 @@
+"use strict";
 /*global console */
 var core = require('./core'),
     mesh = require('./mesh'),

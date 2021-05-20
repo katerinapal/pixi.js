@@ -1,3 +1,4 @@
+"use strict";
 var ObjectRenderer = require('../../renderers/webgl/utils/ObjectRenderer'),
     WebGLRenderer = require('../../renderers/webgl/WebGLRenderer'),
     createIndicesForQuads = require('../../utils/createIndicesForQuads'),
@@ -8,7 +9,7 @@ var ObjectRenderer = require('../../renderers/webgl/utils/ObjectRenderer'),
     glCore = require('pixi-gl-core'),
     bitTwiddle = require('bit-twiddle');
 
-    var TICK = 0;
+var TICK = 0;
 /**
  * Renderer dedicated to drawing and batching sprites.
  *

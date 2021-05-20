@@ -1,3 +1,4 @@
+"use strict";
 describe('PIXI.utils', function () {
     describe('uid', function () {
         it('should exist', function () {

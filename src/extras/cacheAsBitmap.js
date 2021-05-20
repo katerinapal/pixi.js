@@ -1,3 +1,4 @@
+"use strict";
 var core = require('../core'),
     DisplayObject = core.DisplayObject,
     _tempMatrix = new core.Matrix();

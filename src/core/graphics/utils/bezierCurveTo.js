@@ -1,4 +1,5 @@
 
+"use strict";
 /**
  * Calculate the points for a bezier curve and then draws it.
  *

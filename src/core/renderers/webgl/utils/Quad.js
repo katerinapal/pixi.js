@@ -1,3 +1,4 @@
+"use strict";
 var glCore = require('pixi-gl-core'),
     createIndicesForQuads = require('../../../utils/createIndicesForQuads');
 

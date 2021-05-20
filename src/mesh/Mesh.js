@@ -1,3 +1,4 @@
+"use strict";
 var core = require('../core'),
     glCore = require('pixi-gl-core'),
     Shader = require('./webgl/MeshShader'),

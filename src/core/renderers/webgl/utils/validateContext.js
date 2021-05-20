@@ -1,5 +1,7 @@
 
 
+"use strict";
+
 function validateContext(gl)
 {
 	var attributes = gl.getContextAttributes();

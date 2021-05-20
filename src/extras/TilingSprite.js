@@ -1,3 +1,4 @@
+"use strict";
 var core = require('../core'),
     tempPoint = new core.Point(),
     Texture = require('../core/textures/Texture'),

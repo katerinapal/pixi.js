@@ -1,3 +1,4 @@
+"use strict";
 var CanvasRenderer = require('../../renderers/canvas/CanvasRenderer'),
     CONST = require('../../const');
 

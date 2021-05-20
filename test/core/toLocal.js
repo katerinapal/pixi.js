@@ -1,3 +1,4 @@
+"use strict";
 describe('toLocal', function () {
 
     it('should return correct local cordinates of a displayObject', function() {

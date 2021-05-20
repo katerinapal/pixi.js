@@ -1,3 +1,4 @@
+"use strict";
 var math = require('../math'),
     TransformBase = require('./TransformBase');
 
