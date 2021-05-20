@@ -1,9 +1,6 @@
+var mod_Matrix = Matrix;
+import { Point as Point_Point } from "./Point";
 "use strict";
-// @todo - ignore the too many parameters warning for now
-// should either fix it or change the jshint config
-// jshint -W072
-
-var Point = require('./Point');
 
 /**
  * The pixi Matrix class as an object, which makes it a lot faster,
@@ -57,7 +54,6 @@ function Matrix()
 }
 
 Matrix.prototype.constructor = Matrix;
-module.exports = Matrix;
 
 /**
  * Creates a Matrix object based on the given array. The Element to Matrix mapping order is as follows:
@@ -161,7 +157,7 @@ Matrix.prototype.toArray = function (transpose, out)
  */
 Matrix.prototype.apply = function (pos, newPos)
 {
-    newPos = newPos || new Point();
+    newPos = newPos || new Point_Point();
 
     var x = pos.x;
     var y = pos.y;
@@ -182,7 +178,7 @@ Matrix.prototype.apply = function (pos, newPos)
  */
 Matrix.prototype.applyInverse = function (pos, newPos)
 {
-    newPos = newPos || new Point();
+    newPos = newPos || new Point_Point();
 
     var id = 1 / (this.a * this.d + this.c * -this.b);
 
@@ -487,3 +483,15 @@ Matrix.IDENTITY = new Matrix();
  * @const
  */
 Matrix.TEMP_MATRIX = new Matrix();
+
+/**
+ * The pixi Matrix class as an object, which makes it a lot faster,
+ * here is a representation of it :
+ * | a | b | tx|
+ * | c | d | ty|
+ * | 0 | 0 | 1 |
+ *
+ * @class
+ * @memberof PIXI
+ */
+export { mod_Matrix as Matrix };

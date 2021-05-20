@@ -1,4 +1,5 @@
 
+import {  maxRecommendedTextures as utilsmaxRecommendedTextures_maxRecommendedTextures, } from "./utils/maxRecommendedTextures";
 "use strict";
 /**
  * Constant values used in pixi
@@ -363,7 +364,10 @@ var CONST = {
      * @constant
      * @type {number}
      */
-    SPRITE_MAX_TEXTURES: require('./utils/maxRecommendedTextures')(32)
+    SPRITE_MAX_TEXTURES: utilsmaxRecommendedTextures_maxRecommendedTextures(32)
 };
 
-module.exports = CONST;
+var mod_CONST;
+
+mod_CONST = CONST;
+export { mod_CONST as CONST };

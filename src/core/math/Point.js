@@ -1,3 +1,4 @@
+var mod_Point = Point;
 "use strict";
 /**
  * The Point object represents a location in a two-dimensional coordinate system, where x represents
@@ -24,7 +25,6 @@ function Point(x, y)
 }
 
 Point.prototype.constructor = Point;
-module.exports = Point;
 
 /**
  * Creates a clone of this point
@@ -67,3 +67,14 @@ Point.prototype.set = function (x, y)
     this.x = x || 0;
     this.y = y || ( (y !== 0) ? this.x : 0 ) ;
 };
+
+/**
+ * The Point object represents a location in a two-dimensional coordinate system, where x represents
+ * the horizontal axis and y represents the vertical axis.
+ *
+ * @class
+ * @memberof PIXI
+ * @param [x=0] {number} position of the point on the x axis
+ * @param [y=0] {number} position of the point on the y axis
+ */
+export { mod_Point as Point };

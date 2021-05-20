@@ -1,7 +1,7 @@
+import { buildLine as buildLine_buildLine } from "./buildLine";
+import { utils as utils_utils } from "../../../utils";
+import ext_earcut_earcut from "earcut";
 "use strict";
-var buildLine = require('./buildLine'),
-    utils = require('../../../utils'),
-    earcut = require('earcut');
 
 /**
  * Builds a polygon to draw
@@ -40,13 +40,13 @@ var buildPoly = function (graphicsData, webGLData)
         var length = points.length / 2;
 
         // sort color
-        var color = utils.hex2rgb(graphicsData.fillColor);
+        var color = utils_utils.hex2rgb(graphicsData.fillColor);
         var alpha = graphicsData.fillAlpha;
         var r = color[0] * alpha;
         var g = color[1] * alpha;
         var b = color[2] * alpha;
 
-        var triangles = earcut(points, holeArray, 2);
+        var triangles = ext_earcut_earcut(points, holeArray, 2);
 
         if (!triangles) {
             return;
@@ -72,9 +72,13 @@ var buildPoly = function (graphicsData, webGLData)
 
     if (graphicsData.lineWidth > 0)
     {
-        buildLine(graphicsData, webGLData);
+        buildLine_buildLine(graphicsData, webGLData);
     }
 };
 
 
-module.exports = buildPoly;
+var mod_buildPoly;
+
+
+mod_buildPoly = buildPoly;
+export { mod_buildPoly as buildPoly };

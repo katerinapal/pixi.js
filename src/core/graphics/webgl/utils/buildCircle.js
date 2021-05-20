@@ -1,7 +1,7 @@
+import { buildLine as buildLine_buildLine } from "./buildLine";
+import { CONST as const_CONST } from "../../../const";
+import { utils as utils_utils } from "../../../utils";
 "use strict";
-var buildLine = require('./buildLine'),
-    CONST = require('../../../const'),
-    utils = require('../../../utils');
 
 /**
  * Builds a circle to draw
@@ -23,7 +23,7 @@ var buildCircle = function (graphicsData, webGLData)
     var height;
 
     // TODO - bit hacky??
-    if (graphicsData.type === CONST.SHAPES.CIRC)
+    if (graphicsData.type === const_CONST.SHAPES.CIRC)
     {
         width = circleData.radius;
         height = circleData.radius;
@@ -41,7 +41,7 @@ var buildCircle = function (graphicsData, webGLData)
 
     if (graphicsData.fill)
     {
-        var color = utils.hex2rgb(graphicsData.fillColor);
+        var color = utils_utils.hex2rgb(graphicsData.fillColor);
         var alpha = graphicsData.fillAlpha;
 
         var r = color[0] * alpha;
@@ -81,11 +81,15 @@ var buildCircle = function (graphicsData, webGLData)
                                      y + Math.cos(seg * i) * height);
         }
 
-        buildLine(graphicsData, webGLData);
+        buildLine_buildLine(graphicsData, webGLData);
 
         graphicsData.points = tempPoints;
     }
 };
 
 
-module.exports = buildCircle;
+var mod_buildCircle;
+
+
+mod_buildCircle = buildCircle;
+export { mod_buildCircle as buildCircle };

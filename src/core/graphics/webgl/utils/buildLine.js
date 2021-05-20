@@ -1,6 +1,6 @@
+import { indexjs as math } from "../../../math";
+import { utils as utils_utils } from "../../../utils";
 "use strict";
-var math = require('../../../math'),
-    utils = require('../../../utils');
 
 /**
  * Builds a line to draw
@@ -64,7 +64,7 @@ var buildLine = function (graphicsData, webGLData)
     var width = graphicsData.lineWidth / 2;
 
     // sort color
-    var color = utils.hex2rgb(graphicsData.lineColor);
+    var color = utils_utils.hex2rgb(graphicsData.lineColor);
     var alpha = graphicsData.lineAlpha;
     var r = color[0] * alpha;
     var g = color[1] * alpha;
@@ -220,4 +220,7 @@ var buildLine = function (graphicsData, webGLData)
     indices.push(indexStart-1);
 };
 
-module.exports = buildLine;
+var mod_buildLine;
+
+mod_buildLine = buildLine;
+export { mod_buildLine as buildLine };

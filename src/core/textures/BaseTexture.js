@@ -1,9 +1,10 @@
+var mod_BaseTexture = BaseTexture;
+import { utils as utils_utils } from "../utils";
+import { CONST as const_CONST } from "../const";
+import ext_EventEmitter from "eventemitter3";
+import { determineCrossOrigin as determineCrossOrigin_determineCrossOrigin } from "../utils/determineCrossOrigin";
+import ext_bitTwiddle from "bit-twiddle";
 "use strict";
-var utils = require('../utils'),
-    CONST = require('../const'),
-    EventEmitter = require('eventemitter3'),
-    determineCrossOrigin = require('../utils/determineCrossOrigin'),
-    bitTwiddle = require('bit-twiddle');
 
 /**
  * A texture stores the information that represents an image. All textures have a base texture.
@@ -16,9 +17,9 @@ var utils = require('../utils'),
  */
 function BaseTexture(source, scaleMode, resolution)
 {
-    EventEmitter.call(this);
+    ext_EventEmitter.call(this);
 
-    this.uid = utils.uid();
+    this.uid = utils_utils.uid();
 
     this.touched = 0;
 
@@ -28,7 +29,7 @@ function BaseTexture(source, scaleMode, resolution)
      * @member {number}
      * @default 1
      */
-    this.resolution = resolution || CONST.RESOLUTION;
+    this.resolution = resolution || const_CONST.RESOLUTION;
 
     /**
      * The width of the base texture set when the image has loaded
@@ -70,7 +71,7 @@ function BaseTexture(source, scaleMode, resolution)
      * @default PIXI.SCALE_MODES.DEFAULT
      * @see PIXI.SCALE_MODES
      */
-    this.scaleMode = scaleMode || CONST.SCALE_MODES.DEFAULT;
+    this.scaleMode = scaleMode || const_CONST.SCALE_MODES.DEFAULT;
 
     /**
      * Set to true once the base texture has successfully loaded.
@@ -137,7 +138,7 @@ function BaseTexture(source, scaleMode, resolution)
      * @member {boolean}
      * @see PIXI.MIPMAP_TEXTURES
      */
-    this.mipmap = CONST.MIPMAP_TEXTURES;
+    this.mipmap = const_CONST.MIPMAP_TEXTURES;
 
     /**
      *
@@ -146,7 +147,7 @@ function BaseTexture(source, scaleMode, resolution)
      * @member {number}
      * @see PIXI.WRAP_MODES
      */
-    this.wrapMode = CONST.WRAP_MODES.DEFAULT;
+    this.wrapMode = const_CONST.WRAP_MODES.DEFAULT;
 
     /**
      * A map of renderer IDs to webgl textures
@@ -181,9 +182,8 @@ function BaseTexture(source, scaleMode, resolution)
      */
 }
 
-BaseTexture.prototype = Object.create(EventEmitter.prototype);
+BaseTexture.prototype = Object.create(ext_EventEmitter.prototype);
 BaseTexture.prototype.constructor = BaseTexture;
-module.exports = BaseTexture;
 
 /**
  * Updates the texture on all the webgl renderers, this also assumes the src has changed.
@@ -198,7 +198,7 @@ BaseTexture.prototype.update = function ()
     this.width = this.realWidth / this.resolution;
     this.height = this.realHeight / this.resolution;
 
-    this.isPowerOfTwo = bitTwiddle.isPow2(this.realWidth) && bitTwiddle.isPow2(this.realHeight);
+    this.isPowerOfTwo = ext_bitTwiddle.isPow2(this.realWidth) && ext_bitTwiddle.isPow2(this.realHeight);
 
     this.emit('update', this);
 };
@@ -335,8 +335,8 @@ BaseTexture.prototype.destroy = function ()
 {
     if (this.imageUrl)
     {
-        delete utils.BaseTextureCache[this.imageUrl];
-        delete utils.TextureCache[this.imageUrl];
+        delete utils_utils.BaseTextureCache[this.imageUrl];
+        delete utils_utils.TextureCache[this.imageUrl];
 
         this.imageUrl = null;
 
@@ -347,7 +347,7 @@ BaseTexture.prototype.destroy = function ()
     }
     else if (this.source && this.source._pixiId)
     {
-        delete utils.BaseTextureCache[this.source._pixiId];
+        delete utils_utils.BaseTextureCache[this.source._pixiId];
     }
 
     this.source = null;
@@ -394,7 +394,7 @@ BaseTexture.prototype.updateSourceImage = function (newSrc)
  */
 BaseTexture.fromImage = function (imageUrl, crossorigin, scaleMode)
 {
-    var baseTexture = utils.BaseTextureCache[imageUrl];
+    var baseTexture = utils_utils.BaseTextureCache[imageUrl];
 
     if (!baseTexture)
     {
@@ -405,7 +405,7 @@ BaseTexture.fromImage = function (imageUrl, crossorigin, scaleMode)
 
         if (crossorigin === undefined && imageUrl.indexOf('data:') !== 0)
         {
-            image.crossOrigin = determineCrossOrigin(imageUrl);
+            image.crossOrigin = determineCrossOrigin_determineCrossOrigin(imageUrl);
         }
 
         baseTexture = new BaseTexture(image, scaleMode);
@@ -413,10 +413,10 @@ BaseTexture.fromImage = function (imageUrl, crossorigin, scaleMode)
 
         image.src = imageUrl;
 
-        utils.BaseTextureCache[imageUrl] = baseTexture;
+        utils_utils.BaseTextureCache[imageUrl] = baseTexture;
 
         // if there is an @2x at the end of the url we are going to assume its a highres image
-        baseTexture.resolution = utils.getResolutionOfUrl(imageUrl);
+        baseTexture.resolution = utils_utils.getResolutionOfUrl(imageUrl);
     }
 
     return baseTexture;
@@ -434,16 +434,27 @@ BaseTexture.fromCanvas = function (canvas, scaleMode)
 {
     if (!canvas._pixiId)
     {
-        canvas._pixiId = 'canvas_' + utils.uid();
+        canvas._pixiId = 'canvas_' + utils_utils.uid();
     }
 
-    var baseTexture = utils.BaseTextureCache[canvas._pixiId];
+    var baseTexture = utils_utils.BaseTextureCache[canvas._pixiId];
 
     if (!baseTexture)
     {
         baseTexture = new BaseTexture(canvas, scaleMode);
-        utils.BaseTextureCache[canvas._pixiId] = baseTexture;
+        utils_utils.BaseTextureCache[canvas._pixiId] = baseTexture;
     }
 
     return baseTexture;
 };
+
+/**
+ * A texture stores the information that represents an image. All textures have a base texture.
+ *
+ * @class
+ * @memberof PIXI
+ * @param [source ]{HTMLImageElement|HTMLCanvasElement} the source object of the texture.
+ * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
+ * @param [resolution=1] {number} The resolution / device pixel ratio of the texture
+ */
+export { mod_BaseTexture as BaseTexture };

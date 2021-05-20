@@ -1,5 +1,6 @@
+var mod_MeshShader = MeshShader;
+import { Shader as Shader_Shader } from "../../core/Shader";
 "use strict";
-var Shader = require('../../core/Shader');
 
 /**
  * @class
@@ -9,7 +10,7 @@ var Shader = require('../../core/Shader');
  */
 function MeshShader(gl)
 {
-    Shader.call(this,
+    Shader_Shader.call(this,
         gl,
         // vertex shader
         [
@@ -41,7 +42,14 @@ function MeshShader(gl)
     );
 }
 
-MeshShader.prototype = Object.create(Shader.prototype);
+MeshShader.prototype = Object.create(Shader_Shader.prototype);
 MeshShader.prototype.constructor = MeshShader;
-module.exports = MeshShader;
+
+/**
+ * @class
+ * @extends PIXI.Shader
+ * @memberof PIXI.mesh
+ * @param gl {PIXI.Shader} TODO: Find a good explanation for this.
+ */
+export { mod_MeshShader as MeshShader };
 

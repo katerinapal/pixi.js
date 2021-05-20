@@ -1,8 +1,9 @@
+var mod_BlurYFilter = BlurYFilter;
+import { core as core_core } from "../../core";
+import { generateVertBlurSource as generateBlurVertSource } from "./generateBlurVertSource";
+import { generateFragBlurSource as generateBlurFragSource } from "./generateBlurFragSource";
+import { getMaxKernelSize as getMaxBlurKernelSize } from "./getMaxBlurKernelSize";
 "use strict";
-var core = require('../../core');
-var generateBlurVertSource  = require('./generateBlurVertSource');
-var generateBlurFragSource  = require('./generateBlurFragSource');
-var getMaxBlurKernelSize    = require('./getMaxBlurKernelSize');
 
 /**
  * The BlurYFilter applies a horizontal Gaussian blur to an object.
@@ -16,7 +17,7 @@ function BlurYFilter(strength, quality, resolution)
     var vertSrc = generateBlurVertSource(5, false);
     var fragSrc = generateBlurFragSource(5);
 
-    core.Filter.call(this,
+    core_core.Filter.call(this,
         // vertex shader
         vertSrc,
         // fragment shader
@@ -33,9 +34,8 @@ function BlurYFilter(strength, quality, resolution)
     this.firstRun = true;
 }
 
-BlurYFilter.prototype = Object.create(core.Filter.prototype);
+BlurYFilter.prototype = Object.create(core_core.Filter.prototype);
 BlurYFilter.prototype.constructor = BlurYFilter;
-module.exports = BlurYFilter;
 
 BlurYFilter.prototype.apply = function (filterManager, input, output, clear)
 {
@@ -120,3 +120,12 @@ Object.defineProperties(BlurYFilter.prototype, {
         }
     }
 });
+
+/**
+ * The BlurYFilter applies a horizontal Gaussian blur to an object.
+ *
+ * @class
+ * @extends PIXI.Filter
+ * @memberof PIXI.filters
+ */
+export { mod_BlurYFilter as BlurYFilter };

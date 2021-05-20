@@ -1,12 +1,13 @@
 
+var mod_FilterManager = FilterManager;
+import { WebGLManager as WebGLManager_WebGLManager } from "./WebGLManager";
+import { RenderTarget as RenderTarget_RenderTarget } from "../utils/RenderTarget";
+import { Quad as Quad_Quad } from "../utils/Quad";
+import { indexjs as math } from "../../../math";
+import { Shader as Shader_Shader } from "../../../Shader";
+import { filterTransformsjs as filterTransforms } from "../filters/filterTransforms";
+import ext_bitTwiddle from "bit-twiddle";
 "use strict";
-var WebGLManager = require('./WebGLManager'),
-    RenderTarget = require('../utils/RenderTarget'),
-    Quad = require('../utils/Quad'),
-    math =  require('../../../math'),
-    Shader = require('../../../Shader'),
-    filterTransforms = require('../filters/filterTransforms'),
-    bitTwiddle = require('bit-twiddle');
 
 var FilterState = function()
 {
@@ -27,11 +28,11 @@ var FilterState = function()
  */
 function FilterManager(renderer)
 {
-    WebGLManager.call(this, renderer);
+    WebGLManager_WebGLManager.call(this, renderer);
 
     this.gl = this.renderer.gl;
     // know about sprites!
-    this.quad = new Quad(this.gl, renderer.state.attribState);
+    this.quad = new Quad_Quad(this.gl, renderer.state.attribState);
 
     this.shaderCache = {};
     // todo add default!
@@ -40,9 +41,8 @@ function FilterManager(renderer)
     this.filterData = null;
 }
 
-FilterManager.prototype = Object.create(WebGLManager.prototype);
+FilterManager.prototype = Object.create(WebGLManager_WebGLManager.prototype);
 FilterManager.prototype.constructor = FilterManager;
-module.exports = FilterManager;
 
 FilterManager.prototype.pushFilter = function(target, filters)
 {
@@ -182,12 +182,12 @@ FilterManager.prototype.applyFilter = function (filter, input, output, clear)
 
             if(!shader)
             {
-                shader = filter.glShaders[renderer.CONTEXT_UID] = this.shaderCache[filter.glShaderKey] = new Shader(this.gl, filter.vertexSrc, filter.fragmentSrc);
+                shader = filter.glShaders[renderer.CONTEXT_UID] = this.shaderCache[filter.glShaderKey] = new Shader_Shader(this.gl, filter.vertexSrc, filter.fragmentSrc);
             }
         }
         else
         {
-            shader = filter.glShaders[renderer.CONTEXT_UID] = new Shader(this.gl, filter.vertexSrc, filter.fragmentSrc);
+            shader = filter.glShaders[renderer.CONTEXT_UID] = new Shader_Shader(this.gl, filter.vertexSrc, filter.fragmentSrc);
         }
 
         //TODO - this only needs to be done once?
@@ -394,8 +394,8 @@ FilterManager.prototype.destroy = function()
 FilterManager.prototype.getPotRenderTarget = function(gl, minWidth, minHeight, resolution)
 {
     //TODO you coud return a bigger texture if there is not one in the pool?
-    minWidth = bitTwiddle.nextPow2(minWidth * resolution);
-    minHeight = bitTwiddle.nextPow2(minHeight * resolution);
+    minWidth = ext_bitTwiddle.nextPow2(minWidth * resolution);
+    minHeight = ext_bitTwiddle.nextPow2(minHeight * resolution);
 
     var key = ((minWidth & 0xFFFF) << 16) | ( minHeight & 0xFFFF);
 
@@ -403,7 +403,7 @@ FilterManager.prototype.getPotRenderTarget = function(gl, minWidth, minHeight, r
       this.pool[key] = [];
     }
 
-    var renderTarget = this.pool[key].pop() || new RenderTarget(gl, minWidth, minHeight, null, 1);
+    var renderTarget = this.pool[key].pop() || new RenderTarget_RenderTarget(gl, minWidth, minHeight, null, 1);
 
     //manually tweak the resolution...
     //this will not modify the size of the frame buffer, just its resolution.
@@ -438,3 +438,11 @@ FilterManager.prototype.freePotRenderTarget = function(renderTarget)
     var key = ((minWidth & 0xFFFF) << 16) | (minHeight & 0xFFFF);
     this.pool[key].push(renderTarget);
 };
+
+/**
+ * @class
+ * @memberof PIXI
+ * @extends PIXI.WebGLManager
+ * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
+ */
+export { mod_FilterManager as FilterManager };

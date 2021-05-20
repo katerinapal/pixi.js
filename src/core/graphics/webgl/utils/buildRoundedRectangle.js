@@ -1,7 +1,7 @@
+import ext_earcut_earcut from "earcut";
+import { buildLine as buildLine_buildLine } from "./buildLine";
+import { utils as utils_utils } from "../../../utils";
 "use strict";
-var earcut = require('earcut'),
-    buildLine = require('./buildLine'),
-    utils = require('../../../utils');
 
 /**
  * Builds a rounded rectangle to draw
@@ -35,7 +35,7 @@ var buildRoundedRectangle = function (graphicsData, webGLData)
 
     if (graphicsData.fill)
     {
-        var color = utils.hex2rgb(graphicsData.fillColor);
+        var color = utils_utils.hex2rgb(graphicsData.fillColor);
         var alpha = graphicsData.fillAlpha;
 
         var r = color[0] * alpha;
@@ -47,7 +47,7 @@ var buildRoundedRectangle = function (graphicsData, webGLData)
 
         var vecPos = verts.length/6;
 
-        var triangles = earcut(recPoints, null, 2);
+        var triangles = ext_earcut_earcut(recPoints, null, 2);
 
         var i = 0;
         for (i = 0; i < triangles.length; i+=3)
@@ -71,7 +71,7 @@ var buildRoundedRectangle = function (graphicsData, webGLData)
 
         graphicsData.points = recPoints;
 
-        buildLine(graphicsData, webGLData);
+        buildLine_buildLine(graphicsData, webGLData);
 
         graphicsData.points = tempPoints;
     }
@@ -132,4 +132,8 @@ var quadraticBezierCurve = function (fromX, fromY, cpX, cpY, toX, toY, out)// js
 };
 
 
-module.exports = buildRoundedRectangle;
+var mod_buildRoundedRectangle;
+
+
+mod_buildRoundedRectangle = buildRoundedRectangle;
+export { mod_buildRoundedRectangle as buildRoundedRectangle };

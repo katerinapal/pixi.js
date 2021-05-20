@@ -62,4 +62,9 @@ var generateVertBlurSource = function(kernelSize, x)
 
 
 
-module.exports = generateVertBlurSource;
+var mod_generateVertBlurSource;
+
+
+
+mod_generateVertBlurSource = generateVertBlurSource;
+export { mod_generateVertBlurSource as generateVertBlurSource };

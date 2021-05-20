@@ -1,8 +1,9 @@
+var mod_Filter = Filter;
+import { extractUniformsFromSrc as extractUniformsFromSrc_extractUniformsFromSrc } from "./extractUniformsFromSrc";
+import { utils as utils_utils } from "../../../utils";
+import { CONST as const_CONST } from "../../../const";
 "use strict";
-var extractUniformsFromSrc = require('./extractUniformsFromSrc'),
-    utils = require('../../../utils'),
-    CONST = require('../../../const'),
-    SOURCE_KEY_MAP = {};
+var SOURCE_KEY_MAP = {};
 
 // var math = require('../../../math');
 /**
@@ -30,11 +31,11 @@ function Filter(vertexSrc, fragmentSrc, uniforms)
      */
     this.fragmentSrc = fragmentSrc || Filter.defaultFragmentSrc;
 
-    this.blendMode = CONST.BLEND_MODES.NORMAL;
+    this.blendMode = const_CONST.BLEND_MODES.NORMAL;
 
     // pull out the vertex and shader uniforms if they are not specified..
     // currently this does not extract structs only default types
-    this.uniformData = uniforms || extractUniformsFromSrc( this.vertexSrc, this.fragmentSrc, 'projectionMatrix|uSampler');
+    this.uniformData = uniforms || extractUniformsFromSrc_extractUniformsFromSrc( this.vertexSrc, this.fragmentSrc, 'projectionMatrix|uSampler');
 
     this.uniforms = {};
 
@@ -50,7 +51,7 @@ function Filter(vertexSrc, fragmentSrc, uniforms)
     // used for cacheing.. sure there is a better way!
     if(!SOURCE_KEY_MAP[this.vertexSrc + this.fragmentSrc])
     {
-        SOURCE_KEY_MAP[this.vertexSrc + this.fragmentSrc] = utils.uid();
+        SOURCE_KEY_MAP[this.vertexSrc + this.fragmentSrc] = utils_utils.uid();
     }
 
     this.glShaderKey = SOURCE_KEY_MAP[this.vertexSrc + this.fragmentSrc];
@@ -72,10 +73,6 @@ function Filter(vertexSrc, fragmentSrc, uniforms)
      */
     this.enabled = true;
 }
-
-// constructor
-//Filter.prototype.constructor = Filter;
-module.exports = Filter;
 
 // var tempMatrix = new math.Matrix();
 
@@ -144,3 +141,14 @@ Filter.defaultFragmentSrc = [
     '   gl_FragColor *= sample.a;',
     '}'
 ].join('\n');
+
+// var math = require('../../../math');
+/**
+ * @class
+ * @memberof PIXI
+ * @extends PIXI.Shader
+ * @param [vertexSrc] {string} The source of the vertex shader.
+ * @param [uniforms] {object} Custom uniforms to use to augment the built-in ones.
+ * @param [fragmentSrc] {string} The source of the fragment shader.
+ */
+export { mod_Filter as Filter };

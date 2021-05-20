@@ -1,6 +1,7 @@
+var mod_MaskManager = MaskManager;
+import { WebGLManager as WebGLManager_WebGLManager } from "./WebGLManager";
+import { SpriteMaskFilter as AlphaMaskFilter } from "../filters/spriteMask/SpriteMaskFilter";
 "use strict";
-var WebGLManager = require('./WebGLManager'),
-    AlphaMaskFilter = require('../filters/spriteMask/SpriteMaskFilter');
 
 /**
  * @class
@@ -9,7 +10,7 @@ var WebGLManager = require('./WebGLManager'),
  */
 function MaskManager(renderer)
 {
-    WebGLManager.call(this, renderer);
+    WebGLManager_WebGLManager.call(this, renderer);
 
     //TODO - we don't need both!
     this.scissor = false;
@@ -22,9 +23,8 @@ function MaskManager(renderer)
     this.alphaMaskIndex = 0;
 }
 
-MaskManager.prototype = Object.create(WebGLManager.prototype);
+MaskManager.prototype = Object.create(WebGLManager_WebGLManager.prototype);
 MaskManager.prototype.constructor = MaskManager;
-module.exports = MaskManager;
 
 /**
  * Applies the Mask and adds it to the current filter stack.
@@ -192,3 +192,10 @@ MaskManager.prototype.popScissorMask = function ()
     var gl = this.renderer.gl;
     gl.disable(gl.SCISSOR_TEST);
 };
+
+/**
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
+ */
+export { mod_MaskManager as MaskManager };

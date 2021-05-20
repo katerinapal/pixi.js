@@ -1,6 +1,7 @@
+var mod_generateMultiTextureShader = generateMultiTextureShader;
+import { Shader as Shader_Shader } from "../../Shader";
+import ext_glslify_glslify from "glslify";
 "use strict";
-var Shader = require('../../Shader');
-var glslify  = require('glslify');
 
 var fragTemplate = [
     'varying vec2 vTextureCoord;',
@@ -18,13 +19,13 @@ var fragTemplate = [
 
 function generateMultiTextureShader(gl, maxTextures)
 {
-    var vertexSrc = glslify('./texture.vert');
+    var vertexSrc = ext_glslify_glslify('./texture.vert');
     var fragmentSrc = fragTemplate;
 
     fragmentSrc = fragmentSrc.replace(/%count%/gi, maxTextures);
     fragmentSrc = fragmentSrc.replace(/%forloop%/gi, generateSampleSrc(maxTextures));
 
-    var shader = new Shader(gl, vertexSrc, fragmentSrc);
+    var shader = new Shader_Shader(gl, vertexSrc, fragmentSrc);
 
     var sampleValues = [];
     for (var i = 0; i < maxTextures; i++)
@@ -70,4 +71,4 @@ function generateSampleSrc(maxTextures)
 
 
 
-module.exports = generateMultiTextureShader;
+export { mod_generateMultiTextureShader as generateMultiTextureShader };

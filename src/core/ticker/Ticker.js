@@ -1,8 +1,9 @@
+var mod_Ticker = Ticker;
+import { CONST as const_CONST } from "../const";
+import ext_EventEmitter from "eventemitter3";
 "use strict";
-var CONST = require('../const'),
-    EventEmitter = require('eventemitter3'),
-    // Internal event used by composed emitter
-    TICK = 'tick';
+var // Internal event used by composed emitter
+TICK = 'tick';
 
 /**
  * A Ticker class that runs an update loop that other objects listen to.
@@ -48,7 +49,7 @@ function Ticker()
      * Internal emitter used to fire 'tick' event
      * @private
      */
-    this._emitter = new EventEmitter();
+    this._emitter = new ext_EventEmitter();
 
     /**
      * Internal current frame request ID
@@ -94,7 +95,7 @@ function Ticker()
      * @member {number}
      * @default 1 / TARGET_FPMS
      */
-    this.elapsedMS = 1 / CONST.TARGET_FPMS; // default to target frame time
+    this.elapsedMS = 1 / const_CONST.TARGET_FPMS; // default to target frame time
 
     /**
      * The last time {@link PIXI.ticker.Ticker#update} was invoked.
@@ -171,7 +172,7 @@ Object.defineProperties(Ticker.prototype, {
         set: function(fps)
         {
             // Clamp: 0 to TARGET_FPMS
-            var minFPMS = Math.min(Math.max(0, fps) / 1000, CONST.TARGET_FPMS);
+            var minFPMS = Math.min(Math.max(0, fps) / 1000, const_CONST.TARGET_FPMS);
             this._maxElapsedMS = 1 / minFPMS;
         }
     }
@@ -359,7 +360,7 @@ Ticker.prototype.update = function update(currentTime)
             elapsedMS = this._maxElapsedMS;
         }
 
-        this.deltaTime = elapsedMS * CONST.TARGET_FPMS * this.speed;
+        this.deltaTime = elapsedMS * const_CONST.TARGET_FPMS * this.speed;
 
         // Invoke listeners added to internal emitter
         this._emitter.emit(TICK, this.deltaTime);
@@ -372,4 +373,14 @@ Ticker.prototype.update = function update(currentTime)
     this.lastTime = currentTime;
 };
 
-module.exports = Ticker;
+/**
+ * A Ticker class that runs an update loop that other objects listen to.
+ * This class is composed around an EventEmitter object to add listeners
+ * meant for execution on the next requested animation frame.
+ * Animation frames are requested only when necessary,
+ * e.g. When the ticker is started and the emitter has listeners.
+ *
+ * @class
+ * @memberof PIXI.ticker
+ */
+export { mod_Ticker as Ticker };

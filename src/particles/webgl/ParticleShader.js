@@ -1,5 +1,6 @@
+var mod_ParticleShader = ParticleShader;
+import { Shader as Shader_Shader } from "../../core/Shader";
 "use strict";
-var Shader = require('../../core/Shader');
 
 /**
  * @class
@@ -9,7 +10,7 @@ var Shader = require('../../core/Shader');
  */
 function ParticleShader(gl)
 {
-    Shader.call(this,
+    Shader_Shader.call(this,
         gl,
         // vertex shader
         [
@@ -59,7 +60,13 @@ function ParticleShader(gl)
 
 }
 
-ParticleShader.prototype = Object.create(Shader.prototype);
+ParticleShader.prototype = Object.create(Shader_Shader.prototype);
 ParticleShader.prototype.constructor = ParticleShader;
 
-module.exports = ParticleShader;
+/**
+ * @class
+ * @extends PIXI.Shader
+ * @memberof PIXI
+ * @param gl {PIXI.Shader} The webgl shader manager this shader works for.
+ */
+export { mod_ParticleShader as ParticleShader };

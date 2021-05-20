@@ -1,6 +1,10 @@
 
+import { WebGLPrepare as webglWebGLPrepare_WebGLPrepare } from "./webgl/WebGLPrepare";
+import { CanvasPrepare as canvasCanvasPrepare_CanvasPrepare } from "./canvas/CanvasPrepare";
 "use strict";
-module.exports = {
-    webGL: require('./webgl/WebGLPrepare'),
-    canvas: require('./canvas/CanvasPrepare')
+mod_indexjs = {
+    webGL: webglWebGLPrepare_WebGLPrepare,
+    canvas: canvasCanvasPrepare_CanvasPrepare
 };
+var mod_indexjs;
+export { mod_indexjs as indexjs };

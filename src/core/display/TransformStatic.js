@@ -1,6 +1,7 @@
+var mod_TransformStatic = TransformStatic;
+import { indexjs as math } from "../math";
+import { TransformBase as TransformBase_TransformBase } from "./TransformBase";
 "use strict";
-var math = require('../math'),
-    TransformBase = require('./TransformBase');
 
 /**
  * Transform that takes care about its versions
@@ -11,7 +12,7 @@ var math = require('../math'),
  */
 function TransformStatic()
 {
-    TransformBase.call(this);
+    TransformBase_TransformBase.call(this);
      /**
      * The coordinate of the object relative to the local coordinates of the parent.
      *
@@ -53,7 +54,7 @@ function TransformStatic()
     this._currentLocalID = 0;
 }
 
-TransformStatic.prototype = Object.create(TransformBase.prototype);
+TransformStatic.prototype = Object.create(TransformBase_TransformBase.prototype);
 TransformStatic.prototype.constructor = TransformStatic;
 
 TransformStatic.prototype.onChange = function ()
@@ -181,4 +182,11 @@ Object.defineProperties(TransformStatic.prototype, {
     }
 });
 
-module.exports = TransformStatic;
+/**
+ * Transform that takes care about its versions
+ *
+ * @class
+ * @extends PIXI.TransformBase
+ * @memberof PIXI
+ */
+export { mod_TransformStatic as TransformStatic };

@@ -1,15 +1,18 @@
+import { CONST as const_CONST } from "../const";
+import ext_eventemitter3 from "eventemitter3";
+import { pluginTargetjs as pluginTarget_pluginTargetjs } from "./pluginTarget";
 "use strict";
-var CONST = require('../const');
+var mod_utils;
 
 /**
  * @namespace PIXI.utils
  */
-var utils = module.exports = {
+var utils = {
     _uid: 0,
     _saidHello: false,
 
-    EventEmitter:   require('eventemitter3'),
-    pluginTarget:   require('./pluginTarget'),
+    EventEmitter:   ext_eventemitter3,
+    pluginTarget:   pluginTarget_pluginTargetjs,
 
     /**
      * Gets the next unique identifier
@@ -79,7 +82,7 @@ var utils = module.exports = {
      */
     getResolutionOfUrl: function (url)
     {
-        var resolution = CONST.RETINA_PREFIX.exec(url);
+        var resolution = const_CONST.RETINA_PREFIX.exec(url);
 
         if (resolution)
         {
@@ -110,7 +113,7 @@ var utils = module.exports = {
         if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
         {
             var args = [
-                '\n %c %c %c Pixi.js ' + CONST.VERSION + ' - ✰ ' + type + ' ✰  %c ' + ' %c ' + ' http://www.pixijs.com/  %c %c ♥%c♥%c♥ \n\n',
+                '\n %c %c %c Pixi.js ' + const_CONST.VERSION + ' - ✰ ' + type + ' ✰  %c ' + ' %c ' + ' http://www.pixijs.com/  %c %c ♥%c♥%c♥ \n\n',
                 'background: #ff66a5; padding:5px 0;',
                 'background: #ff66a5; padding:5px 0;',
                 'color: #ff66a5; background: #030307; padding:5px 0;',
@@ -126,7 +129,7 @@ var utils = module.exports = {
         }
         else if (window.console)
         {
-            window.console.log('Pixi.js ' + CONST.VERSION + ' - ' + type + ' - http://www.pixijs.com/'); //jshint ignore:line
+            window.console.log('Pixi.js ' + const_CONST.VERSION + ' - ' + type + ' - http://www.pixijs.com/'); //jshint ignore:line
         }
 
         utils._saidHello = true;
@@ -225,3 +228,5 @@ var utils = module.exports = {
      */
     BaseTextureCache: {}
 };
+mod_utils = utils;
+export { mod_utils as utils };

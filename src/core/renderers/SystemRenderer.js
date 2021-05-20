@@ -1,11 +1,12 @@
+var mod_SystemRenderer = SystemRenderer;
+import { utils as utils_utils } from "../utils";
+import { indexjs as math } from "../math";
+import { CONST as const_CONST } from "../const";
+import { Container as Container_Container } from "../display/Container";
+import { RenderTexture as RenderTexture_RenderTexture } from "../textures/RenderTexture";
+import ext_EventEmitter from "eventemitter3";
 "use strict";
-var utils = require('../utils'),
-    math = require('../math'),
-    CONST = require('../const'),
-    Container = require('../display/Container'),
-    RenderTexture = require('../textures/RenderTexture'),
-    EventEmitter = require('eventemitter3'),
-    tempMatrix = new math.Matrix();
+var tempMatrix = new math.Matrix();
 /**
  * The CanvasRenderer draws the scene and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
  * Don't forget to add the CanvasRenderer.view to your DOM or you will not see anything :)
@@ -28,24 +29,24 @@ var utils = require('../utils'),
  */
 function SystemRenderer(system, width, height, options)
 {
-    EventEmitter.call(this);
+    ext_EventEmitter.call(this);
 
-    utils.sayHello(system);
+    utils_utils.sayHello(system);
 
     // prepare options
     if (options)
     {
-        for (var i in CONST.DEFAULT_RENDER_OPTIONS)
+        for (var i in const_CONST.DEFAULT_RENDER_OPTIONS)
         {
             if (typeof options[i] === 'undefined')
             {
-                options[i] = CONST.DEFAULT_RENDER_OPTIONS[i];
+                options[i] = const_CONST.DEFAULT_RENDER_OPTIONS[i];
             }
         }
     }
     else
     {
-        options = CONST.DEFAULT_RENDER_OPTIONS;
+        options = const_CONST.DEFAULT_RENDER_OPTIONS;
     }
 
     /**
@@ -55,7 +56,7 @@ function SystemRenderer(system, width, height, options)
      * @default PIXI.RENDERER_TYPE.UNKNOWN
      * @see PIXI.RENDERER_TYPE
      */
-    this.type = CONST.RENDERER_TYPE.UNKNOWN;
+    this.type = const_CONST.RENDERER_TYPE.UNKNOWN;
 
     /**
      * The width of the canvas view
@@ -167,7 +168,7 @@ function SystemRenderer(system, width, height, options)
      * @member {PIXI.DisplayObject}
      * @private
      */
-    this._tempDisplayObjectParent = new Container();
+    this._tempDisplayObjectParent = new Container_Container();
 
     /**
      * The last root object that the renderer tried to render.
@@ -179,9 +180,8 @@ function SystemRenderer(system, width, height, options)
 }
 
 // constructor
-SystemRenderer.prototype = Object.create(EventEmitter.prototype);
+SystemRenderer.prototype = Object.create(ext_EventEmitter.prototype);
 SystemRenderer.prototype.constructor = SystemRenderer;
-module.exports = SystemRenderer;
 
 Object.defineProperties(SystemRenderer.prototype, {
     /**
@@ -199,8 +199,8 @@ Object.defineProperties(SystemRenderer.prototype, {
         set: function (val)
         {
             this._backgroundColor = val;
-            this._backgroundColorString = utils.hex2string(val);
-            utils.hex2rgb(val, this._backgroundColorRgba);
+            this._backgroundColorString = utils_utils.hex2string(val);
+            utils_utils.hex2rgb(val, this._backgroundColorRgba);
         }
     }
 });
@@ -238,7 +238,7 @@ SystemRenderer.prototype.generateTexture = function (displayObject, scaleMode, r
 
     var bounds = displayObject.getLocalBounds();
 
-    var renderTexture = RenderTexture.create(bounds.width | 0, bounds.height | 0, scaleMode, resolution);
+    var renderTexture = RenderTexture_RenderTexture.create(bounds.width | 0, bounds.height | 0, scaleMode, resolution);
 
     tempMatrix.tx = -bounds.x;
     tempMatrix.ty = -bounds.y;
@@ -259,7 +259,7 @@ SystemRenderer.prototype.destroy = function (removeView) {
         this.view.parentNode.removeChild(this.view);
     }
 
-    this.type = CONST.RENDERER_TYPE.UNKNOWN;
+    this.type = const_CONST.RENDERER_TYPE.UNKNOWN;
 
     this.width = 0;
     this.height = 0;
@@ -287,3 +287,25 @@ SystemRenderer.prototype.destroy = function (removeView) {
     this._tempDisplayObjectParent = null;
     this._lastObjectRendered = null;
 };
+
+/**
+ * The CanvasRenderer draws the scene and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
+ * Don't forget to add the CanvasRenderer.view to your DOM or you will not see anything :)
+ *
+ * @class
+ * @memberof PIXI
+ * @param system {string} The name of the system this renderer is for.
+ * @param [width=800] {number} the width of the canvas view
+ * @param [height=600] {number} the height of the canvas view
+ * @param [options] {object} The optional renderer parameters
+ * @param [options.view] {HTMLCanvasElement} the canvas to use as a view, optional
+ * @param [options.transparent=false] {boolean} If the render view is transparent, default false
+ * @param [options.autoResize=false] {boolean} If the render view is automatically resized, default false
+ * @param [options.antialias=false] {boolean} sets antialias (only applicable in chrome at the moment)
+ * @param [options.resolution=1] {number} The resolution / device pixel ratio of the renderer. The resolution of the renderer retina would be 2.
+ * @param [options.clearBeforeRender=true] {boolean} This sets if the CanvasRenderer will clear the canvas or
+ *      not before the new render pass.
+ * @param [options.backgroundColor=0x000000] {number} The background color of the rendered area (shown if not transparent).
+ * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
+ */
+export { mod_SystemRenderer as SystemRenderer };

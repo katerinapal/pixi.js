@@ -1,5 +1,6 @@
+var mod_StencilManager = StencilManager;
+import { WebGLManager as WebGLManager_WebGLManager } from "./WebGLManager";
 "use strict";
-var WebGLManager = require('./WebGLManager');
 
 /**
  * @class
@@ -8,13 +9,12 @@ var WebGLManager = require('./WebGLManager');
  */
 function StencilManager(renderer)
 {
-    WebGLManager.call(this, renderer);
+    WebGLManager_WebGLManager.call(this, renderer);
     this.stencilMaskStack = null;
 }
 
-StencilManager.prototype = Object.create(WebGLManager.prototype);
+StencilManager.prototype = Object.create(WebGLManager_WebGLManager.prototype);
 StencilManager.prototype.constructor = StencilManager;
-module.exports = StencilManager;
 
 /**
  * Changes the mask stack that is used by this manager.
@@ -106,7 +106,14 @@ StencilManager.prototype.popStencil = function ()
  */
 StencilManager.prototype.destroy = function ()
 {
-    WebGLManager.prototype.destroy.call(this);
+    WebGLManager_WebGLManager.prototype.destroy.call(this);
 
     this.stencilMaskStack.stencilStack = null;
 };
+
+/**
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
+ */
+export { mod_StencilManager as StencilManager };

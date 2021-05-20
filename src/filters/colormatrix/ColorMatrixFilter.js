@@ -1,7 +1,7 @@
+var mod_ColorMatrixFilter = ColorMatrixFilter;
+import { core as core_core } from "../../core";
+import ext_glslify_glslify from "glslify";
 "use strict";
-var core = require('../../core');
-// @see https://github.com/substack/brfs/issues/25
-var glslify  = require('glslify');
 
 /**
  * The ColorMatrixFilter class lets you apply a 5x4 matrix transformation on the RGBA
@@ -20,11 +20,11 @@ var glslify  = require('glslify');
  */
 function ColorMatrixFilter()
 {
-    core.Filter.call(this,
+    core_core.Filter.call(this,
         // vertex shader
-        glslify('../fragments/default.vert'),
+        ext_glslify_glslify('../fragments/default.vert'),
         // fragment shader
-        glslify('./colorMatrix.frag')
+        ext_glslify_glslify('./colorMatrix.frag')
     );
 
     this.uniforms.m = [
@@ -36,9 +36,8 @@ function ColorMatrixFilter()
 
 }
 
-ColorMatrixFilter.prototype = Object.create(core.Filter.prototype);
+ColorMatrixFilter.prototype = Object.create(core_core.Filter.prototype);
 ColorMatrixFilter.prototype.constructor = ColorMatrixFilter;
-module.exports = ColorMatrixFilter;
 
 
 /**
@@ -554,3 +553,20 @@ Object.defineProperties(ColorMatrixFilter.prototype, {
         }
     }
 });
+
+/**
+ * The ColorMatrixFilter class lets you apply a 5x4 matrix transformation on the RGBA
+ * color and alpha values of every pixel on your displayObject to produce a result
+ * with a new set of RGBA color and alpha values. It's pretty powerful!
+ *
+ * ```js
+ *  var colorMatrix = new PIXI.ColorMatrixFilter();
+ *  container.filters = [colorMatrix];
+ *  colorMatrix.contrast(2);
+ * ```
+ * @author Clément Chenebault <clement@goodboydigital.com>
+ * @class
+ * @extends PIXI.Filter
+ * @memberof PIXI.filters
+ */
+export { mod_ColorMatrixFilter as ColorMatrixFilter };

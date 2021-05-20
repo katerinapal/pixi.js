@@ -1,6 +1,7 @@
+var mod_NoiseFilter = NoiseFilter;
+import { core as core_core } from "../../core";
+import ext_glslify_glslify from "glslify";
 "use strict";
-var core = require('../../core');
-var glslify  = require('glslify');
 
 /**
  * @author Vico @vicocotea
@@ -16,19 +17,18 @@ var glslify  = require('glslify');
  */
 function NoiseFilter()
 {
-    core.Filter.call(this,
+    core_core.Filter.call(this,
         // vertex shader
-        glslify('../fragments/default.vert'),
+        ext_glslify_glslify('../fragments/default.vert'),
         // fragment shader
-        glslify('./noise.frag')
+        ext_glslify_glslify('./noise.frag')
     );
 
     this.noise = 0.5;
 }
 
-NoiseFilter.prototype = Object.create(core.Filter.prototype);
+NoiseFilter.prototype = Object.create(core_core.Filter.prototype);
 NoiseFilter.prototype.constructor = NoiseFilter;
-module.exports = NoiseFilter;
 
 Object.defineProperties(NoiseFilter.prototype, {
     /**
@@ -49,3 +49,17 @@ Object.defineProperties(NoiseFilter.prototype, {
         }
     }
 });
+
+/**
+ * @author Vico @vicocotea
+ * original filter: https://github.com/evanw/glfx.js/blob/master/src/filters/adjust/noise.js
+ */
+
+/**
+ * A Noise effect filter.
+ *
+ * @class
+ * @extends PIXI.Filter
+ * @memberof PIXI.filters
+ */
+export { mod_NoiseFilter as NoiseFilter };

@@ -1,6 +1,7 @@
+var mod_Container = Container;
+import { utils as utils_utils } from "../utils";
+import { DisplayObject as DisplayObject_DisplayObject } from "./DisplayObject";
 "use strict";
-var utils = require('../utils'),
-    DisplayObject = require('./DisplayObject');
 
 /**
  * A Container represents a collection of display objects.
@@ -16,7 +17,7 @@ var utils = require('../utils'),
  */
 function Container()
 {
-    DisplayObject.call(this);
+    DisplayObject_DisplayObject.call(this);
 
     /**
      * The array of children of this container.
@@ -28,9 +29,8 @@ function Container()
 }
 
 // constructor
-Container.prototype = Object.create(DisplayObject.prototype);
+Container.prototype = Object.create(DisplayObject_DisplayObject.prototype);
 Container.prototype.constructor = Container;
-module.exports = Container;
 
 Object.defineProperties(Container.prototype, {
     /**
@@ -235,7 +235,7 @@ Container.prototype.setChildIndex = function (child, index)
 
     var currentIndex = this.getChildIndex(child);
 
-    utils.removeItems(this.children, currentIndex, 1); // remove from old position
+    utils_utils.removeItems(this.children, currentIndex, 1); // remove from old position
     this.children.splice(index, 0, child); //add at new position
     this.onChildrenChange(index);
 };
@@ -286,7 +286,7 @@ Container.prototype.removeChild = function (child)
         }
 
         child.parent = null;
-        utils.removeItems(this.children, index, 1);
+        utils_utils.removeItems(this.children, index, 1);
 
         // TODO - lets either do all callbacks or all events.. not both!
         this.onChildrenChange(index);
@@ -307,7 +307,7 @@ Container.prototype.removeChildAt = function (index)
     var child = this.getChildAt(index);
 
     child.parent = null;
-    utils.removeItems(this.children, index, 1);
+    utils_utils.removeItems(this.children, index, 1);
 
     // TODO - lets either do all callbacks or all events.. not both!
     this.onChildrenChange(index);
@@ -572,7 +572,7 @@ Container.prototype.renderCanvas = function (renderer)
  */
 Container.prototype.destroy = function (options)
 {
-    DisplayObject.prototype.destroy.call(this);
+    DisplayObject_DisplayObject.prototype.destroy.call(this);
 
     var destroyChildren = typeof options === 'boolean' ? options : options && options.children;
 
@@ -589,3 +589,17 @@ Container.prototype.destroy = function (options)
         }
     }
 };
+
+/**
+ * A Container represents a collection of display objects.
+ * It is the base class of all display objects that act as a container for other objects.
+ *
+ *```js
+ * var container = new PIXI.Container();
+ * container.addChild(sprite);
+ * ```
+ * @class
+ * @extends PIXI.DisplayObject
+ * @memberof PIXI
+ */
+export { mod_Container as Container };

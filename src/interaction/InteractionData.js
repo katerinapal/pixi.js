@@ -1,5 +1,6 @@
+var mod_InteractionData = InteractionData;
+import { core as core_core } from "../core";
 "use strict";
-var core = require('../core');
 
 /**
  * Holds all information related to an Interaction event
@@ -14,7 +15,7 @@ function InteractionData()
      *
      * @member {PIXI.Point}
      */
-    this.global = new core.Point();
+    this.global = new core_core.Point();
 
     /**
      * The target Sprite that was interacted with
@@ -32,7 +33,6 @@ function InteractionData()
 }
 
 InteractionData.prototype.constructor = InteractionData;
-module.exports = InteractionData;
 
 /**
  * This will return the local coordinates of the specified displayObject for this InteractionData
@@ -46,3 +46,11 @@ InteractionData.prototype.getLocalPosition = function (displayObject, point, glo
 {
     return displayObject.worldTransform.applyInverse(globalPos || this.global, point);
 };
+
+/**
+ * Holds all information related to an Interaction event
+ *
+ * @class
+ * @memberof PIXI.interaction
+ */
+export { mod_InteractionData as InteractionData };

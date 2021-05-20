@@ -1,3 +1,4 @@
+var mod_WebGLManager = WebGLManager;
 "use strict";
 /**
  * @class
@@ -17,7 +18,6 @@ function WebGLManager(renderer)
 }
 
 WebGLManager.prototype.constructor = WebGLManager;
-module.exports = WebGLManager;
 
 /**
  * Generic method called when there is a WebGL context change.
@@ -38,3 +38,10 @@ WebGLManager.prototype.destroy = function ()
 
     this.renderer = null;
 };
+
+/**
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
+ */
+export { mod_WebGLManager as WebGLManager };

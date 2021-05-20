@@ -1,6 +1,7 @@
+var mod_mapCanvasBlendModesToPixi = mapCanvasBlendModesToPixi;
+import { CONST as const_CONST } from "../../../const";
+import {     canUseNewCanvasBlendModes as canUseNewCanvasBlendModes_canUseNewCanvasBlendModes, } from "./canUseNewCanvasBlendModes";
 "use strict";
-var CONST = require('../../../const'),
-canUseNewCanvasBlendModes = require('./canUseNewCanvasBlendModes');
 
 /**
  * Maps blend combinations to Canvas
@@ -12,49 +13,55 @@ function mapCanvasBlendModesToPixi(array)
 {
     array = array || [];
 
-    if (canUseNewCanvasBlendModes())
+    if (canUseNewCanvasBlendModes_canUseNewCanvasBlendModes())
     {
-        array[CONST.BLEND_MODES.NORMAL]        = 'source-over';
-        array[CONST.BLEND_MODES.ADD]           = 'lighter'; //IS THIS OK???
-        array[CONST.BLEND_MODES.MULTIPLY]      = 'multiply';
-        array[CONST.BLEND_MODES.SCREEN]        = 'screen';
-        array[CONST.BLEND_MODES.OVERLAY]       = 'overlay';
-        array[CONST.BLEND_MODES.DARKEN]        = 'darken';
-        array[CONST.BLEND_MODES.LIGHTEN]       = 'lighten';
-        array[CONST.BLEND_MODES.COLOR_DODGE]   = 'color-dodge';
-        array[CONST.BLEND_MODES.COLOR_BURN]    = 'color-burn';
-        array[CONST.BLEND_MODES.HARD_LIGHT]    = 'hard-light';
-        array[CONST.BLEND_MODES.SOFT_LIGHT]    = 'soft-light';
-        array[CONST.BLEND_MODES.DIFFERENCE]    = 'difference';
-        array[CONST.BLEND_MODES.EXCLUSION]     = 'exclusion';
-        array[CONST.BLEND_MODES.HUE]           = 'hue';
-        array[CONST.BLEND_MODES.SATURATION]    = 'saturate';
-        array[CONST.BLEND_MODES.COLOR]         = 'color';
-        array[CONST.BLEND_MODES.LUMINOSITY]    = 'luminosity';
+        array[const_CONST.BLEND_MODES.NORMAL]        = 'source-over';
+        array[const_CONST.BLEND_MODES.ADD]           = 'lighter'; //IS THIS OK???
+        array[const_CONST.BLEND_MODES.MULTIPLY]      = 'multiply';
+        array[const_CONST.BLEND_MODES.SCREEN]        = 'screen';
+        array[const_CONST.BLEND_MODES.OVERLAY]       = 'overlay';
+        array[const_CONST.BLEND_MODES.DARKEN]        = 'darken';
+        array[const_CONST.BLEND_MODES.LIGHTEN]       = 'lighten';
+        array[const_CONST.BLEND_MODES.COLOR_DODGE]   = 'color-dodge';
+        array[const_CONST.BLEND_MODES.COLOR_BURN]    = 'color-burn';
+        array[const_CONST.BLEND_MODES.HARD_LIGHT]    = 'hard-light';
+        array[const_CONST.BLEND_MODES.SOFT_LIGHT]    = 'soft-light';
+        array[const_CONST.BLEND_MODES.DIFFERENCE]    = 'difference';
+        array[const_CONST.BLEND_MODES.EXCLUSION]     = 'exclusion';
+        array[const_CONST.BLEND_MODES.HUE]           = 'hue';
+        array[const_CONST.BLEND_MODES.SATURATION]    = 'saturate';
+        array[const_CONST.BLEND_MODES.COLOR]         = 'color';
+        array[const_CONST.BLEND_MODES.LUMINOSITY]    = 'luminosity';
     }
     else
     {
         // this means that the browser does not support the cool new blend modes in canvas 'cough' ie 'cough'
-        array[CONST.BLEND_MODES.NORMAL]        = 'source-over';
-        array[CONST.BLEND_MODES.ADD]           = 'lighter'; //IS THIS OK???
-        array[CONST.BLEND_MODES.MULTIPLY]      = 'source-over';
-        array[CONST.BLEND_MODES.SCREEN]        = 'source-over';
-        array[CONST.BLEND_MODES.OVERLAY]       = 'source-over';
-        array[CONST.BLEND_MODES.DARKEN]        = 'source-over';
-        array[CONST.BLEND_MODES.LIGHTEN]       = 'source-over';
-        array[CONST.BLEND_MODES.COLOR_DODGE]   = 'source-over';
-        array[CONST.BLEND_MODES.COLOR_BURN]    = 'source-over';
-        array[CONST.BLEND_MODES.HARD_LIGHT]    = 'source-over';
-        array[CONST.BLEND_MODES.SOFT_LIGHT]    = 'source-over';
-        array[CONST.BLEND_MODES.DIFFERENCE]    = 'source-over';
-        array[CONST.BLEND_MODES.EXCLUSION]     = 'source-over';
-        array[CONST.BLEND_MODES.HUE]           = 'source-over';
-        array[CONST.BLEND_MODES.SATURATION]    = 'source-over';
-        array[CONST.BLEND_MODES.COLOR]         = 'source-over';
-        array[CONST.BLEND_MODES.LUMINOSITY]    = 'source-over';
+        array[const_CONST.BLEND_MODES.NORMAL]        = 'source-over';
+        array[const_CONST.BLEND_MODES.ADD]           = 'lighter'; //IS THIS OK???
+        array[const_CONST.BLEND_MODES.MULTIPLY]      = 'source-over';
+        array[const_CONST.BLEND_MODES.SCREEN]        = 'source-over';
+        array[const_CONST.BLEND_MODES.OVERLAY]       = 'source-over';
+        array[const_CONST.BLEND_MODES.DARKEN]        = 'source-over';
+        array[const_CONST.BLEND_MODES.LIGHTEN]       = 'source-over';
+        array[const_CONST.BLEND_MODES.COLOR_DODGE]   = 'source-over';
+        array[const_CONST.BLEND_MODES.COLOR_BURN]    = 'source-over';
+        array[const_CONST.BLEND_MODES.HARD_LIGHT]    = 'source-over';
+        array[const_CONST.BLEND_MODES.SOFT_LIGHT]    = 'source-over';
+        array[const_CONST.BLEND_MODES.DIFFERENCE]    = 'source-over';
+        array[const_CONST.BLEND_MODES.EXCLUSION]     = 'source-over';
+        array[const_CONST.BLEND_MODES.HUE]           = 'source-over';
+        array[const_CONST.BLEND_MODES.SATURATION]    = 'source-over';
+        array[const_CONST.BLEND_MODES.COLOR]         = 'source-over';
+        array[const_CONST.BLEND_MODES.LUMINOSITY]    = 'source-over';
     }
 
     return array;
 }
 
-module.exports = mapCanvasBlendModesToPixi;
+/**
+ * Maps blend combinations to Canvas
+ * @class
+ * @memberof PIXI
+ * @param array
+ */
+export { mod_mapCanvasBlendModesToPixi as mapCanvasBlendModesToPixi };

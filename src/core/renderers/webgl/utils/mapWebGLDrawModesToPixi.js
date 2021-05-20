@@ -1,5 +1,6 @@
+var mod_mapWebGLDrawModesToPixi = mapWebGLDrawModesToPixi;
+import { CONST as const_CONST } from "../../../const";
 "use strict";
-var CONST = require('../../../const');
 
 /**
  * Generic Mask Stack data structure
@@ -12,14 +13,21 @@ function mapWebGLDrawModesToPixi(gl, object)
 {
 	object= object || {};
 
-    object[CONST.DRAW_MODES.POINTS]         = gl.POINTS;
-    object[CONST.DRAW_MODES.LINES]          = gl.LINES;
-    object[CONST.DRAW_MODES.LINE_LOOP]      = gl.LINE_LOOP;
-    object[CONST.DRAW_MODES.LINE_STRIP]     = gl.LINE_STRIP;
-    object[CONST.DRAW_MODES.TRIANGLES]      = gl.TRIANGLES;
-    object[CONST.DRAW_MODES.TRIANGLE_STRIP] = gl.TRIANGLE_STRIP;
-    object[CONST.DRAW_MODES.TRIANGLE_FAN]   = gl.TRIANGLE_FAN;
+    object[const_CONST.DRAW_MODES.POINTS]         = gl.POINTS;
+    object[const_CONST.DRAW_MODES.LINES]          = gl.LINES;
+    object[const_CONST.DRAW_MODES.LINE_LOOP]      = gl.LINE_LOOP;
+    object[const_CONST.DRAW_MODES.LINE_STRIP]     = gl.LINE_STRIP;
+    object[const_CONST.DRAW_MODES.TRIANGLES]      = gl.TRIANGLES;
+    object[const_CONST.DRAW_MODES.TRIANGLE_STRIP] = gl.TRIANGLE_STRIP;
+    object[const_CONST.DRAW_MODES.TRIANGLE_FAN]   = gl.TRIANGLE_FAN;
 
 }
 
-module.exports = mapWebGLDrawModesToPixi;
+/**
+ * Generic Mask Stack data structure
+ * @class
+ * @memberof PIXI
+ * @param gl {WebGLRenderingContext} The current WebGL drawing context
+ * @param object
+ */
+export { mod_mapWebGLDrawModesToPixi as mapWebGLDrawModesToPixi };

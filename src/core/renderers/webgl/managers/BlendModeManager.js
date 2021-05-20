@@ -1,5 +1,5 @@
+import { WebGLManager as WebGLManager_WebGLManager } from "./WebGLManager";
 "use strict";
-var WebGLManager = require('./WebGLManager');
 
 /**
  * @class
@@ -9,7 +9,7 @@ var WebGLManager = require('./WebGLManager');
  */
 function BlendModeManager(renderer)
 {
-    WebGLManager.call(this, renderer);
+    WebGLManager_WebGLManager.call(this, renderer);
 
     /**
      * @member {number}
@@ -17,9 +17,10 @@ function BlendModeManager(renderer)
     this.currentBlendMode = 99999;
 }
 
-BlendModeManager.prototype = Object.create(WebGLManager.prototype);
+BlendModeManager.prototype = Object.create(WebGLManager_WebGLManager.prototype);
 BlendModeManager.prototype.constructor = BlendModeManager;
-module.exports = BlendModeManager;
+var encapsulated_BlendModeManager;
+encapsulated_BlendModeManager = BlendModeManager;
 
 /**
  * Sets-up the given blendMode from WebGL's point of view.

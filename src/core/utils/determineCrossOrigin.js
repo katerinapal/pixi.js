@@ -1,6 +1,6 @@
+import ext__url from "url";
 "use strict";
 var tempAnchor;
-var _url = require('url');
 
 /**
  * Sets the `crossOrigin` property for this resource based on if the url
@@ -29,7 +29,7 @@ var determineCrossOrigin = function (url, loc) {
     // parse with the node url lib, we can't use the properties of the anchor element
     // because they don't work in IE9 :(
     tempAnchor.href = url;
-    url = _url.parse(tempAnchor.href);
+    url = ext__url.parse(tempAnchor.href);
 
     var samePort = (!url.port && loc.port === '') || (url.port === loc.port);
 
@@ -41,4 +41,7 @@ var determineCrossOrigin = function (url, loc) {
     return '';
 };
 
-module.exports = determineCrossOrigin;
+var mod_determineCrossOrigin;
+
+mod_determineCrossOrigin = determineCrossOrigin;
+export { mod_determineCrossOrigin as determineCrossOrigin };

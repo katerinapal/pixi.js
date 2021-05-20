@@ -1,5 +1,5 @@
+import ext_glCore from "pixi-gl-core";
 "use strict";
-var glCore = require('pixi-gl-core');
 
 var fragTemplate = [
     'precision mediump float;',
@@ -20,7 +20,7 @@ var checkMaxIfStatmentsInShader = function(maxIfs, gl)
         tinyCanvas.width = 1;
         tinyCanvas.height = 1;
 
-        gl = glCore.createContext(tinyCanvas);
+        gl = ext_glCore.createContext(tinyCanvas);
     }
 
     var shader = gl.createShader(gl.FRAGMENT_SHADER);
@@ -77,4 +77,7 @@ function generateIfTestSrc(maxIfs)
     return src;
 }
 
-module.exports = checkMaxIfStatmentsInShader;
+var mod_checkMaxIfStatmentsInShader;
+
+mod_checkMaxIfStatmentsInShader = checkMaxIfStatmentsInShader;
+export { mod_checkMaxIfStatmentsInShader as checkMaxIfStatmentsInShader };

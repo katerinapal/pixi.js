@@ -1,10 +1,11 @@
+var mod_Text = Text;
+import { Sprite as Sprite_Sprite } from "../sprites/Sprite";
+import { Texture as Texture_Texture } from "../textures/Texture";
+import { indexjs as math } from "../math";
+import { utils as utils_utils } from "../utils";
+import { CONST as const_CONST } from "../const";
+import { TextStyle as TextStyle_TextStyle } from "./TextStyle";
 "use strict";
-var Sprite = require('../sprites/Sprite'),
-    Texture = require('../textures/Texture'),
-    math = require('../math'),
-    utils = require('../utils'),
-    CONST = require('../const'),
-    TextStyle = require('./TextStyle');
 
 var defaultDestroyOptions = {
         texture:true,
@@ -47,7 +48,7 @@ function Text(text, style)
      * @member {number}
      * @default 1
      */
-    this.resolution = CONST.RESOLUTION;
+    this.resolution = const_CONST.RESOLUTION;
 
     /**
      * Private tracker for the current text.
@@ -80,10 +81,10 @@ function Text(text, style)
      */
     this._font = '';
 
-    var texture = Texture.fromCanvas(this.canvas);
+    var texture = Texture_Texture.fromCanvas(this.canvas);
     texture.orig = new math.Rectangle();
     texture.trim = new math.Rectangle();
-    Sprite.call(this, texture);
+    Sprite_Sprite.call(this, texture);
 
     this.text = text;
     this.style = style;
@@ -92,9 +93,8 @@ function Text(text, style)
 }
 
 // constructor
-Text.prototype = Object.create(Sprite.prototype);
+Text.prototype = Object.create(Sprite_Sprite.prototype);
 Text.prototype.constructor = Text;
-module.exports = Text;
 
 Text.fontPropertiesCache = {};
 Text.fontPropertiesCanvas = document.createElement('canvas');
@@ -118,7 +118,7 @@ Object.defineProperties(Text.prototype, {
         {
             this.updateText(true);
 
-            var sign = utils.sign(this.scale.x) || 1;
+            var sign = utils_utils.sign(this.scale.x) || 1;
             this.scale.x = sign * value / this.texture.orig.width;
             this._width = value;
         }
@@ -141,7 +141,7 @@ Object.defineProperties(Text.prototype, {
         {
             this.updateText(true);
 
-            var sign = utils.sign(this.scale.y) || 1;
+            var sign = utils_utils.sign(this.scale.y) || 1;
             this.scale.y = sign * value / this.texture.orig.height;
             this._height = value;
         }
@@ -162,13 +162,13 @@ Object.defineProperties(Text.prototype, {
         {
 
             style = style || {};
-            if (style instanceof TextStyle)
+            if (style instanceof TextStyle_TextStyle)
             {
                 this._style = style;
             }
             else
             {
-                this._style = new TextStyle(style);
+                this._style = new TextStyle_TextStyle(style);
             }
 
             this.localStyleID = -1;
@@ -459,7 +459,7 @@ Text.prototype.renderWebGL = function (renderer)
 
     this.updateText(true);
 
-    Sprite.prototype.renderWebGL.call(this, renderer);
+    Sprite_Sprite.prototype.renderWebGL.call(this, renderer);
 };
 
 /**
@@ -478,7 +478,7 @@ Text.prototype._renderCanvas = function (renderer)
 
     this.updateText(true);
 
-    Sprite.prototype._renderCanvas.call(this, renderer);
+    Sprite_Sprite.prototype._renderCanvas.call(this, renderer);
 };
 
 /**
@@ -703,7 +703,7 @@ Text.prototype._generateFillStyle = function (style, lines)
         var width = this.canvas.width / this.resolution;
         var height = this.canvas.height / this.resolution;
 
-        if (style.fillGradientType === CONST.TEXT_GRADIENT.LINEAR_VERTICAL)
+        if (style.fillGradientType === const_CONST.TEXT_GRADIENT.LINEAR_VERTICAL)
         {
             // start the gradient at the top center of the canvas, and end at the bottom middle of the canvas
             gradient = this.context.createLinearGradient(width / 2, 0, width / 2, height);
@@ -763,7 +763,7 @@ Text.prototype.destroy = function (options)
 
     options =  Object.assign({}, defaultDestroyOptions, options);
 
-    Sprite.prototype.destroy.call(this, options);
+    Sprite_Sprite.prototype.destroy.call(this, options);
 
     // make sure to reset the the context and canvas.. dont want this hanging around in memory!
     this.context = null;
@@ -771,3 +771,21 @@ Text.prototype.destroy = function (options)
 
     this._style = null;
 };
+
+/**
+ * A Text Object will create a line or multiple lines of text. To split a line you can use '\n' in your text string,
+ * or add a wordWrap property set to true and and wordWrapWidth property with a value in the style object.
+ *
+ * A Text can be created directly from a string and a style object
+ *
+ * ```js
+ * var text = new PIXI.Text('This is a pixi text',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
+ * ```
+ *
+ * @class
+ * @extends PIXI.Sprite
+ * @memberof PIXI
+ * @param text {string} The string that you would like the text to display
+ * @param [style] {object|PIXI.TextStyle} The style parameters
+ */
+export { mod_Text as Text };

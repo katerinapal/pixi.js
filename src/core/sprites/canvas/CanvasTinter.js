@@ -1,13 +1,14 @@
+import { utils as utils_utils } from "../../utils";
+import {     canUseNewCanvasBlendModes as canUseNewCanvasBlendModes_canUseNewCanvasBlendModes, } from "../../renderers/canvas/utils/canUseNewCanvasBlendModes";
 "use strict";
-var utils = require('../../utils'),
-    canUseNewCanvasBlendModes = require('../../renderers/canvas/utils/canUseNewCanvasBlendModes');
+var mod_CanvasTinter;
 
 /**
  * Utility methods for Sprite/Texture tinting.
  *
  * @namespace PIXI.CanvasTinter
  */
-var CanvasTinter = module.exports = {
+var CanvasTinter = {
     /**
      * Basically this method just needs a sprite and a color and tints the sprite with the given color.
      *
@@ -187,7 +188,7 @@ var CanvasTinter = module.exports = {
             crop.height
         );
 
-        var rgbValues = utils.hex2rgb(color);
+        var rgbValues = utils_utils.hex2rgb(color);
         var r = rgbValues[0], g = rgbValues[1], b = rgbValues[2];
 
         var pixelData = context.getImageData(0, 0, crop.width, crop.height);
@@ -214,13 +215,13 @@ var CanvasTinter = module.exports = {
     {
         var step = CanvasTinter.cacheStepsPerColorChannel;
 
-        var rgbValues = utils.hex2rgb(color);
+        var rgbValues = utils_utils.hex2rgb(color);
 
         rgbValues[0] = Math.min(255, (rgbValues[0] / step) * step);
         rgbValues[1] = Math.min(255, (rgbValues[1] / step) * step);
         rgbValues[2] = Math.min(255, (rgbValues[2] / step) * step);
 
-        return utils.rgb2hex(rgbValues);
+        return utils_utils.rgb2hex(rgbValues);
     },
 
     /**
@@ -245,7 +246,7 @@ var CanvasTinter = module.exports = {
      * @memberof PIXI.CanvasTinter
      * @type {boolean}
      */
-    canUseMultiply: canUseNewCanvasBlendModes(),
+    canUseMultiply: canUseNewCanvasBlendModes_canUseNewCanvasBlendModes(),
 
     /**
      * The tinting method that will be used.
@@ -267,3 +268,5 @@ CanvasTinter.tintMethod = CanvasTinter.canUseMultiply ? CanvasTinter.tintWithMul
  * @param color {number} the color to use to tint the sprite with
  * @param canvas {HTMLCanvasElement} the current canvas
  */
+mod_CanvasTinter = CanvasTinter;
+export { mod_CanvasTinter as CanvasTinter };

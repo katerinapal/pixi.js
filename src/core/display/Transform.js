@@ -1,6 +1,7 @@
+var mod_Transform = Transform;
+import { indexjs as math } from "../math";
+import { TransformBase as TransformBase_TransformBase } from "./TransformBase";
 "use strict";
-var math = require('../math'),
-    TransformBase = require('./TransformBase');
 
 
 /**
@@ -13,7 +14,7 @@ var math = require('../math'),
  */
 function Transform()
 {
-    TransformBase.call(this);
+    TransformBase_TransformBase.call(this);
 
      /**
      * The coordinate of the object relative to the local coordinates of the parent.
@@ -59,7 +60,7 @@ function Transform()
     this._cx  = Math.cos(0);//skewX);
 }
 
-Transform.prototype = Object.create(TransformBase.prototype);
+Transform.prototype = Object.create(TransformBase_TransformBase.prototype);
 Transform.prototype.constructor = Transform;
 
 Transform.prototype.updateSkew = function ()
@@ -153,4 +154,12 @@ Object.defineProperties(Transform.prototype, {
     }
 });
 
-module.exports = Transform;
+/**
+ * Generic class to deal with traditional 2D matrix transforms
+ * local transformation is calculated from position,scale,skew and rotation
+ *
+ * @class
+ * @extends PIXI.TransformBase
+ * @memberof PIXI
+ */
+export { mod_Transform as Transform };

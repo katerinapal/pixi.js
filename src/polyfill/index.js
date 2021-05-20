@@ -1,7 +1,7 @@
+import "./Object.assign";
+import "./requestAnimationFrame";
+import "./Math.sign";
 "use strict";
-require('./Object.assign');
-require('./requestAnimationFrame');
-require('./Math.sign');
 
 if(!window.ArrayBuffer){
   window.ArrayBuffer = Array;

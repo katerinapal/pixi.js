@@ -1,6 +1,7 @@
+var mod_Circle = Circle;
+import { Rectangle as Rectangle_Rectangle } from "./Rectangle";
+import { CONST as const_CONST } from "../../const";
 "use strict";
-var Rectangle = require('./Rectangle'),
-    CONST = require('../../const');
 
 /**
  * The Circle object can be used to specify a hit area for displayObjects
@@ -39,11 +40,10 @@ function Circle(x, y, radius)
      * @default CONST.SHAPES.CIRC
      * @see PIXI.SHAPES
      */
-    this.type = CONST.SHAPES.CIRC;
+    this.type = const_CONST.SHAPES.CIRC;
 }
 
 Circle.prototype.constructor = Circle;
-module.exports = Circle;
 
 /**
  * Creates a clone of this Circle instance
@@ -86,5 +86,16 @@ Circle.prototype.contains = function (x, y)
 */
 Circle.prototype.getBounds = function ()
 {
-    return new Rectangle(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+    return new Rectangle_Rectangle(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
 };
+
+/**
+ * The Circle object can be used to specify a hit area for displayObjects
+ *
+ * @class
+ * @memberof PIXI
+ * @param x {number} The X coordinate of the center of this circle
+ * @param y {number} The Y coordinate of the center of this circle
+ * @param radius {number} The radius of the circle
+ */
+export { mod_Circle as Circle };

@@ -1,9 +1,10 @@
+var mod_CanvasSpriteRenderer = CanvasSpriteRenderer;
+import { CanvasRenderer as CanvasRenderer_CanvasRenderer } from "../../renderers/canvas/CanvasRenderer";
+import { CONST as const_CONST } from "../../const";
+import { indexjs as math } from "../../math";
+import { CanvasTinter as CanvasTinter_CanvasTinter } from "./CanvasTinter";
 "use strict";
-var CanvasRenderer = require('../../renderers/canvas/CanvasRenderer'),
-    CONST = require('../../const'),
-    math = require('../../math'),
-    canvasRenderWorldTransform = new math.Matrix(),
-    CanvasTinter = require('./CanvasTinter');
+var canvasRenderWorldTransform = new math.Matrix();
 
 /**
  * @author Mat Groves
@@ -32,9 +33,8 @@ function CanvasSpriteRenderer(renderer)
 
 
 CanvasSpriteRenderer.prototype.constructor = CanvasSpriteRenderer;
-module.exports = CanvasSpriteRenderer;
 
-CanvasRenderer.registerPlugin('sprite', CanvasSpriteRenderer);
+CanvasRenderer_CanvasRenderer.registerPlugin('sprite', CanvasSpriteRenderer);
 
 /**
  * Renders the sprite object.
@@ -64,7 +64,7 @@ CanvasSpriteRenderer.prototype.render = function (sprite)
         renderer.context.globalAlpha = sprite.worldAlpha;
 
         // If smoothingEnabled is supported and we need to change the smoothing property for sprite texture
-        var smoothingEnabled = texture.baseTexture.scaleMode === CONST.SCALE_MODES.LINEAR;
+        var smoothingEnabled = texture.baseTexture.scaleMode === const_CONST.SCALE_MODES.LINEAR;
         if (renderer.smoothProperty && renderer.context[renderer.smoothProperty] !== smoothingEnabled)
         {
             renderer.context[renderer.smoothProperty] = smoothingEnabled;
@@ -123,7 +123,7 @@ CanvasSpriteRenderer.prototype.render = function (sprite)
                 sprite.cachedTint = sprite.tint;
 
                 // TODO clean up caching - how to clean up the caches?
-                sprite.tintedTexture = CanvasTinter.getTintedTexture(sprite, sprite.tint);
+                sprite.tintedTexture = CanvasTinter_CanvasTinter.getTintedTexture(sprite, sprite.tint);
             }
 
             renderer.context.drawImage(
@@ -163,3 +163,25 @@ CanvasSpriteRenderer.prototype.render = function (sprite)
 CanvasSpriteRenderer.prototype.destroy = function (){
   this.renderer = null;
 };
+
+/**
+ * @author Mat Groves
+ *
+ * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
+ * for creating the original pixi version!
+ * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
+ *
+ * Heavily inspired by LibGDX's CanvasSpriteRenderer:
+ * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/CanvasSpriteRenderer.java
+ */
+
+/**
+ * Renderer dedicated to drawing and batching sprites.
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ * @extends PIXI.ObjectRenderer
+ * @param renderer {PIXI.WebGLRenderer} The renderer sprite this batch works for.
+ */
+export { mod_CanvasSpriteRenderer as CanvasSpriteRenderer };

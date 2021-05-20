@@ -1,5 +1,7 @@
 
 
+var mod_validateContext = validateContext;
+
 "use strict";
 
 function validateContext(gl)
@@ -13,4 +15,4 @@ function validateContext(gl)
 	}
 }
 
-module.exports = validateContext;
+export { mod_validateContext as validateContext };

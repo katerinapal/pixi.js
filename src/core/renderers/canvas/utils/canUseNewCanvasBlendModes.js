@@ -56,4 +56,8 @@ var canUseNewCanvasBlendModes = function ()
 };
 
 
-module.exports = canUseNewCanvasBlendModes;
+var mod_canUseNewCanvasBlendModes;
+
+
+mod_canUseNewCanvasBlendModes = canUseNewCanvasBlendModes;
+export { mod_canUseNewCanvasBlendModes as canUseNewCanvasBlendModes };

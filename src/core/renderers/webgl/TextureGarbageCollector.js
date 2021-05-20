@@ -1,6 +1,7 @@
 
+var mod_TextureGarbageCollector = TextureGarbageCollector;
+import { CONST as const_CONST } from "../../const";
 "use strict";
-var CONST = require('../../const');
 
 /**
  * TextureGarbageCollector. This class manages the GPU and ensures that it does not get clogged up with textures that are no longer being used.
@@ -18,11 +19,10 @@ function TextureGarbageCollector(renderer)
     this.maxIdle = 60 * 60;
     this.checkCountMax = 60 * 10;
 
-    this.mode = CONST.GC_MODES.DEFAULT;
+    this.mode = const_CONST.GC_MODES.DEFAULT;
 }
 
 TextureGarbageCollector.prototype.constructor = TextureGarbageCollector;
-module.exports = TextureGarbageCollector;
 
 /**
  * Checks to see when the last time a texture was used
@@ -32,7 +32,7 @@ TextureGarbageCollector.prototype.update = function()
 {
     this.count++;
 
-    if(this.mode === CONST.GC_MODES.MANUAL)
+    if(this.mode === const_CONST.GC_MODES.MANUAL)
     {
         return;
     }
@@ -108,3 +108,12 @@ TextureGarbageCollector.prototype.unload = function( displayObject )
 
     }
 };
+
+/**
+ * TextureGarbageCollector. This class manages the GPU and ensures that it does not get clogged up with textures that are no longer being used.
+ *
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
+ */
+export { mod_TextureGarbageCollector as TextureGarbageCollector };

@@ -1,7 +1,8 @@
+import { indexjs as math } from "../../../math";
+import { CONST as const_CONST } from "../../../const";
+import ext_pixiglcore from "pixi-gl-core";
 "use strict";
-var math = require('../../../math'),
-    CONST = require('../../../const'),
-    GLFramebuffer = require('pixi-gl-core').GLFramebuffer;
+var GLFramebuffer = ext_pixiglcore.GLFramebuffer;
 
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
@@ -64,7 +65,7 @@ var RenderTarget = function(gl, width, height, scaleMode, resolution, root)
      * @member {number}
      * @default 1
      */
-    this.resolution = resolution || CONST.RESOLUTION;
+    this.resolution = resolution || const_CONST.RESOLUTION;
 
     /**
      * The projection matrix
@@ -124,7 +125,7 @@ var RenderTarget = function(gl, width, height, scaleMode, resolution, root)
      * @default PIXI.SCALE_MODES.DEFAULT
      * @see PIXI.SCALE_MODES
      */
-    this.scaleMode = scaleMode || CONST.SCALE_MODES.DEFAULT;
+    this.scaleMode = scaleMode || const_CONST.SCALE_MODES.DEFAULT;
 
     /**
      * Whether this object is the root element or not
@@ -138,7 +139,7 @@ var RenderTarget = function(gl, width, height, scaleMode, resolution, root)
     {
         this.frameBuffer = GLFramebuffer.createRGBA(gl, 100, 100);
 
-        if( this.scaleMode === CONST.SCALE_MODES.NEAREST)
+        if( this.scaleMode === const_CONST.SCALE_MODES.NEAREST)
         {
             this.frameBuffer.texture.enableNearestScaling();
         }
@@ -169,7 +170,8 @@ var RenderTarget = function(gl, width, height, scaleMode, resolution, root)
 };
 
 RenderTarget.prototype.constructor = RenderTarget;
-module.exports = RenderTarget;
+var mod_RenderTarget;
+mod_RenderTarget = RenderTarget;
 
 /**
  * Clears the filter texture.
@@ -317,3 +319,4 @@ RenderTarget.prototype.destroy = function ()
     this.frameBuffer = null;
     this.texture = null;
 };
+export { mod_RenderTarget as RenderTarget };

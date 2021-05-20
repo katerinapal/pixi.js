@@ -1,10 +1,9 @@
+import { core as core_core } from "./core";
+import { indexjs as mesh_indexjs } from "./mesh";
+import { indexjs as particles_indexjs } from "./particles";
+import { indexjs as extras_indexjs } from "./extras";
+import { indexjs as filters_indexjs } from "./filters";
 "use strict";
-/*global console */
-var core = require('./core'),
-    mesh = require('./mesh'),
-    particles = require('./particles'),
-    extras = require('./extras'),
-    filters = require('./filters');
 
 // @if DEBUG
 // provide method to give a stack track for warnings
@@ -43,7 +42,7 @@ function warn(msg) {
  * @throws {ReferenceError} SpriteBatch does not exist any more, please use the new ParticleContainer instead.
  * @deprecated since version 3.0.0
  */
-core.SpriteBatch = function()
+core_core.SpriteBatch = function()
 {
     throw new ReferenceError('SpriteBatch does not exist any more, please use the new ParticleContainer instead.');
 };
@@ -57,12 +56,12 @@ core.SpriteBatch = function()
  * @throws {ReferenceError} The loader system was overhauled in pixi v3, please see the new PIXI.loaders.Loader class.
  * @deprecated since version 3.0.0
  */
-core.AssetLoader = function()
+core_core.AssetLoader = function()
 {
     throw new ReferenceError('The loader system was overhauled in pixi v3, please see the new PIXI.loaders.Loader class.');
 };
 
-Object.defineProperties(core, {
+Object.defineProperties(core_core, {
 
     /**
      * @class
@@ -78,7 +77,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('You do not need to use a PIXI Stage any more, you can simply render any container.');
             // @endif
-            return core.Container;
+            return core_core.Container;
         }
     },
 
@@ -96,7 +95,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('DisplayObjectContainer has been shortened to Container, please use Container from now on.');
             // @endif
-            return core.Container;
+            return core_core.Container;
         }
     },
 
@@ -114,7 +113,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The Strip class has been renamed to Mesh and moved to mesh.Mesh, please use mesh.Mesh from now on.');
             // @endif
-            return mesh.Mesh;
+            return mesh_indexjs.Mesh;
         }
     },
 
@@ -132,7 +131,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The Rope class has been moved to mesh.Rope, please use mesh.Rope from now on.');
             // @endif
-            return mesh.Rope;
+            return mesh_indexjs.Rope;
         }
     },
 
@@ -149,7 +148,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The ParticleContainer class has been moved to particles.ParticleContainer, please use particles.ParticleContainer from now on.');
             // @endif
-            return particles.ParticleContainer;
+            return particles_indexjs.ParticleContainer;
         }
     },
 
@@ -167,7 +166,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The MovieClip class has been moved to extras.MovieClip, please use extras.MovieClip from now on.');
             // @endif
-            return extras.MovieClip;
+            return extras_indexjs.MovieClip;
         }
     },
 
@@ -185,7 +184,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The TilingSprite class has been moved to extras.TilingSprite, please use extras.TilingSprite from now on.');
             // @endif
-            return extras.TilingSprite;
+            return extras_indexjs.TilingSprite;
         }
     },
 
@@ -203,7 +202,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The BitmapText class has been moved to extras.BitmapText, please use extras.BitmapText from now on.');
             // @endif
-            return extras.BitmapText;
+            return extras_indexjs.BitmapText;
         }
     },
 
@@ -221,7 +220,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The blendModes has been moved to BLEND_MODES, please use BLEND_MODES from now on.');
             // @endif
-            return core.BLEND_MODES;
+            return core_core.BLEND_MODES;
         }
     },
 
@@ -239,7 +238,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The scaleModes has been moved to SCALE_MODES, please use SCALE_MODES from now on.');
             // @endif
-            return core.SCALE_MODES;
+            return core_core.SCALE_MODES;
         }
     },
 
@@ -257,7 +256,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The BaseTextureCache class has been moved to utils.BaseTextureCache, please use utils.BaseTextureCache from now on.');
             // @endif
-            return core.utils.BaseTextureCache;
+            return core_core.utils.BaseTextureCache;
         }
     },
 
@@ -275,7 +274,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The TextureCache class has been moved to utils.TextureCache, please use utils.TextureCache from now on.');
             // @endif
-            return core.utils.TextureCache;
+            return core_core.utils.TextureCache;
         }
     },
 
@@ -293,7 +292,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('The math namespace is deprecated, please access members already accessible on PIXI.');
             // @endif
-            return core;
+            return core_core;
         }
     },
 
@@ -310,7 +309,7 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('AstractFilter has been renamed to Filter, please use PIXI.Filter');
             // @endif
-            return core.Filter;
+            return core_core.Filter;
         }
     },
 
@@ -327,12 +326,12 @@ Object.defineProperties(core, {
             // @if DEBUG
             warn('TransformManual has been renamed to TransformBase, please update your pixi-spine');
             // @endif
-            return core.TransformBase;
+            return core_core.TransformBase;
         }
     }
 });
 
-core.DisplayObject.prototype.generateTexture = function(renderer, scaleMode, resolution)
+core_core.DisplayObject.prototype.generateTexture = function(renderer, scaleMode, resolution)
 {
     // @if DEBUG
     warn('generateTexture has moved to the renderer, please use renderer.generateTexture(displayObject)');
@@ -341,7 +340,7 @@ core.DisplayObject.prototype.generateTexture = function(renderer, scaleMode, res
 };
 
 
-core.Graphics.prototype.generateTexture = function(scaleMode, resolution)
+core_core.Graphics.prototype.generateTexture = function(scaleMode, resolution)
 {
     // @if DEBUG
     warn('graphics generate texture has moved to the renderer. Or to render a graphics to a texture using canvas please use generateCanvasTexture');
@@ -349,7 +348,7 @@ core.Graphics.prototype.generateTexture = function(scaleMode, resolution)
     return this.generateCanvasTexture(scaleMode, resolution);
 };
 
-core.RenderTexture.prototype.render = function(displayObject, matrix, clear, updateTransform)
+core_core.RenderTexture.prototype.render = function(displayObject, matrix, clear, updateTransform)
 {
     this.legacyRenderer.render(displayObject, this, clear, matrix, !updateTransform);
     // @if DEBUG
@@ -357,7 +356,7 @@ core.RenderTexture.prototype.render = function(displayObject, matrix, clear, upd
     // @endif
 };
 
-core.RenderTexture.prototype.getImage = function(target)
+core_core.RenderTexture.prototype.getImage = function(target)
 {
     // @if DEBUG
     warn('RenderTexture.getImage is now deprecated, please use renderer.extract.image(target)');
@@ -365,7 +364,7 @@ core.RenderTexture.prototype.getImage = function(target)
     return this.legacyRenderer.extract.image(target);
 };
 
-core.RenderTexture.prototype.getBase64 = function(target)
+core_core.RenderTexture.prototype.getBase64 = function(target)
 {
     // @if DEBUG
     warn('RenderTexture.getBase64 is now deprecated, please use renderer.extract.base64(target)');
@@ -373,7 +372,7 @@ core.RenderTexture.prototype.getBase64 = function(target)
     return this.legacyRenderer.extract.base64(target);
 };
 
-core.RenderTexture.prototype.getCanvas = function(target)
+core_core.RenderTexture.prototype.getCanvas = function(target)
 {
     // @if DEBUG
     warn('RenderTexture.getCanvas is now deprecated, please use renderer.extract.canvas(target)');
@@ -381,7 +380,7 @@ core.RenderTexture.prototype.getCanvas = function(target)
     return this.legacyRenderer.extract.canvas(target);
 };
 
-core.RenderTexture.prototype.getPixels = function(target)
+core_core.RenderTexture.prototype.getPixels = function(target)
 {
     // @if DEBUG
     warn('RenderTexture.getPixels is now deprecated, please use renderer.extract.pixels(target)');
@@ -398,7 +397,7 @@ core.RenderTexture.prototype.getPixels = function(target)
  * @see PIXI.Sprite#texture
  * @deprecated since version 3.0.0
  */
-core.Sprite.prototype.setTexture = function(texture)
+core_core.Sprite.prototype.setTexture = function(texture)
 {
     this.texture = texture;
     // @if DEBUG
@@ -414,7 +413,7 @@ core.Sprite.prototype.setTexture = function(texture)
  * @see PIXI.extras.BitmapText#text
  * @deprecated since version 3.0.0
  */
-extras.BitmapText.prototype.setText = function(text)
+extras_indexjs.BitmapText.prototype.setText = function(text)
 {
     this.text = text;
     // @if DEBUG
@@ -428,7 +427,7 @@ extras.BitmapText.prototype.setText = function(text)
  * @see PIXI.Text#text
  * @deprecated since version 3.0.0
  */
-core.Text.prototype.setText = function(text)
+core_core.Text.prototype.setText = function(text)
 {
     this.text = text;
     // @if DEBUG
@@ -442,7 +441,7 @@ core.Text.prototype.setText = function(text)
  * @see PIXI.Text#style
  * @deprecated since version 3.0.0
  */
-core.Text.prototype.setStyle = function(style)
+core_core.Text.prototype.setStyle = function(style)
 {
     this.style = style;
     // @if DEBUG
@@ -450,7 +449,7 @@ core.Text.prototype.setStyle = function(style)
     // @endif
 };
 
-Object.defineProperties(core.TextStyle.prototype, {
+Object.defineProperties(core_core.TextStyle.prototype, {
     /**
      * Set all properties of a font as a single string
      *
@@ -550,7 +549,7 @@ Object.defineProperties(core.TextStyle.prototype, {
  * @see PIXI.Texture#setFrame
  * @deprecated since version 3.0.0
  */
-core.Texture.prototype.setFrame = function(frame)
+core_core.Texture.prototype.setFrame = function(frame)
 {
     this.frame = frame;
     // @if DEBUG
@@ -558,7 +557,7 @@ core.Texture.prototype.setFrame = function(frame)
     // @endif
 };
 
-Object.defineProperties(filters, {
+Object.defineProperties(filters_indexjs, {
 
     /**
      * @class
@@ -573,7 +572,7 @@ Object.defineProperties(filters, {
             // @if DEBUG
             warn('AstractFilter has been renamed to Filter, please use PIXI.Filter');
             // @endif
-            return core.AbstractFilter;
+            return core_core.AbstractFilter;
         }
     },
 
@@ -590,7 +589,7 @@ Object.defineProperties(filters, {
             // @if DEBUG
             warn('filters.SpriteMaskFilter is an undocumented alias, please use SpriteMaskFilter from now on.');
             // @endif
-            return core.SpriteMaskFilter;
+            return core_core.SpriteMaskFilter;
         }
     }
 });
@@ -601,12 +600,12 @@ Object.defineProperties(filters, {
  * @see PIXI.utils.uid
  * @deprecated since version 3.0.6
  */
-core.utils.uuid = function ()
+core_core.utils.uuid = function ()
 {
     // @if DEBUG
     warn('utils.uuid() is deprecated, please use utils.uid() from now on.');
     // @endif
-    return core.utils.uid();
+    return core_core.utils.uid();
 };
 
 /**
@@ -615,9 +614,9 @@ core.utils.uuid = function ()
  * @see PIXI.CanvasTinter
  * @deprecated
  */
-core.utils.canUseNewCanvasBlendModes = function() {
+core_core.utils.canUseNewCanvasBlendModes = function() {
     // @if DEBUG
     warn('utils.canUseNewCanvasBlendModes() is deprecated, please use CanvasTinter.canUseMultiply from now on');
     // @endif
-    return core.CanvasTinter.canUseMultiply;
+    return core_core.CanvasTinter.canUseMultiply;
 };

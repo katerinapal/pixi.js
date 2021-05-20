@@ -1,7 +1,7 @@
+var mod_NineSlicePlane = NineSlicePlane;
+import { Plane as Plane_Plane } from "./Plane";
 "use strict";
 var DEFAULT_BORDER_SIZE= 10;
-
-var Plane = require('./Plane');
 
 /**
  * The NineSlicePlane allows you to stretch a texture using 9-slice scaling. The corners will remain unscaled (useful
@@ -41,7 +41,7 @@ var Plane = require('./Plane');
  */
 function NineSlicePlane(texture, leftWidth, topHeight, rightWidth, bottomHeight)
 {
-    Plane.call(this, texture, 4, 4);
+    Plane_Plane.call(this, texture, 4, 4);
 
     var uvs = this.uvs;
     // right and bottom uv's are always 1
@@ -102,9 +102,8 @@ function NineSlicePlane(texture, leftWidth, topHeight, rightWidth, bottomHeight)
 
 
 // constructor
-NineSlicePlane.prototype = Object.create( Plane.prototype );
+NineSlicePlane.prototype = Object.create( Plane_Plane.prototype );
 NineSlicePlane.prototype.constructor = NineSlicePlane;
-module.exports = NineSlicePlane;
 
 Object.defineProperties(NineSlicePlane.prototype, {
     /**
@@ -322,3 +321,41 @@ NineSlicePlane.prototype.drawSegment= function (context, textureSource, w, h, x1
     }
     context.drawImage(textureSource, uvs[x1] * w, uvs[y1] * h, sw, sh, vertices[x1], vertices[y1], dw, dh);
 };
+
+/**
+ * The NineSlicePlane allows you to stretch a texture using 9-slice scaling. The corners will remain unscaled (useful
+ * for buttons with rounded corners for example) and the other areas will be scaled horizontally and or vertically
+ *  
+ *```js
+ * var Plane9 = new PIXI.NineSlicePlane(PIXI.Texture.fromImage('BoxWithRoundedCorners.png'), 15, 15, 15, 15);
+ *  ```
+ * <pre>
+ *      A                          B
+ *    +---+----------------------+---+
+ *  C | 1 |          2           | 3 |
+ *    +---+----------------------+---+
+ *    |   |                      |   |
+ *    | 4 |          5           | 6 |
+ *    |   |                      |   |
+ *    +---+----------------------+---+
+ *  D | 7 |          8           | 9 |
+ *    +---+----------------------+---+
+
+ *  When changing this objects width and/or height:
+ *     areas 1 3 7 and 9 will remain unscaled.
+ *     areas 2 and 8 will be stretched horizontally
+ *     areas 4 and 6 will be stretched vertically
+ *     area 5 will be stretched both horizontally and vertically
+ * </pre>
+ *
+ * @class
+ * @extends PIXI.mesh.Plane
+ * @memberof PIXI.mesh
+ * @param {PIXI.Texture} texture - The texture to use on the NineSlicePlane.
+ * @param {int} [leftWidth=10] size of the left vertical bar (A)
+ * @param {int} [topHeight=10] size of the top horizontal bar (C)
+ * @param {int} [rightWidth=10] size of the right vertical bar (B)
+ * @param {int} [bottomHeight=10] size of the bottom horizontal bar (D)
+ *
+ */
+export { mod_NineSlicePlane as NineSlicePlane };
