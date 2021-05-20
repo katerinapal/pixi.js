@@ -1,5 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ObjectRenderer = undefined;
+
+var _WebGLManager = require("../managers/WebGLManager");
+
 var mod_ObjectRenderer = ObjectRenderer;
-import { WebGLManager as WebGLManager_WebGLManager } from "../managers/WebGLManager";
+
 "use strict";
 
 /**
@@ -10,40 +19,35 @@ import { WebGLManager as WebGLManager_WebGLManager } from "../managers/WebGLMana
  * @memberof PIXI
  * @param renderer {PIXI.WebGLRenderer} The renderer this object renderer works for.
  */
-function ObjectRenderer(renderer)
-{
-    WebGLManager_WebGLManager.call(this, renderer);
+function ObjectRenderer(renderer) {
+  _WebGLManager.WebGLManager.call(this, renderer);
 }
 
-
-ObjectRenderer.prototype = Object.create(WebGLManager_WebGLManager.prototype);
+ObjectRenderer.prototype = Object.create(_WebGLManager.WebGLManager.prototype);
 ObjectRenderer.prototype.constructor = ObjectRenderer;
 
 /**
  * Starts the renderer and sets the shader
  *
  */
-ObjectRenderer.prototype.start = function ()
-{
-    // set the shader..
+ObjectRenderer.prototype.start = function () {
+  // set the shader..
 };
 
 /**
  * Stops the renderer
  *
  */
-ObjectRenderer.prototype.stop = function ()
-{
-    this.flush();
+ObjectRenderer.prototype.stop = function () {
+  this.flush();
 };
 
 /**
  * Stub method for rendering content and emptying the current batch.
  *
  */
-ObjectRenderer.prototype.flush = function ()
-{
-    // flush!
+ObjectRenderer.prototype.flush = function () {
+  // flush!
 };
 
 /**
@@ -53,7 +57,7 @@ ObjectRenderer.prototype.flush = function ()
  */
 ObjectRenderer.prototype.render = function (object) // jshint unused:false
 {
-    // render the object
+  // render the object
 };
 
 /**
@@ -64,4 +68,4 @@ ObjectRenderer.prototype.render = function (object) // jshint unused:false
  * @memberof PIXI
  * @param renderer {PIXI.WebGLRenderer} The renderer this object renderer works for.
  */
-export { mod_ObjectRenderer as ObjectRenderer };
+exports.ObjectRenderer = mod_ObjectRenderer;

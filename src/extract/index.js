@@ -1,10 +1,18 @@
-
-import { WebGLExtract as webglWebGLExtract_WebGLExtract } from "./webgl/WebGLExtract";
-import { CanvasExtract as canvasCanvasExtract_CanvasExtract } from "./canvas/CanvasExtract";
 "use strict";
-mod_indexjs = {
-    webGL: webglWebGLExtract_WebGLExtract,
-    canvas: canvasCanvasExtract_CanvasExtract
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.indexjs = undefined;
+
+var _WebGLExtract = require("./webgl/WebGLExtract");
+
+var _CanvasExtract = require("./canvas/CanvasExtract");
+
+"use strict";
+exports.indexjs = mod_indexjs = {
+    webGL: _WebGLExtract.WebGLExtract,
+    canvas: _CanvasExtract.CanvasExtract
 };
 var mod_indexjs;
-export { mod_indexjs as indexjs };
+exports.indexjs = mod_indexjs;

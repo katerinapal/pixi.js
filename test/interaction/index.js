@@ -1,2 +1,5 @@
-import "./InteractionData";
+"use strict";
+
+require("./InteractionData");
+
 "use strict";

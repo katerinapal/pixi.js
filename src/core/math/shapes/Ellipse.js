@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Ellipse = undefined;
+
+var _Rectangle = require("./Rectangle");
+
+var _const = require("../../const");
+
 var mod_Ellipse = Ellipse;
-import { Rectangle as Rectangle_Rectangle } from "./Rectangle";
-import { CONST as const_CONST } from "../../const";
+
 "use strict";
 
 /**
@@ -13,41 +23,40 @@ import { CONST as const_CONST } from "../../const";
  * @param width {number} The half width of this ellipse
  * @param height {number} The half height of this ellipse
  */
-function Ellipse(x, y, width, height)
-{
-    /**
-     * @member {number}
-     * @default 0
-     */
-    this.x = x || 0;
+function Ellipse(x, y, width, height) {
+  /**
+   * @member {number}
+   * @default 0
+   */
+  this.x = x || 0;
 
-    /**
-     * @member {number}
-     * @default 0
-     */
-    this.y = y || 0;
+  /**
+   * @member {number}
+   * @default 0
+   */
+  this.y = y || 0;
 
-    /**
-     * @member {number}
-     * @default 0
-     */
-    this.width = width || 0;
+  /**
+   * @member {number}
+   * @default 0
+   */
+  this.width = width || 0;
 
-    /**
-     * @member {number}
-     * @default 0
-     */
-    this.height = height || 0;
+  /**
+   * @member {number}
+   * @default 0
+   */
+  this.height = height || 0;
 
-    /**
-     * The type of the object, mainly used to avoid `instanceof` checks
-     *
-     * @member {number}
-     * @readOnly
-     * @default CONST.SHAPES.ELIP
-     * @see PIXI.SHAPES
-     */
-    this.type = const_CONST.SHAPES.ELIP;
+  /**
+   * The type of the object, mainly used to avoid `instanceof` checks
+   *
+   * @member {number}
+   * @readOnly
+   * @default CONST.SHAPES.ELIP
+   * @see PIXI.SHAPES
+   */
+  this.type = _const.CONST.SHAPES.ELIP;
 }
 
 Ellipse.prototype.constructor = Ellipse;
@@ -57,9 +66,8 @@ Ellipse.prototype.constructor = Ellipse;
  *
  * @return {PIXI.Ellipse} a copy of the ellipse
  */
-Ellipse.prototype.clone = function ()
-{
-    return new Ellipse(this.x, this.y, this.width, this.height);
+Ellipse.prototype.clone = function () {
+  return new Ellipse(this.x, this.y, this.width, this.height);
 };
 
 /**
@@ -69,21 +77,19 @@ Ellipse.prototype.clone = function ()
  * @param y {number} The Y coordinate of the point to test
  * @return {boolean} Whether the x/y coords are within this ellipse
  */
-Ellipse.prototype.contains = function (x, y)
-{
-    if (this.width <= 0 || this.height <= 0)
-    {
-        return false;
-    }
+Ellipse.prototype.contains = function (x, y) {
+  if (this.width <= 0 || this.height <= 0) {
+    return false;
+  }
 
-    //normalize the coords to an ellipse with center 0,0
-    var normx = ((x - this.x) / this.width),
-        normy = ((y - this.y) / this.height);
+  //normalize the coords to an ellipse with center 0,0
+  var normx = (x - this.x) / this.width,
+      normy = (y - this.y) / this.height;
 
-    normx *= normx;
-    normy *= normy;
+  normx *= normx;
+  normy *= normy;
 
-    return (normx + normy <= 1);
+  return normx + normy <= 1;
 };
 
 /**
@@ -91,9 +97,8 @@ Ellipse.prototype.contains = function (x, y)
  *
  * @return {PIXI.Rectangle} the framing rectangle
  */
-Ellipse.prototype.getBounds = function ()
-{
-    return new Rectangle_Rectangle(this.x - this.width, this.y - this.height, this.width, this.height);
+Ellipse.prototype.getBounds = function () {
+  return new _Rectangle.Rectangle(this.x - this.width, this.y - this.height, this.width, this.height);
 };
 
 /**
@@ -106,4 +111,4 @@ Ellipse.prototype.getBounds = function ()
  * @param width {number} The half width of this ellipse
  * @param height {number} The half height of this ellipse
  */
-export { mod_Ellipse as Ellipse };
+exports.Ellipse = mod_Ellipse;

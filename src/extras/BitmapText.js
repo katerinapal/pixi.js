@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.BitmapText = undefined;
+
+var _core = require("../core");
+
+var _ObservablePoint = require("../core/math/ObservablePoint");
+
 var mod_BitmapText = BitmapText;
-import { core as core_core } from "../core";
-import { ObservablePoint as ObservablePoint_ObservablePoint } from "../core/math/ObservablePoint";
+
 "use strict";
 
 /**
@@ -30,9 +40,8 @@ import { ObservablePoint as ObservablePoint_ObservablePoint } from "../core/math
  *      single line text
  * @param [style.tint=0xFFFFFF] {number} The tint color
  */
-function BitmapText(text, style)
-{
-    core_core.Container.call(this);
+function BitmapText(text, style) {
+    _core.core.Container.call(this);
 
     style = style || {};
 
@@ -112,7 +121,7 @@ function BitmapText(text, style)
      * @member {PIXI.ObservablePoint}
      * @private
      */
-    this._anchor = new ObservablePoint_ObservablePoint(this.makeDirty, this, 0, 0);
+    this._anchor = new _ObservablePoint.ObservablePoint(this.makeDirty, this, 0, 0);
 
     /**
      * The dirty state of this object.
@@ -125,7 +134,7 @@ function BitmapText(text, style)
 }
 
 // constructor
-BitmapText.prototype = Object.create(core_core.Container.prototype);
+BitmapText.prototype = Object.create(_core.core.Container.prototype);
 BitmapText.prototype.constructor = BitmapText;
 
 Object.defineProperties(BitmapText.prototype, {
@@ -136,13 +145,11 @@ Object.defineProperties(BitmapText.prototype, {
      * @memberof PIXI.extras.BitmapText#
      */
     tint: {
-        get: function ()
-        {
+        get: function get() {
             return this._font.tint;
         },
-        set: function (value)
-        {
-            this._font.tint = (typeof value === 'number' && value >= 0) ? value : 0xFFFFFF;
+        set: function set(value) {
+            this._font.tint = typeof value === 'number' && value >= 0 ? value : 0xFFFFFF;
 
             this.dirty = true;
         }
@@ -156,12 +163,10 @@ Object.defineProperties(BitmapText.prototype, {
      * @memberof PIXI.extras.BitmapText#
      */
     align: {
-        get: function ()
-        {
+        get: function get() {
             return this._font.align;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this._font.align = value || 'left';
 
             this.dirty = true;
@@ -178,14 +183,13 @@ Object.defineProperties(BitmapText.prototype, {
      * @memberof PIXI.extras.BitmapText#
      */
     anchor: {
-        get : function() {
+        get: function get() {
             return this._anchor;
         },
-        set: function(value) {
-            if (typeof value === 'number'){
-                 this._anchor.set(value);
-            }
-            else {
+        set: function set(value) {
+            if (typeof value === 'number') {
+                this._anchor.set(value);
+            } else {
                 this._anchor.copy(value);
             }
         }
@@ -198,12 +202,10 @@ Object.defineProperties(BitmapText.prototype, {
      * @memberof PIXI.extras.BitmapText#
      */
     font: {
-        get: function ()
-        {
+        get: function get() {
             return this._font;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             if (!value) {
                 return;
             }
@@ -213,8 +215,7 @@ Object.defineProperties(BitmapText.prototype, {
 
                 this._font.name = value.length === 1 ? value[0] : value.slice(1).join(' ');
                 this._font.size = value.length >= 2 ? parseInt(value[0], 10) : BitmapText.fonts[this._font.name].size;
-            }
-            else {
+            } else {
                 this._font.name = value.name;
                 this._font.size = typeof value.size === 'number' ? value.size : parseInt(value.size, 10);
             }
@@ -230,15 +231,12 @@ Object.defineProperties(BitmapText.prototype, {
      * @memberof PIXI.extras.BitmapText#
      */
     text: {
-        get: function ()
-        {
+        get: function get() {
             return this._text;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             value = value.toString() || ' ';
-            if (this._text === value)
-            {
+            if (this._text === value) {
                 return;
             }
             this._text = value;
@@ -252,10 +250,9 @@ Object.defineProperties(BitmapText.prototype, {
  *
  * @private
  */
-BitmapText.prototype.updateText = function ()
-{
+BitmapText.prototype.updateText = function () {
     var data = BitmapText.fonts[this._font.name];
-    var pos = new core_core.Point();
+    var pos = new _core.core.Point();
     var prevCharCode = null;
     var chars = [];
     var lastLineWidth = 0;
@@ -267,17 +264,15 @@ BitmapText.prototype.updateText = function ()
     var lastSpaceWidth = 0;
     var maxLineHeight = 0;
 
-    for (var i = 0; i < this.text.length; i++)
-    {
+    for (var i = 0; i < this.text.length; i++) {
         var charCode = this.text.charCodeAt(i);
-        
-        if(/(\s)/.test(this.text.charAt(i))){
+
+        if (/(\s)/.test(this.text.charAt(i))) {
             lastSpace = i;
             lastSpaceWidth = lastLineWidth;
         }
 
-        if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i)))
-        {
+        if (/(?:\r\n|\r|\n)/.test(this.text.charAt(i))) {
             lineWidths.push(lastLineWidth);
             maxLineWidth = Math.max(maxLineWidth, lastLineWidth);
             line++;
@@ -288,9 +283,8 @@ BitmapText.prototype.updateText = function ()
             continue;
         }
 
-        if (lastSpace !== -1 && this.maxWidth > 0 && pos.x * scale > this.maxWidth)
-        {
-            core_core.utils.removeItems(chars, lastSpace, i - lastSpace);
+        if (lastSpace !== -1 && this.maxWidth > 0 && pos.x * scale > this.maxWidth) {
+            _core.core.utils.removeItems(chars, lastSpace, i - lastSpace);
             i = lastSpace;
             lastSpace = -1;
 
@@ -306,20 +300,18 @@ BitmapText.prototype.updateText = function ()
 
         var charData = data.chars[charCode];
 
-        if (!charData)
-        {
+        if (!charData) {
             continue;
         }
 
-        if (prevCharCode && charData.kerning[prevCharCode])
-        {
+        if (prevCharCode && charData.kerning[prevCharCode]) {
             pos.x += charData.kerning[prevCharCode];
         }
 
-        chars.push({texture:charData.texture, line: line, charCode: charCode, position: new core_core.Point(pos.x + charData.xOffset, pos.y + charData.yOffset)});
+        chars.push({ texture: charData.texture, line: line, charCode: charCode, position: new _core.core.Point(pos.x + charData.xOffset, pos.y + charData.yOffset) });
         lastLineWidth = pos.x + (charData.texture.width + charData.xOffset);
         pos.x += charData.xAdvance;
-        maxLineHeight = Math.max(maxLineHeight, (charData.yOffset + charData.texture.height));
+        maxLineHeight = Math.max(maxLineHeight, charData.yOffset + charData.texture.height);
         prevCharCode = charCode;
     }
 
@@ -328,16 +320,12 @@ BitmapText.prototype.updateText = function ()
 
     var lineAlignOffsets = [];
 
-    for (i = 0; i <= line; i++)
-    {
+    for (i = 0; i <= line; i++) {
         var alignOffset = 0;
 
-        if (this._font.align === 'right')
-        {
+        if (this._font.align === 'right') {
             alignOffset = maxLineWidth - lineWidths[i];
-        }
-        else if (this._font.align === 'center')
-        {
+        } else if (this._font.align === 'center') {
             alignOffset = (maxLineWidth - lineWidths[i]) / 2;
         }
 
@@ -347,17 +335,13 @@ BitmapText.prototype.updateText = function ()
     var lenChars = chars.length;
     var tint = this.tint;
 
-    for (i = 0; i < lenChars; i++)
-    {
+    for (i = 0; i < lenChars; i++) {
         var c = this._glyphs[i]; // get the next glyph sprite
 
-        if (c)
-        {
+        if (c) {
             c.texture = chars[i].texture;
-        }
-        else
-        {
-            c = new core_core.Sprite(chars[i].texture);
+        } else {
+            c = new _core.core.Sprite(chars[i].texture);
             this._glyphs.push(c);
         }
 
@@ -366,15 +350,13 @@ BitmapText.prototype.updateText = function ()
         c.scale.x = c.scale.y = scale;
         c.tint = tint;
 
-        if (!c.parent)
-        {
+        if (!c.parent) {
             this.addChild(c);
         }
     }
 
     // remove unnecessary children.
-    for (i = lenChars; i < this._glyphs.length; ++i)
-    {
+    for (i = lenChars; i < this._glyphs.length; ++i) {
         this.removeChild(this._glyphs[i]);
     }
 
@@ -382,10 +364,8 @@ BitmapText.prototype.updateText = function ()
     this.textHeight = (pos.y + data.lineHeight) * scale;
 
     // apply anchor
-    if (this.anchor.x !== 0 || this.anchor.y !== 0)
-    {
-        for (i = 0; i < lenChars; i++)
-        {
+    if (this.anchor.x !== 0 || this.anchor.y !== 0) {
+        for (i = 0; i < lenChars; i++) {
             this._glyphs[i].x -= this.textWidth * this.anchor.x;
             this._glyphs[i].y -= this.textHeight * this.anchor.y;
         }
@@ -398,8 +378,7 @@ BitmapText.prototype.updateText = function ()
  *
  * @private
  */
-BitmapText.prototype.updateTransform = function ()
-{
+BitmapText.prototype.updateTransform = function () {
     this.validate();
     this.containerUpdateTransform();
 };
@@ -410,10 +389,9 @@ BitmapText.prototype.updateTransform = function ()
  * @return {PIXI.Rectangle} The rectangular bounding area
  */
 
-BitmapText.prototype.getLocalBounds = function()
-{
+BitmapText.prototype.getLocalBounds = function () {
     this.validate();
-    return core_core.Container.prototype.getLocalBounds.call(this);
+    return _core.core.Container.prototype.getLocalBounds.call(this);
 };
 
 /**
@@ -421,16 +399,14 @@ BitmapText.prototype.getLocalBounds = function()
  *
  * @private
  */
-BitmapText.prototype.validate = function()
-{
-    if (this.dirty)
-    {
+BitmapText.prototype.validate = function () {
+    if (this.dirty) {
         this.updateText();
         this.dirty = false;
     }
 };
 
-BitmapText.prototype.makeDirty = function() {
+BitmapText.prototype.makeDirty = function () {
     this.dirty = true;
 };
 
@@ -463,4 +439,4 @@ BitmapText.fonts = {};
  *      single line text
  * @param [style.tint=0xFFFFFF] {number} The tint color
  */
-export { mod_BitmapText as BitmapText };
+exports.BitmapText = mod_BitmapText;

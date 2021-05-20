@@ -1,15 +1,30 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.InteractionManager = undefined;
+
+var _core = require("../core");
+
+var _InteractionData = require("./InteractionData");
+
+var _eventemitter = require("eventemitter3");
+
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
+
+var _interactiveTarget = require("./interactiveTarget");
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
 var mod_InteractionManager = InteractionManager;
-import { core as core_core } from "../core";
-import { InteractionData as InteractionData_InteractionData } from "./InteractionData";
-import ext_EventEmitter from "eventemitter3";
-import { interactiveTarget as interactiveTarget_interactiveTarget } from "./interactiveTarget";
+
 "use strict";
 
 // Mix interactiveTarget into core.DisplayObject.prototype
-Object.assign(
-    core_core.DisplayObject.prototype,
-    interactiveTarget_interactiveTarget
-);
+Object.assign(_core.core.DisplayObject.prototype, _interactiveTarget.interactiveTarget);
 
 /**
  * The interaction manager deals with mouse and touch events. Any DisplayObject can be interactive
@@ -24,9 +39,8 @@ Object.assign(
  * @param [options.autoPreventDefault=true] {boolean} Should the manager automatically prevent default browser actions.
  * @param [options.interactionFrequency=10] {number} Frequency increases the interaction events will be checked.
  */
-function InteractionManager(renderer, options)
-{
-    ext_EventEmitter.call(this);
+function InteractionManager(renderer, options) {
+    _eventemitter2.default.call(this);
 
     options = options || {};
 
@@ -58,7 +72,7 @@ function InteractionManager(renderer, options)
      *
      * @member {PIXI.interaction.InteractionData}
      */
-    this.mouse = new InteractionData_InteractionData();
+    this.mouse = new _InteractionData.InteractionData();
 
     // setting the pointer to start off far off screen will mean that mouse over does
     //  not get called before we even move the mouse.
@@ -74,7 +88,7 @@ function InteractionManager(renderer, options)
         target: null,
         type: null,
         data: this.mouse,
-        stopPropagation:function(){
+        stopPropagation: function stopPropagation() {
             this.stopped = true;
         }
     };
@@ -119,36 +133,34 @@ function InteractionManager(renderer, options)
      * @private
      */
     this.onMouseUp = this.onMouseUp.bind(this);
-    this.processMouseUp = this.processMouseUp.bind( this );
-
+    this.processMouseUp = this.processMouseUp.bind(this);
 
     /**
      * @member {Function}
      *  @private
      */
     this.onMouseDown = this.onMouseDown.bind(this);
-    this.processMouseDown = this.processMouseDown.bind( this );
+    this.processMouseDown = this.processMouseDown.bind(this);
 
     /**
      * @member {Function}
      * @private
      */
-    this.onMouseMove = this.onMouseMove.bind( this );
-    this.processMouseMove = this.processMouseMove.bind( this );
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.processMouseMove = this.processMouseMove.bind(this);
 
     /**
      * @member {Function}
      * @private
      */
     this.onMouseOut = this.onMouseOut.bind(this);
-    this.processMouseOverOut = this.processMouseOverOut.bind( this );
+    this.processMouseOverOut = this.processMouseOverOut.bind(this);
 
     /**
      * @member {Function}
      * @private
      */
     this.onMouseOver = this.onMouseOver.bind(this);
-
 
     /**
      * @member {Function}
@@ -189,8 +201,7 @@ function InteractionManager(renderer, options)
      * @member {PIXI.Point}
      * @private
      */
-    this._tempPoint = new core_core.Point();
-
+    this._tempPoint = new _core.core.Point();
 
     /**
      * The current resolution / device pixel ratio.
@@ -315,7 +326,7 @@ function InteractionManager(renderer, options)
      */
 }
 
-InteractionManager.prototype = Object.create(ext_EventEmitter.prototype);
+InteractionManager.prototype = Object.create(_eventemitter2.default.prototype);
 InteractionManager.prototype.constructor = InteractionManager;
 
 /**
@@ -327,8 +338,7 @@ InteractionManager.prototype.constructor = InteractionManager;
  * @param [resolution=1] {number} The resolution / device pixel ratio of the new element (relative to the canvas).
  * @private
  */
-InteractionManager.prototype.setTargetElement = function (element, resolution)
-{
+InteractionManager.prototype.setTargetElement = function (element, resolution) {
     this.removeEvents();
 
     this.interactionDOMElement = element;
@@ -343,31 +353,28 @@ InteractionManager.prototype.setTargetElement = function (element, resolution)
  *
  * @private
  */
-InteractionManager.prototype.addEvents = function ()
-{
-    if (!this.interactionDOMElement)
-    {
+InteractionManager.prototype.addEvents = function () {
+    if (!this.interactionDOMElement) {
         return;
     }
 
-    core_core.ticker.shared.add(this.update, this);
+    _core.core.ticker.shared.add(this.update, this);
 
-    if (window.navigator.msPointerEnabled)
-    {
+    if (window.navigator.msPointerEnabled) {
         this.interactionDOMElement.style['-ms-content-zooming'] = 'none';
         this.interactionDOMElement.style['-ms-touch-action'] = 'none';
     }
 
-    window.document.addEventListener('mousemove',    this.onMouseMove, true);
-    this.interactionDOMElement.addEventListener('mousedown',    this.onMouseDown, true);
-    this.interactionDOMElement.addEventListener('mouseout',     this.onMouseOut, true);
-    this.interactionDOMElement.addEventListener('mouseover',    this.onMouseOver, true);
+    window.document.addEventListener('mousemove', this.onMouseMove, true);
+    this.interactionDOMElement.addEventListener('mousedown', this.onMouseDown, true);
+    this.interactionDOMElement.addEventListener('mouseout', this.onMouseOut, true);
+    this.interactionDOMElement.addEventListener('mouseover', this.onMouseOver, true);
 
-    this.interactionDOMElement.addEventListener('touchstart',   this.onTouchStart, true);
-    this.interactionDOMElement.addEventListener('touchend',     this.onTouchEnd, true);
-    this.interactionDOMElement.addEventListener('touchmove',    this.onTouchMove, true);
+    this.interactionDOMElement.addEventListener('touchstart', this.onTouchStart, true);
+    this.interactionDOMElement.addEventListener('touchend', this.onTouchEnd, true);
+    this.interactionDOMElement.addEventListener('touchmove', this.onTouchMove, true);
 
-    window.addEventListener('mouseup',  this.onMouseUp, true);
+    window.addEventListener('mouseup', this.onMouseUp, true);
 
     this.eventsAdded = true;
 };
@@ -377,33 +384,30 @@ InteractionManager.prototype.addEvents = function ()
  *
  * @private
  */
-InteractionManager.prototype.removeEvents = function ()
-{
-    if (!this.interactionDOMElement)
-    {
+InteractionManager.prototype.removeEvents = function () {
+    if (!this.interactionDOMElement) {
         return;
     }
 
-    core_core.ticker.shared.remove(this.update);
+    _core.core.ticker.shared.remove(this.update);
 
-    if (window.navigator.msPointerEnabled)
-    {
+    if (window.navigator.msPointerEnabled) {
         this.interactionDOMElement.style['-ms-content-zooming'] = '';
         this.interactionDOMElement.style['-ms-touch-action'] = '';
     }
 
     window.document.removeEventListener('mousemove', this.onMouseMove, true);
     this.interactionDOMElement.removeEventListener('mousedown', this.onMouseDown, true);
-    this.interactionDOMElement.removeEventListener('mouseout',  this.onMouseOut, true);
+    this.interactionDOMElement.removeEventListener('mouseout', this.onMouseOut, true);
     this.interactionDOMElement.removeEventListener('mouseover', this.onMouseOver, true);
 
     this.interactionDOMElement.removeEventListener('touchstart', this.onTouchStart, true);
-    this.interactionDOMElement.removeEventListener('touchend',  this.onTouchEnd, true);
+    this.interactionDOMElement.removeEventListener('touchend', this.onTouchEnd, true);
     this.interactionDOMElement.removeEventListener('touchmove', this.onTouchMove, true);
 
     this.interactionDOMElement = null;
 
-    window.removeEventListener('mouseup',  this.onMouseUp, true);
+    window.removeEventListener('mouseup', this.onMouseUp, true);
 
     this.eventsAdded = false;
 };
@@ -415,35 +419,30 @@ InteractionManager.prototype.removeEvents = function ()
  *
  * @param deltaTime {number} time delta since last tick
  */
-InteractionManager.prototype.update = function (deltaTime)
-{
+InteractionManager.prototype.update = function (deltaTime) {
     this._deltaTime += deltaTime;
 
-    if (this._deltaTime < this.interactionFrequency)
-    {
+    if (this._deltaTime < this.interactionFrequency) {
         return;
     }
 
     this._deltaTime = 0;
 
-    if (!this.interactionDOMElement)
-    {
+    if (!this.interactionDOMElement) {
         return;
     }
 
     // if the user move the mouse this check has already been dfone using the mouse move!
-    if(this.didMove)
-    {
+    if (this.didMove) {
         this.didMove = false;
         return;
     }
 
     this.cursor = this.defaultCursorStyle;
 
-    this.processInteractive(this.mouse.global, this.renderer._lastObjectRendered, this.processMouseOverOut, true );
+    this.processInteractive(this.mouse.global, this.renderer._lastObjectRendered, this.processMouseOverOut, true);
 
-    if (this.currentCursorStyle !== this.cursor)
-    {
+    if (this.currentCursorStyle !== this.cursor) {
         this.currentCursorStyle = this.cursor;
         this.interactionDOMElement.style.cursor = this.cursor;
     }
@@ -459,18 +458,15 @@ InteractionManager.prototype.update = function (deltaTime)
  * @param eventData {object} the event data object
  * @private
  */
-InteractionManager.prototype.dispatchEvent = function ( displayObject, eventString, eventData )
-{
-    if(!eventData.stopped)
-    {
+InteractionManager.prototype.dispatchEvent = function (displayObject, eventString, eventData) {
+    if (!eventData.stopped) {
         eventData.target = displayObject;
         eventData.type = eventString;
 
-        displayObject.emit( eventString, eventData );
+        displayObject.emit(eventString, eventData);
 
-        if( displayObject[eventString] )
-        {
-            displayObject[eventString]( eventData );
+        if (displayObject[eventString]) {
+            displayObject[eventString](eventData);
         }
     }
 };
@@ -483,19 +479,17 @@ InteractionManager.prototype.dispatchEvent = function ( displayObject, eventStri
  * @param  {number} x     the x coord of the position to map
  * @param  {number} y     the y coord of the position to map
  */
-InteractionManager.prototype.mapPositionToPoint = function ( point, x, y )
-{
+InteractionManager.prototype.mapPositionToPoint = function (point, x, y) {
     var rect;
     // IE 11 fix
-    if(!this.interactionDOMElement.parentElement)
-    {
+    if (!this.interactionDOMElement.parentElement) {
         rect = { x: 0, y: 0, width: 0, height: 0 };
     } else {
         rect = this.interactionDOMElement.getBoundingClientRect();
     }
 
-    point.x = ( ( x - rect.left ) * (this.interactionDOMElement.width  / rect.width  ) ) / this.resolution;
-    point.y = ( ( y - rect.top  ) * (this.interactionDOMElement.height / rect.height ) ) / this.resolution;
+    point.x = (x - rect.left) * (this.interactionDOMElement.width / rect.width) / this.resolution;
+    point.y = (y - rect.top) * (this.interactionDOMElement.height / rect.height) / this.resolution;
 };
 
 /**
@@ -509,10 +503,8 @@ InteractionManager.prototype.mapPositionToPoint = function ( point, x, y )
  * @param [interactive] {boolean} Whether the displayObject is interactive
  * @return {boolean} returns true if the displayObject hit the point
  */
-InteractionManager.prototype.processInteractive = function (point, displayObject, func, hitTest, interactive)
-{
-    if(!displayObject || !displayObject.visible)
-    {
+InteractionManager.prototype.processInteractive = function (point, displayObject, func, hitTest, interactive) {
+    if (!displayObject || !displayObject.visible) {
         return false;
     }
 
@@ -530,50 +522,38 @@ InteractionManager.prototype.processInteractive = function (point, displayObject
     var hit = false,
         interactiveParent = interactive = displayObject.interactive || interactive;
 
-
-
-
     // if the displayobject has a hitArea, then it does not need to hitTest children.
-    if(displayObject.hitArea)
-    {
+    if (displayObject.hitArea) {
         interactiveParent = false;
     }
 
     // it has a mask! Then lets hit test that before continuing..
-    if(hitTest && displayObject._mask)
-    {
-        if(!displayObject._mask.containsPoint(point))
-        {
+    if (hitTest && displayObject._mask) {
+        if (!displayObject._mask.containsPoint(point)) {
             hitTest = false;
         }
     }
 
     // it has a filterArea! Same as mask but easier, its a rectangle
-    if(hitTest && displayObject.filterArea)
-    {
-        if(!displayObject.filterArea.contains(point.x, point.y))
-        {
+    if (hitTest && displayObject.filterArea) {
+        if (!displayObject.filterArea.contains(point.x, point.y)) {
             hitTest = false;
         }
     }
 
     // ** FREE TIP **! If an object is not interactive or has no buttons in it (such as a game scene!) set interactiveChildren to false for that displayObject.
     // This will allow pixi to completly ignore and bypass checking the displayObjects children.
-    if(displayObject.interactiveChildren)
-    {
+    if (displayObject.interactiveChildren) {
         var children = displayObject.children;
 
-        for (var i = children.length-1; i >= 0; i--)
-        {
+        for (var i = children.length - 1; i >= 0; i--) {
             var child = children[i];
 
             // time to get recursive.. if this function will return if somthing is hit..
-            if(this.processInteractive(point, child, func, hitTest, interactiveParent))
-            {
+            if (this.processInteractive(point, child, func, hitTest, interactiveParent)) {
                 // its a good idea to check if a child has lost its parent.
                 // this means it has been removed whilst looping so its best
-                if(!child.parent)
-                {
+                if (!child.parent) {
                     continue;
                 }
 
@@ -594,39 +574,27 @@ InteractionManager.prototype.processInteractive = function (point, displayObject
         }
     }
 
-
-
     // no point running this if the item is not interactive or does not have an interactive parent.
-    if(interactive)
-    {
+    if (interactive) {
         // if we are hit testing (as in we have no hit any objects yet)
         // We also don't need to worry about hit testing if once of the displayObjects children has already been hit!
-        if(hitTest && !hit)
-        {
+        if (hitTest && !hit) {
 
-            if(displayObject.hitArea)
-            {
-                displayObject.worldTransform.applyInverse(point,  this._tempPoint);
-                hit = displayObject.hitArea.contains( this._tempPoint.x, this._tempPoint.y );
-            }
-            else if(displayObject.containsPoint)
-            {
+            if (displayObject.hitArea) {
+                displayObject.worldTransform.applyInverse(point, this._tempPoint);
+                hit = displayObject.hitArea.contains(this._tempPoint.x, this._tempPoint.y);
+            } else if (displayObject.containsPoint) {
                 hit = displayObject.containsPoint(point);
             }
-
-
         }
 
-        if(displayObject.interactive)
-        {
+        if (displayObject.interactive) {
             func(displayObject, hit);
         }
     }
 
     return hit;
-
 };
-
 
 /**
  * Is called when the mouse button is pressed down on the renderer element
@@ -634,21 +602,19 @@ InteractionManager.prototype.processInteractive = function (point, displayObject
  * @param event {Event} The DOM event of a mouse button being pressed down
  * @private
  */
-InteractionManager.prototype.onMouseDown = function (event)
-{
+InteractionManager.prototype.onMouseDown = function (event) {
     this.mouse.originalEvent = event;
     this.eventData.data = this.mouse;
     this.eventData.stopped = false;
 
     // Update internal mouse reference
-    this.mapPositionToPoint( this.mouse.global, event.clientX, event.clientY);
+    this.mapPositionToPoint(this.mouse.global, event.clientX, event.clientY);
 
-    if (this.autoPreventDefault)
-    {
+    if (this.autoPreventDefault) {
         this.mouse.originalEvent.preventDefault();
     }
 
-    this.processInteractive(this.mouse.global, this.renderer._lastObjectRendered, this.processMouseDown, true );
+    this.processInteractive(this.mouse.global, this.renderer._lastObjectRendered, this.processMouseDown, true);
 
     var isRightButton = event.button === 2 || event.which === 3;
     this.emit(isRightButton ? 'rightdown' : 'mousedown', this.eventData);
@@ -661,16 +627,14 @@ InteractionManager.prototype.onMouseDown = function (event)
  * @param hit {boolean} the result of the hit test on the dispay object
  * @private
  */
-InteractionManager.prototype.processMouseDown = function ( displayObject, hit )
-{
+InteractionManager.prototype.processMouseDown = function (displayObject, hit) {
     var e = this.mouse.originalEvent;
 
     var isRightButton = e.button === 2 || e.which === 3;
 
-    if(hit)
-    {
-        displayObject[ isRightButton ? '_isRightDown' : '_isLeftDown' ] = true;
-        this.dispatchEvent( displayObject, isRightButton ? 'rightdown' : 'mousedown', this.eventData );
+    if (hit) {
+        displayObject[isRightButton ? '_isRightDown' : '_isLeftDown'] = true;
+        this.dispatchEvent(displayObject, isRightButton ? 'rightdown' : 'mousedown', this.eventData);
     }
 };
 
@@ -680,16 +644,15 @@ InteractionManager.prototype.processMouseDown = function ( displayObject, hit )
  * @param event {Event} The DOM event of a mouse button being released
  * @private
  */
-InteractionManager.prototype.onMouseUp = function (event)
-{
+InteractionManager.prototype.onMouseUp = function (event) {
     this.mouse.originalEvent = event;
     this.eventData.data = this.mouse;
     this.eventData.stopped = false;
 
     // Update internal mouse reference
-    this.mapPositionToPoint( this.mouse.global, event.clientX, event.clientY);
+    this.mapPositionToPoint(this.mouse.global, event.clientX, event.clientY);
 
-    this.processInteractive(this.mouse.global, this.renderer._lastObjectRendered, this.processMouseUp, true );
+    this.processInteractive(this.mouse.global, this.renderer._lastObjectRendered, this.processMouseUp, true);
 
     var isRightButton = event.button === 2 || event.which === 3;
     this.emit(isRightButton ? 'rightup' : 'mouseup', this.eventData);
@@ -702,33 +665,26 @@ InteractionManager.prototype.onMouseUp = function (event)
  * @param hit {boolean} the result of the hit test on the display object
  * @private
  */
-InteractionManager.prototype.processMouseUp = function ( displayObject, hit )
-{
+InteractionManager.prototype.processMouseUp = function (displayObject, hit) {
     var e = this.mouse.originalEvent;
 
     var isRightButton = e.button === 2 || e.which === 3;
-    var isDown =  isRightButton ? '_isRightDown' : '_isLeftDown';
+    var isDown = isRightButton ? '_isRightDown' : '_isLeftDown';
 
-    if(hit)
-    {
-        this.dispatchEvent( displayObject, isRightButton ? 'rightup' : 'mouseup', this.eventData );
+    if (hit) {
+        this.dispatchEvent(displayObject, isRightButton ? 'rightup' : 'mouseup', this.eventData);
 
-        if( displayObject[ isDown ] )
-        {
-            displayObject[ isDown ] = false;
-            this.dispatchEvent( displayObject, isRightButton ? 'rightclick' : 'click', this.eventData );
+        if (displayObject[isDown]) {
+            displayObject[isDown] = false;
+            this.dispatchEvent(displayObject, isRightButton ? 'rightclick' : 'click', this.eventData);
         }
-    }
-    else
-    {
-        if( displayObject[ isDown ] )
-        {
-            displayObject[ isDown ] = false;
-            this.dispatchEvent( displayObject, isRightButton ? 'rightupoutside' : 'mouseupoutside', this.eventData );
+    } else {
+        if (displayObject[isDown]) {
+            displayObject[isDown] = false;
+            this.dispatchEvent(displayObject, isRightButton ? 'rightupoutside' : 'mouseupoutside', this.eventData);
         }
     }
 };
-
 
 /**
  * Is called when the mouse moves across the renderer element
@@ -736,24 +692,22 @@ InteractionManager.prototype.processMouseUp = function ( displayObject, hit )
  * @param event {Event} The DOM event of the mouse moving
  * @private
  */
-InteractionManager.prototype.onMouseMove = function (event)
-{
+InteractionManager.prototype.onMouseMove = function (event) {
     this.mouse.originalEvent = event;
     this.eventData.data = this.mouse;
     this.eventData.stopped = false;
 
-    this.mapPositionToPoint( this.mouse.global, event.clientX, event.clientY);
+    this.mapPositionToPoint(this.mouse.global, event.clientX, event.clientY);
 
     this.didMove = true;
 
     this.cursor = this.defaultCursorStyle;
 
-    this.processInteractive(this.mouse.global, this.renderer._lastObjectRendered, this.processMouseMove, true );
+    this.processInteractive(this.mouse.global, this.renderer._lastObjectRendered, this.processMouseMove, true);
 
     this.emit('mousemove', this.eventData);
 
-    if (this.currentCursorStyle !== this.cursor)
-    {
+    if (this.currentCursorStyle !== this.cursor) {
         this.currentCursorStyle = this.cursor;
         this.interactionDOMElement.style.cursor = this.cursor;
     }
@@ -768,17 +722,14 @@ InteractionManager.prototype.onMouseMove = function (event)
  * @param hit {boolean} the result of the hit test on the display object
  * @private
  */
-InteractionManager.prototype.processMouseMove = function ( displayObject, hit )
-{
+InteractionManager.prototype.processMouseMove = function (displayObject, hit) {
     this.processMouseOverOut(displayObject, hit);
 
     // only display on mouse over
-    if(!this.moveWhenInside || hit)
-    {
-        this.dispatchEvent( displayObject, 'mousemove', this.eventData);
+    if (!this.moveWhenInside || hit) {
+        this.dispatchEvent(displayObject, 'mousemove', this.eventData);
     }
 };
-
 
 /**
  * Is called when the mouse is moved out of the renderer element
@@ -786,21 +737,20 @@ InteractionManager.prototype.processMouseMove = function ( displayObject, hit )
  * @param event {Event} The DOM event of a mouse being moved out
  * @private
  */
-InteractionManager.prototype.onMouseOut = function (event)
-{
+InteractionManager.prototype.onMouseOut = function (event) {
     this.mouse.originalEvent = event;
     this.eventData.data = this.mouse;
     this.eventData.stopped = false;
 
     // Update internal mouse reference
-    this.mapPositionToPoint( this.mouse.global, event.clientX, event.clientY);
+    this.mapPositionToPoint(this.mouse.global, event.clientX, event.clientY);
 
     this.interactionDOMElement.style.cursor = this.defaultCursorStyle;
 
     // TODO optimize by not check EVERY TIME! maybe half as often? //
-    this.mapPositionToPoint( this.mouse.global, event.clientX, event.clientY );
+    this.mapPositionToPoint(this.mouse.global, event.clientX, event.clientY);
 
-    this.processInteractive( this.mouse.global, this.renderer._lastObjectRendered, this.processMouseOverOut, false );
+    this.processInteractive(this.mouse.global, this.renderer._lastObjectRendered, this.processMouseOverOut, false);
 
     this.emit('mouseout', this.eventData);
 };
@@ -812,27 +762,20 @@ InteractionManager.prototype.onMouseOut = function (event)
  * @param hit {boolean} the result of the hit test on the display object
  * @private
  */
-InteractionManager.prototype.processMouseOverOut = function ( displayObject, hit )
-{
-    if(hit)
-    {
-        if(!displayObject._over)
-        {
+InteractionManager.prototype.processMouseOverOut = function (displayObject, hit) {
+    if (hit) {
+        if (!displayObject._over) {
             displayObject._over = true;
-            this.dispatchEvent( displayObject, 'mouseover', this.eventData );
+            this.dispatchEvent(displayObject, 'mouseover', this.eventData);
         }
 
-        if (displayObject.buttonMode)
-        {
+        if (displayObject.buttonMode) {
             this.cursor = displayObject.defaultCursor;
         }
-    }
-    else
-    {
-        if(displayObject._over)
-        {
+    } else {
+        if (displayObject._over) {
             displayObject._over = false;
-            this.dispatchEvent( displayObject, 'mouseout', this.eventData);
+            this.dispatchEvent(displayObject, 'mouseout', this.eventData);
         }
     }
 };
@@ -843,15 +786,13 @@ InteractionManager.prototype.processMouseOverOut = function ( displayObject, hit
  * @param event {Event} The DOM event of the mouse moving into the renderer view
  * @private
  */
-InteractionManager.prototype.onMouseOver = function(event)
-{
+InteractionManager.prototype.onMouseOver = function (event) {
     this.mouse.originalEvent = event;
     this.eventData.data = this.mouse;
     this.eventData.stopped = false;
 
-	this.emit('mouseover', this.eventData);
+    this.emit('mouseover', this.eventData);
 };
-
 
 /**
  * Is called when a touch is started on the renderer element
@@ -859,32 +800,29 @@ InteractionManager.prototype.onMouseOver = function(event)
  * @param event {Event} The DOM event of a touch starting on the renderer view
  * @private
  */
-InteractionManager.prototype.onTouchStart = function (event)
-{
-    if (this.autoPreventDefault)
-    {
+InteractionManager.prototype.onTouchStart = function (event) {
+    if (this.autoPreventDefault) {
         event.preventDefault();
     }
 
     var changedTouches = event.changedTouches;
     var cLength = changedTouches.length;
 
-    for (var i=0; i < cLength; i++)
-    {
+    for (var i = 0; i < cLength; i++) {
         var touchEvent = changedTouches[i];
         //TODO POOL
-        var touchData = this.getTouchData( touchEvent );
+        var touchData = this.getTouchData(touchEvent);
 
         touchData.originalEvent = event;
 
         this.eventData.data = touchData;
         this.eventData.stopped = false;
 
-        this.processInteractive( touchData.global, this.renderer._lastObjectRendered, this.processTouchStart, true );
+        this.processInteractive(touchData.global, this.renderer._lastObjectRendered, this.processTouchStart, true);
 
         this.emit('touchstart', this.eventData);
 
-        this.returnTouchData( touchData );
+        this.returnTouchData(touchData);
     }
 };
 
@@ -895,15 +833,12 @@ InteractionManager.prototype.onTouchStart = function (event)
  * @param hit {boolean} the result of the hit test on the display object
  * @private
  */
-InteractionManager.prototype.processTouchStart = function ( displayObject, hit )
-{
-    if(hit)
-    {
+InteractionManager.prototype.processTouchStart = function (displayObject, hit) {
+    if (hit) {
         displayObject._touchDown = true;
-        this.dispatchEvent( displayObject, 'touchstart', this.eventData );
+        this.dispatchEvent(displayObject, 'touchstart', this.eventData);
     }
 };
-
 
 /**
  * Is called when a touch ends on the renderer element
@@ -911,21 +846,18 @@ InteractionManager.prototype.processTouchStart = function ( displayObject, hit )
  * @param event {Event} The DOM event of a touch ending on the renderer view
  * @private
  */
-InteractionManager.prototype.onTouchEnd = function (event)
-{
-    if (this.autoPreventDefault)
-    {
+InteractionManager.prototype.onTouchEnd = function (event) {
+    if (this.autoPreventDefault) {
         event.preventDefault();
     }
 
     var changedTouches = event.changedTouches;
     var cLength = changedTouches.length;
 
-    for (var i=0; i < cLength; i++)
-    {
+    for (var i = 0; i < cLength; i++) {
         var touchEvent = changedTouches[i];
 
-        var touchData = this.getTouchData( touchEvent );
+        var touchData = this.getTouchData(touchEvent);
 
         touchData.originalEvent = event;
 
@@ -933,12 +865,11 @@ InteractionManager.prototype.onTouchEnd = function (event)
         this.eventData.data = touchData;
         this.eventData.stopped = false;
 
-
-        this.processInteractive( touchData.global, this.renderer._lastObjectRendered, this.processTouchEnd, true );
+        this.processInteractive(touchData.global, this.renderer._lastObjectRendered, this.processTouchEnd, true);
 
         this.emit('touchend', this.eventData);
 
-        this.returnTouchData( touchData );
+        this.returnTouchData(touchData);
     }
 };
 
@@ -949,24 +880,18 @@ InteractionManager.prototype.onTouchEnd = function (event)
  * @param hit {boolean} the result of the hit test on the display object
  * @private
  */
-InteractionManager.prototype.processTouchEnd = function ( displayObject, hit )
-{
-    if(hit)
-    {
-        this.dispatchEvent( displayObject, 'touchend', this.eventData );
+InteractionManager.prototype.processTouchEnd = function (displayObject, hit) {
+    if (hit) {
+        this.dispatchEvent(displayObject, 'touchend', this.eventData);
 
-        if( displayObject._touchDown )
-        {
+        if (displayObject._touchDown) {
             displayObject._touchDown = false;
-            this.dispatchEvent( displayObject, 'tap', this.eventData );
+            this.dispatchEvent(displayObject, 'tap', this.eventData);
         }
-    }
-    else
-    {
-        if( displayObject._touchDown )
-        {
+    } else {
+        if (displayObject._touchDown) {
             displayObject._touchDown = false;
-            this.dispatchEvent( displayObject, 'touchendoutside', this.eventData );
+            this.dispatchEvent(displayObject, 'touchendoutside', this.eventData);
         }
     }
 };
@@ -977,32 +902,29 @@ InteractionManager.prototype.processTouchEnd = function ( displayObject, hit )
  * @param event {Event} The DOM event of a touch moving across the renderer view
  * @private
  */
-InteractionManager.prototype.onTouchMove = function (event)
-{
-    if (this.autoPreventDefault)
-    {
+InteractionManager.prototype.onTouchMove = function (event) {
+    if (this.autoPreventDefault) {
         event.preventDefault();
     }
 
     var changedTouches = event.changedTouches;
     var cLength = changedTouches.length;
 
-    for (var i=0; i < cLength; i++)
-    {
+    for (var i = 0; i < cLength; i++) {
         var touchEvent = changedTouches[i];
 
-        var touchData = this.getTouchData( touchEvent );
+        var touchData = this.getTouchData(touchEvent);
 
         touchData.originalEvent = event;
 
         this.eventData.data = touchData;
         this.eventData.stopped = false;
 
-        this.processInteractive( touchData.global, this.renderer._lastObjectRendered, this.processTouchMove, this.moveWhenInside );
+        this.processInteractive(touchData.global, this.renderer._lastObjectRendered, this.processTouchMove, this.moveWhenInside);
 
         this.emit('touchmove', this.eventData);
 
-        this.returnTouchData( touchData );
+        this.returnTouchData(touchData);
     }
 };
 
@@ -1013,11 +935,9 @@ InteractionManager.prototype.onTouchMove = function (event)
  * @param hit {boolean} the result of the hit test on the display object
  * @private
  */
-InteractionManager.prototype.processTouchMove = function ( displayObject, hit )
-{
-    if(!this.moveWhenInside || hit)
-    {
-        this.dispatchEvent( displayObject, 'touchmove', this.eventData);
+InteractionManager.prototype.processTouchMove = function (displayObject, hit) {
+    if (!this.moveWhenInside || hit) {
+        this.dispatchEvent(displayObject, 'touchmove', this.eventData);
     }
 };
 
@@ -1028,20 +948,17 @@ InteractionManager.prototype.processTouchMove = function ( displayObject, hit )
  *
  * @private
  */
-InteractionManager.prototype.getTouchData = function (touchEvent)
-{
+InteractionManager.prototype.getTouchData = function (touchEvent) {
     var touchData = this.interactiveDataPool.pop();
 
-    if(!touchData)
-    {
-        touchData = new InteractionData_InteractionData();
+    if (!touchData) {
+        touchData = new _InteractionData.InteractionData();
     }
 
     touchData.identifier = touchEvent.identifier;
-    this.mapPositionToPoint( touchData.global, touchEvent.clientX, touchEvent.clientY );
+    this.mapPositionToPoint(touchData.global, touchEvent.clientX, touchEvent.clientY);
 
-    if(navigator.isCocoonJS)
-    {
+    if (navigator.isCocoonJS) {
         touchData.global.x = touchData.global.x / this.resolution;
         touchData.global.y = touchData.global.y / this.resolution;
     }
@@ -1059,9 +976,8 @@ InteractionManager.prototype.getTouchData = function (touchEvent)
  *
  * @private
  */
-InteractionManager.prototype.returnTouchData = function ( touchData )
-{
-    this.interactiveDataPool.push( touchData );
+InteractionManager.prototype.returnTouchData = function (touchData) {
+    this.interactiveDataPool.push(touchData);
 };
 
 /**
@@ -1086,7 +1002,6 @@ InteractionManager.prototype.destroy = function () {
     this.onMouseUp = null;
     this.processMouseUp = null;
 
-
     this.onMouseDown = null;
     this.processMouseDown = null;
 
@@ -1110,8 +1025,8 @@ InteractionManager.prototype.destroy = function () {
     this._tempPoint = null;
 };
 
-core_core.WebGLRenderer.registerPlugin('interaction', InteractionManager);
-core_core.CanvasRenderer.registerPlugin('interaction', InteractionManager);
+_core.core.WebGLRenderer.registerPlugin('interaction', InteractionManager);
+_core.core.CanvasRenderer.registerPlugin('interaction', InteractionManager);
 
 /**
  * The interaction manager deals with mouse and touch events. Any DisplayObject can be interactive
@@ -1126,4 +1041,4 @@ core_core.CanvasRenderer.registerPlugin('interaction', InteractionManager);
  * @param [options.autoPreventDefault=true] {boolean} Should the manager automatically prevent default browser actions.
  * @param [options.interactionFrequency=10] {number} Frequency increases the interaction events will be checked.
  */
-export { mod_InteractionManager as InteractionManager };
+exports.InteractionManager = mod_InteractionManager;

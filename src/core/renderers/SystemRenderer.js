@@ -1,12 +1,32 @@
-var mod_SystemRenderer = SystemRenderer;
-import { utils as utils_utils } from "../utils";
-import { indexjs as math } from "../math";
-import { CONST as const_CONST } from "../const";
-import { Container as Container_Container } from "../display/Container";
-import { RenderTexture as RenderTexture_RenderTexture } from "../textures/RenderTexture";
-import ext_EventEmitter from "eventemitter3";
 "use strict";
-var tempMatrix = new math.Matrix();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SystemRenderer = undefined;
+
+var _utils = require("../utils");
+
+var _math = require("../math");
+
+var _const = require("../const");
+
+var _Container = require("../display/Container");
+
+var _RenderTexture = require("../textures/RenderTexture");
+
+var _eventemitter = require("eventemitter3");
+
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var mod_SystemRenderer = SystemRenderer;
+
+"use strict";
+var tempMatrix = new _math.indexjs.Matrix();
 /**
  * The CanvasRenderer draws the scene and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
  * Don't forget to add the CanvasRenderer.view to your DOM or you will not see anything :)
@@ -27,182 +47,173 @@ var tempMatrix = new math.Matrix();
  * @param [options.backgroundColor=0x000000] {number} The background color of the rendered area (shown if not transparent).
  * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
  */
-function SystemRenderer(system, width, height, options)
-{
-    ext_EventEmitter.call(this);
+function SystemRenderer(system, width, height, options) {
+  _eventemitter2.default.call(this);
 
-    utils_utils.sayHello(system);
+  _utils.utils.sayHello(system);
 
-    // prepare options
-    if (options)
-    {
-        for (var i in const_CONST.DEFAULT_RENDER_OPTIONS)
-        {
-            if (typeof options[i] === 'undefined')
-            {
-                options[i] = const_CONST.DEFAULT_RENDER_OPTIONS[i];
-            }
-        }
+  // prepare options
+  if (options) {
+    for (var i in _const.CONST.DEFAULT_RENDER_OPTIONS) {
+      if (typeof options[i] === 'undefined') {
+        options[i] = _const.CONST.DEFAULT_RENDER_OPTIONS[i];
+      }
     }
-    else
-    {
-        options = const_CONST.DEFAULT_RENDER_OPTIONS;
-    }
+  } else {
+    options = _const.CONST.DEFAULT_RENDER_OPTIONS;
+  }
 
-    /**
-     * The type of the renderer.
-     *
-     * @member {number}
-     * @default PIXI.RENDERER_TYPE.UNKNOWN
-     * @see PIXI.RENDERER_TYPE
-     */
-    this.type = const_CONST.RENDERER_TYPE.UNKNOWN;
+  /**
+   * The type of the renderer.
+   *
+   * @member {number}
+   * @default PIXI.RENDERER_TYPE.UNKNOWN
+   * @see PIXI.RENDERER_TYPE
+   */
+  this.type = _const.CONST.RENDERER_TYPE.UNKNOWN;
 
-    /**
-     * The width of the canvas view
-     *
-     * @member {number}
-     * @default 800
-     */
-    this.width = width || 800;
+  /**
+   * The width of the canvas view
+   *
+   * @member {number}
+   * @default 800
+   */
+  this.width = width || 800;
 
-    /**
-     * The height of the canvas view
-     *
-     * @member {number}
-     * @default 600
-     */
-    this.height = height || 600;
+  /**
+   * The height of the canvas view
+   *
+   * @member {number}
+   * @default 600
+   */
+  this.height = height || 600;
 
-    /**
-     * The canvas element that everything is drawn to
-     *
-     * @member {HTMLCanvasElement}
-     */
-    this.view = options.view || document.createElement('canvas');
+  /**
+   * The canvas element that everything is drawn to
+   *
+   * @member {HTMLCanvasElement}
+   */
+  this.view = options.view || document.createElement('canvas');
 
-    /**
-     * The resolution / device pixel ratio of the renderer
-     *
-     * @member {number}
-     * @default 1
-     */
-    this.resolution = options.resolution;
+  /**
+   * The resolution / device pixel ratio of the renderer
+   *
+   * @member {number}
+   * @default 1
+   */
+  this.resolution = options.resolution;
 
-    /**
-     * Whether the render view is transparent
-     *
-     * @member {boolean}
-     */
-    this.transparent = options.transparent;
+  /**
+   * Whether the render view is transparent
+   *
+   * @member {boolean}
+   */
+  this.transparent = options.transparent;
 
-    /**
-     * Whether the render view should be resized automatically
-     *
-     * @member {boolean}
-     */
-    this.autoResize = options.autoResize || false;
+  /**
+   * Whether the render view should be resized automatically
+   *
+   * @member {boolean}
+   */
+  this.autoResize = options.autoResize || false;
 
-    /**
-     * Tracks the blend modes useful for this renderer.
-     *
-     * @member {object<string, mixed>}
-     */
-    this.blendModes = null;
+  /**
+   * Tracks the blend modes useful for this renderer.
+   *
+   * @member {object<string, mixed>}
+   */
+  this.blendModes = null;
 
-    /**
-     * The value of the preserveDrawingBuffer flag affects whether or not the contents of the stencil buffer is retained after rendering.
-     *
-     * @member {boolean}
-     */
-    this.preserveDrawingBuffer = options.preserveDrawingBuffer;
+  /**
+   * The value of the preserveDrawingBuffer flag affects whether or not the contents of the stencil buffer is retained after rendering.
+   *
+   * @member {boolean}
+   */
+  this.preserveDrawingBuffer = options.preserveDrawingBuffer;
 
-    /**
-     * This sets if the CanvasRenderer will clear the canvas or not before the new render pass.
-     * If the scene is NOT transparent Pixi will use a canvas sized fillRect operation every frame to set the canvas background color.
-     * If the scene is transparent Pixi will use clearRect to clear the canvas every frame.
-     * Disable this by setting this to false. For example if your game has a canvas filling background image you often don't need this set.
-     *
-     * @member {boolean}
-     * @default
-     */
-    this.clearBeforeRender = options.clearBeforeRender;
+  /**
+   * This sets if the CanvasRenderer will clear the canvas or not before the new render pass.
+   * If the scene is NOT transparent Pixi will use a canvas sized fillRect operation every frame to set the canvas background color.
+   * If the scene is transparent Pixi will use clearRect to clear the canvas every frame.
+   * Disable this by setting this to false. For example if your game has a canvas filling background image you often don't need this set.
+   *
+   * @member {boolean}
+   * @default
+   */
+  this.clearBeforeRender = options.clearBeforeRender;
 
-    /**
-     * If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
-     * Handy for crisp pixel art and speed on legacy devices.
-     *
-     * @member {boolean}
-     */
-    this.roundPixels = options.roundPixels;
+  /**
+   * If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
+   * Handy for crisp pixel art and speed on legacy devices.
+   *
+   * @member {boolean}
+   */
+  this.roundPixels = options.roundPixels;
 
-    /**
-     * The background color as a number.
-     *
-     * @member {number}
-     * @private
-     */
-    this._backgroundColor = 0x000000;
+  /**
+   * The background color as a number.
+   *
+   * @member {number}
+   * @private
+   */
+  this._backgroundColor = 0x000000;
 
-    /**
-     * The background color as an [R, G, B] array.
-     *
-     * @member {number[]}
-     * @private
-     */
-    this._backgroundColorRgba = [0, 0, 0, 0];
+  /**
+   * The background color as an [R, G, B] array.
+   *
+   * @member {number[]}
+   * @private
+   */
+  this._backgroundColorRgba = [0, 0, 0, 0];
 
-    /**
-     * The background color as a string.
-     *
-     * @member {string}
-     * @private
-     */
-    this._backgroundColorString = '#000000';
+  /**
+   * The background color as a string.
+   *
+   * @member {string}
+   * @private
+   */
+  this._backgroundColorString = '#000000';
 
-    this.backgroundColor = options.backgroundColor || this._backgroundColor; // run bg color setter
+  this.backgroundColor = options.backgroundColor || this._backgroundColor; // run bg color setter
 
-    /**
-     * This temporary display object used as the parent of the currently being rendered item
-     *
-     * @member {PIXI.DisplayObject}
-     * @private
-     */
-    this._tempDisplayObjectParent = new Container_Container();
+  /**
+   * This temporary display object used as the parent of the currently being rendered item
+   *
+   * @member {PIXI.DisplayObject}
+   * @private
+   */
+  this._tempDisplayObjectParent = new _Container.Container();
 
-    /**
-     * The last root object that the renderer tried to render.
-     *
-     * @member {PIXI.DisplayObject}
-     * @private
-     */
-    this._lastObjectRendered = this._tempDisplayObjectParent;
+  /**
+   * The last root object that the renderer tried to render.
+   *
+   * @member {PIXI.DisplayObject}
+   * @private
+   */
+  this._lastObjectRendered = this._tempDisplayObjectParent;
 }
 
 // constructor
-SystemRenderer.prototype = Object.create(ext_EventEmitter.prototype);
+SystemRenderer.prototype = Object.create(_eventemitter2.default.prototype);
 SystemRenderer.prototype.constructor = SystemRenderer;
 
 Object.defineProperties(SystemRenderer.prototype, {
-    /**
-     * The background color to fill if not transparent
-     *
-     * @member {number}
-     * @memberof PIXI.SystemRenderer#
-     */
-    backgroundColor:
-    {
-        get: function ()
-        {
-            return this._backgroundColor;
-        },
-        set: function (val)
-        {
-            this._backgroundColor = val;
-            this._backgroundColorString = utils_utils.hex2string(val);
-            utils_utils.hex2rgb(val, this._backgroundColorRgba);
-        }
+  /**
+   * The background color to fill if not transparent
+   *
+   * @member {number}
+   * @memberof PIXI.SystemRenderer#
+   */
+  backgroundColor: {
+    get: function get() {
+      return this._backgroundColor;
+    },
+    set: function set(val) {
+      this._backgroundColor = val;
+      this._backgroundColorString = _utils.utils.hex2string(val);
+      _utils.utils.hex2rgb(val, this._backgroundColorRgba);
     }
+  }
 });
 
 /**
@@ -212,17 +223,16 @@ Object.defineProperties(SystemRenderer.prototype, {
  * @param height {number} the new height of the canvas view
  */
 SystemRenderer.prototype.resize = function (width, height) {
-    this.width = width * this.resolution;
-    this.height = height * this.resolution;
+  this.width = width * this.resolution;
+  this.height = height * this.resolution;
 
-    this.view.width = this.width;
-    this.view.height = this.height;
+  this.view.width = this.width;
+  this.view.height = this.height;
 
-    if (this.autoResize)
-    {
-        this.view.style.width = this.width / this.resolution + 'px';
-        this.view.style.height = this.height / this.resolution + 'px';
-    }
+  if (this.autoResize) {
+    this.view.style.width = this.width / this.resolution + 'px';
+    this.view.style.height = this.height / this.resolution + 'px';
+  }
 };
 
 /**
@@ -236,16 +246,16 @@ SystemRenderer.prototype.resize = function (width, height) {
  */
 SystemRenderer.prototype.generateTexture = function (displayObject, scaleMode, resolution) {
 
-    var bounds = displayObject.getLocalBounds();
+  var bounds = displayObject.getLocalBounds();
 
-    var renderTexture = RenderTexture_RenderTexture.create(bounds.width | 0, bounds.height | 0, scaleMode, resolution);
+  var renderTexture = _RenderTexture.RenderTexture.create(bounds.width | 0, bounds.height | 0, scaleMode, resolution);
 
-    tempMatrix.tx = -bounds.x;
-    tempMatrix.ty = -bounds.y;
+  tempMatrix.tx = -bounds.x;
+  tempMatrix.ty = -bounds.y;
 
-    this.render(displayObject, renderTexture, false, tempMatrix, true);
+  this.render(displayObject, renderTexture, false, tempMatrix, true);
 
-    return renderTexture;
+  return renderTexture;
 };
 
 /**
@@ -254,38 +264,37 @@ SystemRenderer.prototype.generateTexture = function (displayObject, scaleMode, r
  * @param [removeView=false] {boolean} Removes the Canvas element from the DOM.
  */
 SystemRenderer.prototype.destroy = function (removeView) {
-    if (removeView && this.view.parentNode)
-    {
-        this.view.parentNode.removeChild(this.view);
-    }
+  if (removeView && this.view.parentNode) {
+    this.view.parentNode.removeChild(this.view);
+  }
 
-    this.type = const_CONST.RENDERER_TYPE.UNKNOWN;
+  this.type = _const.CONST.RENDERER_TYPE.UNKNOWN;
 
-    this.width = 0;
-    this.height = 0;
+  this.width = 0;
+  this.height = 0;
 
-    this.view = null;
+  this.view = null;
 
-    this.resolution = 0;
+  this.resolution = 0;
 
-    this.transparent = false;
+  this.transparent = false;
 
-    this.autoResize = false;
+  this.autoResize = false;
 
-    this.blendModes = null;
+  this.blendModes = null;
 
-    this.preserveDrawingBuffer = false;
-    this.clearBeforeRender = false;
+  this.preserveDrawingBuffer = false;
+  this.clearBeforeRender = false;
 
-    this.roundPixels = false;
+  this.roundPixels = false;
 
-    this._backgroundColor = 0;
-    this._backgroundColorRgba = null;
-    this._backgroundColorString = null;
+  this._backgroundColor = 0;
+  this._backgroundColorRgba = null;
+  this._backgroundColorString = null;
 
-    this.backgroundColor = 0;
-    this._tempDisplayObjectParent = null;
-    this._lastObjectRendered = null;
+  this.backgroundColor = 0;
+  this._tempDisplayObjectParent = null;
+  this._lastObjectRendered = null;
 };
 
 /**
@@ -308,4 +317,4 @@ SystemRenderer.prototype.destroy = function (removeView) {
  * @param [options.backgroundColor=0x000000] {number} The background color of the rendered area (shown if not transparent).
  * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
  */
-export { mod_SystemRenderer as SystemRenderer };
+exports.SystemRenderer = mod_SystemRenderer;

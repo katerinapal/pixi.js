@@ -1,4 +1,7 @@
-import { core as core_core } from "../core";
+"use strict";
+
+var _core = require("../core");
+
 "use strict";
 
 /**
@@ -8,19 +11,15 @@ import { core as core_core } from "../core";
 * @param point {Point} the point to write the global value to. If null a new point will be returned
 * @return {Point}
 */
-core_core.DisplayObject.prototype.getGlobalPosition = function (point)
-{
-    point = point || new core_core.Point();
+_core.core.DisplayObject.prototype.getGlobalPosition = function (point) {
+    point = point || new _core.core.Point();
 
-    if(this.parent)
-    {
+    if (this.parent) {
         this.displayObjectUpdateTransform();
 
         point.x = this.worldTransform.tx;
         point.y = this.worldTransform.ty;
-    }
-    else
-    {
+    } else {
         point.x = this.position.x;
         point.y = this.position.y;
     }

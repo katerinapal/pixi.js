@@ -1,5 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.StencilManager = undefined;
+
+var _WebGLManager = require("./WebGLManager");
+
 var mod_StencilManager = StencilManager;
-import { WebGLManager as WebGLManager_WebGLManager } from "./WebGLManager";
+
 "use strict";
 
 /**
@@ -7,13 +16,12 @@ import { WebGLManager as WebGLManager_WebGLManager } from "./WebGLManager";
  * @memberof PIXI
  * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
  */
-function StencilManager(renderer)
-{
-    WebGLManager_WebGLManager.call(this, renderer);
+function StencilManager(renderer) {
+    _WebGLManager.WebGLManager.call(this, renderer);
     this.stencilMaskStack = null;
 }
 
-StencilManager.prototype = Object.create(WebGLManager_WebGLManager.prototype);
+StencilManager.prototype = Object.create(_WebGLManager.WebGLManager.prototype);
 StencilManager.prototype.constructor = StencilManager;
 
 /**
@@ -21,18 +29,14 @@ StencilManager.prototype.constructor = StencilManager;
  *
  * @param stencilMaskStack {PIXI.Graphics[]} The mask stack
  */
-StencilManager.prototype.setMaskStack = function ( stencilMaskStack )
-{
+StencilManager.prototype.setMaskStack = function (stencilMaskStack) {
     this.stencilMaskStack = stencilMaskStack;
 
     var gl = this.renderer.gl;
 
-    if (stencilMaskStack.length === 0)
-    {
+    if (stencilMaskStack.length === 0) {
         gl.disable(gl.STENCIL_TEST);
-    }
-    else
-    {
+    } else {
         gl.enable(gl.STENCIL_TEST);
     }
 };
@@ -42,8 +46,7 @@ StencilManager.prototype.setMaskStack = function ( stencilMaskStack )
  *
  * @param graphics {PIXI.Graphics}
  */
-StencilManager.prototype.pushStencil = function (graphics)
-{
+StencilManager.prototype.pushStencil = function (graphics) {
     this.renderer.setObjectRenderer(this.renderer.plugins.graphics);
 
     this.renderer._activeRenderTarget.attachStencilBuffer();
@@ -51,30 +54,28 @@ StencilManager.prototype.pushStencil = function (graphics)
     var gl = this.renderer.gl,
         sms = this.stencilMaskStack;
 
-    if (sms.length === 0)
-    {
+    if (sms.length === 0) {
         gl.enable(gl.STENCIL_TEST);
         gl.clear(gl.STENCIL_BUFFER_BIT);
-        gl.stencilFunc(gl.ALWAYS,1,1);
+        gl.stencilFunc(gl.ALWAYS, 1, 1);
     }
 
     sms.push(graphics);
 
     gl.colorMask(false, false, false, false);
-    gl.stencilOp(gl.KEEP,gl.KEEP,gl.INCR);
+    gl.stencilOp(gl.KEEP, gl.KEEP, gl.INCR);
 
     this.renderer.plugins.graphics.render(graphics);
 
     gl.colorMask(true, true, true, true);
-    gl.stencilFunc(gl.NOTEQUAL,0, sms.length);
-    gl.stencilOp(gl.KEEP,gl.KEEP,gl.KEEP);
+    gl.stencilFunc(gl.NOTEQUAL, 0, sms.length);
+    gl.stencilOp(gl.KEEP, gl.KEEP, gl.KEEP);
 };
 
 /**
  * TODO @alvin
  */
-StencilManager.prototype.popStencil = function ()
-{
+StencilManager.prototype.popStencil = function () {
     this.renderer.setObjectRenderer(this.renderer.plugins.graphics);
 
     var gl = this.renderer.gl,
@@ -82,21 +83,18 @@ StencilManager.prototype.popStencil = function ()
 
     var graphics = sms.pop();
 
-    if (sms.length === 0)
-    {
+    if (sms.length === 0) {
         // the stack is empty!
         gl.disable(gl.STENCIL_TEST);
-    }
-    else
-    {
+    } else {
         gl.colorMask(false, false, false, false);
-        gl.stencilOp(gl.KEEP,gl.KEEP,gl.DECR);
+        gl.stencilOp(gl.KEEP, gl.KEEP, gl.DECR);
 
         this.renderer.plugins.graphics.render(graphics);
 
         gl.colorMask(true, true, true, true);
         gl.stencilFunc(gl.NOTEQUAL, 0, sms.length);
-        gl.stencilOp(gl.KEEP,gl.KEEP,gl.KEEP);
+        gl.stencilOp(gl.KEEP, gl.KEEP, gl.KEEP);
     }
 };
 
@@ -104,9 +102,8 @@ StencilManager.prototype.popStencil = function ()
  * Destroys the mask stack.
  *
  */
-StencilManager.prototype.destroy = function ()
-{
-    WebGLManager_WebGLManager.prototype.destroy.call(this);
+StencilManager.prototype.destroy = function () {
+    _WebGLManager.WebGLManager.prototype.destroy.call(this);
 
     this.stencilMaskStack.stencilStack = null;
 };
@@ -116,4 +113,4 @@ StencilManager.prototype.destroy = function ()
  * @memberof PIXI
  * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
  */
-export { mod_StencilManager as StencilManager };
+exports.StencilManager = mod_StencilManager;

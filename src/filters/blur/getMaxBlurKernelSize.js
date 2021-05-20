@@ -2,14 +2,15 @@
 
 "use strict";
 
-var getMaxKernelSize = function(gl)
-{
-    var maxVaryings = ( gl.getParameter(gl.MAX_VARYING_VECTORS) );
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var getMaxKernelSize = function getMaxKernelSize(gl) {
+    var maxVaryings = gl.getParameter(gl.MAX_VARYING_VECTORS);
     var kernelSize = 15;
 
-    while(kernelSize > maxVaryings)
-    {
-       kernelSize -= 2;
+    while (kernelSize > maxVaryings) {
+        kernelSize -= 2;
     }
 
     return kernelSize;
@@ -17,5 +18,5 @@ var getMaxKernelSize = function(gl)
 
 var mod_getMaxKernelSize;
 
-mod_getMaxKernelSize = getMaxKernelSize;
-export { mod_getMaxKernelSize as getMaxKernelSize };
+exports.getMaxKernelSize = mod_getMaxKernelSize = getMaxKernelSize;
+exports.getMaxKernelSize = mod_getMaxKernelSize;

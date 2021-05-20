@@ -1,6 +1,10 @@
-import { core as core_core } from "../core";
 "use strict";
-var DisplayObject = core_core.DisplayObject, _tempMatrix = new core_core.Matrix();
+
+var _core = require("../core");
+
+"use strict";
+var DisplayObject = _core.core.DisplayObject,
+    _tempMatrix = new _core.core.Matrix();
 
 DisplayObject.prototype._cacheAsBitmap = false;
 DisplayObject.prototype._cacheData = false;
@@ -8,7 +12,7 @@ DisplayObject.prototype._cacheData = false;
 // figured theres no point adding ALL the extra variables to prototype.
 // this model can hold the information needed. This can also be generated on demand as
 // most objects are not cached as bitmaps.
-var CacheData = function(){
+var CacheData = function CacheData() {
 
     this.originalRenderWebGL = null;
     this.originalRenderCanvas = null;
@@ -23,7 +27,6 @@ var CacheData = function(){
     this.sprite = null;
 };
 
-
 Object.defineProperties(DisplayObject.prototype, {
 
     /**
@@ -35,14 +38,11 @@ Object.defineProperties(DisplayObject.prototype, {
      * @memberof PIXI.DisplayObject#
      */
     cacheAsBitmap: {
-        get: function ()
-        {
+        get: function get() {
             return this._cacheAsBitmap;
         },
-        set: function (value)
-        {
-            if (this._cacheAsBitmap === value)
-            {
+        set: function set(value) {
+            if (this._cacheAsBitmap === value) {
                 return;
             }
 
@@ -50,11 +50,9 @@ Object.defineProperties(DisplayObject.prototype, {
 
             var data;
 
-            if (value)
-            {
+            if (value) {
 
-                if(!this._cacheData)
-                {
+                if (!this._cacheData) {
                     this._cacheData = new CacheData();
                 }
 
@@ -74,23 +72,16 @@ Object.defineProperties(DisplayObject.prototype, {
                 data.originalMask = this._mask;
                 data.originalFilterArea = this.filterArea;
 
-
-
                 this.renderWebGL = this._renderCachedWebGL;
                 this.renderCanvas = this._renderCachedCanvas;
 
                 this.destroy = this._cacheAsBitmapDestroy;
-
-            }
-            else
-            {
+            } else {
                 data = this._cacheData;
 
-                if (data.sprite)
-                {
+                if (data.sprite) {
                     this._destroyCachedDisplayObject();
                 }
-
 
                 this.renderWebGL = data.originalRenderWebGL;
                 this.renderCanvas = data.originalRenderCanvas;
@@ -114,14 +105,12 @@ Object.defineProperties(DisplayObject.prototype, {
 * @param renderer {PIXI.WebGLRenderer} the WebGL renderer
 * @private
 */
-DisplayObject.prototype._renderCachedWebGL = function (renderer)
-{
-    if (!this.visible || this.worldAlpha <= 0 || !this.renderable)
-    {
+DisplayObject.prototype._renderCachedWebGL = function (renderer) {
+    if (!this.visible || this.worldAlpha <= 0 || !this.renderable) {
         return;
     }
 
-    this._initCachedDisplayObject( renderer );
+    this._initCachedDisplayObject(renderer);
 
     this._cacheData.sprite._transformID = -1;
     this._cacheData.sprite.worldAlpha = this.worldAlpha;
@@ -134,10 +123,8 @@ DisplayObject.prototype._renderCachedWebGL = function (renderer)
 * @param renderer {PIXI.WebGLRenderer} the WebGL renderer
 * @private
 */
-DisplayObject.prototype._initCachedDisplayObject = function (renderer)
-{
-    if(this._cacheData && this._cacheData.sprite)
-    {
+DisplayObject.prototype._initCachedDisplayObject = function (renderer) {
+    if (this._cacheData && this._cacheData.sprite) {
         return;
     }
 
@@ -154,8 +141,7 @@ DisplayObject.prototype._initCachedDisplayObject = function (renderer)
     var bounds = this.getLocalBounds().clone();
 
     // add some padding!
-    if(this._filters)
-    {
+    if (this._filters) {
         var padding = this._filters[0].padding;
 
         bounds.pad(padding);
@@ -169,7 +155,7 @@ DisplayObject.prototype._initCachedDisplayObject = function (renderer)
 
     // this renderTexture will be used to store the cached DisplayObject
 
-    var renderTexture = core_core.RenderTexture.create(bounds.width | 0, bounds.height | 0);
+    var renderTexture = _core.core.RenderTexture.create(bounds.width | 0, bounds.height | 0);
 
     // need to set //
     var m = _tempMatrix;
@@ -182,7 +168,6 @@ DisplayObject.prototype._initCachedDisplayObject = function (renderer)
     // set all properties to there original so we can render to a texture
     this.renderWebGL = this._cacheData.originalRenderWebGL;
 
-
     renderer.render(this, renderTexture, true, m, true);
     // now restore the state be setting the new properties
 
@@ -190,23 +175,23 @@ DisplayObject.prototype._initCachedDisplayObject = function (renderer)
 
     renderer.filterManager.filterStack = stack;
 
-    this.renderWebGL     = this._renderCachedWebGL;
+    this.renderWebGL = this._renderCachedWebGL;
     this.updateTransform = this.displayObjectUpdateTransform;
 
     this._mask = null;
     this.filterArea = null;
 
     // create our cached sprite
-    var cachedSprite = new core_core.Sprite(renderTexture);
+    var cachedSprite = new _core.core.Sprite(renderTexture);
     cachedSprite.transform.worldTransform = this.transform.worldTransform;
-    cachedSprite.anchor.x = -( bounds.x / bounds.width );
-    cachedSprite.anchor.y = -( bounds.y / bounds.height );
+    cachedSprite.anchor.x = -(bounds.x / bounds.width);
+    cachedSprite.anchor.y = -(bounds.y / bounds.height);
     cachedSprite.alpha = cacheAlpha;
-    cachedSprite._bounds =  this._bounds;
+    cachedSprite._bounds = this._bounds;
 
     //easy bounds..
-    this._calculateBounds  = this._calculateCachedBounds;
-    this.getLocalBounds  = this._getCachedLocalBounds;
+    this._calculateBounds = this._calculateCachedBounds;
+    this.getLocalBounds = this._getCachedLocalBounds;
 
     this._cacheData.sprite = cachedSprite;
 
@@ -224,14 +209,12 @@ DisplayObject.prototype._initCachedDisplayObject = function (renderer)
 * @param renderer {PIXI.CanvasRenderer} the Canvas renderer
 * @private
 */
-DisplayObject.prototype._renderCachedCanvas = function (renderer)
-{
-    if (!this.visible || this.worldAlpha <= 0 || !this.renderable)
-    {
+DisplayObject.prototype._renderCachedCanvas = function (renderer) {
+    if (!this.visible || this.worldAlpha <= 0 || !this.renderable) {
         return;
     }
 
-    this._initCachedDisplayObjectCanvas( renderer );
+    this._initCachedDisplayObjectCanvas(renderer);
 
     this._cacheData.sprite.worldAlpha = this.worldAlpha;
 
@@ -245,10 +228,8 @@ DisplayObject.prototype._renderCachedCanvas = function (renderer)
 * @param renderer {PIXI.CanvasRenderer} the Canvas renderer
 * @private
 */
-DisplayObject.prototype._initCachedDisplayObjectCanvas = function (renderer)
-{
-    if(this._cacheData && this._cacheData.sprite)
-    {
+DisplayObject.prototype._initCachedDisplayObjectCanvas = function (renderer) {
+    if (this._cacheData && this._cacheData.sprite) {
         return;
     }
 
@@ -260,7 +241,7 @@ DisplayObject.prototype._initCachedDisplayObjectCanvas = function (renderer)
 
     var cachedRenderTarget = renderer.context;
 
-    var renderTexture = new core_core.RenderTexture.create(bounds.width | 0, bounds.height | 0);
+    var renderTexture = new _core.core.RenderTexture.create(bounds.width | 0, bounds.height | 0);
 
     // need to set //
     var m = _tempMatrix;
@@ -271,7 +252,7 @@ DisplayObject.prototype._initCachedDisplayObjectCanvas = function (renderer)
     m.ty -= bounds.y;
 
     //m.append(this.transform.worldTransform.)
-     // set all properties to there original so we can render to a texture
+    // set all properties to there original so we can render to a texture
     this.renderCanvas = this._cacheData.originalRenderCanvas;
 
     //renderTexture.render(this, m, true);
@@ -281,17 +262,17 @@ DisplayObject.prototype._initCachedDisplayObjectCanvas = function (renderer)
     renderer.context = cachedRenderTarget;
 
     this.renderCanvas = this._renderCachedCanvas;
-    this._calculateBounds  = this._calculateCachedBounds;
+    this._calculateBounds = this._calculateCachedBounds;
 
     this._mask = null;
     this.filterArea = null;
 
     // create our cached sprite
-    var cachedSprite = new core_core.Sprite(renderTexture);
+    var cachedSprite = new _core.core.Sprite(renderTexture);
     cachedSprite.transform.worldTransform = this.transform.worldTransform;
-    cachedSprite.anchor.x = -( bounds.x / bounds.width );
-    cachedSprite.anchor.y = -( bounds.y / bounds.height );
-    cachedSprite._bounds =  this._bounds;
+    cachedSprite.anchor.x = -(bounds.x / bounds.width);
+    cachedSprite.anchor.y = -(bounds.y / bounds.height);
+    cachedSprite._bounds = this._bounds;
     cachedSprite.alpha = cacheAlpha;
 
     this.updateTransform();
@@ -300,8 +281,6 @@ DisplayObject.prototype._initCachedDisplayObjectCanvas = function (renderer)
     this._cacheData.sprite = cachedSprite;
 
     this.containsPoint = cachedSprite.containsPoint.bind(cachedSprite);
-
-
 };
 
 /**
@@ -309,13 +288,11 @@ DisplayObject.prototype._initCachedDisplayObjectCanvas = function (renderer)
 *
 * @private
 */
-DisplayObject.prototype._calculateCachedBounds = function ()
-{
+DisplayObject.prototype._calculateCachedBounds = function () {
     return this._cacheData.sprite._calculateBounds();
 };
 
-DisplayObject.prototype._getCachedLocalBounds = function ()
-{
+DisplayObject.prototype._getCachedLocalBounds = function () {
     return this._cacheData.sprite.getLocalBounds();
 };
 
@@ -324,14 +301,12 @@ DisplayObject.prototype._getCachedLocalBounds = function ()
 *
 * @private
 */
-DisplayObject.prototype._destroyCachedDisplayObject = function ()
-{
+DisplayObject.prototype._destroyCachedDisplayObject = function () {
     this._cacheData.sprite._texture.destroy(true);
     this._cacheData.sprite = null;
 };
 
-DisplayObject.prototype._cacheAsBitmapDestroy = function ()
-{
+DisplayObject.prototype._cacheAsBitmapDestroy = function () {
     this.cacheAsBitmap = false;
     this.destroy();
 };

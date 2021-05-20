@@ -1,7 +1,16 @@
-var mod_WebGLExtract = WebGLExtract;
-import { core as core_core } from "../../core";
 "use strict";
-var tempRect = new core_core.Rectangle();
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.WebGLExtract = undefined;
+
+var _core = require("../../core");
+
+var mod_WebGLExtract = WebGLExtract;
+
+"use strict";
+var tempRect = new _core.core.Rectangle();
 
 /**
  * The extract manager provides functionality to export content from the renderers
@@ -9,12 +18,10 @@ var tempRect = new core_core.Rectangle();
  * @memberof PIXI
  * @param renderer {PIXI.WebGLRenderer} A reference to the current renderer
  */
-function WebGLExtract(renderer)
-{
+function WebGLExtract(renderer) {
     this.renderer = renderer;
     renderer.extract = this;
 }
-
 
 WebGLExtract.prototype.constructor = WebGLExtract;
 
@@ -24,10 +31,9 @@ WebGLExtract.prototype.constructor = WebGLExtract;
  * @param target {PIXI.DisplayObject|PIXI.RenderTexture} A displayObject or renderTexture to convert. If left empty will use use the main renderer
  * @return {HTMLImageElement} HTML Image of the target
  */
-WebGLExtract.prototype.image = function ( target )
-{
-	var image = new Image();
-    image.src = this.base64( target );
+WebGLExtract.prototype.image = function (target) {
+    var image = new Image();
+    image.src = this.base64(target);
     return image;
 };
 
@@ -36,9 +42,8 @@ WebGLExtract.prototype.image = function ( target )
  * @param target {PIXI.DisplayObject|PIXI.RenderTexture} A displayObject or renderTexture to convert. If left empty will use use the main renderer
  * @return {string} A base64 encoded string of the texture.
  */
-WebGLExtract.prototype.base64 = function ( target )
-{
-    return this.canvas( target ).toDataURL();
+WebGLExtract.prototype.base64 = function (target) {
+    return this.canvas(target).toDataURL();
 };
 
 /**
@@ -46,56 +51,43 @@ WebGLExtract.prototype.base64 = function ( target )
  * @param target {PIXI.DisplayObject|PIXI.RenderTexture} A displayObject or renderTexture to convert. If left empty will use use the main renderer
  * @return {HTMLCanvasElement} A Canvas element with the texture rendered on.
  */
-WebGLExtract.prototype.canvas = function ( target )
-{
-	var renderer = this.renderer;
-	var textureBuffer;
-	var resolution;
+WebGLExtract.prototype.canvas = function (target) {
+    var renderer = this.renderer;
+    var textureBuffer;
+    var resolution;
     var frame;
     var flipY = false;
     var renderTexture;
 
-    if(target)
-    {
-        if(target instanceof core_core.RenderTexture)
-        {
+    if (target) {
+        if (target instanceof _core.core.RenderTexture) {
             renderTexture = target;
-        }
-        else
-        {
+        } else {
             renderTexture = this.renderer.generateTexture(target);
-
         }
     }
 
-	if(renderTexture)
-	{
-		textureBuffer = renderTexture.baseTexture._glRenderTargets[this.renderer.CONTEXT_UID];
-		resolution = textureBuffer.resolution;
-	    frame = renderTexture.frame;
+    if (renderTexture) {
+        textureBuffer = renderTexture.baseTexture._glRenderTargets[this.renderer.CONTEXT_UID];
+        resolution = textureBuffer.resolution;
+        frame = renderTexture.frame;
         flipY = false;
-    }
-	else
-	{
-		textureBuffer = this.renderer.rootRenderTarget;
-		resolution = textureBuffer.resolution;
+    } else {
+        textureBuffer = this.renderer.rootRenderTarget;
+        resolution = textureBuffer.resolution;
         flipY = true;
 
         frame = tempRect;
         frame.width = textureBuffer.size.width;
         frame.height = textureBuffer.size.height;
-
-	}
-
-
+    }
 
     var width = frame.width * resolution;
     var height = frame.height * resolution;
 
-   	var canvasBuffer = new core_core.CanvasRenderTarget(width, height);
+    var canvasBuffer = new _core.core.CanvasRenderTarget(width, height);
 
-    if(textureBuffer)
-    {
+    if (textureBuffer) {
         // bind the buffer
         renderer.bindRenderTarget(textureBuffer);
 
@@ -113,14 +105,13 @@ WebGLExtract.prototype.canvas = function ( target )
         canvasBuffer.context.putImageData(canvasData, 0, 0);
 
         // pulling pixels
-        if(flipY)
-        {
+        if (flipY) {
             canvasBuffer.context.scale(1, -1);
-            canvasBuffer.context.drawImage(canvasBuffer.canvas, 0,-height);
+            canvasBuffer.context.drawImage(canvasBuffer.canvas, 0, -height);
         }
     }
 
-     // send the canvas back..
+    // send the canvas back..
     return canvasBuffer.canvas;
 };
 
@@ -129,35 +120,26 @@ WebGLExtract.prototype.canvas = function ( target )
  * @param target {PIXI.DisplayObject|PIXI.RenderTexture} A displayObject or renderTexture to convert. If left empty will use use the main renderer
  * @return {Uint8ClampedArray} One-dimensional array containing the pixel data of the entire texture
  */
-WebGLExtract.prototype.pixels = function ( target )
-{
+WebGLExtract.prototype.pixels = function (target) {
     var renderer = this.renderer;
     var textureBuffer;
     var resolution;
     var frame;
     var renderTexture;
 
-    if(target)
-    {
-        if(target instanceof core_core.RenderTexture)
-        {
+    if (target) {
+        if (target instanceof _core.core.RenderTexture) {
             renderTexture = target;
-        }
-        else
-        {
+        } else {
             renderTexture = this.renderer.generateTexture(target);
         }
     }
 
-    if(renderTexture)
-    {
+    if (renderTexture) {
         textureBuffer = renderTexture.baseTexture._glRenderTargets[this.renderer.CONTEXT_UID];
         resolution = textureBuffer.resolution;
         frame = renderTexture.frame;
-
-    }
-    else
-    {
+    } else {
         textureBuffer = this.renderer.rootRenderTarget;
         resolution = textureBuffer.resolution;
 
@@ -171,8 +153,7 @@ WebGLExtract.prototype.pixels = function ( target )
 
     var webGLPixels = new Uint8Array(4 * width * height);
 
-    if(textureBuffer)
-    {
+    if (textureBuffer) {
         // bind the buffer
         renderer.bindRenderTarget(textureBuffer);
         // read pixels to the array
@@ -187,13 +168,12 @@ WebGLExtract.prototype.pixels = function ( target )
  * Destroys the extract
  *
  */
-WebGLExtract.prototype.destroy = function ()
-{
+WebGLExtract.prototype.destroy = function () {
     this.renderer.extract = null;
     this.renderer = null;
 };
 
-core_core.WebGLRenderer.registerPlugin('extract', WebGLExtract);
+_core.core.WebGLRenderer.registerPlugin('extract', WebGLExtract);
 
 /**
  * The extract manager provides functionality to export content from the renderers
@@ -201,4 +181,4 @@ core_core.WebGLRenderer.registerPlugin('extract', WebGLExtract);
  * @memberof PIXI
  * @param renderer {PIXI.WebGLRenderer} A reference to the current renderer
  */
-export { mod_WebGLExtract as WebGLExtract };
+exports.WebGLExtract = mod_WebGLExtract;

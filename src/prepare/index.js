@@ -1,10 +1,18 @@
-
-import { WebGLPrepare as webglWebGLPrepare_WebGLPrepare } from "./webgl/WebGLPrepare";
-import { CanvasPrepare as canvasCanvasPrepare_CanvasPrepare } from "./canvas/CanvasPrepare";
 "use strict";
-mod_indexjs = {
-    webGL: webglWebGLPrepare_WebGLPrepare,
-    canvas: canvasCanvasPrepare_CanvasPrepare
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.indexjs = undefined;
+
+var _WebGLPrepare = require("./webgl/WebGLPrepare");
+
+var _CanvasPrepare = require("./canvas/CanvasPrepare");
+
+"use strict";
+exports.indexjs = mod_indexjs = {
+    webGL: _WebGLPrepare.WebGLPrepare,
+    canvas: _CanvasPrepare.CanvasPrepare
 };
 var mod_indexjs;
-export { mod_indexjs as indexjs };
+exports.indexjs = mod_indexjs;

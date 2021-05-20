@@ -1,7 +1,24 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SpriteMaskFilter = undefined;
+
+var _Filter = require("../Filter");
+
+var _math = require("../../../../math");
+
+var _glslify = require("glslify");
+
+var _glslify2 = _interopRequireDefault(_glslify);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
 var mod_SpriteMaskFilter = SpriteMaskFilter;
-import { Filter as Filter_Filter } from "../Filter";
-import { indexjs as math } from "../../../../math";
-import ext_glslify_glslify from "glslify";
+
 "use strict";
 /**
  * The SpriteMaskFilter class
@@ -11,22 +28,18 @@ import ext_glslify_glslify from "glslify";
  * @memberof PIXI
  * @param sprite {PIXI.Sprite} the target sprite
  */
-function SpriteMaskFilter(sprite)
-{
-    var maskMatrix = new math.Matrix();
+function SpriteMaskFilter(sprite) {
+  var maskMatrix = new _math.indexjs.Matrix();
 
-    Filter_Filter.call(this,
-        ext_glslify_glslify('./spriteMaskFilter.vert'),
-        ext_glslify_glslify('./spriteMaskFilter.frag')
-    );
+  _Filter.Filter.call(this, (0, _glslify2.default)('./spriteMaskFilter.vert'), (0, _glslify2.default)('./spriteMaskFilter.frag'));
 
-    sprite.renderable = false;
+  sprite.renderable = false;
 
-    this.maskSprite = sprite;
-    this.maskMatrix = maskMatrix;
+  this.maskSprite = sprite;
+  this.maskMatrix = maskMatrix;
 }
 
-SpriteMaskFilter.prototype = Object.create(Filter_Filter.prototype);
+SpriteMaskFilter.prototype = Object.create(_Filter.Filter.prototype);
 SpriteMaskFilter.prototype.constructor = SpriteMaskFilter;
 
 /**
@@ -36,15 +49,14 @@ SpriteMaskFilter.prototype.constructor = SpriteMaskFilter;
  * @param input {PIXI.RenderTarget}
  * @param output {PIXI.RenderTarget}
  */
-SpriteMaskFilter.prototype.apply = function (filterManager, input, output)
-{
-    var maskSprite = this.maskSprite;
+SpriteMaskFilter.prototype.apply = function (filterManager, input, output) {
+  var maskSprite = this.maskSprite;
 
-    this.uniforms.mask = maskSprite._texture;
-    this.uniforms.otherMatrix = filterManager.calculateSpriteMatrix(this.maskMatrix, maskSprite );
-    this.uniforms.alpha = maskSprite.worldAlpha;
+  this.uniforms.mask = maskSprite._texture;
+  this.uniforms.otherMatrix = filterManager.calculateSpriteMatrix(this.maskMatrix, maskSprite);
+  this.uniforms.alpha = maskSprite.worldAlpha;
 
-    filterManager.applyFilter(this, input, output);
+  filterManager.applyFilter(this, input, output);
 };
 
 /**
@@ -55,4 +67,4 @@ SpriteMaskFilter.prototype.apply = function (filterManager, input, output)
  * @memberof PIXI
  * @param sprite {PIXI.Sprite} the target sprite
  */
-export { mod_SpriteMaskFilter as SpriteMaskFilter };
+exports.SpriteMaskFilter = mod_SpriteMaskFilter;

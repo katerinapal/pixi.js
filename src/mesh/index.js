@@ -1,8 +1,20 @@
-import { Mesh as Mesh_Mesh } from "./Mesh";
-import { Plane as Plane_Plane } from "./Plane";
-import { NineSlicePlane as NineSlicePlane_NineSlicePlane } from "./NineSlicePlane";
-import { Rope as Rope_Rope } from "./Rope";
-import { MeshShader as webglMeshShader_MeshShader } from "./webgl/MeshShader";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.indexjs = undefined;
+
+var _Mesh = require("./Mesh");
+
+var _Plane = require("./Plane");
+
+var _NineSlicePlane = require("./NineSlicePlane");
+
+var _Rope = require("./Rope");
+
+var _MeshShader = require("./webgl/MeshShader");
+
 "use strict";
 /**
  * @file        Main export of the PIXI extras library
@@ -14,12 +26,12 @@ import { MeshShader as webglMeshShader_MeshShader } from "./webgl/MeshShader";
 /**
  * @namespace PIXI.mesh
  */
-mod_indexjs = {
-    Mesh:           Mesh_Mesh,
-    Plane:           Plane_Plane,
-    NineSlicePlane: NineSlicePlane_NineSlicePlane,
-    Rope:           Rope_Rope,
-    MeshShader:     webglMeshShader_MeshShader
+exports.indexjs = mod_indexjs = {
+  Mesh: _Mesh.Mesh,
+  Plane: _Plane.Plane,
+  NineSlicePlane: _NineSlicePlane.NineSlicePlane,
+  Rope: _Rope.Rope,
+  MeshShader: _MeshShader.MeshShader
 };
 var mod_indexjs;
-export { mod_indexjs as indexjs };
+exports.indexjs = mod_indexjs;

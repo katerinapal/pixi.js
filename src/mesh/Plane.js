@@ -1,5 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Plane = undefined;
+
+var _Mesh = require("./Mesh");
+
 var mod_Plane = Plane;
-import { Mesh as Mesh_Mesh } from "./Mesh";
+
 "use strict";
 
 /**
@@ -20,9 +29,8 @@ import { Mesh as Mesh_Mesh } from "./Mesh";
  * @param {number} verticesY - The number of vertices in the y-axis
  *
  */
-function Plane(texture, verticesX, verticesY)
-{
-    Mesh_Mesh.call(this, texture);
+function Plane(texture, verticesX, verticesY) {
+    _Mesh.Mesh.call(this, texture);
 
     /**
      * Tracker for if the Plane is ready to be drawn. Needed because Mesh ctor can
@@ -36,22 +44,19 @@ function Plane(texture, verticesX, verticesY)
     this.verticesX = verticesX || 10;
     this.verticesY = verticesY || 10;
 
-    this.drawMode = Mesh_Mesh.DRAW_MODES.TRIANGLES;
+    this.drawMode = _Mesh.Mesh.DRAW_MODES.TRIANGLES;
     this.refresh();
-
 }
 
-
 // constructor
-Plane.prototype = Object.create( Mesh_Mesh.prototype );
+Plane.prototype = Object.create(_Mesh.Mesh.prototype);
 Plane.prototype.constructor = Plane;
 
 /**
  * Refreshes
  *
  */
-Plane.prototype.refresh = function()
-{
+Plane.prototype.refresh = function () {
     var total = this.verticesX * this.verticesY;
     var verts = [];
     var colors = [];
@@ -68,16 +73,14 @@ Plane.prototype.refresh = function()
 
     for (i = 0; i < total; i++) {
 
-        var x = (i % this.verticesX);
-        var y = ( (i / this.verticesX ) | 0 );
+        var x = i % this.verticesX;
+        var y = i / this.verticesX | 0;
 
-
-        verts.push((x * sizeX),
-                   (y * sizeY));
+        verts.push(x * sizeX, y * sizeY);
 
         // this works for rectangular textures.
-        uvs.push(texture._uvs.x0 + (texture._uvs.x1 - texture._uvs.x0) * (x / (this.verticesX-1)), texture._uvs.y0 + (texture._uvs.y3-texture._uvs.y0) * (y/ (this.verticesY-1)));
-      }
+        uvs.push(texture._uvs.x0 + (texture._uvs.x1 - texture._uvs.x0) * (x / (this.verticesX - 1)), texture._uvs.y0 + (texture._uvs.y3 - texture._uvs.y0) * (y / (this.verticesY - 1)));
+    }
 
     //  cons
 
@@ -86,18 +89,16 @@ Plane.prototype.refresh = function()
     for (i = 0; i < totalSub; i++) {
 
         var xpos = i % segmentsX;
-        var ypos = (i / segmentsX ) | 0;
+        var ypos = i / segmentsX | 0;
 
-
-        var  value = (ypos * this.verticesX) + xpos;
-        var  value2 = (ypos * this.verticesX) + xpos + 1;
-        var  value3 = ((ypos+1) * this.verticesX) + xpos;
-        var  value4 = ((ypos+1) * this.verticesX) + xpos + 1;
+        var value = ypos * this.verticesX + xpos;
+        var value2 = ypos * this.verticesX + xpos + 1;
+        var value3 = (ypos + 1) * this.verticesX + xpos;
+        var value4 = (ypos + 1) * this.verticesX + xpos + 1;
 
         indices.push(value, value2, value3);
         indices.push(value2, value4, value3);
     }
-
 
     //console.log(indices)
     this.vertices = new Float32Array(verts);
@@ -113,9 +114,8 @@ Plane.prototype.refresh = function()
  *
  * @private
  */
-Plane.prototype._onTextureUpdate = function ()
-{
-    Mesh_Mesh.prototype._onTextureUpdate.call(this);
+Plane.prototype._onTextureUpdate = function () {
+    _Mesh.Mesh.prototype._onTextureUpdate.call(this);
 
     // wait for the Plane ctor to finish before calling refresh
     if (this._ready) {
@@ -141,4 +141,4 @@ Plane.prototype._onTextureUpdate = function ()
  * @param {number} verticesY - The number of vertices in the y-axis
  *
  */
-export { mod_Plane as Plane };
+exports.Plane = mod_Plane;

@@ -1,53 +1,52 @@
-import ext_glCore from "pixi-gl-core";
 "use strict";
 
-var fragTemplate = [
-    'precision mediump float;',
-    'void main(void){',
-        'float test = 0.1;',
-        '%forloop%',
-        'gl_FragColor = vec4(0.0);',
-    '}'
-].join('\n');
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.checkMaxIfStatmentsInShader = undefined;
 
-var checkMaxIfStatmentsInShader = function(maxIfs, gl)
-{
+var _pixiGlCore = require("pixi-gl-core");
+
+var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+"use strict";
+
+var fragTemplate = ['precision mediump float;', 'void main(void){', 'float test = 0.1;', '%forloop%', 'gl_FragColor = vec4(0.0);', '}'].join('\n');
+
+var checkMaxIfStatmentsInShader = function checkMaxIfStatmentsInShader(maxIfs, gl) {
     var createTempContext = !gl;
 
-    if(createTempContext)
-    {
+    if (createTempContext) {
         var tinyCanvas = document.createElement('canvas');
         tinyCanvas.width = 1;
         tinyCanvas.height = 1;
 
-        gl = ext_glCore.createContext(tinyCanvas);
+        gl = _pixiGlCore2.default.createContext(tinyCanvas);
     }
 
     var shader = gl.createShader(gl.FRAGMENT_SHADER);
 
-    while(true)
-    {
+    while (true) {
         var fragmentSrc = fragTemplate.replace(/%forloop%/gi, generateIfTestSrc(maxIfs));
 
         gl.shaderSource(shader, fragmentSrc);
         gl.compileShader(shader);
 
-        if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
-        {
-            maxIfs = (maxIfs/2)|0;
-        }
-        else
-        {
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            maxIfs = maxIfs / 2 | 0;
+        } else {
             // valid!
             break;
         }
     }
 
-    if(createTempContext)
-    {
+    if (createTempContext) {
         // get rid of context
-        if(gl.getExtension('WEBGL_lose_context'))
-        {
+        if (gl.getExtension('WEBGL_lose_context')) {
             gl.getExtension('WEBGL_lose_context').loseContext();
         }
     }
@@ -55,21 +54,15 @@ var checkMaxIfStatmentsInShader = function(maxIfs, gl)
     return maxIfs;
 };
 
-
-
-function generateIfTestSrc(maxIfs)
-{
+function generateIfTestSrc(maxIfs) {
     var src = '';
 
-    for (var i = 0; i < maxIfs; i++)
-    {
-        if(i > 0)
-        {
+    for (var i = 0; i < maxIfs; i++) {
+        if (i > 0) {
             src += '\nelse ';
         }
 
-        if(i < maxIfs-1)
-        {
+        if (i < maxIfs - 1) {
             src += 'if(test == ' + i + '.0){}';
         }
     }
@@ -79,5 +72,5 @@ function generateIfTestSrc(maxIfs)
 
 var mod_checkMaxIfStatmentsInShader;
 
-mod_checkMaxIfStatmentsInShader = checkMaxIfStatmentsInShader;
-export { mod_checkMaxIfStatmentsInShader as checkMaxIfStatmentsInShader };
+exports.checkMaxIfStatmentsInShader = mod_checkMaxIfStatmentsInShader = checkMaxIfStatmentsInShader;
+exports.checkMaxIfStatmentsInShader = mod_checkMaxIfStatmentsInShader;

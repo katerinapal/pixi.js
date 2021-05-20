@@ -1,6 +1,7 @@
 "use strict";
+
 describe('PIXI.DisplayObject', function () {
-    it('should be able to add itself to a Container', function() {
+    it('should be able to add itself to a Container', function () {
         var child = new PIXI.DisplayObject(),
             container = new PIXI.Container();
 

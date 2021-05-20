@@ -1,6 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.TextureUvs = undefined;
+
+var _GroupD = require("../math/GroupD8");
 
 var mod_TextureUvs = TextureUvs;
-import { GroupD8 as GroupD8_GroupD8 } from "../math/GroupD8";
+
 "use strict";
 /**
  * A standard object to store the Uvs of a texture
@@ -9,8 +17,7 @@ import { GroupD8 as GroupD8_GroupD8 } from "../math/GroupD8";
  * @private
  * @memberof PIXI
  */
-function TextureUvs()
-{
+function TextureUvs() {
     this.x0 = 0;
     this.y0 = 0;
 
@@ -33,34 +40,30 @@ function TextureUvs()
  * @param rotate {number} Rotation of frame, see {@link PIXI.GroupD8}
  * @private
  */
-TextureUvs.prototype.set = function (frame, baseFrame, rotate)
-{
+TextureUvs.prototype.set = function (frame, baseFrame, rotate) {
     var tw = baseFrame.width;
     var th = baseFrame.height;
 
-    if(rotate)
-    {
+    if (rotate) {
         //width and height div 2 div baseFrame size
         var w2 = frame.width / 2 / tw;
         var h2 = frame.height / 2 / th;
         //coordinates of center
         var cX = frame.x / tw + w2;
         var cY = frame.y / th + h2;
-        rotate = GroupD8_GroupD8.add(rotate, GroupD8_GroupD8.NW); //NW is top-left corner
-        this.x0 = cX + w2 * GroupD8_GroupD8.uX(rotate);
-        this.y0 = cY + h2 * GroupD8_GroupD8.uY(rotate);
-        rotate = GroupD8_GroupD8.add(rotate, 2); //rotate 90 degrees clockwise
-        this.x1 = cX + w2 * GroupD8_GroupD8.uX(rotate);
-        this.y1 = cY + h2 * GroupD8_GroupD8.uY(rotate);
-        rotate = GroupD8_GroupD8.add(rotate, 2);
-        this.x2 = cX + w2 * GroupD8_GroupD8.uX(rotate);
-        this.y2 = cY + h2 * GroupD8_GroupD8.uY(rotate);
-        rotate = GroupD8_GroupD8.add(rotate, 2);
-        this.x3 = cX + w2 * GroupD8_GroupD8.uX(rotate);
-        this.y3 = cY + h2 * GroupD8_GroupD8.uY(rotate);
-    }
-    else
-    {
+        rotate = _GroupD.GroupD8.add(rotate, _GroupD.GroupD8.NW); //NW is top-left corner
+        this.x0 = cX + w2 * _GroupD.GroupD8.uX(rotate);
+        this.y0 = cY + h2 * _GroupD.GroupD8.uY(rotate);
+        rotate = _GroupD.GroupD8.add(rotate, 2); //rotate 90 degrees clockwise
+        this.x1 = cX + w2 * _GroupD.GroupD8.uX(rotate);
+        this.y1 = cY + h2 * _GroupD.GroupD8.uY(rotate);
+        rotate = _GroupD.GroupD8.add(rotate, 2);
+        this.x2 = cX + w2 * _GroupD.GroupD8.uX(rotate);
+        this.y2 = cY + h2 * _GroupD.GroupD8.uY(rotate);
+        rotate = _GroupD.GroupD8.add(rotate, 2);
+        this.x3 = cX + w2 * _GroupD.GroupD8.uX(rotate);
+        this.y3 = cY + h2 * _GroupD.GroupD8.uY(rotate);
+    } else {
 
         this.x0 = frame.x / tw;
         this.y0 = frame.y / th;
@@ -75,10 +78,10 @@ TextureUvs.prototype.set = function (frame, baseFrame, rotate)
         this.y3 = (frame.y + frame.height) / th;
     }
 
-    this.uvsUint32[0] = (((this.y0 * 65535) & 0xFFFF) << 16) | ((this.x0 * 65535) & 0xFFFF);
-    this.uvsUint32[1] = (((this.y1 * 65535) & 0xFFFF) << 16) | ((this.x1 * 65535) & 0xFFFF);
-    this.uvsUint32[2] = (((this.y2 * 65535) & 0xFFFF) << 16) | ((this.x2 * 65535) & 0xFFFF);
-    this.uvsUint32[3] = (((this.y3 * 65535) & 0xFFFF) << 16) | ((this.x3 * 65535) & 0xFFFF);
+    this.uvsUint32[0] = (this.y0 * 65535 & 0xFFFF) << 16 | this.x0 * 65535 & 0xFFFF;
+    this.uvsUint32[1] = (this.y1 * 65535 & 0xFFFF) << 16 | this.x1 * 65535 & 0xFFFF;
+    this.uvsUint32[2] = (this.y2 * 65535 & 0xFFFF) << 16 | this.x2 * 65535 & 0xFFFF;
+    this.uvsUint32[3] = (this.y3 * 65535 & 0xFFFF) << 16 | this.x3 * 65535 & 0xFFFF;
 };
 
 /**
@@ -88,4 +91,4 @@ TextureUvs.prototype.set = function (frame, baseFrame, rotate)
  * @private
  * @memberof PIXI
  */
-export { mod_TextureUvs as TextureUvs };
+exports.TextureUvs = mod_TextureUvs;

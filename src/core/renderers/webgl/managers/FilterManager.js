@@ -1,24 +1,42 @@
-
-var mod_FilterManager = FilterManager;
-import { WebGLManager as WebGLManager_WebGLManager } from "./WebGLManager";
-import { RenderTarget as RenderTarget_RenderTarget } from "../utils/RenderTarget";
-import { Quad as Quad_Quad } from "../utils/Quad";
-import { indexjs as math } from "../../../math";
-import { Shader as Shader_Shader } from "../../../Shader";
-import { filterTransformsjs as filterTransforms } from "../filters/filterTransforms";
-import ext_bitTwiddle from "bit-twiddle";
 "use strict";
 
-var FilterState = function()
-{
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.FilterManager = undefined;
+
+var _WebGLManager = require("./WebGLManager");
+
+var _RenderTarget = require("../utils/RenderTarget");
+
+var _Quad = require("../utils/Quad");
+
+var _math = require("../../../math");
+
+var _Shader = require("../../../Shader");
+
+var _filterTransforms = require("../filters/filterTransforms");
+
+var _bitTwiddle = require("bit-twiddle");
+
+var _bitTwiddle2 = _interopRequireDefault(_bitTwiddle);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var mod_FilterManager = FilterManager;
+
+"use strict";
+
+var FilterState = function FilterState() {
     this.renderTarget = null;
-    this.sourceFrame = new math.Rectangle();
-    this.destinationFrame = new math.Rectangle();
+    this.sourceFrame = new _math.indexjs.Rectangle();
+    this.destinationFrame = new _math.indexjs.Rectangle();
     this.filters = [];
     this.target = null;
     this.resolution = 1;
 };
-
 
 /**
  * @class
@@ -26,13 +44,12 @@ var FilterState = function()
  * @extends PIXI.WebGLManager
  * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
  */
-function FilterManager(renderer)
-{
-    WebGLManager_WebGLManager.call(this, renderer);
+function FilterManager(renderer) {
+    _WebGLManager.WebGLManager.call(this, renderer);
 
     this.gl = this.renderer.gl;
     // know about sprites!
-    this.quad = new Quad_Quad(this.gl, renderer.state.attribState);
+    this.quad = new _Quad.Quad(this.gl, renderer.state.attribState);
 
     this.shaderCache = {};
     // todo add default!
@@ -41,17 +58,15 @@ function FilterManager(renderer)
     this.filterData = null;
 }
 
-FilterManager.prototype = Object.create(WebGLManager_WebGLManager.prototype);
+FilterManager.prototype = Object.create(_WebGLManager.WebGLManager.prototype);
 FilterManager.prototype.constructor = FilterManager;
 
-FilterManager.prototype.pushFilter = function(target, filters)
-{
+FilterManager.prototype.pushFilter = function (target, filters) {
     var renderer = this.renderer;
 
     var filterData = this.filterData;
 
-    if(!filterData)
-    {
+    if (!filterData) {
         filterData = this.renderer._activeRenderTarget.filterStack;
 
         // add new stack
@@ -60,8 +75,8 @@ FilterManager.prototype.pushFilter = function(target, filters)
         filterState.renderTarget = renderer._activeRenderTarget;
 
         this.renderer._activeRenderTarget.filterData = filterData = {
-            index:0,
-            stack:[filterState]
+            index: 0,
+            stack: [filterState]
         };
 
         this.filterData = filterData;
@@ -69,8 +84,7 @@ FilterManager.prototype.pushFilter = function(target, filters)
 
     // get the current filter state..
     var currentState = filterData.stack[++filterData.index];
-    if(!currentState)
-    {
+    if (!currentState) {
         currentState = filterData.stack[filterData.index] = new FilterState();
     }
 
@@ -81,26 +95,21 @@ FilterManager.prototype.pushFilter = function(target, filters)
     var sourceFrame = currentState.sourceFrame;
     var destinationFrame = currentState.destinationFrame;
 
-    sourceFrame.x = ((targetBounds.x * resolution) | 0) / resolution;
-    sourceFrame.y = ((targetBounds.y * resolution) | 0) / resolution;
-    sourceFrame.width = ((targetBounds.width * resolution) | 0) / resolution;
-    sourceFrame.height = ((targetBounds.height * resolution) | 0) / resolution;
+    sourceFrame.x = (targetBounds.x * resolution | 0) / resolution;
+    sourceFrame.y = (targetBounds.y * resolution | 0) / resolution;
+    sourceFrame.width = (targetBounds.width * resolution | 0) / resolution;
+    sourceFrame.height = (targetBounds.height * resolution | 0) / resolution;
 
-    if(filterData.stack[0].renderTarget.transform)
-    {//jshint ignore:line
+    if (filterData.stack[0].renderTarget.transform) {//jshint ignore:line
 
         // TODO we should fit the rect around the transform..
-    }
-    else
-    {
+    } else {
 
         sourceFrame.fit(filterData.stack[0].destinationFrame);
     }
 
-
     destinationFrame.width = sourceFrame.width;
     destinationFrame.height = sourceFrame.height;
-
 
     // lets pplay the padding After we fit the element to the screen.
     // this should stop the strange side effects that can occour when cropping to the edges
@@ -120,33 +129,28 @@ FilterManager.prototype.pushFilter = function(target, filters)
     renderer.bindRenderTarget(renderTarget);
 
     // clear the renderTarget
-    renderer.clear();//[0.5,0.5,0.5, 1.0]);
+    renderer.clear(); //[0.5,0.5,0.5, 1.0]);
 };
 
-FilterManager.prototype.popFilter = function()
-{
+FilterManager.prototype.popFilter = function () {
     var filterData = this.filterData;
 
-    var lastState = filterData.stack[filterData.index-1];
+    var lastState = filterData.stack[filterData.index - 1];
     var currentState = filterData.stack[filterData.index];
 
     this.quad.map(currentState.renderTarget.size, currentState.sourceFrame).upload();
 
     var filters = currentState.filters;
 
-    if(filters.length === 1)
-    {
+    if (filters.length === 1) {
         filters[0].apply(this, currentState.renderTarget, lastState.renderTarget, false);
         this.freePotRenderTarget(currentState.renderTarget);
-    }
-    else
-    {
+    } else {
         var flip = currentState.renderTarget;
         var flop = this.getPotRenderTarget(this.renderer.gl, currentState.sourceFrame.width, currentState.sourceFrame.height, 1);
         flop.setFrame(currentState.destinationFrame, currentState.sourceFrame);
 
-        for (var i = 0; i < filters.length-1; i++)
-        {
+        for (var i = 0; i < filters.length - 1; i++) {
             filters[i].apply(this, flip, flop, true);
 
             var t = flip;
@@ -162,32 +166,25 @@ FilterManager.prototype.popFilter = function()
 
     filterData.index--;
 
-    if(filterData.index === 0)
-    {
+    if (filterData.index === 0) {
         this.filterData = null;
     }
 };
 
-FilterManager.prototype.applyFilter = function (filter, input, output, clear)
-{
+FilterManager.prototype.applyFilter = function (filter, input, output, clear) {
     var renderer = this.renderer;
     var shader = filter.glShaders[renderer.CONTEXT_UID];
 
     // cacheing..
-    if(!shader)
-    {
-        if(filter.glShaderKey)
-        {
+    if (!shader) {
+        if (filter.glShaderKey) {
             shader = this.shaderCache[filter.glShaderKey];
 
-            if(!shader)
-            {
-                shader = filter.glShaders[renderer.CONTEXT_UID] = this.shaderCache[filter.glShaderKey] = new Shader_Shader(this.gl, filter.vertexSrc, filter.fragmentSrc);
+            if (!shader) {
+                shader = filter.glShaders[renderer.CONTEXT_UID] = this.shaderCache[filter.glShaderKey] = new _Shader.Shader(this.gl, filter.vertexSrc, filter.fragmentSrc);
             }
-        }
-        else
-        {
-            shader = filter.glShaders[renderer.CONTEXT_UID] = new Shader_Shader(this.gl, filter.vertexSrc, filter.fragmentSrc);
+        } else {
+            shader = filter.glShaders[renderer.CONTEXT_UID] = new _Shader.Shader(this.gl, filter.vertexSrc, filter.fragmentSrc);
         }
 
         //TODO - this only needs to be done once?
@@ -196,20 +193,16 @@ FilterManager.prototype.applyFilter = function (filter, input, output, clear)
 
     renderer.bindRenderTarget(output);
 
-
-
-    if(clear)
-    {
+    if (clear) {
         var gl = renderer.gl;
 
         gl.disable(gl.SCISSOR_TEST);
-        renderer.clear();//[1, 1, 1, 1]);
+        renderer.clear(); //[1, 1, 1, 1]);
         gl.enable(gl.SCISSOR_TEST);
     }
 
     // in case the render target is being masked using a scissor rect
-    if(output === renderer.maskManager.scissorRenderTarget)
-    {
+    if (output === renderer.maskManager.scissorRenderTarget) {
         renderer.maskManager.pushScissorMask(null, renderer.maskManager.scissorData);
     }
 
@@ -223,14 +216,13 @@ FilterManager.prototype.applyFilter = function (filter, input, output, clear)
     // when you manually bind a texture, please switch active texture location to it
     renderer._activeTextureLocation = 0;
 
-    renderer.state.setBlendMode( filter.blendMode );
+    renderer.state.setBlendMode(filter.blendMode);
 
     this.quad.draw();
 };
 
 // this returns a matrix that will normalise map filter cords in the filter to screen space
-FilterManager.prototype.syncUniforms = function (shader, filter)
-{
+FilterManager.prototype.syncUniforms = function (shader, filter) {
     var uniformData = filter.uniformData;
     var uniforms = filter.uniforms;
 
@@ -238,8 +230,7 @@ FilterManager.prototype.syncUniforms = function (shader, filter)
     var textureCount = 1;
     var currentState;
 
-    if(shader.uniforms.data.filterArea)
-    {
+    if (shader.uniforms.data.filterArea) {
         currentState = this.filterData.stack[this.filterData.index];
         var filterArea = shader.uniforms.filterArea;
 
@@ -253,8 +244,7 @@ FilterManager.prototype.syncUniforms = function (shader, filter)
 
     // use this to clamp displaced texture coords so they belong to filterArea
     // see displacementFilter fragment shader for an example
-    if(shader.uniforms.data.filterClamp)
-    {
+    if (shader.uniforms.data.filterClamp) {
         currentState = this.filterData.stack[this.filterData.index];
         var filterClamp = shader.uniforms.filterClamp;
 
@@ -268,74 +258,52 @@ FilterManager.prototype.syncUniforms = function (shader, filter)
 
     var val;
     //TODO Cacheing layer..
-    for(var i in uniformData)
-    {
-        if(uniformData[i].type === 'sampler2D')
-        {
+    for (var i in uniformData) {
+        if (uniformData[i].type === 'sampler2D') {
             shader.uniforms[i] = textureCount;
 
-            if(uniforms[i].baseTexture)
-            {
+            if (uniforms[i].baseTexture) {
                 this.renderer.bindTexture(uniforms[i].baseTexture, textureCount);
-            }
-            else
-            {
+            } else {
                 // this is helpful as renderTargets can also be set.
                 // Although thinking about it, we could probably
                 // make the filter texture cache return a RenderTexture
                 // rather than a renderTarget
                 var gl = this.renderer.gl;
                 this.renderer._activeTextureLocation = gl.TEXTURE0 + textureCount;
-                gl.activeTexture(gl.TEXTURE0 + textureCount );
+                gl.activeTexture(gl.TEXTURE0 + textureCount);
                 uniforms[i].texture.bind();
             }
 
             textureCount++;
-        }
-        else if(uniformData[i].type === 'mat3')
-        {
+        } else if (uniformData[i].type === 'mat3') {
             // check if its pixi matrix..
-            if(uniforms[i].a !== undefined)
-            {
+            if (uniforms[i].a !== undefined) {
                 shader.uniforms[i] = uniforms[i].toArray(true);
-            }
-            else
-            {
+            } else {
                 shader.uniforms[i] = uniforms[i];
             }
-        }
-        else if(uniformData[i].type === 'vec2')
-        {
+        } else if (uniformData[i].type === 'vec2') {
             //check if its a point..
-           if(uniforms[i].x !== undefined)
-           {
+            if (uniforms[i].x !== undefined) {
                 val = shader.uniforms[i] || new Float32Array(2);
                 val[0] = uniforms[i].x;
                 val[1] = uniforms[i].y;
                 shader.uniforms[i] = val;
-           }
-           else
-           {
-                shader.uniforms[i] = uniforms[i];
-           }
-        }
-        else if(uniformData[i].type === 'float')
-        {
-            if(shader.uniforms.data[i].value !== uniformData[i])
-            {
+            } else {
                 shader.uniforms[i] = uniforms[i];
             }
-        }
-        else
-        {
+        } else if (uniformData[i].type === 'float') {
+            if (shader.uniforms.data[i].value !== uniformData[i]) {
+                shader.uniforms[i] = uniforms[i];
+            }
+        } else {
             shader.uniforms[i] = uniforms[i];
         }
     }
 };
 
-
-FilterManager.prototype.getRenderTarget = function(clear, resolution)
-{
+FilterManager.prototype.getRenderTarget = function (clear, resolution) {
     var currentState = this.filterData.stack[this.filterData.index];
     var renderTarget = this.getPotRenderTarget(this.renderer.gl, currentState.sourceFrame.width, currentState.sourceFrame.height, resolution || currentState.resolution);
     renderTarget.setFrame(currentState.destinationFrame, currentState.sourceFrame);
@@ -343,8 +311,7 @@ FilterManager.prototype.getRenderTarget = function(clear, resolution)
     return renderTarget;
 };
 
-FilterManager.prototype.returnRenderTarget = function(renderTarget)
-{
+FilterManager.prototype.returnRenderTarget = function (renderTarget) {
     return this.freePotRenderTarget(renderTarget);
 };
 
@@ -356,10 +323,9 @@ FilterManager.prototype.returnRenderTarget = function(renderTarget)
  */
 // TODO playing around here.. this is temporary - (will end up in the shader)
 // thia returns a matrix that will normalise map filter cords in the filter to screen space
-FilterManager.prototype.calculateScreenSpaceMatrix = function (outputMatrix)
-{
+FilterManager.prototype.calculateScreenSpaceMatrix = function (outputMatrix) {
     var currentState = this.filterData.stack[this.filterData.index];
-    return filterTransforms.calculateScreenSpaceMatrix(outputMatrix,  currentState.sourceFrame, currentState.renderTarget.size);
+    return _filterTransforms.filterTransformsjs.calculateScreenSpaceMatrix(outputMatrix, currentState.sourceFrame, currentState.renderTarget.size);
 };
 
 /**
@@ -367,43 +333,37 @@ FilterManager.prototype.calculateScreenSpaceMatrix = function (outputMatrix)
  *
  * @param outputMatrix {PIXI.Matrix}
  */
-FilterManager.prototype.calculateNormalizedScreenSpaceMatrix = function (outputMatrix)
-{
+FilterManager.prototype.calculateNormalizedScreenSpaceMatrix = function (outputMatrix) {
     var currentState = this.filterData.stack[this.filterData.index];
 
-    return filterTransforms.calculateNormalizedScreenSpaceMatrix(outputMatrix, currentState.sourceFrame, currentState.renderTarget.size, currentState.destinationFrame);
+    return _filterTransforms.filterTransformsjs.calculateNormalizedScreenSpaceMatrix(outputMatrix, currentState.sourceFrame, currentState.renderTarget.size, currentState.destinationFrame);
 };
 
 // this will map the filter coord so that a texture can be used based on the transform of a sprite
-FilterManager.prototype.calculateSpriteMatrix = function (outputMatrix, sprite)
-{
+FilterManager.prototype.calculateSpriteMatrix = function (outputMatrix, sprite) {
     var currentState = this.filterData.stack[this.filterData.index];
-    return filterTransforms.calculateSpriteMatrix(outputMatrix, currentState.sourceFrame, currentState.renderTarget.size, sprite);
+    return _filterTransforms.filterTransformsjs.calculateSpriteMatrix(outputMatrix, currentState.sourceFrame, currentState.renderTarget.size, sprite);
 };
 
-FilterManager.prototype.destroy = function()
-{
-     this.shaderCache = [];
-     this.emptyPool();
+FilterManager.prototype.destroy = function () {
+    this.shaderCache = [];
+    this.emptyPool();
 };
-
-
 
 //TODO move to a seperate class could be on renderer?
 //also - could cause issue with multiple contexts?
-FilterManager.prototype.getPotRenderTarget = function(gl, minWidth, minHeight, resolution)
-{
+FilterManager.prototype.getPotRenderTarget = function (gl, minWidth, minHeight, resolution) {
     //TODO you coud return a bigger texture if there is not one in the pool?
-    minWidth = ext_bitTwiddle.nextPow2(minWidth * resolution);
-    minHeight = ext_bitTwiddle.nextPow2(minHeight * resolution);
+    minWidth = _bitTwiddle2.default.nextPow2(minWidth * resolution);
+    minHeight = _bitTwiddle2.default.nextPow2(minHeight * resolution);
 
-    var key = ((minWidth & 0xFFFF) << 16) | ( minHeight & 0xFFFF);
+    var key = (minWidth & 0xFFFF) << 16 | minHeight & 0xFFFF;
 
-    if(!this.pool[key]) {
-      this.pool[key] = [];
+    if (!this.pool[key]) {
+        this.pool[key] = [];
     }
 
-    var renderTarget = this.pool[key].pop() || new RenderTarget_RenderTarget(gl, minWidth, minHeight, null, 1);
+    var renderTarget = this.pool[key].pop() || new _RenderTarget.RenderTarget(gl, minWidth, minHeight, null, 1);
 
     //manually tweak the resolution...
     //this will not modify the size of the frame buffer, just its resolution.
@@ -413,15 +373,11 @@ FilterManager.prototype.getPotRenderTarget = function(gl, minWidth, minHeight, r
     return renderTarget;
 };
 
-FilterManager.prototype.emptyPool = function()
-{
-    for (var i in this.pool)
-    {
+FilterManager.prototype.emptyPool = function () {
+    for (var i in this.pool) {
         var textures = this.pool[i];
-        if(textures)
-        {
-            for (var j = 0; j < textures.length; j++)
-            {
+        if (textures) {
+            for (var j = 0; j < textures.length; j++) {
                 textures[j].destroy(true);
             }
         }
@@ -430,12 +386,11 @@ FilterManager.prototype.emptyPool = function()
     this.pool = {};
 };
 
-FilterManager.prototype.freePotRenderTarget = function(renderTarget)
-{
+FilterManager.prototype.freePotRenderTarget = function (renderTarget) {
     var minWidth = renderTarget.size.width * renderTarget.resolution;
     var minHeight = renderTarget.size.height * renderTarget.resolution;
 
-    var key = ((minWidth & 0xFFFF) << 16) | (minHeight & 0xFFFF);
+    var key = (minWidth & 0xFFFF) << 16 | minHeight & 0xFFFF;
     this.pool[key].push(renderTarget);
 };
 
@@ -445,4 +400,4 @@ FilterManager.prototype.freePotRenderTarget = function(renderTarget)
  * @extends PIXI.WebGLManager
  * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
  */
-export { mod_FilterManager as FilterManager };
+exports.FilterManager = mod_FilterManager;

@@ -1,6 +1,22 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Ticker = undefined;
+
+var _const = require("../const");
+
+var _eventemitter = require("eventemitter3");
+
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
 var mod_Ticker = Ticker;
-import { CONST as const_CONST } from "../const";
-import ext_EventEmitter from "eventemitter3";
+
 "use strict";
 var // Internal event used by composed emitter
 TICK = 'tick';
@@ -15,8 +31,7 @@ TICK = 'tick';
  * @class
  * @memberof PIXI.ticker
  */
-function Ticker()
-{
+function Ticker() {
     var _this = this;
 
     /**
@@ -33,13 +48,11 @@ function Ticker()
 
         _this._requestId = null;
 
-        if (_this.started)
-        {
+        if (_this.started) {
             // Invoke listeners now
             _this.update(time);
             // Listener side effects may have modified ticker state.
-            if (_this.started && _this._requestId === null && _this._emitter.listeners(TICK, true))
-            {
+            if (_this.started && _this._requestId === null && _this._emitter.listeners(TICK, true)) {
                 _this._requestId = requestAnimationFrame(_this._tick);
             }
         }
@@ -49,7 +62,7 @@ function Ticker()
      * Internal emitter used to fire 'tick' event
      * @private
      */
-    this._emitter = new ext_EventEmitter();
+    this._emitter = new _eventemitter2.default();
 
     /**
      * Internal current frame request ID
@@ -95,7 +108,7 @@ function Ticker()
      * @member {number}
      * @default 1 / TARGET_FPMS
      */
-    this.elapsedMS = 1 / const_CONST.TARGET_FPMS; // default to target frame time
+    this.elapsedMS = 1 / _const.CONST.TARGET_FPMS; // default to target frame time
 
     /**
      * The last time {@link PIXI.ticker.Ticker#update} was invoked.
@@ -147,8 +160,7 @@ Object.defineProperties(Ticker.prototype, {
      * @readonly
      */
     FPS: {
-        get: function()
-        {
+        get: function get() {
             return 1000 / this.elapsedMS;
         }
     },
@@ -165,14 +177,12 @@ Object.defineProperties(Ticker.prototype, {
      * @default 10
      */
     minFPS: {
-        get: function()
-        {
+        get: function get() {
             return 1000 / this._maxElapsedMS;
         },
-        set: function(fps)
-        {
+        set: function set(fps) {
             // Clamp: 0 to TARGET_FPMS
-            var minFPMS = Math.min(Math.max(0, fps) / 1000, const_CONST.TARGET_FPMS);
+            var minFPMS = Math.min(Math.max(0, fps) / 1000, _const.CONST.TARGET_FPMS);
             this._maxElapsedMS = 1 / minFPMS;
         }
     }
@@ -185,10 +195,8 @@ Object.defineProperties(Ticker.prototype, {
  *
  * @private
  */
-Ticker.prototype._requestIfNeeded = function _requestIfNeeded()
-{
-    if (this._requestId === null && this._emitter.listeners(TICK, true))
-    {
+Ticker.prototype._requestIfNeeded = function _requestIfNeeded() {
+    if (this._requestId === null && this._emitter.listeners(TICK, true)) {
         // ensure callbacks get correct delta
         this.lastTime = performance.now();
         this._requestId = requestAnimationFrame(this._tick);
@@ -200,10 +208,8 @@ Ticker.prototype._requestIfNeeded = function _requestIfNeeded()
  *
  * @private
  */
-Ticker.prototype._cancelIfNeeded = function _cancelIfNeeded()
-{
-    if (this._requestId !== null)
-    {
+Ticker.prototype._cancelIfNeeded = function _cancelIfNeeded() {
+    if (this._requestId !== null) {
         cancelAnimationFrame(this._requestId);
         this._requestId = null;
     }
@@ -219,14 +225,10 @@ Ticker.prototype._cancelIfNeeded = function _cancelIfNeeded()
  *
  * @private
  */
-Ticker.prototype._startIfPossible = function _startIfPossible()
-{
-    if (this.started)
-    {
+Ticker.prototype._startIfPossible = function _startIfPossible() {
+    if (this.started) {
         this._requestIfNeeded();
-    }
-    else if (this.autoStart)
-    {
+    } else if (this.autoStart) {
         this.start();
     }
 };
@@ -240,8 +242,7 @@ Ticker.prototype._startIfPossible = function _startIfPossible()
  * @param [context] {Function} The listener context
  * @returns {PIXI.ticker.Ticker} This instance of a ticker
  */
-Ticker.prototype.add = function add(fn, context)
-{
+Ticker.prototype.add = function add(fn, context) {
     this._emitter.on(TICK, fn, context);
 
     this._startIfPossible();
@@ -258,8 +259,7 @@ Ticker.prototype.add = function add(fn, context)
  * @param [context] {Function} The listener context
  * @returns {PIXI.ticker.Ticker} This instance of a ticker
  */
-Ticker.prototype.addOnce = function addOnce(fn, context)
-{
+Ticker.prototype.addOnce = function addOnce(fn, context) {
     this._emitter.once(TICK, fn, context);
 
     this._startIfPossible();
@@ -276,12 +276,10 @@ Ticker.prototype.addOnce = function addOnce(fn, context)
  * @param [context] {Function} The listener context to be removed
  * @returns {PIXI.ticker.Ticker} This instance of a ticker
  */
-Ticker.prototype.remove = function remove(fn, context)
-{
+Ticker.prototype.remove = function remove(fn, context) {
     this._emitter.off(TICK, fn, context);
 
-    if (!this._emitter.listeners(TICK, true))
-    {
+    if (!this._emitter.listeners(TICK, true)) {
         this._cancelIfNeeded();
     }
 
@@ -292,10 +290,8 @@ Ticker.prototype.remove = function remove(fn, context)
  * Starts the ticker. If the ticker has listeners
  * a new animation frame is requested at this point.
  */
-Ticker.prototype.start = function start()
-{
-    if (!this.started)
-    {
+Ticker.prototype.start = function start() {
+    if (!this.started) {
         this.started = true;
         this._requestIfNeeded();
     }
@@ -305,10 +301,8 @@ Ticker.prototype.start = function start()
  * Stops the ticker. If the ticker has requested
  * an animation frame it is canceled at this point.
  */
-Ticker.prototype.stop = function stop()
-{
-    if (this.started)
-    {
+Ticker.prototype.stop = function stop() {
+    if (this.started) {
         this.started = false;
         this._cancelIfNeeded();
     }
@@ -327,8 +321,7 @@ Ticker.prototype.stop = function stop()
  *
  * @param [currentTime=performance.now()] {number} the current time of execution
  */
-Ticker.prototype.update = function update(currentTime)
-{
+Ticker.prototype.update = function update(currentTime) {
     var elapsedMS;
 
     // Allow calling update directly with default currentTime.
@@ -349,24 +342,20 @@ Ticker.prototype.update = function update(currentTime)
     // This check covers this browser engine timing issue, as well as if consumers pass an invalid
     // currentTime value. This may happen if consumers opt-out of the autoStart, and update themselves.
 
-    if (currentTime > this.lastTime)
-    {
+    if (currentTime > this.lastTime) {
         // Save uncapped elapsedMS for measurement
         elapsedMS = this.elapsedMS = currentTime - this.lastTime;
 
         // cap the milliseconds elapsed used for deltaTime
-        if (elapsedMS > this._maxElapsedMS)
-        {
+        if (elapsedMS > this._maxElapsedMS) {
             elapsedMS = this._maxElapsedMS;
         }
 
-        this.deltaTime = elapsedMS * const_CONST.TARGET_FPMS * this.speed;
+        this.deltaTime = elapsedMS * _const.CONST.TARGET_FPMS * this.speed;
 
         // Invoke listeners added to internal emitter
         this._emitter.emit(TICK, this.deltaTime);
-    }
-    else
-    {
+    } else {
         this.deltaTime = this.elapsedMS = 0;
     }
 
@@ -383,4 +372,4 @@ Ticker.prototype.update = function update(currentTime)
  * @class
  * @memberof PIXI.ticker
  */
-export { mod_Ticker as Ticker };
+exports.Ticker = mod_Ticker;

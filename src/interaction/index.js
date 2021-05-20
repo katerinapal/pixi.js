@@ -1,6 +1,16 @@
-import { InteractionData as InteractionData_InteractionData } from "./InteractionData";
-import { InteractionManager as InteractionManager_InteractionManager } from "./InteractionManager";
-import { interactiveTarget as interactiveTarget_interactiveTarget } from "./interactiveTarget";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.indexjs = undefined;
+
+var _InteractionData = require("./InteractionData");
+
+var _InteractionManager = require("./InteractionManager");
+
+var _interactiveTarget = require("./interactiveTarget");
+
 "use strict";
 /**
  * @file        Main export of the PIXI interactions library
@@ -12,10 +22,10 @@ import { interactiveTarget as interactiveTarget_interactiveTarget } from "./inte
 /**
  * @namespace PIXI.interaction
  */
-mod_indexjs = {
-    InteractionData:    InteractionData_InteractionData,
-    InteractionManager: InteractionManager_InteractionManager,
-    interactiveTarget:  interactiveTarget_interactiveTarget
+exports.indexjs = mod_indexjs = {
+  InteractionData: _InteractionData.InteractionData,
+  InteractionManager: _InteractionManager.InteractionManager,
+  interactiveTarget: _interactiveTarget.interactiveTarget
 };
 var mod_indexjs;
-export { mod_indexjs as indexjs };
+exports.indexjs = mod_indexjs;

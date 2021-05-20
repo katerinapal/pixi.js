@@ -1,5 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RoundedRectangle = undefined;
+
+var _const = require("../../const");
+
 var mod_RoundedRectangle = RoundedRectangle;
-import { CONST as const_CONST } from "../../const";
+
 "use strict";
 
 /**
@@ -13,47 +22,46 @@ import { CONST as const_CONST } from "../../const";
  * @param height {number} The overall height of this rounded rectangle
  * @param radius {number} Controls the radius of the rounded corners
  */
-function RoundedRectangle(x, y, width, height, radius)
-{
-    /**
-     * @member {number}
-     * @default 0
-     */
-    this.x = x || 0;
+function RoundedRectangle(x, y, width, height, radius) {
+  /**
+   * @member {number}
+   * @default 0
+   */
+  this.x = x || 0;
 
-    /**
-     * @member {number}
-     * @default 0
-     */
-    this.y = y || 0;
+  /**
+   * @member {number}
+   * @default 0
+   */
+  this.y = y || 0;
 
-    /**
-     * @member {number}
-     * @default 0
-     */
-    this.width = width || 0;
+  /**
+   * @member {number}
+   * @default 0
+   */
+  this.width = width || 0;
 
-    /**
-     * @member {number}
-     * @default 0
-     */
-    this.height = height || 0;
+  /**
+   * @member {number}
+   * @default 0
+   */
+  this.height = height || 0;
 
-    /**
-     * @member {number}
-     * @default 20
-     */
-    this.radius = radius || 20;
+  /**
+   * @member {number}
+   * @default 20
+   */
+  this.radius = radius || 20;
 
-    /**
-     * The type of the object, mainly used to avoid `instanceof` checks
-     *
-     * @member {number}
-     * @readonly
-     * @default CONST.SHAPES.RREC
-     * @see PIXI.SHAPES
-     */
-    this.type = const_CONST.SHAPES.RREC;
+  /**
+   * The type of the object, mainly used to avoid `instanceof` checks
+   *
+   * @member {number}
+   * @readonly
+   * @default CONST.SHAPES.RREC
+   * @see PIXI.SHAPES
+   */
+  this.type = _const.CONST.SHAPES.RREC;
 }
 
 RoundedRectangle.prototype.constructor = RoundedRectangle;
@@ -63,9 +71,8 @@ RoundedRectangle.prototype.constructor = RoundedRectangle;
  *
  * @return {PIXI.RoundedRectangle} a copy of the rounded rectangle
  */
-RoundedRectangle.prototype.clone = function ()
-{
-    return new RoundedRectangle(this.x, this.y, this.width, this.height, this.radius);
+RoundedRectangle.prototype.clone = function () {
+  return new RoundedRectangle(this.x, this.y, this.width, this.height, this.radius);
 };
 
 /**
@@ -75,22 +82,18 @@ RoundedRectangle.prototype.clone = function ()
  * @param y {number} The Y coordinate of the point to test
  * @return {boolean} Whether the x/y coordinates are within this Rounded Rectangle
  */
-RoundedRectangle.prototype.contains = function (x, y)
-{
-    if (this.width <= 0 || this.height <= 0)
-    {
-        return false;
-    }
-
-    if (x >= this.x && x <= this.x + this.width)
-    {
-        if (y >= this.y && y <= this.y + this.height)
-        {
-            return true;
-        }
-    }
-
+RoundedRectangle.prototype.contains = function (x, y) {
+  if (this.width <= 0 || this.height <= 0) {
     return false;
+  }
+
+  if (x >= this.x && x <= this.x + this.width) {
+    if (y >= this.y && y <= this.y + this.height) {
+      return true;
+    }
+  }
+
+  return false;
 };
 
 /**
@@ -104,4 +107,4 @@ RoundedRectangle.prototype.contains = function (x, y)
  * @param height {number} The overall height of this rounded rectangle
  * @param radius {number} Controls the radius of the rounded corners
  */
-export { mod_RoundedRectangle as RoundedRectangle };
+exports.RoundedRectangle = mod_RoundedRectangle;

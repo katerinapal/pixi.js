@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var mod_ObservablePoint = ObservablePoint;
 "use strict";
 /**
@@ -12,8 +17,7 @@ var mod_ObservablePoint = ObservablePoint;
  * @param [x=0] {number} position of the point on the x axis
  * @param [y=0] {number} position of the point on the y axis
  */
-function ObservablePoint(cb, scope, x, y)
-{
+function ObservablePoint(cb, scope, x, y) {
     this._x = x || 0;
     this._y = y || 0;
 
@@ -23,8 +27,6 @@ function ObservablePoint(cb, scope, x, y)
 
 ObservablePoint.prototype.constructor = ObservablePoint;
 
-
-
 Object.defineProperties(ObservablePoint.prototype, {
     /**
      * The position of the displayObject on the x axis relative to the local coordinates of the parent.
@@ -33,12 +35,10 @@ Object.defineProperties(ObservablePoint.prototype, {
      * @memberof PIXI.ObservablePoint#
      */
     x: {
-        get: function ()
-        {
+        get: function get() {
             return this._x;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             if (this._x !== value) {
                 this._x = value;
                 this.cb.call(this.scope);
@@ -52,12 +52,10 @@ Object.defineProperties(ObservablePoint.prototype, {
      * @memberof PIXI.ObservablePoint#
      */
     y: {
-        get: function ()
-        {
+        get: function get() {
             return this._y;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             if (this._y !== value) {
                 this._y = value;
                 this.cb.call(this.scope);
@@ -73,12 +71,10 @@ Object.defineProperties(ObservablePoint.prototype, {
  * @param [x=0] {number} position of the point on the x axis
  * @param [y=0] {number} position of the point on the y axis
  */
-ObservablePoint.prototype.set = function (x, y)
-{
+ObservablePoint.prototype.set = function (x, y) {
     var _x = x || 0;
-    var _y = y || ( (y !== 0) ? _x : 0 );
-    if (this._x !== _x || this._y !== _y)
-    {
+    var _y = y || (y !== 0 ? _x : 0);
+    if (this._x !== _x || this._y !== _y) {
         this._x = _x;
         this._y = _y;
         this.cb.call(this.scope);
@@ -90,10 +86,8 @@ ObservablePoint.prototype.set = function (x, y)
  *
  * @param point {PIXI.Point|PIXI.ObservablePoint} point to copy from
  */
-ObservablePoint.prototype.copy = function (point)
-{
-    if (this._x !== point.x || this._y !== point.y)
-    {
+ObservablePoint.prototype.copy = function (point) {
+    if (this._x !== point.x || this._y !== point.y) {
         this._x = point.x;
         this._y = point.y;
         this.cb.call(this.scope);
@@ -112,4 +106,4 @@ ObservablePoint.prototype.copy = function (point)
  * @param [x=0] {number} position of the point on the x axis
  * @param [y=0] {number} position of the point on the y axis
  */
-export { mod_ObservablePoint as ObservablePoint };
+exports.ObservablePoint = mod_ObservablePoint;

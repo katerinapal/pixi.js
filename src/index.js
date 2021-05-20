@@ -1,30 +1,49 @@
-import { core as core_core } from "./core";
-import { indexjs as extras_indexjs } from "./extras";
-import { indexjs as filters_indexjs } from "./filters";
-import { indexjs as interaction_indexjs } from "./interaction";
-import { indexjs as loaders_indexjs } from "./loaders";
-import { indexjs as mesh_indexjs } from "./mesh";
-import { indexjs as particles_indexjs } from "./particles";
-import { indexjs as accessibility_indexjs } from "./accessibility";
-import { indexjs as extract_indexjs } from "./extract";
-import { indexjs as prepare_indexjs } from "./prepare";
-import "./polyfill";
-export var globalPIXI;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.core = exports.globalPIXI = undefined;
+exports.setGlobalPIXI = setGlobalPIXI;
+
+var _core = require("./core");
+
+var _extras = require("./extras");
+
+var _filters = require("./filters");
+
+var _interaction = require("./interaction");
+
+var _loaders = require("./loaders");
+
+var _mesh = require("./mesh");
+
+var _particles = require("./particles");
+
+var _accessibility = require("./accessibility");
+
+var _extract = require("./extract");
+
+var _prepare = require("./prepare");
+
+require("./polyfill");
+
+var globalPIXI = exports.globalPIXI = undefined;
 "use strict";
 var mod_core;
 
-var core = core_core;
+var core = _core.core;
 
 // add core plugins.
-core_core.extras         = extras_indexjs;
-core_core.filters        = filters_indexjs;
-core_core.interaction    = interaction_indexjs;
-core_core.loaders        = loaders_indexjs;
-core_core.mesh           = mesh_indexjs;
-core_core.particles      = particles_indexjs;
-core_core.accessibility  = accessibility_indexjs;
-core_core.extract        = extract_indexjs;
-core_core.prepare        = prepare_indexjs;
+_core.core.extras = _extras.indexjs;
+_core.core.filters = _filters.indexjs;
+_core.core.interaction = _interaction.indexjs;
+_core.core.loaders = _loaders.indexjs;
+_core.core.mesh = _mesh.indexjs;
+_core.core.particles = _particles.indexjs;
+_core.core.accessibility = _accessibility.indexjs;
+_core.core.extract = _extract.indexjs;
+_core.core.prepare = _prepare.indexjs;
 
 // export a premade loader instance
 /**
@@ -34,16 +53,15 @@ core_core.prepare        = prepare_indexjs;
  * @memberof PIXI
  * @property {PIXI.loaders.Loader}
  */
-core_core.loader = new core_core.loaders.Loader();
+_core.core.loader = new _core.core.loaders.Loader();
 
 // mixin the deprecation features.
-Object.assign(core_core, require('./deprecation'));
+Object.assign(_core.core, require('./deprecation'));
 
 // Always export pixi globally.
-globalPIXI = core_core;
-mod_core = core;
-export { mod_core as core };
-
-export function setGlobalPIXI(value) {
- globalPIXI = value;
+exports.globalPIXI = globalPIXI = _core.core;
+exports.core = mod_core = core;
+exports.core = mod_core;
+function setGlobalPIXI(value) {
+  exports.globalPIXI = globalPIXI = value;
 }

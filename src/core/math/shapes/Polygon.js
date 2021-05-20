@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Polygon = undefined;
+
+var _Point = require("../Point");
+
+var _const = require("../../const");
+
 var mod_Polygon = Polygon;
-import { Point as Point_Point } from "../Point";
-import { CONST as const_CONST } from "../../const";
+
 "use strict";
 
 /**
@@ -12,15 +22,13 @@ import { CONST as const_CONST } from "../../const";
  *      arguments passed can be flat x,y values e.g. `new Polygon(x,y, x,y, x,y, ...)` where `x` and `y` are
  *      Numbers.
  */
-function Polygon(points_)
-{
+function Polygon(points_) {
     // prevents an argument assignment deopt
     // see section 3.1: https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
     var points = points_;
 
     //if points isn't an array, use arguments as the array
-    if (!Array.isArray(points))
-    {
+    if (!Array.isArray(points)) {
         // prevents an argument leak deopt
         // see section 3.2: https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
         points = new Array(arguments.length);
@@ -31,11 +39,9 @@ function Polygon(points_)
     }
 
     // if this is an array of points, convert it to a flat array of numbers
-    if (points[0] instanceof Point_Point)
-    {
+    if (points[0] instanceof _Point.Point) {
         var p = [];
-        for (var i = 0, il = points.length; i < il; i++)
-        {
+        for (var i = 0, il = points.length; i < il; i++) {
             p.push(points[i].x, points[i].y);
         }
 
@@ -59,7 +65,7 @@ function Polygon(points_)
      * @default CONST.SHAPES.POLY
      * @see PIXI.SHAPES
      */
-    this.type = const_CONST.SHAPES.POLY;
+    this.type = _const.CONST.SHAPES.POLY;
 }
 
 Polygon.prototype.constructor = Polygon;
@@ -69,19 +75,15 @@ Polygon.prototype.constructor = Polygon;
  *
  * @return {PIXI.Polygon} a copy of the polygon
  */
-Polygon.prototype.clone = function ()
-{
+Polygon.prototype.clone = function () {
     return new Polygon(this.points.slice());
 };
 
-
-Polygon.prototype.close = function ()
-{
+Polygon.prototype.close = function () {
     var points = this.points;
 
     // close the poly if the value is true!
-    if (points[0] !== points[points.length-2] || points[1] !== points[points.length-1])
-    {
+    if (points[0] !== points[points.length - 2] || points[1] !== points[points.length - 1]) {
         points.push(points[0], points[1]);
     }
 };
@@ -93,22 +95,21 @@ Polygon.prototype.close = function ()
  * @param y {number} The Y coordinate of the point to test
  * @return {boolean} Whether the x/y coordinates are within this polygon
  */
-Polygon.prototype.contains = function (x, y)
-{
+Polygon.prototype.contains = function (x, y) {
     var inside = false;
 
     // use some raycasting to test hits
     // https://github.com/substack/point-in-polygon/blob/master/index.js
     var length = this.points.length / 2;
 
-    for (var i = 0, j = length - 1; i < length; j = i++)
-    {
-        var xi = this.points[i * 2], yi = this.points[i * 2 + 1],
-            xj = this.points[j * 2], yj = this.points[j * 2 + 1],
-            intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+    for (var i = 0, j = length - 1; i < length; j = i++) {
+        var xi = this.points[i * 2],
+            yi = this.points[i * 2 + 1],
+            xj = this.points[j * 2],
+            yj = this.points[j * 2 + 1],
+            intersect = yi > y !== yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi;
 
-        if (intersect)
-        {
+        if (intersect) {
             inside = !inside;
         }
     }
@@ -125,4 +126,4 @@ Polygon.prototype.contains = function (x, y)
  *      arguments passed can be flat x,y values e.g. `new Polygon(x,y, x,y, x,y, ...)` where `x` and `y` are
  *      Numbers.
  */
-export { mod_Polygon as Polygon };
+exports.Polygon = mod_Polygon;

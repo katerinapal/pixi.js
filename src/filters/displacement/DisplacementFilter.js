@@ -1,6 +1,22 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.DisplacementFilter = undefined;
+
+var _core = require("../../core");
+
+var _glslify = require("glslify");
+
+var _glslify2 = _interopRequireDefault(_glslify);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
 var mod_DisplacementFilter = DisplacementFilter;
-import { core as core_core } from "../../core";
-import ext_glslify_glslify from "glslify";
+
 "use strict";
 
 /**
@@ -14,19 +30,16 @@ import ext_glslify_glslify from "glslify";
  * @param sprite {PIXI.Sprite} The sprite used for the displacement map. (make sure its added to the scene!)
  * @param scale {number} The scale of the displacement
  */
-function DisplacementFilter(sprite, scale)
-{
-    var maskMatrix = new core_core.Matrix();
+function DisplacementFilter(sprite, scale) {
+    var maskMatrix = new _core.core.Matrix();
     sprite.renderable = false;
 
-    core_core.Filter.call(this,
-        // vertex shader
-//        glslify('./displacement.vert'),
-        ext_glslify_glslify('../fragments/default-filter-matrix.vert'),
-        // fragment shader
-        ext_glslify_glslify('./displacement.frag')
-
-    );
+    _core.core.Filter.call(this,
+    // vertex shader
+    //        glslify('./displacement.vert'),
+    (0, _glslify2.default)('../fragments/default-filter-matrix.vert'),
+    // fragment shader
+    (0, _glslify2.default)('./displacement.frag'));
 
     this.maskSprite = sprite;
     this.maskMatrix = maskMatrix;
@@ -35,29 +48,26 @@ function DisplacementFilter(sprite, scale)
     this.uniforms.filterMatrix = maskMatrix.toArray(true);
     this.uniforms.scale = { x: 1, y: 1 };
 
-    if (scale === null || scale === undefined)
-    {
+    if (scale === null || scale === undefined) {
         scale = 20;
     }
 
-    this.scale = new core_core.Point(scale, scale);
+    this.scale = new _core.core.Point(scale, scale);
 }
 
-DisplacementFilter.prototype = Object.create(core_core.Filter.prototype);
+DisplacementFilter.prototype = Object.create(_core.core.Filter.prototype);
 DisplacementFilter.prototype.constructor = DisplacementFilter;
 
-DisplacementFilter.prototype.apply = function (filterManager, input, output)
-{
-    var ratio =  (1/output.destinationFrame.width) * (output.size.width/input.size.width); /// // *  2 //4//this.strength / 4 / this.passes * (input.frame.width / input.size.width);
+DisplacementFilter.prototype.apply = function (filterManager, input, output) {
+    var ratio = 1 / output.destinationFrame.width * (output.size.width / input.size.width); /// // *  2 //4//this.strength / 4 / this.passes * (input.frame.width / input.size.width);
 
     this.uniforms.filterMatrix = filterManager.calculateSpriteMatrix(this.maskMatrix, this.maskSprite);
     this.uniforms.scale.x = this.scale.x * ratio;
     this.uniforms.scale.y = this.scale.y * ratio;
 
-     // draw the filter...
+    // draw the filter...
     filterManager.applyFilter(this, input, output);
 };
-
 
 Object.defineProperties(DisplacementFilter.prototype, {
     /**
@@ -67,14 +77,11 @@ Object.defineProperties(DisplacementFilter.prototype, {
      * @memberof PIXI.filters.DisplacementFilter#
      */
     map: {
-        get: function ()
-        {
+        get: function get() {
             return this.uniforms.mapSampler;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this.uniforms.mapSampler = value;
-
         }
     }
 });
@@ -90,4 +97,4 @@ Object.defineProperties(DisplacementFilter.prototype, {
  * @param sprite {PIXI.Sprite} The sprite used for the displacement map. (make sure its added to the scene!)
  * @param scale {number} The scale of the displacement
  */
-export { mod_DisplacementFilter as DisplacementFilter };
+exports.DisplacementFilter = mod_DisplacementFilter;

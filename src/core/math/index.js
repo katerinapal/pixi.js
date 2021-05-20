@@ -1,34 +1,50 @@
-import { Point as Point_Point } from "./Point";
-import { ObservablePoint as ObservablePoint_ObservablePoint } from "./ObservablePoint";
-import { Matrix as Matrix_Matrix } from "./Matrix";
-import { GroupD8 as GroupD8_GroupD8 } from "./GroupD8";
-import { Circle as shapesCircle_Circle } from "./shapes/Circle";
-import { Ellipse as shapesEllipse_Ellipse } from "./shapes/Ellipse";
-import { Polygon as shapesPolygon_Polygon } from "./shapes/Polygon";
-import { Rectangle as shapesRectangle_Rectangle } from "./shapes/Rectangle";
-import { RoundedRectangle as shapesRoundedRectangle_RoundedRectangle } from "./shapes/RoundedRectangle";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.indexjs = undefined;
+
+var _Point = require("./Point");
+
+var _ObservablePoint = require("./ObservablePoint");
+
+var _Matrix = require("./Matrix");
+
+var _GroupD = require("./GroupD8");
+
+var _Circle = require("./shapes/Circle");
+
+var _Ellipse = require("./shapes/Ellipse");
+
+var _Polygon = require("./shapes/Polygon");
+
+var _Rectangle = require("./shapes/Rectangle");
+
+var _RoundedRectangle = require("./shapes/RoundedRectangle");
+
 "use strict";
 /**
  * Math classes and utilities mixed into PIXI namespace.
  *
  * @lends PIXI
  */
-mod_indexjs = {
+exports.indexjs = mod_indexjs = {
     // These will be mixed to be made publicly available,
     // while this module is used internally in core
     // to avoid circular dependencies and cut down on
     // internal module requires.
 
-    Point:              Point_Point,
-    ObservablePoint:    ObservablePoint_ObservablePoint,
-    Matrix:             Matrix_Matrix,
-    GroupD8:            GroupD8_GroupD8,
+    Point: _Point.Point,
+    ObservablePoint: _ObservablePoint.ObservablePoint,
+    Matrix: _Matrix.Matrix,
+    GroupD8: _GroupD.GroupD8,
 
-    Circle:             shapesCircle_Circle,
-    Ellipse:            shapesEllipse_Ellipse,
-    Polygon:            shapesPolygon_Polygon,
-    Rectangle:          shapesRectangle_Rectangle,
-    RoundedRectangle:   shapesRoundedRectangle_RoundedRectangle
+    Circle: _Circle.Circle,
+    Ellipse: _Ellipse.Ellipse,
+    Polygon: _Polygon.Polygon,
+    Rectangle: _Rectangle.Rectangle,
+    RoundedRectangle: _RoundedRectangle.RoundedRectangle
 };
 var mod_indexjs;
-export { mod_indexjs as indexjs };
+exports.indexjs = mod_indexjs;

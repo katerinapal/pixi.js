@@ -1,4 +1,12 @@
-import { Matrix as Matrix_Matrix } from "./Matrix";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.GroupD8 = undefined;
+
+var _Matrix = require("./Matrix");
+
 "use strict";
 // Your friendly neighbour https://en.wikipedia.org/wiki/Dihedral_group of order 16
 
@@ -38,8 +46,8 @@ function init() {
         }
     }
 
-    for (i=0;i<16;i++) {
-        var mat = new Matrix_Matrix();
+    for (i = 0; i < 16; i++) {
+        var mat = new _Matrix.Matrix();
         mat.set(ux[i], uy[i], vx[i], vy[i], 0, 0);
         tempMatrices.push(mat);
     }
@@ -70,28 +78,28 @@ var GroupD8 = {
     NE: 7,
     MIRROR_VERTICAL: 8,
     MIRROR_HORIZONTAL: 12,
-    uX: function (ind) {
+    uX: function uX(ind) {
         return ux[ind];
     },
-    uY: function (ind) {
+    uY: function uY(ind) {
         return uy[ind];
     },
-    vX: function (ind) {
+    vX: function vX(ind) {
         return vx[ind];
     },
-    vY: function (ind) {
+    vY: function vY(ind) {
         return vy[ind];
     },
-    inv: function (rotation) {
+    inv: function inv(rotation) {
         if (rotation & 8) {
             return rotation & 15;
         }
-        return (-rotation) & 7;
+        return -rotation & 7;
     },
-    add: function (rotationSecond, rotationFirst) {
+    add: function add(rotationSecond, rotationFirst) {
         return mul[rotationSecond][rotationFirst];
     },
-    sub: function (rotationSecond, rotationFirst) {
+    sub: function sub(rotationSecond, rotationFirst) {
         return mul[rotationSecond][GroupD8.inv(rotationFirst)];
     },
     /**
@@ -99,7 +107,7 @@ var GroupD8 = {
      * @param rotation
      * @returns {number}
      */
-    rotate180: function (rotation) {
+    rotate180: function rotate180(rotation) {
         return rotation ^ 4;
     },
     /**
@@ -107,37 +115,32 @@ var GroupD8 = {
      * @param rotation
      * @returns {boolean}
      */
-    isSwapWidthHeight: function(rotation) {
+    isSwapWidthHeight: function isSwapWidthHeight(rotation) {
         return (rotation & 3) === 2;
     },
-    byDirection: function (dx, dy) {
+    byDirection: function byDirection(dx, dy) {
         if (Math.abs(dx) * 2 <= Math.abs(dy)) {
             if (dy >= 0) {
                 return GroupD8.S;
-            }
-            else {
+            } else {
                 return GroupD8.N;
             }
         } else if (Math.abs(dy) * 2 <= Math.abs(dx)) {
             if (dx > 0) {
                 return GroupD8.E;
-            }
-            else {
+            } else {
                 return GroupD8.W;
             }
         } else {
             if (dy > 0) {
                 if (dx > 0) {
                     return GroupD8.SE;
-                }
-                else {
+                } else {
                     return GroupD8.SW;
                 }
-            }
-            else if (dx > 0) {
+            } else if (dx > 0) {
                 return GroupD8.NE;
-            }
-            else {
+            } else {
                 return GroupD8.NW;
             }
         }
@@ -149,7 +152,7 @@ var GroupD8 = {
      * @param tx {number|*} sprite anchoring
      * @param ty {number|*} sprite anchoring
      */
-    matrixAppendRotationInv: function (matrix, rotation, tx, ty) {
+    matrixAppendRotationInv: function matrixAppendRotationInv(matrix, rotation, tx, ty) {
         //Packer used "rotation", we use "inv(rotation)"
         var mat = tempMatrices[GroupD8.inv(rotation)];
         tx = tx || 0;
@@ -162,5 +165,5 @@ var GroupD8 = {
 
 var mod_GroupD8;
 
-mod_GroupD8 = GroupD8;
-export { mod_GroupD8 as GroupD8 };
+exports.GroupD8 = mod_GroupD8 = GroupD8;
+exports.GroupD8 = mod_GroupD8;

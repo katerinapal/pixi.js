@@ -1,6 +1,22 @@
-import { CONST as const_CONST } from "../const";
-import ext_eventemitter3 from "eventemitter3";
-import { pluginTargetjs as pluginTarget_pluginTargetjs } from "./pluginTarget";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.utils = undefined;
+
+var _const = require("../const");
+
+var _eventemitter = require("eventemitter3");
+
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
+
+var _pluginTarget = require("./pluginTarget");
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
 "use strict";
 var mod_utils;
 
@@ -11,8 +27,8 @@ var utils = {
     _uid: 0,
     _saidHello: false,
 
-    EventEmitter:   ext_eventemitter3,
-    pluginTarget:   pluginTarget_pluginTargetjs,
+    EventEmitter: _eventemitter2.default,
+    pluginTarget: _pluginTarget.pluginTargetjs,
 
     /**
      * Gets the next unique identifier
@@ -20,8 +36,7 @@ var utils = {
      * @memberof PIXI.utils
      * @return {number} The next unique identifier to use.
      */
-    uid: function ()
-    {
+    uid: function uid() {
         return ++utils._uid;
     },
 
@@ -33,8 +48,7 @@ var utils = {
      * @param  {number[]} [out=[]] If supplied, this array will be used rather than returning a new one
      * @return {number[]} An array representing the [R, G, B] of the color.
      */
-    hex2rgb: function (hex, out)
-    {
+    hex2rgb: function hex2rgb(hex, out) {
         out = out || [];
 
         out[0] = (hex >> 16 & 0xFF) / 255;
@@ -51,8 +65,7 @@ var utils = {
      * @param hex {number} Number in hex
      * @return {string} The string color.
      */
-    hex2string: function (hex)
-    {
+    hex2string: function hex2string(hex) {
         hex = hex.toString(16);
         hex = '000000'.substr(0, 6 - hex.length) + hex;
 
@@ -66,11 +79,9 @@ var utils = {
      * @param rgb {number[]} rgb array
      * @return {number} The color number
      */
-    rgb2hex: function (rgb)
-    {
-        return ((rgb[0]*255 << 16) + (rgb[1]*255 << 8) + rgb[2]*255);
+    rgb2hex: function rgb2hex(rgb) {
+        return (rgb[0] * 255 << 16) + (rgb[1] * 255 << 8) + rgb[2] * 255;
     },
-
 
     /**
      * get the resolution / device pixel ratio of an asset by looking for the prefix
@@ -80,13 +91,11 @@ var utils = {
      * @param url {string} the image path
      * @return {number} resolution / device pixel ratio of an asset
      */
-    getResolutionOfUrl: function (url)
-    {
-        var resolution = const_CONST.RETINA_PREFIX.exec(url);
+    getResolutionOfUrl: function getResolutionOfUrl(url) {
+        var resolution = _const.CONST.RETINA_PREFIX.exec(url);
 
-        if (resolution)
-        {
-           return parseFloat(resolution[1]);
+        if (resolution) {
+            return parseFloat(resolution[1]);
         }
 
         return 1;
@@ -103,33 +112,17 @@ var utils = {
      * @constant
      * @static
      */
-    sayHello: function (type)
-    {
-        if (utils._saidHello)
-        {
+    sayHello: function sayHello(type) {
+        if (utils._saidHello) {
             return;
         }
 
-        if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
-        {
-            var args = [
-                '\n %c %c %c Pixi.js ' + const_CONST.VERSION + ' - ✰ ' + type + ' ✰  %c ' + ' %c ' + ' http://www.pixijs.com/  %c %c ♥%c♥%c♥ \n\n',
-                'background: #ff66a5; padding:5px 0;',
-                'background: #ff66a5; padding:5px 0;',
-                'color: #ff66a5; background: #030307; padding:5px 0;',
-                'background: #ff66a5; padding:5px 0;',
-                'background: #ffc3dc; padding:5px 0;',
-                'background: #ff66a5; padding:5px 0;',
-                'color: #ff2424; background: #fff; padding:5px 0;',
-                'color: #ff2424; background: #fff; padding:5px 0;',
-                'color: #ff2424; background: #fff; padding:5px 0;'
-            ];
+        if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+            var args = ['\n %c %c %c Pixi.js ' + _const.CONST.VERSION + ' - ✰ ' + type + ' ✰  %c ' + ' %c ' + ' http://www.pixijs.com/  %c %c ♥%c♥%c♥ \n\n', 'background: #ff66a5; padding:5px 0;', 'background: #ff66a5; padding:5px 0;', 'color: #ff66a5; background: #030307; padding:5px 0;', 'background: #ff66a5; padding:5px 0;', 'background: #ffc3dc; padding:5px 0;', 'background: #ff66a5; padding:5px 0;', 'color: #ff2424; background: #fff; padding:5px 0;', 'color: #ff2424; background: #fff; padding:5px 0;', 'color: #ff2424; background: #fff; padding:5px 0;'];
 
             window.console.log.apply(console, args); //jshint ignore:line
-        }
-        else if (window.console)
-        {
-            window.console.log('Pixi.js ' + const_CONST.VERSION + ' - ' + type + ' - http://www.pixijs.com/'); //jshint ignore:line
+        } else if (window.console) {
+            window.console.log('Pixi.js ' + _const.CONST.VERSION + ' - ' + type + ' - http://www.pixijs.com/'); //jshint ignore:line
         }
 
         utils._saidHello = true;
@@ -141,13 +134,10 @@ var utils = {
      * @memberof PIXI.utils
      * @return {boolean} is webgl supported
      */
-    isWebGLSupported: function ()
-    {
+    isWebGLSupported: function isWebGLSupported() {
         var contextOptions = { stencil: true, failIfMajorPerformanceCaveat: true };
-        try
-        {
-            if (!window.WebGLRenderingContext)
-            {
+        try {
+            if (!window.WebGLRenderingContext) {
                 return false;
             }
 
@@ -155,21 +145,17 @@ var utils = {
                 gl = canvas.getContext('webgl', contextOptions) || canvas.getContext('experimental-webgl', contextOptions);
 
             var success = !!(gl && gl.getContextAttributes().stencil);
-            if (gl)
-            {
+            if (gl) {
                 var loseContext = gl.getExtension('WEBGL_lose_context');
 
-                if(loseContext)
-                {
+                if (loseContext) {
                     loseContext.loseContext();
                 }
             }
             gl = null;
 
             return success;
-        }
-        catch (e)
-        {
+        } catch (e) {
             return false;
         }
     },
@@ -181,9 +167,8 @@ var utils = {
      * @param n {number}
      * @returns {number} 0 if n is 0, -1 if n is negative, 1 if n i positive
      */
-    sign: function (n)
-    {
-        return n ? (n < 0 ? -1 : 1) : 0;
+    sign: function sign(n) {
+        return n ? n < 0 ? -1 : 1 : 0;
     },
 
     /**
@@ -194,18 +179,15 @@ var utils = {
      * @param {number} startIdx The index to begin removing from (inclusive)
      * @param {number} removeCount How many items to remove
      */
-    removeItems: function (arr, startIdx, removeCount)
-    {
+    removeItems: function removeItems(arr, startIdx, removeCount) {
         var length = arr.length;
 
-        if (startIdx >= length || removeCount === 0)
-        {
+        if (startIdx >= length || removeCount === 0) {
             return;
         }
 
-        removeCount = (startIdx+removeCount > length ? length-startIdx : removeCount);
-        for (var i = startIdx, len = length-removeCount; i < len; ++i)
-        {
+        removeCount = startIdx + removeCount > length ? length - startIdx : removeCount;
+        for (var i = startIdx, len = length - removeCount; i < len; ++i) {
             arr[i] = arr[i + removeCount];
         }
 
@@ -228,5 +210,5 @@ var utils = {
      */
     BaseTextureCache: {}
 };
-mod_utils = utils;
-export { mod_utils as utils };
+exports.utils = mod_utils = utils;
+exports.utils = mod_utils;

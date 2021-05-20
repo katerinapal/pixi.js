@@ -1,6 +1,22 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.VoidFilter = undefined;
+
+var _core = require("../../core");
+
+var _glslify = require("glslify");
+
+var _glslify2 = _interopRequireDefault(_glslify);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
 var mod_VoidFilter = VoidFilter;
-import { core as core_core } from "../../core";
-import ext_glslify_glslify from "glslify";
+
 "use strict";
 
 /**
@@ -10,19 +26,17 @@ import ext_glslify_glslify from "glslify";
  * @extends PIXI.Filter
  * @memberof PIXI.filters
  */
-function VoidFilter()
-{
-    core_core.Filter.call(this,
-        // vertex shader
-        ext_glslify_glslify('../fragments/default.vert'),
-        // fragment shader
-        ext_glslify_glslify('./void.frag')
-    );
+function VoidFilter() {
+  _core.core.Filter.call(this,
+  // vertex shader
+  (0, _glslify2.default)('../fragments/default.vert'),
+  // fragment shader
+  (0, _glslify2.default)('./void.frag'));
 
-    this.glShaderKey = 'void';
+  this.glShaderKey = 'void';
 }
 
-VoidFilter.prototype = Object.create(core_core.Filter.prototype);
+VoidFilter.prototype = Object.create(_core.core.Filter.prototype);
 VoidFilter.prototype.constructor = VoidFilter;
 
 /**
@@ -32,4 +46,4 @@ VoidFilter.prototype.constructor = VoidFilter;
  * @extends PIXI.Filter
  * @memberof PIXI.filters
  */
-export { mod_VoidFilter as VoidFilter };
+exports.VoidFilter = mod_VoidFilter;

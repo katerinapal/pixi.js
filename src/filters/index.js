@@ -1,11 +1,26 @@
-import { FXAAFilter as fxaaFXAAFilter_FXAAFilter } from "./fxaa/FXAAFilter";
-import { NoiseFilter as noiseNoiseFilter_NoiseFilter } from "./noise/NoiseFilter";
-import { DisplacementFilter as displacementDisplacementFilter_DisplacementFilter } from "./displacement/DisplacementFilter";
-import { BlurFilter as blurBlurFilter_BlurFilter } from "./blur/BlurFilter";
-import { BlurXFilter as blurBlurXFilter_BlurXFilter } from "./blur/BlurXFilter";
-import { BlurYFilter as blurBlurYFilter_BlurYFilter } from "./blur/BlurYFilter";
-import { ColorMatrixFilter as colormatrixColorMatrixFilter_ColorMatrixFilter } from "./colormatrix/ColorMatrixFilter";
-import { VoidFilter as voidVoidFilter_VoidFilter } from "./void/VoidFilter";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.indexjs = undefined;
+
+var _FXAAFilter = require("./fxaa/FXAAFilter");
+
+var _NoiseFilter = require("./noise/NoiseFilter");
+
+var _DisplacementFilter = require("./displacement/DisplacementFilter");
+
+var _BlurFilter = require("./blur/BlurFilter");
+
+var _BlurXFilter = require("./blur/BlurXFilter");
+
+var _BlurYFilter = require("./blur/BlurYFilter");
+
+var _ColorMatrixFilter = require("./colormatrix/ColorMatrixFilter");
+
+var _VoidFilter = require("./void/VoidFilter");
+
 "use strict";
 /**
  * @file        Main export of the PIXI filters library
@@ -17,15 +32,15 @@ import { VoidFilter as voidVoidFilter_VoidFilter } from "./void/VoidFilter";
 /**
  * @namespace PIXI.filters
  */
-mod_indexjs = {
-    FXAAFilter:          fxaaFXAAFilter_FXAAFilter,
-    NoiseFilter:        noiseNoiseFilter_NoiseFilter,
-    DisplacementFilter: displacementDisplacementFilter_DisplacementFilter,
-    BlurFilter:         blurBlurFilter_BlurFilter,
-    BlurXFilter:        blurBlurXFilter_BlurXFilter,
-    BlurYFilter:        blurBlurYFilter_BlurYFilter,
-    ColorMatrixFilter:  colormatrixColorMatrixFilter_ColorMatrixFilter,
-    VoidFilter:         voidVoidFilter_VoidFilter
+exports.indexjs = mod_indexjs = {
+  FXAAFilter: _FXAAFilter.FXAAFilter,
+  NoiseFilter: _NoiseFilter.NoiseFilter,
+  DisplacementFilter: _DisplacementFilter.DisplacementFilter,
+  BlurFilter: _BlurFilter.BlurFilter,
+  BlurXFilter: _BlurXFilter.BlurXFilter,
+  BlurYFilter: _BlurYFilter.BlurYFilter,
+  ColorMatrixFilter: _ColorMatrixFilter.ColorMatrixFilter,
+  VoidFilter: _VoidFilter.VoidFilter
 };
 var mod_indexjs;
-export { mod_indexjs as indexjs };
+exports.indexjs = mod_indexjs;

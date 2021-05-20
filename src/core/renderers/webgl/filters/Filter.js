@@ -1,7 +1,18 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Filter = undefined;
+
+var _extractUniformsFromSrc = require("./extractUniformsFromSrc");
+
+var _utils = require("../../../utils");
+
+var _const = require("../../../const");
+
 var mod_Filter = Filter;
-import { extractUniformsFromSrc as extractUniformsFromSrc_extractUniformsFromSrc } from "./extractUniformsFromSrc";
-import { utils as utils_utils } from "../../../utils";
-import { CONST as const_CONST } from "../../../const";
+
 "use strict";
 var SOURCE_KEY_MAP = {};
 
@@ -14,78 +25,74 @@ var SOURCE_KEY_MAP = {};
  * @param [uniforms] {object} Custom uniforms to use to augment the built-in ones.
  * @param [fragmentSrc] {string} The source of the fragment shader.
  */
-function Filter(vertexSrc, fragmentSrc, uniforms)
-{
+function Filter(vertexSrc, fragmentSrc, uniforms) {
 
-    /**
-     * The vertex shader.
-     *
-     * @member {string}
-     */
-    this.vertexSrc = vertexSrc || Filter.defaultVertexSrc;
+  /**
+   * The vertex shader.
+   *
+   * @member {string}
+   */
+  this.vertexSrc = vertexSrc || Filter.defaultVertexSrc;
 
-    /**
-     * The fragment shader.
-     *
-     * @member {string}
-     */
-    this.fragmentSrc = fragmentSrc || Filter.defaultFragmentSrc;
+  /**
+   * The fragment shader.
+   *
+   * @member {string}
+   */
+  this.fragmentSrc = fragmentSrc || Filter.defaultFragmentSrc;
 
-    this.blendMode = const_CONST.BLEND_MODES.NORMAL;
+  this.blendMode = _const.CONST.BLEND_MODES.NORMAL;
 
-    // pull out the vertex and shader uniforms if they are not specified..
-    // currently this does not extract structs only default types
-    this.uniformData = uniforms || extractUniformsFromSrc_extractUniformsFromSrc( this.vertexSrc, this.fragmentSrc, 'projectionMatrix|uSampler');
+  // pull out the vertex and shader uniforms if they are not specified..
+  // currently this does not extract structs only default types
+  this.uniformData = uniforms || (0, _extractUniformsFromSrc.extractUniformsFromSrc)(this.vertexSrc, this.fragmentSrc, 'projectionMatrix|uSampler');
 
-    this.uniforms = {};
+  this.uniforms = {};
 
-    for (var i in this.uniformData)
-    {
-        this.uniforms[i] = this.uniformData[i].value;
-    }
+  for (var i in this.uniformData) {
+    this.uniforms[i] = this.uniformData[i].value;
+  }
 
-    // this is where we store shader references..
-    // TODO we could cache this!
-    this.glShaders = [];
+  // this is where we store shader references..
+  // TODO we could cache this!
+  this.glShaders = [];
 
-    // used for cacheing.. sure there is a better way!
-    if(!SOURCE_KEY_MAP[this.vertexSrc + this.fragmentSrc])
-    {
-        SOURCE_KEY_MAP[this.vertexSrc + this.fragmentSrc] = utils_utils.uid();
-    }
+  // used for cacheing.. sure there is a better way!
+  if (!SOURCE_KEY_MAP[this.vertexSrc + this.fragmentSrc]) {
+    SOURCE_KEY_MAP[this.vertexSrc + this.fragmentSrc] = _utils.utils.uid();
+  }
 
-    this.glShaderKey = SOURCE_KEY_MAP[this.vertexSrc + this.fragmentSrc];
+  this.glShaderKey = SOURCE_KEY_MAP[this.vertexSrc + this.fragmentSrc];
 
-    /**
-     * The padding of the filter. Some filters require extra space to breath such as a blur. Increasing this will add extra width and height to the bounds of the object that the filter is applied to.
-     */
-    this.padding = 4;
+  /**
+   * The padding of the filter. Some filters require extra space to breath such as a blur. Increasing this will add extra width and height to the bounds of the object that the filter is applied to.
+   */
+  this.padding = 4;
 
-    /**
-     * The resolution of the filter. Setting this to be lower will lower the quality but increase the performance of the filter.
-     * @member {number}
-     */
-    this.resolution = 1;
+  /**
+   * The resolution of the filter. Setting this to be lower will lower the quality but increase the performance of the filter.
+   * @member {number}
+   */
+  this.resolution = 1;
 
-    /**
-     * If enabled is true the filter is applied, if false it will not.
-     * @member {boolean}
-     */
-    this.enabled = true;
+  /**
+   * If enabled is true the filter is applied, if false it will not.
+   * @member {boolean}
+   */
+  this.enabled = true;
 }
 
 // var tempMatrix = new math.Matrix();
 
-Filter.prototype.apply = function(filterManager, input, output, clear)
-{
-    // --- //
+Filter.prototype.apply = function (filterManager, input, output, clear) {
+  // --- //
   //  this.uniforms.filterMatrix = filterManager.calculateSpriteMatrix(tempMatrix, window.panda );
 
-    // do as you please!
+  // do as you please!
 
-    filterManager.applyFilter(this, input, output, clear);
+  filterManager.applyFilter(this, input, output, clear);
 
-    // or just do a regular render..
+  // or just do a regular render..
 };
 
 /**
@@ -94,22 +101,7 @@ Filter.prototype.apply = function(filterManager, input, output, clear)
  * @static
  * @constant
  */
-Filter.defaultVertexSrc = [
-    'attribute vec2 aVertexPosition;',
-    'attribute vec2 aTextureCoord;',
-
-    'uniform mat3 projectionMatrix;',
-    'uniform mat3 filterMatrix;',
-
-    'varying vec2 vTextureCoord;',
-    'varying vec2 vFilterCoord;',
-
-    'void main(void){',
-    '   gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);',
-    '   vFilterCoord = ( filterMatrix * vec3( aTextureCoord, 1.0)  ).xy;',
-    '   vTextureCoord = aTextureCoord ;',
-    '}'
-].join('\n');
+Filter.defaultVertexSrc = ['attribute vec2 aVertexPosition;', 'attribute vec2 aTextureCoord;', 'uniform mat3 projectionMatrix;', 'uniform mat3 filterMatrix;', 'varying vec2 vTextureCoord;', 'varying vec2 vFilterCoord;', 'void main(void){', '   gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);', '   vFilterCoord = ( filterMatrix * vec3( aTextureCoord, 1.0)  ).xy;', '   vTextureCoord = aTextureCoord ;', '}'].join('\n');
 
 /**
  * The default fragment shader source
@@ -117,30 +109,9 @@ Filter.defaultVertexSrc = [
  * @static
  * @constant
  */
-Filter.defaultFragmentSrc = [
-    'varying vec2 vTextureCoord;',
-    'varying vec2 vFilterCoord;',
-
-    'uniform sampler2D uSampler;',
-    'uniform sampler2D filterSampler;',
-
-    'void main(void){',
-    '   vec4 masky = texture2D(filterSampler, vFilterCoord);',
-    '   vec4 sample = texture2D(uSampler, vTextureCoord);',
-    '   vec4 color;',
-    '   if(mod(vFilterCoord.x, 1.0) > 0.5)',
-    '   {',
-    '     color = vec4(1.0, 0.0, 0.0, 1.0);',
-    '   }',
-    '   else',
-    '   {',
-    '     color = vec4(0.0, 1.0, 0.0, 1.0);',
-    '   }',
-   // '   gl_FragColor = vec4(mod(vFilterCoord.x, 1.5), vFilterCoord.y,0.0,1.0);',
-    '   gl_FragColor = mix(sample, masky, 0.5);',
-    '   gl_FragColor *= sample.a;',
-    '}'
-].join('\n');
+Filter.defaultFragmentSrc = ['varying vec2 vTextureCoord;', 'varying vec2 vFilterCoord;', 'uniform sampler2D uSampler;', 'uniform sampler2D filterSampler;', 'void main(void){', '   vec4 masky = texture2D(filterSampler, vFilterCoord);', '   vec4 sample = texture2D(uSampler, vTextureCoord);', '   vec4 color;', '   if(mod(vFilterCoord.x, 1.0) > 0.5)', '   {', '     color = vec4(1.0, 0.0, 0.0, 1.0);', '   }', '   else', '   {', '     color = vec4(0.0, 1.0, 0.0, 1.0);', '   }',
+// '   gl_FragColor = vec4(mod(vFilterCoord.x, 1.5), vFilterCoord.y,0.0,1.0);',
+'   gl_FragColor = mix(sample, masky, 0.5);', '   gl_FragColor *= sample.a;', '}'].join('\n');
 
 // var math = require('../../../math');
 /**
@@ -151,4 +122,4 @@ Filter.defaultFragmentSrc = [
  * @param [uniforms] {object} Custom uniforms to use to augment the built-in ones.
  * @param [fragmentSrc] {string} The source of the fragment shader.
  */
-export { mod_Filter as Filter };
+exports.Filter = mod_Filter;

@@ -1,6 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.TextureGarbageCollector = undefined;
+
+var _const = require("../../const");
 
 var mod_TextureGarbageCollector = TextureGarbageCollector;
-import { CONST as const_CONST } from "../../const";
+
 "use strict";
 
 /**
@@ -10,8 +18,7 @@ import { CONST as const_CONST } from "../../const";
  * @memberof PIXI
  * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
  */
-function TextureGarbageCollector(renderer)
-{
+function TextureGarbageCollector(renderer) {
     this.renderer = renderer;
 
     this.count = 0;
@@ -19,7 +26,7 @@ function TextureGarbageCollector(renderer)
     this.maxIdle = 60 * 60;
     this.checkCountMax = 60 * 10;
 
-    this.mode = const_CONST.GC_MODES.DEFAULT;
+    this.mode = _const.CONST.GC_MODES.DEFAULT;
 }
 
 TextureGarbageCollector.prototype.constructor = TextureGarbageCollector;
@@ -28,20 +35,16 @@ TextureGarbageCollector.prototype.constructor = TextureGarbageCollector;
  * Checks to see when the last time a texture was used
  * if the texture has not been used for a specified amount of time it will be removed from the GPU
  */
-TextureGarbageCollector.prototype.update = function()
-{
+TextureGarbageCollector.prototype.update = function () {
     this.count++;
 
-    if(this.mode === const_CONST.GC_MODES.MANUAL)
-    {
+    if (this.mode === _const.CONST.GC_MODES.MANUAL) {
         return;
     }
 
     this.checkCount++;
 
-
-    if(this.checkCount > this.checkCountMax)
-    {
+    if (this.checkCount > this.checkCountMax) {
         this.checkCount = 0;
 
         this.run();
@@ -52,34 +55,28 @@ TextureGarbageCollector.prototype.update = function()
  * Checks to see when the last time a texture was used
  * if the texture has not been used for a specified amount of time it will be removed from the GPU
  */
-TextureGarbageCollector.prototype.run = function()
-{
+TextureGarbageCollector.prototype.run = function () {
     var tm = this.renderer.textureManager;
-    var managedTextures =  tm._managedTextures;
+    var managedTextures = tm._managedTextures;
     var wasRemoved = false;
-    var i,j;
+    var i, j;
 
-    for (i = 0; i < managedTextures.length; i++)
-    {
+    for (i = 0; i < managedTextures.length; i++) {
         var texture = managedTextures[i];
 
         // only supports non generated textures at the moment!
-        if (!texture._glRenderTargets && this.count - texture.touched > this.maxIdle)
-        {
+        if (!texture._glRenderTargets && this.count - texture.touched > this.maxIdle) {
             tm.destroyTexture(texture, true);
             managedTextures[i] = null;
             wasRemoved = true;
         }
     }
 
-    if (wasRemoved)
-    {
+    if (wasRemoved) {
         j = 0;
 
-        for (i = 0; i < managedTextures.length; i++)
-        {
-            if (managedTextures[i] !== null)
-            {
+        for (i = 0; i < managedTextures.length; i++) {
+            if (managedTextures[i] !== null) {
                 managedTextures[j++] = managedTextures[i];
             }
         }
@@ -93,19 +90,16 @@ TextureGarbageCollector.prototype.run = function()
  *
  * @param displayObject {PIXI.DisplayObject} the displayObject to remove the textures from.
  */
-TextureGarbageCollector.prototype.unload = function( displayObject )
-{
+TextureGarbageCollector.prototype.unload = function (displayObject) {
     var tm = this.renderer.textureManager;
 
-    if(displayObject._texture)
-    {
+    if (displayObject._texture) {
         tm.destroyTexture(displayObject._texture, true);
     }
 
     for (var i = displayObject.children.length - 1; i >= 0; i--) {
 
         this.unload(displayObject.children[i]);
-
     }
 };
 
@@ -116,4 +110,4 @@ TextureGarbageCollector.prototype.unload = function( displayObject )
  * @memberof PIXI
  * @param renderer {PIXI.WebGLRenderer} The renderer this manager works for.
  */
-export { mod_TextureGarbageCollector as TextureGarbageCollector };
+exports.TextureGarbageCollector = mod_TextureGarbageCollector;

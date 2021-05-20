@@ -1,5 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.mapWebGLDrawModesToPixi = undefined;
+
+var _const = require("../../../const");
+
 var mod_mapWebGLDrawModesToPixi = mapWebGLDrawModesToPixi;
-import { CONST as const_CONST } from "../../../const";
+
 "use strict";
 
 /**
@@ -9,18 +18,16 @@ import { CONST as const_CONST } from "../../../const";
  * @param gl {WebGLRenderingContext} The current WebGL drawing context
  * @param object
  */
-function mapWebGLDrawModesToPixi(gl, object)
-{
-	object= object || {};
+function mapWebGLDrawModesToPixi(gl, object) {
+  object = object || {};
 
-    object[const_CONST.DRAW_MODES.POINTS]         = gl.POINTS;
-    object[const_CONST.DRAW_MODES.LINES]          = gl.LINES;
-    object[const_CONST.DRAW_MODES.LINE_LOOP]      = gl.LINE_LOOP;
-    object[const_CONST.DRAW_MODES.LINE_STRIP]     = gl.LINE_STRIP;
-    object[const_CONST.DRAW_MODES.TRIANGLES]      = gl.TRIANGLES;
-    object[const_CONST.DRAW_MODES.TRIANGLE_STRIP] = gl.TRIANGLE_STRIP;
-    object[const_CONST.DRAW_MODES.TRIANGLE_FAN]   = gl.TRIANGLE_FAN;
-
+  object[_const.CONST.DRAW_MODES.POINTS] = gl.POINTS;
+  object[_const.CONST.DRAW_MODES.LINES] = gl.LINES;
+  object[_const.CONST.DRAW_MODES.LINE_LOOP] = gl.LINE_LOOP;
+  object[_const.CONST.DRAW_MODES.LINE_STRIP] = gl.LINE_STRIP;
+  object[_const.CONST.DRAW_MODES.TRIANGLES] = gl.TRIANGLES;
+  object[_const.CONST.DRAW_MODES.TRIANGLE_STRIP] = gl.TRIANGLE_STRIP;
+  object[_const.CONST.DRAW_MODES.TRIANGLE_FAN] = gl.TRIANGLE_FAN;
 }
 
 /**
@@ -30,4 +37,4 @@ function mapWebGLDrawModesToPixi(gl, object)
  * @param gl {WebGLRenderingContext} The current WebGL drawing context
  * @param object
  */
-export { mod_mapWebGLDrawModesToPixi as mapWebGLDrawModesToPixi };
+exports.mapWebGLDrawModesToPixi = mod_mapWebGLDrawModesToPixi;

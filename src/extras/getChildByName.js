@@ -1,4 +1,7 @@
-import { core as core_core } from "../core";
+"use strict";
+
+var _core = require("../core");
+
 "use strict";
 
 /**
@@ -7,7 +10,7 @@ import { core as core_core } from "../core";
  * @memberof PIXI.DisplayObject#
  * @member {string}
  */
-core_core.DisplayObject.prototype.name = null;
+_core.core.DisplayObject.prototype.name = null;
 
 /**
 * Returns the display object in the container
@@ -16,12 +19,9 @@ core_core.DisplayObject.prototype.name = null;
 * @param name {string} instance name
 * @return {PIXI.DisplayObject}
 */
-core_core.Container.prototype.getChildByName = function (name)
-{
-    for (var i = 0; i < this.children.length; i++)
-    {
-        if (this.children[i].name === name)
-        {
+_core.core.Container.prototype.getChildByName = function (name) {
+    for (var i = 0; i < this.children.length; i++) {
+        if (this.children[i].name === name) {
             return this.children[i];
         }
     }

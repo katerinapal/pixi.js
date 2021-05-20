@@ -1,7 +1,18 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.BlurFilter = undefined;
+
+var _core = require("../../core");
+
+var _BlurXFilter = require("./BlurXFilter");
+
+var _BlurYFilter = require("./BlurYFilter");
+
 var mod_BlurFilter = BlurFilter;
-import { core as core_core } from "../../core";
-import { BlurXFilter as BlurXFilter_BlurXFilter } from "./BlurXFilter";
-import { BlurYFilter as BlurYFilter_BlurYFilter } from "./BlurYFilter";
+
 "use strict";
 
 /**
@@ -12,12 +23,11 @@ import { BlurYFilter as BlurYFilter_BlurYFilter } from "./BlurYFilter";
  * @extends PIXI.Filter
  * @memberof PIXI.filters
  */
-function BlurFilter(strength, quality, resolution)
-{
-    core_core.Filter.call(this);
+function BlurFilter(strength, quality, resolution) {
+    _core.core.Filter.call(this);
 
-    this.blurXFilter = new BlurXFilter_BlurXFilter();
-    this.blurYFilter = new BlurYFilter_BlurYFilter();
+    this.blurXFilter = new _BlurXFilter.BlurXFilter();
+    this.blurYFilter = new _BlurYFilter.BlurYFilter();
     this.resolution = 1;
 
     this.padding = 0;
@@ -26,11 +36,10 @@ function BlurFilter(strength, quality, resolution)
     this.blur = strength || 8;
 }
 
-BlurFilter.prototype = Object.create(core_core.Filter.prototype);
+BlurFilter.prototype = Object.create(_core.core.Filter.prototype);
 BlurFilter.prototype.constructor = BlurFilter;
 
-BlurFilter.prototype.apply = function (filterManager, input, output)
-{
+BlurFilter.prototype.apply = function (filterManager, input, output) {
 
     var renderTarget = filterManager.getRenderTarget(true);
 
@@ -49,14 +58,12 @@ Object.defineProperties(BlurFilter.prototype, {
      * @default 2
      */
     blur: {
-        get: function ()
-        {
+        get: function get() {
             return this.blurXFilter.blur;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this.blurXFilter.blur = this.blurYFilter.blur = value;
-            this.padding = Math.max( Math.abs(this.blurYFilter.strength),  Math.abs(this.blurYFilter.strength)) * 2;
+            this.padding = Math.max(Math.abs(this.blurYFilter.strength), Math.abs(this.blurYFilter.strength)) * 2;
         }
     },
 
@@ -68,12 +75,10 @@ Object.defineProperties(BlurFilter.prototype, {
      * @default 1
      */
     quality: {
-        get: function ()
-        {
-            return  this.blurXFilter.quality;
+        get: function get() {
+            return this.blurXFilter.quality;
         },
-        set: function (value)
-        {
+        set: function set(value) {
 
             this.blurXFilter.quality = this.blurYFilter.quality = value;
         }
@@ -87,14 +92,12 @@ Object.defineProperties(BlurFilter.prototype, {
      * @default 2
      */
     blurX: {
-        get: function ()
-        {
+        get: function get() {
             return this.blurXFilter.blur;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this.blurXFilter.blur = value;
-            this.padding = Math.max( Math.abs(this.blurYFilter.strength),  Math.abs(this.blurYFilter.strength)) * 2;
+            this.padding = Math.max(Math.abs(this.blurYFilter.strength), Math.abs(this.blurYFilter.strength)) * 2;
         }
     },
 
@@ -106,14 +109,12 @@ Object.defineProperties(BlurFilter.prototype, {
      * @default 2
      */
     blurY: {
-        get: function ()
-        {
+        get: function get() {
             return this.blurYFilter.blur;
         },
-        set: function (value)
-        {
+        set: function set(value) {
             this.blurYFilter.blur = value;
-            this.padding = Math.max( Math.abs(this.blurYFilter.strength),  Math.abs(this.blurYFilter.strength)) * 2;
+            this.padding = Math.max(Math.abs(this.blurYFilter.strength), Math.abs(this.blurYFilter.strength)) * 2;
         }
     }
 });
@@ -126,4 +127,4 @@ Object.defineProperties(BlurFilter.prototype, {
  * @extends PIXI.Filter
  * @memberof PIXI.filters
  */
-export { mod_BlurFilter as BlurFilter };
+exports.BlurFilter = mod_BlurFilter;
