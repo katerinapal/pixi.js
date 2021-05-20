@@ -50,4 +50,7 @@ var bezierCurveTo = function (fromX, fromY, cpX, cpY, cpX2, cpY2, toX, toY, path
     return path;
 };
 
-module.exports = bezierCurveTo;
+var mod_bezierCurveTo;
+
+mod_bezierCurveTo = bezierCurveTo;
+export { mod_bezierCurveTo as bezierCurveTo };

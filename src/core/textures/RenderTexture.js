@@ -1,6 +1,7 @@
+var mod_RenderTexture = RenderTexture;
+import { BaseRenderTexture as BaseRenderTexture_BaseRenderTexture } from "./BaseRenderTexture";
+import { Texture as Texture_Texture } from "./Texture";
 "use strict";
-var BaseRenderTexture = require('./BaseRenderTexture'),
-    Texture = require('./Texture');
 
 /**
  * A RenderTexture is a special texture that allows any Pixi display object to be rendered to it.
@@ -46,7 +47,7 @@ function RenderTexture(baseRenderTexture, frame)
     // suport for legacy..
     this.legacyRenderer = null;
 
-    if( !(baseRenderTexture instanceof BaseRenderTexture) )
+    if( !(baseRenderTexture instanceof BaseRenderTexture_BaseRenderTexture) )
     {
         var width = arguments[1];
         var height = arguments[2];
@@ -58,7 +59,7 @@ function RenderTexture(baseRenderTexture, frame)
         this.legacyRenderer = arguments[0];
 
         frame = null;
-        baseRenderTexture = new BaseRenderTexture(width, height, scaleMode, resolution);
+        baseRenderTexture = new BaseRenderTexture_BaseRenderTexture(width, height, scaleMode, resolution);
     }
 
 
@@ -67,7 +68,7 @@ function RenderTexture(baseRenderTexture, frame)
      *
      * @member {BaseTexture}
      */
-    Texture.call(this,
+    Texture_Texture.call(this,
         baseRenderTexture,
         frame
     );
@@ -82,9 +83,8 @@ function RenderTexture(baseRenderTexture, frame)
     this._updateUvs();
 }
 
-RenderTexture.prototype = Object.create(Texture.prototype);
+RenderTexture.prototype = Object.create(Texture_Texture.prototype);
 RenderTexture.prototype.constructor = RenderTexture;
-module.exports = RenderTexture;
 
 /**
  * Resizes the RenderTexture.
@@ -119,5 +119,46 @@ RenderTexture.prototype.resize = function (width, height, doNotResizeBaseTexture
  */
 RenderTexture.create = function(width, height, scaleMode, resolution)
 {
-    return new RenderTexture(new BaseRenderTexture(width, height, scaleMode, resolution));
+    return new RenderTexture(new BaseRenderTexture_BaseRenderTexture(width, height, scaleMode, resolution));
 };
+
+/**
+ * A RenderTexture is a special texture that allows any Pixi display object to be rendered to it.
+ *
+ * __Hint__: All DisplayObjects (i.e. Sprites) that render to a RenderTexture should be preloaded
+ * otherwise black rectangles will be drawn instead.
+ *
+ * A RenderTexture takes a snapshot of any Display Object given to its render method. The position
+ * and rotation of the given Display Objects is ignored. For example:
+ *
+ * ```js
+ * var renderer = PIXI.autoDetectRenderer(1024, 1024, { view: canvas, ratio: 1 });
+ * var renderTexture = PIXI.RenderTexture.create(800, 600);
+ * var sprite = PIXI.Sprite.fromImage("spinObj_01.png");
+ *
+ * sprite.position.x = 800/2;
+ * sprite.position.y = 600/2;
+ * sprite.anchor.x = 0.5;
+ * sprite.anchor.y = 0.5;
+ *
+ * renderer.render(sprite, renderTexture);
+ * ```
+ *
+ * The Sprite in this case will be rendered to a position of 0,0. To render this sprite at its actual
+ * position a Container should be used:
+ *
+ * ```js
+ * var doc = new PIXI.Container();
+ *
+ * doc.addChild(sprite);
+ *
+ * renderer.render(doc, renderTexture);  // Renders to center of renderTexture
+ * ```
+ *
+ * @class
+ * @extends PIXI.Texture
+ * @memberof PIXI
+ * @param baseRenderTexture {PIXI.BaseRenderTexture} The renderer used for this RenderTexture
+ * @param [frame] {PIXI.Rectangle} The rectangle frame of the texture to show
+ */
+export { mod_RenderTexture as RenderTexture };

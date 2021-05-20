@@ -1,6 +1,7 @@
+var mod_Ellipse = Ellipse;
+import { Rectangle as Rectangle_Rectangle } from "./Rectangle";
+import { CONST as const_CONST } from "../../const";
 "use strict";
-var Rectangle = require('./Rectangle'),
-    CONST = require('../../const');
 
 /**
  * The Ellipse object can be used to specify a hit area for displayObjects
@@ -46,11 +47,10 @@ function Ellipse(x, y, width, height)
      * @default CONST.SHAPES.ELIP
      * @see PIXI.SHAPES
      */
-    this.type = CONST.SHAPES.ELIP;
+    this.type = const_CONST.SHAPES.ELIP;
 }
 
 Ellipse.prototype.constructor = Ellipse;
-module.exports = Ellipse;
 
 /**
  * Creates a clone of this Ellipse instance
@@ -93,5 +93,17 @@ Ellipse.prototype.contains = function (x, y)
  */
 Ellipse.prototype.getBounds = function ()
 {
-    return new Rectangle(this.x - this.width, this.y - this.height, this.width, this.height);
+    return new Rectangle_Rectangle(this.x - this.width, this.y - this.height, this.width, this.height);
 };
+
+/**
+ * The Ellipse object can be used to specify a hit area for displayObjects
+ *
+ * @class
+ * @memberof PIXI
+ * @param x {number} The X coordinate of the center of the ellipse
+ * @param y {number} The Y coordinate of the center of the ellipse
+ * @param width {number} The half width of this ellipse
+ * @param height {number} The half height of this ellipse
+ */
+export { mod_Ellipse as Ellipse };

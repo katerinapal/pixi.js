@@ -28,4 +28,7 @@ var createIndicesForQuads = function (size)
     return indices;
 };
 
-module.exports = createIndicesForQuads;
+var mod_createIndicesForQuads;
+
+mod_createIndicesForQuads = createIndicesForQuads;
+export { mod_createIndicesForQuads as createIndicesForQuads };

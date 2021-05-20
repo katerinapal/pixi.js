@@ -1,5 +1,6 @@
+var mod_Plane = Plane;
+import { Mesh as Mesh_Mesh } from "./Mesh";
 "use strict";
-var Mesh = require('./Mesh');
 
 /**
  * The Plane allows you to draw a texture across several points and them manipulate these points
@@ -21,7 +22,7 @@ var Mesh = require('./Mesh');
  */
 function Plane(texture, verticesX, verticesY)
 {
-    Mesh.call(this, texture);
+    Mesh_Mesh.call(this, texture);
 
     /**
      * Tracker for if the Plane is ready to be drawn. Needed because Mesh ctor can
@@ -35,16 +36,15 @@ function Plane(texture, verticesX, verticesY)
     this.verticesX = verticesX || 10;
     this.verticesY = verticesY || 10;
 
-    this.drawMode = Mesh.DRAW_MODES.TRIANGLES;
+    this.drawMode = Mesh_Mesh.DRAW_MODES.TRIANGLES;
     this.refresh();
 
 }
 
 
 // constructor
-Plane.prototype = Object.create( Mesh.prototype );
+Plane.prototype = Object.create( Mesh_Mesh.prototype );
 Plane.prototype.constructor = Plane;
-module.exports = Plane;
 
 /**
  * Refreshes
@@ -115,10 +115,30 @@ Plane.prototype.refresh = function()
  */
 Plane.prototype._onTextureUpdate = function ()
 {
-    Mesh.prototype._onTextureUpdate.call(this);
+    Mesh_Mesh.prototype._onTextureUpdate.call(this);
 
     // wait for the Plane ctor to finish before calling refresh
     if (this._ready) {
         this.refresh();
     }
 };
+
+/**
+ * The Plane allows you to draw a texture across several points and them manipulate these points
+ *
+ *```js
+ * for (var i = 0; i < 20; i++) {
+ *     points.push(new PIXI.Point(i * 50, 0));
+ * };
+ * var Plane = new PIXI.Plane(PIXI.Texture.fromImage("snake.png"), points);
+ *  ```
+ *
+ * @class
+ * @extends PIXI.mesh.Mesh
+ * @memberof PIXI.mesh
+ * @param {PIXI.Texture} texture - The texture to use on the Plane.
+ * @param {number} verticesX - The number of vertices in the x-axis
+ * @param {number} verticesY - The number of vertices in the y-axis
+ *
+ */
+export { mod_Plane as Plane };

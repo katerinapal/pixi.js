@@ -1,6 +1,7 @@
+var mod_Polygon = Polygon;
+import { Point as Point_Point } from "../Point";
+import { CONST as const_CONST } from "../../const";
 "use strict";
-var Point = require('../Point'),
-    CONST = require('../../const');
 
 /**
  * @class
@@ -30,7 +31,7 @@ function Polygon(points_)
     }
 
     // if this is an array of points, convert it to a flat array of numbers
-    if (points[0] instanceof Point)
+    if (points[0] instanceof Point_Point)
     {
         var p = [];
         for (var i = 0, il = points.length; i < il; i++)
@@ -58,11 +59,10 @@ function Polygon(points_)
      * @default CONST.SHAPES.POLY
      * @see PIXI.SHAPES
      */
-    this.type = CONST.SHAPES.POLY;
+    this.type = const_CONST.SHAPES.POLY;
 }
 
 Polygon.prototype.constructor = Polygon;
-module.exports = Polygon;
 
 /**
  * Creates a clone of this polygon
@@ -115,3 +115,14 @@ Polygon.prototype.contains = function (x, y)
 
     return inside;
 };
+
+/**
+ * @class
+ * @memberof PIXI
+ * @param points_ {PIXI.Point[]|number[]|...PIXI.Point|...number} This can be an array of Points that form the polygon,
+ *      a flat array of numbers that will be interpreted as [x,y, x,y, ...], or the arguments passed can be
+ *      all the points of the polygon e.g. `new PIXI.Polygon(new PIXI.Point(), new PIXI.Point(), ...)`, or the
+ *      arguments passed can be flat x,y values e.g. `new Polygon(x,y, x,y, x,y, ...)` where `x` and `y` are
+ *      Numbers.
+ */
+export { mod_Polygon as Polygon };

@@ -1,6 +1,7 @@
+var mod_CanvasGraphicsRenderer = CanvasGraphicsRenderer;
+import { CanvasRenderer as CanvasRenderer_CanvasRenderer } from "../../renderers/canvas/CanvasRenderer";
+import { CONST as const_CONST } from "../../const";
 "use strict";
-var CanvasRenderer = require('../../renderers/canvas/CanvasRenderer'),
-    CONST = require('../../const');
 
 /**
  * @author Mat Groves
@@ -29,9 +30,8 @@ function CanvasGraphicsRenderer(renderer)
 
 
 CanvasGraphicsRenderer.prototype.constructor = CanvasGraphicsRenderer;
-module.exports = CanvasGraphicsRenderer;
 
-CanvasRenderer.registerPlugin('graphics', CanvasGraphicsRenderer);
+CanvasRenderer_CanvasRenderer.registerPlugin('graphics', CanvasGraphicsRenderer);
 
 /*
  * Renders a Graphics object to a canvas.
@@ -80,7 +80,7 @@ CanvasGraphicsRenderer.prototype.render = function (graphics)
 
         context.lineWidth = data.lineWidth;
 
-        if (data.type === CONST.SHAPES.POLY)
+        if (data.type === const_CONST.SHAPES.POLY)
         {
             context.beginPath();
 
@@ -106,7 +106,7 @@ CanvasGraphicsRenderer.prototype.render = function (graphics)
                 context.stroke();
             }
         }
-        else if (data.type === CONST.SHAPES.RECT)
+        else if (data.type === const_CONST.SHAPES.RECT)
         {
 
             if (data.fillColor || data.fillColor === 0)
@@ -123,7 +123,7 @@ CanvasGraphicsRenderer.prototype.render = function (graphics)
                 context.strokeRect(shape.x, shape.y, shape.width, shape.height);
             }
         }
-        else if (data.type === CONST.SHAPES.CIRC)
+        else if (data.type === const_CONST.SHAPES.CIRC)
         {
             // TODO - need to be Undefined!
             context.beginPath();
@@ -143,7 +143,7 @@ CanvasGraphicsRenderer.prototype.render = function (graphics)
                 context.stroke();
             }
         }
-        else if (data.type === CONST.SHAPES.ELIP)
+        else if (data.type === const_CONST.SHAPES.ELIP)
         {
             // ellipse code taken from: http://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas
 
@@ -184,7 +184,7 @@ CanvasGraphicsRenderer.prototype.render = function (graphics)
                 context.stroke();
             }
         }
-        else if (data.type === CONST.SHAPES.RREC)
+        else if (data.type === const_CONST.SHAPES.RREC)
         {
             var rx = shape.x;
             var ry = shape.y;
@@ -275,3 +275,25 @@ CanvasGraphicsRenderer.prototype.destroy = function ()
 {
   this.renderer = null;
 };
+
+/**
+ * @author Mat Groves
+ *
+ * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
+ * for creating the original pixi version!
+ * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
+ *
+ * Heavily inspired by LibGDX's CanvasGraphicsRenderer:
+ * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/CanvasGraphicsRenderer.java
+ */
+
+/**
+ * Renderer dedicated to drawing and batching graphics objects.
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ * @extends PIXI.ObjectRenderer
+ * @param renderer {PIXI.SystemRenderer} The current PIXI renderer.
+ */
+export { mod_CanvasGraphicsRenderer as CanvasGraphicsRenderer };

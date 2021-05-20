@@ -1,6 +1,7 @@
+var mod_ParticleBuffer = ParticleBuffer;
+import ext_glCore from "pixi-gl-core";
+import { createIndicesForQuads as createIndicesForQuads_createIndicesForQuads } from "../../core/utils/createIndicesForQuads";
 "use strict";
-var glCore = require('pixi-gl-core'),
-    createIndicesForQuads = require('../../core/utils/createIndicesForQuads');
 
 /**
  * @author Mat Groves
@@ -101,7 +102,6 @@ function ParticleBuffer(gl, properties, dynamicPropertyFlags, size)
 }
 
 ParticleBuffer.prototype.constructor = ParticleBuffer;
-module.exports = ParticleBuffer;
 
 /**
  * Sets up the renderer context and necessary buffers.
@@ -122,8 +122,8 @@ ParticleBuffer.prototype.initBuffers = function ()
      *
      * @member {Uint16Array}
      */
-    this.indices = createIndicesForQuads(this.size);
-    this.indexBuffer = glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
+    this.indices = createIndicesForQuads_createIndicesForQuads(this.size);
+    this.indexBuffer = ext_glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
 
 
     this.dynamicStride = 0;
@@ -138,7 +138,7 @@ ParticleBuffer.prototype.initBuffers = function ()
     }
 
     this.dynamicData = new Float32Array( this.size * this.dynamicStride * 4);
-    this.dynamicBuffer = glCore.GLBuffer.createVertexBuffer(gl, this.dynamicData, gl.STREAM_DRAW);
+    this.dynamicBuffer = ext_glCore.GLBuffer.createVertexBuffer(gl, this.dynamicData, gl.STREAM_DRAW);
 
     // static //
     var staticOffset = 0;
@@ -156,10 +156,10 @@ ParticleBuffer.prototype.initBuffers = function ()
     }
 
     this.staticData = new Float32Array( this.size * this.staticStride * 4);
-    this.staticBuffer = glCore.GLBuffer.createVertexBuffer(gl, this.staticData, gl.STATIC_DRAW);
+    this.staticBuffer = ext_glCore.GLBuffer.createVertexBuffer(gl, this.staticData, gl.STATIC_DRAW);
 
 
-    this.vao = new glCore.VertexArrayObject(gl)
+    this.vao = new ext_glCore.VertexArrayObject(gl)
     .addIndex(this.indexBuffer);
 
     for (i = 0; i < this.dynamicProperties.length; i++)
@@ -228,3 +228,23 @@ ParticleBuffer.prototype.destroy = function ()
     this.staticData = null;
     this.staticBuffer.destroy();
 };
+
+/**
+ * @author Mat Groves
+ *
+ * Big thanks to the very clever Matt DesLauriers <mattdesl> https://github.com/mattdesl/
+ * for creating the original pixi version!
+ * Also a thanks to https://github.com/bchevalier for tweaking the tint and alpha so that they now share 4 bytes on the vertex buffer
+ *
+ * Heavily inspired by LibGDX's ParticleBuffer:
+ * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/ParticleBuffer.java
+ */
+
+/**
+ * The particle buffer manages the static and dynamic buffers for a particle container.
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ */
+export { mod_ParticleBuffer as ParticleBuffer };

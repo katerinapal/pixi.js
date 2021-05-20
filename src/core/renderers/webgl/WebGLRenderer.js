@@ -1,19 +1,21 @@
+var mod_WebGLRenderer = WebGLRenderer;
+import { SystemRenderer as SystemRenderer_SystemRenderer } from "../SystemRenderer";
+import { MaskManager as MaskManager_MaskManager } from "./managers/MaskManager";
+import { StencilManager as StencilManager_StencilManager } from "./managers/StencilManager";
+import { FilterManager as FilterManager_FilterManager } from "./managers/FilterManager";
+import { RenderTarget as RenderTarget_RenderTarget } from "./utils/RenderTarget";
+import { ObjectRenderer as ObjectRenderer_ObjectRenderer } from "./utils/ObjectRenderer";
+import { TextureManager as TextureManager_TextureManager } from "./TextureManager";
+import { TextureGarbageCollector as TextureGarbageCollector_TextureGarbageCollector } from "./TextureGarbageCollector";
+import { WebGLState as WebGLState_WebGLState } from "./WebGLState";
+import ext_pixiglcore from "pixi-gl-core";
+import ext_createContext from "pixi-gl-core";
+import { mapWebGLDrawModesToPixi as mapWebGLDrawModesToPixi_mapWebGLDrawModesToPixi } from "./utils/mapWebGLDrawModesToPixi";
+import { validateContext as validateContext_validateContext } from "./utils/validateContext";
+import { utils as utils_utils } from "../../utils";
+import { CONST as const_CONST } from "../../const";
 "use strict";
-var SystemRenderer = require('../SystemRenderer'),
-    MaskManager = require('./managers/MaskManager'),
-    StencilManager = require('./managers/StencilManager'),
-    FilterManager = require('./managers/FilterManager'),
-    RenderTarget = require('./utils/RenderTarget'),
-    ObjectRenderer = require('./utils/ObjectRenderer'),
-    TextureManager = require('./TextureManager'),
-    TextureGarbageCollector = require('./TextureGarbageCollector'),
-    WebGLState = require('./WebGLState'),
-    createContext = require('pixi-gl-core').createContext,
-    mapWebGLDrawModesToPixi = require('./utils/mapWebGLDrawModesToPixi'),
-    validateContext = require('./utils/validateContext'),
-    utils = require('../../utils'),
-    glCore = require('pixi-gl-core'),
-    CONST = require('../../const');
+var createContext = ext_pixiglcore.createContext;
 
 var CONTEXT_UID = 0;
 
@@ -45,14 +47,14 @@ function WebGLRenderer(width, height, options)
 {
     options = options || {};
 
-    SystemRenderer.call(this, 'WebGL', width, height, options);
+    SystemRenderer_SystemRenderer.call(this, 'WebGL', width, height, options);
     /**
      * The type of this renderer as a standardised const
      *
      * @member {number}
      * @see PIXI.RENDERER_TYPE
      */
-    this.type = CONST.RENDERER_TYPE.WEBGL;
+    this.type = const_CONST.RENDERER_TYPE.WEBGL;
 
     this.handleContextLost = this.handleContextLost.bind(this);
     this.handleContextRestored = this.handleContextRestored.bind(this);
@@ -81,21 +83,21 @@ function WebGLRenderer(width, height, options)
      *
      * @member {PIXI.MaskManager}
      */
-    this.maskManager = new MaskManager(this);
+    this.maskManager = new MaskManager_MaskManager(this);
 
     /**
      * Manages the stencil buffer.
      *
      * @member {PIXI.StencilManager}
      */
-    this.stencilManager = new StencilManager(this);
+    this.stencilManager = new StencilManager_StencilManager(this);
 
     /**
      * An empty renderer.
      *
      * @member {PIXI.ObjectRenderer}
      */
-    this.emptyRenderer = new ObjectRenderer(this);
+    this.emptyRenderer = new ObjectRenderer_ObjectRenderer(this);
 
     /**
      * The currently active ObjectRenderer.
@@ -115,7 +117,7 @@ function WebGLRenderer(width, height, options)
     if(options.context)
     {
         // checks to see if a context is valid..
-        validateContext(options.context);
+        validateContext_validateContext(options.context);
     }
 
     this.gl = options.context || createContext(this.view, this._contextOptions);
@@ -127,7 +129,7 @@ function WebGLRenderer(width, height, options)
      *
      * @member {PIXI.WebGLState}
      */
-    this.state = new WebGLState(this.gl);
+    this.state = new WebGLState_WebGLState(this.gl);
 
     this.renderingToScreen = true;
 
@@ -140,9 +142,9 @@ function WebGLRenderer(width, height, options)
      *
      * @member {PIXI.FilterManager}
      */
-    this.filterManager = new FilterManager(this);
+    this.filterManager = new FilterManager_FilterManager(this);
     // map some webGL blend and drawmodes..
-    this.drawModes = mapWebGLDrawModesToPixi(this.gl);
+    this.drawModes = mapWebGLDrawModesToPixi_mapWebGLDrawModesToPixi(this.gl);
 
 
     /**
@@ -167,10 +169,9 @@ function WebGLRenderer(width, height, options)
 }
 
 // constructor
-WebGLRenderer.prototype = Object.create(SystemRenderer.prototype);
+WebGLRenderer.prototype = Object.create(SystemRenderer_SystemRenderer.prototype);
 WebGLRenderer.prototype.constructor = WebGLRenderer;
-module.exports = WebGLRenderer;
-utils.pluginTarget.mixin(WebGLRenderer);
+utils_utils.pluginTarget.mixin(WebGLRenderer);
 
 /**
  * Creates the WebGL context
@@ -182,12 +183,12 @@ WebGLRenderer.prototype._initContext = function ()
     var gl = this.gl;
 
     // create a texture manager...
-    this.textureManager = new TextureManager(this);
-    this.textureGC = new TextureGarbageCollector(this);
+    this.textureManager = new TextureManager_TextureManager(this);
+    this.textureGC = new TextureGarbageCollector_TextureGarbageCollector(this);
 
     this.state.resetToDefault();
 
-    this.rootRenderTarget = new RenderTarget(gl, this.width, this.height, null, this.resolution, true);
+    this.rootRenderTarget = new RenderTarget_RenderTarget(gl, this.width, this.height, null, this.resolution, true);
     this.rootRenderTarget.clearColor = this._backgroundColorRgba;
 
 
@@ -296,7 +297,7 @@ WebGLRenderer.prototype.resize = function (width, height)
 {
   //  if(width * this.resolution === this.width && height * this.resolution === this.height)return;
 
-    SystemRenderer.prototype.resize.call(this, width, height);
+    SystemRenderer_SystemRenderer.prototype.resize.call(this, width, height);
 
     this.rootRenderTarget.resize(width, height);
 
@@ -472,7 +473,7 @@ WebGLRenderer.prototype.bindTexture = function (texture, location)
 
 WebGLRenderer.prototype.createVao = function ()
 {
-    return new glCore.VertexArrayObject(this.gl, this.state.attribState);
+    return new ext_createContext.VertexArrayObject(this.gl, this.state.attribState);
 };
 
 /**
@@ -532,7 +533,7 @@ WebGLRenderer.prototype.destroy = function (removeView)
     this.textureManager.destroy();
 
     // call base destroy
-    SystemRenderer.prototype.destroy.call(this, removeView);
+    SystemRenderer_SystemRenderer.prototype.destroy.call(this, removeView);
 
     this.uid = 0;
 
@@ -561,3 +562,29 @@ WebGLRenderer.prototype.destroy = function (removeView)
 
     // this = null;
 };
+
+/**
+ * The WebGLRenderer draws the scene and all its content onto a webGL enabled canvas. This renderer
+ * should be used for browsers that support webGL. This Render works by automatically managing webGLBatchs.
+ * So no need for Sprite Batches or Sprite Clouds.
+ * Don't forget to add the view to your DOM or you will not see anything :)
+ *
+ * @class
+ * @memberof PIXI
+ * @extends PIXI.SystemRenderer
+ * @param [width=0] {number} the width of the canvas view
+ * @param [height=0] {number} the height of the canvas view
+ * @param [options] {object} The optional renderer parameters
+ * @param [options.view] {HTMLCanvasElement} the canvas to use as a view, optional
+ * @param [options.transparent=false] {boolean} If the render view is transparent, default false
+ * @param [options.autoResize=false] {boolean} If the render view is automatically resized, default false
+ * @param [options.antialias=false] {boolean} sets antialias. If not available natively then FXAA antialiasing is used
+ * @param [options.forceFXAA=false] {boolean} forces FXAA antialiasing to be used over native. FXAA is faster, but may not always look as great
+ * @param [options.resolution=1] {number} The resolution / device pixel ratio of the renderer. The resolution of the renderer retina would be 2.
+ * @param [options.clearBeforeRender=true] {boolean} This sets if the CanvasRenderer will clear the canvas or
+ *      not before the new render pass. If you wish to set this to false, you *must* set preserveDrawingBuffer to `true`.
+ * @param [options.preserveDrawingBuffer=false] {boolean} enables drawing buffer preservation, enable this if
+ *      you need to call toDataUrl on the webgl context.
+ * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
+ */
+export { mod_WebGLRenderer as WebGLRenderer };

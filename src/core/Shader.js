@@ -1,6 +1,7 @@
+import ext_pixiglcore from "pixi-gl-core";
+import { CONST as Const } from "./const";
 "use strict";
-var GLShader = require('pixi-gl-core').GLShader;
-var Const = require('./const');
+var GLShader = ext_pixiglcore.GLShader;
 
 function checkPrecision(src) {
     if (src instanceof Array) {
@@ -33,4 +34,6 @@ var Shader = function(gl, vertexSrc, fragmentSrc) {
 
 Shader.prototype = Object.create(GLShader.prototype);
 Shader.prototype.constructor = Shader;
-module.exports = Shader;
+var mod_Shader;
+mod_Shader = Shader;
+export { mod_Shader as Shader };

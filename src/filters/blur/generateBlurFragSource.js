@@ -58,4 +58,9 @@ var generateFragBlurSource = function(kernelSize)
 
 
 
-module.exports = generateFragBlurSource;
+var mod_generateFragBlurSource;
+
+
+
+mod_generateFragBlurSource = generateFragBlurSource;
+export { mod_generateFragBlurSource as generateFragBlurSource };

@@ -1,6 +1,7 @@
+var mod_BitmapText = BitmapText;
+import { core as core_core } from "../core";
+import { ObservablePoint as ObservablePoint_ObservablePoint } from "../core/math/ObservablePoint";
 "use strict";
-var core = require('../core'),
-    ObservablePoint = require('../core/math/ObservablePoint');
 
 /**
  * A BitmapText object will create a line or multiple lines of text using bitmap font. To
@@ -31,7 +32,7 @@ var core = require('../core'),
  */
 function BitmapText(text, style)
 {
-    core.Container.call(this);
+    core_core.Container.call(this);
 
     style = style || {};
 
@@ -111,7 +112,7 @@ function BitmapText(text, style)
      * @member {PIXI.ObservablePoint}
      * @private
      */
-    this._anchor = new ObservablePoint(this.makeDirty, this, 0, 0);
+    this._anchor = new ObservablePoint_ObservablePoint(this.makeDirty, this, 0, 0);
 
     /**
      * The dirty state of this object.
@@ -124,9 +125,8 @@ function BitmapText(text, style)
 }
 
 // constructor
-BitmapText.prototype = Object.create(core.Container.prototype);
+BitmapText.prototype = Object.create(core_core.Container.prototype);
 BitmapText.prototype.constructor = BitmapText;
-module.exports = BitmapText;
 
 Object.defineProperties(BitmapText.prototype, {
     /**
@@ -255,7 +255,7 @@ Object.defineProperties(BitmapText.prototype, {
 BitmapText.prototype.updateText = function ()
 {
     var data = BitmapText.fonts[this._font.name];
-    var pos = new core.Point();
+    var pos = new core_core.Point();
     var prevCharCode = null;
     var chars = [];
     var lastLineWidth = 0;
@@ -290,7 +290,7 @@ BitmapText.prototype.updateText = function ()
 
         if (lastSpace !== -1 && this.maxWidth > 0 && pos.x * scale > this.maxWidth)
         {
-            core.utils.removeItems(chars, lastSpace, i - lastSpace);
+            core_core.utils.removeItems(chars, lastSpace, i - lastSpace);
             i = lastSpace;
             lastSpace = -1;
 
@@ -316,7 +316,7 @@ BitmapText.prototype.updateText = function ()
             pos.x += charData.kerning[prevCharCode];
         }
 
-        chars.push({texture:charData.texture, line: line, charCode: charCode, position: new core.Point(pos.x + charData.xOffset, pos.y + charData.yOffset)});
+        chars.push({texture:charData.texture, line: line, charCode: charCode, position: new core_core.Point(pos.x + charData.xOffset, pos.y + charData.yOffset)});
         lastLineWidth = pos.x + (charData.texture.width + charData.xOffset);
         pos.x += charData.xAdvance;
         maxLineHeight = Math.max(maxLineHeight, (charData.yOffset + charData.texture.height));
@@ -357,7 +357,7 @@ BitmapText.prototype.updateText = function ()
         }
         else
         {
-            c = new core.Sprite(chars[i].texture);
+            c = new core_core.Sprite(chars[i].texture);
             this._glyphs.push(c);
         }
 
@@ -413,7 +413,7 @@ BitmapText.prototype.updateTransform = function ()
 BitmapText.prototype.getLocalBounds = function()
 {
     this.validate();
-    return core.Container.prototype.getLocalBounds.call(this);
+    return core_core.Container.prototype.getLocalBounds.call(this);
 };
 
 /**
@@ -435,3 +435,32 @@ BitmapText.prototype.makeDirty = function() {
 };
 
 BitmapText.fonts = {};
+
+/**
+ * A BitmapText object will create a line or multiple lines of text using bitmap font. To
+ * split a line you can use '\n', '\r' or '\r\n' in your string. You can generate the fnt files using:
+ *
+ * A BitmapText can only be created when the font is loaded
+ *
+ * ```js
+ * // in this case the font is in a file called 'desyrel.fnt'
+ * var bitmapText = new PIXI.extras.BitmapText("text using a fancy font!", {font: "35px Desyrel", align: "right"});
+ * ```
+ *
+ * http://www.angelcode.com/products/bmfont/ for windows or
+ * http://www.bmglyph.com/ for mac.
+ *
+ * @class
+ * @extends PIXI.Container
+ * @memberof PIXI.extras
+ * @param text {string} The copy that you would like the text to display
+ * @param style {object} The style parameters
+ * @param style.font {string|object} The font descriptor for the object, can be passed as a string of form
+ *      "24px FontName" or "FontName" or as an object with explicit name/size properties.
+ * @param [style.font.name] {string} The bitmap font id
+ * @param [style.font.size] {number} The size of the font in pixels, e.g. 24
+ * @param [style.align='left'] {string} Alignment for multiline text ('left', 'center' or 'right'), does not affect
+ *      single line text
+ * @param [style.tint=0xFFFFFF] {number} The tint color
+ */
+export { mod_BitmapText as BitmapText };

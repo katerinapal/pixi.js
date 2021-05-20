@@ -1,6 +1,7 @@
+var mod_DisplacementFilter = DisplacementFilter;
+import { core as core_core } from "../../core";
+import ext_glslify_glslify from "glslify";
 "use strict";
-var core = require('../../core');
-var glslify  = require('glslify');
 
 /**
  * The DisplacementFilter class uses the pixel values from the specified texture (called the displacement map) to perform a displacement of an object.
@@ -15,15 +16,15 @@ var glslify  = require('glslify');
  */
 function DisplacementFilter(sprite, scale)
 {
-    var maskMatrix = new core.Matrix();
+    var maskMatrix = new core_core.Matrix();
     sprite.renderable = false;
 
-    core.Filter.call(this,
+    core_core.Filter.call(this,
         // vertex shader
 //        glslify('./displacement.vert'),
-        glslify('../fragments/default-filter-matrix.vert'),
+        ext_glslify_glslify('../fragments/default-filter-matrix.vert'),
         // fragment shader
-        glslify('./displacement.frag')
+        ext_glslify_glslify('./displacement.frag')
 
     );
 
@@ -39,12 +40,11 @@ function DisplacementFilter(sprite, scale)
         scale = 20;
     }
 
-    this.scale = new core.Point(scale, scale);
+    this.scale = new core_core.Point(scale, scale);
 }
 
-DisplacementFilter.prototype = Object.create(core.Filter.prototype);
+DisplacementFilter.prototype = Object.create(core_core.Filter.prototype);
 DisplacementFilter.prototype.constructor = DisplacementFilter;
-module.exports = DisplacementFilter;
 
 DisplacementFilter.prototype.apply = function (filterManager, input, output)
 {
@@ -78,3 +78,16 @@ Object.defineProperties(DisplacementFilter.prototype, {
         }
     }
 });
+
+/**
+ * The DisplacementFilter class uses the pixel values from the specified texture (called the displacement map) to perform a displacement of an object.
+ * You can use this filter to apply all manor of crazy warping effects
+ * Currently the r property of the texture is used to offset the x and the g property of the texture is used to offset the y.
+ *
+ * @class
+ * @extends PIXI.Filter
+ * @memberof PIXI.filters
+ * @param sprite {PIXI.Sprite} The sprite used for the displacement map. (make sure its added to the scene!)
+ * @param scale {number} The scale of the displacement
+ */
+export { mod_DisplacementFilter as DisplacementFilter };

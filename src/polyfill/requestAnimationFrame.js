@@ -1,3 +1,6 @@
+export var globalCancelAnimationFrame;
+export var globalRequestAnimationFrame;
+export var globalPerformance;
 "use strict";
 // References:
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -21,7 +24,7 @@ if (!(Date.now && Date.prototype.getTime)) {
 if (!(global.performance && global.performance.now)) {
     var startTime = Date.now();
     if (!global.performance) {
-        global.performance = {};
+        globalPerformance = {};
     }
     global.performance.now = function () {
         return Date.now() - startTime;
@@ -33,13 +36,13 @@ var lastTime = Date.now();
 var vendors = ['ms', 'moz', 'webkit', 'o'];
 
 for(var x = 0; x < vendors.length && !global.requestAnimationFrame; ++x) {
-    global.requestAnimationFrame = global[vendors[x] + 'RequestAnimationFrame'];
-    global.cancelAnimationFrame = global[vendors[x] + 'CancelAnimationFrame'] ||
+    globalRequestAnimationFrame = global[vendors[x] + 'RequestAnimationFrame'];
+    globalCancelAnimationFrame = global[vendors[x] + 'CancelAnimationFrame'] ||
         global[vendors[x] + 'CancelRequestAnimationFrame'];
 }
 
 if (!global.requestAnimationFrame) {
-    global.requestAnimationFrame = function (callback) {
+    globalRequestAnimationFrame = function (callback) {
         if (typeof callback !== 'function') {
             throw new TypeError(callback + 'is not a function');
         }
@@ -61,7 +64,19 @@ if (!global.requestAnimationFrame) {
 }
 
 if (!global.cancelAnimationFrame) {
-    global.cancelAnimationFrame = function(id) {
+    globalCancelAnimationFrame = function(id) {
         clearTimeout(id);
     };
+}
+
+export function setGlobalPerformance(value) {
+    globalPerformance = value;
+}
+
+export function setGlobalRequestAnimationFrame(value) {
+    globalRequestAnimationFrame = value;
+}
+
+export function setGlobalCancelAnimationFrame(value) {
+    globalCancelAnimationFrame = value;
 }

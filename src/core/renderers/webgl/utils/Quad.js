@@ -1,6 +1,7 @@
+var mod_Quad = Quad;
+import ext_glCore from "pixi-gl-core";
+import { createIndicesForQuads as createIndicesForQuads_createIndicesForQuads } from "../../../utils/createIndicesForQuads";
 "use strict";
-var glCore = require('pixi-gl-core'),
-    createIndicesForQuads = require('../../../utils/createIndicesForQuads');
 
 /**
  * Helper class to create a quad
@@ -55,22 +56,22 @@ function Quad(gl, state)
     /*
      * @member {Uint16Array} An array containing the indices of the vertices
      */
-    this.indices = createIndicesForQuads(1);
+    this.indices = createIndicesForQuads_createIndicesForQuads(1);
 
     /*
      * @member {glCore.GLBuffer} The vertex buffer
      */
-    this.vertexBuffer = glCore.GLBuffer.createVertexBuffer(gl, this.interleaved, gl.STATIC_DRAW);
+    this.vertexBuffer = ext_glCore.GLBuffer.createVertexBuffer(gl, this.interleaved, gl.STATIC_DRAW);
 
     /*
      * @member {glCore.GLBuffer} The index buffer
      */
-    this.indexBuffer = glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
+    this.indexBuffer = ext_glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW);
 
     /*
      * @member {glCore.VertexArrayObject} The index buffer
      */
-    this.vao = new glCore.VertexArrayObject(gl, state);
+    this.vao = new ext_glCore.VertexArrayObject(gl, state);
 
 }
 
@@ -169,4 +170,12 @@ Quad.prototype.destroy = function()
      gl.deleteBuffer(this.indexBuffer);
 };
 
-module.exports = Quad;
+/**
+ * Helper class to create a quad
+ *
+ * @class
+ * @memberof PIXI
+ * @param gl {WebGLRenderingContext} The gl context for this quad to use.
+ * @param state {object} TODO: Description
+ */
+export { mod_Quad as Quad };

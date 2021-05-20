@@ -1,5 +1,6 @@
+var mod_WebGLGraphicsData = WebGLGraphicsData;
+import ext_glCore from "pixi-gl-core";
 "use strict";
-var glCore = require('pixi-gl-core');
 
 
 /**
@@ -44,13 +45,13 @@ function WebGLGraphicsData(gl, shader, attribsState)
      * The main buffer
      * @member {WebGLBuffer}
      */
-    this.buffer = glCore.GLBuffer.createVertexBuffer(gl);
+    this.buffer = ext_glCore.GLBuffer.createVertexBuffer(gl);
 
     /**
      * The index buffer
      * @member {WebGLBuffer}
      */
-    this.indexBuffer = glCore.GLBuffer.createIndexBuffer(gl);
+    this.indexBuffer = ext_glCore.GLBuffer.createIndexBuffer(gl);
 
     /**
      * Whether this graphics is dirty or not
@@ -67,7 +68,7 @@ function WebGLGraphicsData(gl, shader, attribsState)
      */
     this.shader = shader;
 
-    this.vao =  new glCore.VertexArrayObject(gl, attribsState)
+    this.vao =  new ext_glCore.VertexArrayObject(gl, attribsState)
     .addIndex(this.indexBuffer)
     .addAttribute(this.buffer, shader.attributes.aVertexPosition, gl.FLOAT, false, 4 * 6, 0)
     .addAttribute(this.buffer, shader.attributes.aColor, gl.FLOAT, false, 4 * 6, 2 * 4);
@@ -76,7 +77,6 @@ function WebGLGraphicsData(gl, shader, attribsState)
 }
 
 WebGLGraphicsData.prototype.constructor = WebGLGraphicsData;
-module.exports = WebGLGraphicsData;
 
 /**
  * Resets the vertices and the indices
@@ -124,3 +124,15 @@ WebGLGraphicsData.prototype.destroy = function ()
     this.glPoints = null;
     this.glIndices = null;
 };
+
+/**
+ * An object containing WebGL specific properties to be used by the WebGL renderer
+ *
+ * @class
+ * @private
+ * @memberof PIXI
+ * @param gl {WebGLRenderingContext} The current WebGL drawing context
+ * @param shader {PIXI.Shader} The shader
+ * @param attribsState {object} The state for the VAO
+ */
+export { mod_WebGLGraphicsData as WebGLGraphicsData };

@@ -1,3 +1,4 @@
+import { Matrix as Matrix_Matrix } from "./Matrix";
 "use strict";
 // Your friendly neighbour https://en.wikipedia.org/wiki/Dihedral_group of order 16
 
@@ -6,7 +7,6 @@ var uy = [0, 1, 1, 1, 0, -1, -1, -1, 0, 1, 1, 1, 0, -1, -1, -1];
 var vx = [0, -1, -1, -1, 0, 1, 1, 1, 0, 1, 1, 1, 0, -1, -1, -1];
 var vy = [1, 1, 0, -1, -1, -1, 0, 1, -1, -1, 0, 1, 1, 1, 0, -1];
 var tempMatrices = [];
-var Matrix = require('./Matrix');
 
 var mul = [];
 
@@ -39,7 +39,7 @@ function init() {
     }
 
     for (i=0;i<16;i++) {
-        var mat = new Matrix();
+        var mat = new Matrix_Matrix();
         mat.set(ux[i], uy[i], vx[i], vy[i], 0, 0);
         tempMatrices.push(mat);
     }
@@ -160,4 +160,7 @@ var GroupD8 = {
     }
 };
 
-module.exports = GroupD8;
+var mod_GroupD8;
+
+mod_GroupD8 = GroupD8;
+export { mod_GroupD8 as GroupD8 };

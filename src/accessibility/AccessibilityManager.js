@@ -1,11 +1,13 @@
+var mod_AccessibilityManager = AccessibilityManager;
+import { core as core_core } from "../core";
+import ext_Device from "ismobilejs";
+import { accessibleTarget as accessibleTarget_accessibleTarget } from "./accessibleTarget";
 "use strict";
-var core = require('../core');
-var  Device = require('ismobilejs');
 
 // add some extra variables to the container..
 Object.assign(
-    core.DisplayObject.prototype,
-    require('./accessibleTarget')
+    core_core.DisplayObject.prototype,
+    accessibleTarget_accessibleTarget
 );
 
 
@@ -19,7 +21,7 @@ Object.assign(
  */
 function AccessibilityManager(renderer)
 {
-	if(Device.tablet || Device.phone)
+	if(ext_Device.tablet || ext_Device.phone)
 	{
 		this.createTouchHook();
 	}
@@ -104,7 +106,6 @@ function AccessibilityManager(renderer)
 
 
 AccessibilityManager.prototype.constructor = AccessibilityManager;
-module.exports = AccessibilityManager;
 
 AccessibilityManager.prototype.createTouchHook = function()
 {
@@ -244,7 +245,7 @@ AccessibilityManager.prototype.update = function()
 		{
 			child._accessibleActive = false;
 
-            core.utils.removeItems(this.children, i, 1);
+            core_core.utils.removeItems(this.children, i, 1);
 			this.div.removeChild( child._accessibleDiv );
 			this.pool.push(child._accessibleDiv);
 			child._accessibleDiv = null;
@@ -452,5 +453,15 @@ AccessibilityManager.prototype.destroy = function ()
 
 };
 
-core.WebGLRenderer.registerPlugin('accessibility', AccessibilityManager);
-core.CanvasRenderer.registerPlugin('accessibility', AccessibilityManager);
+core_core.WebGLRenderer.registerPlugin('accessibility', AccessibilityManager);
+core_core.CanvasRenderer.registerPlugin('accessibility', AccessibilityManager);
+
+/**
+ * The Accessibility manager reacreates the ability to tab and and have content read by screen readers. This is very important as it can possibly help people with disabilities access pixi content.
+ * Much like interaction any DisplayObject can be made accessible. This manager will map the events as if the mouse was being used, minimizing the efferot required to implement.
+ *
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.CanvasRenderer|PIXI.WebGLRenderer} A reference to the current renderer
+ */
+export { mod_AccessibilityManager as AccessibilityManager };

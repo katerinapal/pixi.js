@@ -1,11 +1,12 @@
+var mod_DisplayObject = DisplayObject;
+import ext_EventEmitter from "eventemitter3";
+import { CONST as const_CONST } from "../const";
+import { TransformStatic as TransformStatic_TransformStatic } from "./TransformStatic";
+import { Transform as Transform_Transform } from "./Transform";
+import { Bounds as Bounds_Bounds } from "./Bounds";
+import { indexjs as math } from "../math";
 "use strict";
-var EventEmitter = require('eventemitter3'),
-    CONST = require('../const'),
-    TransformStatic = require('./TransformStatic'),
-    Transform = require('./Transform'),
-    Bounds = require('./Bounds'),
-    math = require('../math'),
-    _tempDisplayObjectParent = new DisplayObject();
+var _tempDisplayObjectParent = new DisplayObject();
 
 /**
  * The base class for all objects that are rendered on the screen.
@@ -18,9 +19,9 @@ var EventEmitter = require('eventemitter3'),
  */
 function DisplayObject()
 {
-    EventEmitter.call(this);
+    ext_EventEmitter.call(this);
 
-    var TransformClass = CONST.TRANSFORM_MODE.DEFAULT === CONST.TRANSFORM_MODE.STATIC ? TransformStatic : Transform;
+    var TransformClass = const_CONST.TRANSFORM_MODE.DEFAULT === const_CONST.TRANSFORM_MODE.STATIC ? TransformStatic_TransformStatic : Transform_Transform;
 
     //TODO: need to create Transform from factory
     /**
@@ -89,7 +90,7 @@ function DisplayObject()
      * @member {PIXI.Rectangle}
      * @private
      */
-    this._bounds = new Bounds();
+    this._bounds = new Bounds_Bounds();
     this._boundsID = 0;
     this._lastBoundsID = -1;
     this._boundsRect = null;
@@ -107,9 +108,8 @@ function DisplayObject()
 }
 
 // constructor
-DisplayObject.prototype = Object.create(EventEmitter.prototype);
+DisplayObject.prototype = Object.create(ext_EventEmitter.prototype);
 DisplayObject.prototype.constructor = DisplayObject;
-module.exports = DisplayObject;
 
 
 Object.defineProperties(DisplayObject.prototype, {
@@ -605,3 +605,14 @@ DisplayObject.prototype.destroy = function ()
     this.interactive = false;
     this.interactiveChildren = false;
 };
+
+/**
+ * The base class for all objects that are rendered on the screen.
+ * This is an abstract class and should not be used on its own rather it should be extended.
+ *
+ * @class
+ * @extends EventEmitter
+ * @mixes PIXI.interaction.interactiveTarget
+ * @memberof PIXI
+ */
+export { mod_DisplayObject as DisplayObject };

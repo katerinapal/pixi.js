@@ -1,6 +1,7 @@
+var mod_Rope = Rope;
+import { Mesh as Mesh_Mesh } from "./Mesh";
+import { core as core_core } from "../core";
 "use strict";
-var Mesh = require('./Mesh');
-var core = require('../core');
 
 /**
  * The rope allows you to draw a texture across several points and them manipulate these points
@@ -21,7 +22,7 @@ var core = require('../core');
  */
 function Rope(texture, points)
 {
-    Mesh.call(this, texture);
+    Mesh_Mesh.call(this, texture);
 
     /*
      * @member {PIXI.Point[]} An array of points that determine the rope
@@ -62,9 +63,8 @@ function Rope(texture, points)
 
 
 // constructor
-Rope.prototype = Object.create(Mesh.prototype);
+Rope.prototype = Object.create(Mesh_Mesh.prototype);
 Rope.prototype.constructor = Rope;
-module.exports = Rope;
 
 /**
  * Refreshes
@@ -86,8 +86,8 @@ Rope.prototype.refresh = function ()
     var colors = this.colors;
 
     var textureUvs = this._texture._uvs;
-    var offset = new core.Point(textureUvs.x0, textureUvs.y0);
-    var factor = new core.Point(textureUvs.x2 - textureUvs.x0, textureUvs.y2 - textureUvs.y0);
+    var offset = new core_core.Point(textureUvs.x0, textureUvs.y0);
+    var factor = new core_core.Point(textureUvs.x2 - textureUvs.x0, textureUvs.y2 - textureUvs.y0);
 
     uvs[0] = 0 + offset.x;
     uvs[1] = 0 + offset.y;
@@ -137,7 +137,7 @@ Rope.prototype.refresh = function ()
 Rope.prototype._onTextureUpdate = function ()
 {
 
-    Mesh.prototype._onTextureUpdate.call(this);
+    Mesh_Mesh.prototype._onTextureUpdate.call(this);
 
     // wait for the Rope ctor to finish before calling refresh
     if (this._ready) {
@@ -212,3 +212,22 @@ Rope.prototype.updateTransform = function ()
 
     this.containerUpdateTransform();
 };
+
+/**
+ * The rope allows you to draw a texture across several points and them manipulate these points
+ *
+ *```js
+ * for (var i = 0; i < 20; i++) {
+ *     points.push(new PIXI.Point(i * 50, 0));
+ * };
+ * var rope = new PIXI.Rope(PIXI.Texture.fromImage("snake.png"), points);
+ *  ```
+ *
+ * @class
+ * @extends PIXI.mesh.Mesh
+ * @memberof PIXI.mesh
+ * @param {PIXI.Texture} texture - The texture to use on the rope.
+ * @param {PIXI.Point[]} points - An array of {@link PIXI.Point} objects to construct this rope.
+ *
+ */
+export { mod_Rope as Rope };

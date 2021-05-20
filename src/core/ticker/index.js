@@ -1,5 +1,5 @@
+import { Ticker as Ticker_Ticker } from "./Ticker";
 "use strict";
-var Ticker = require('./Ticker');
 
 /**
  * The shared ticker instance used by {@link PIXI.extras.MovieClip}.
@@ -43,13 +43,15 @@ var Ticker = require('./Ticker');
  * @type {PIXI.ticker.Ticker}
  * @memberof PIXI.ticker
  */
-var shared = new Ticker();
+var shared = new Ticker_Ticker();
 shared.autoStart = true;
 
 /**
  * @namespace PIXI.ticker
  */
-module.exports = {
+mod_indexjs = {
     shared: shared,
-    Ticker: Ticker
+    Ticker: Ticker_Ticker
 };
+var mod_indexjs;
+export { mod_indexjs as indexjs };

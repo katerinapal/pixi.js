@@ -1,6 +1,7 @@
+var mod_Bounds = Bounds;
+import { indexjs as math } from "../math";
 "use strict";
-var math = require('../math'),
-    Rectangle = math.Rectangle;
+var Rectangle = math.Rectangle;
 
 /**
  * 'Builder' pattern for bounds rectangles
@@ -40,7 +41,6 @@ function Bounds()
 }
 
 Bounds.prototype.constructor = Bounds;
-module.exports = Bounds;
 
 Bounds.prototype.isEmpty = function()
 {
@@ -222,3 +222,13 @@ Bounds.prototype.addBounds = function(bounds)
     this.maxX = bounds.maxX > maxX ? bounds.maxX : maxX;
     this.maxY = bounds.maxY > maxY ? bounds.maxY : maxY;
 };
+
+/**
+ * 'Builder' pattern for bounds rectangles
+ * Axis-Aligned Bounding Box
+ * It is not a shape! Its mutable thing, no 'EMPTY' or that kind of problems
+ *
+ * @class
+ * @memberof PIXI
+ */
+export { mod_Bounds as Bounds };

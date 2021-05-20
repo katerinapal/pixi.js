@@ -1,10 +1,10 @@
+var mod_TilingSprite = TilingSprite;
+import { core as core_core } from "../core";
+import { Texture as Texture_Texture } from "../core/textures/Texture";
+import { CanvasTinter as CanvasTinter_CanvasTinter } from "../core/sprites/canvas/CanvasTinter";
+import { TilingShader as TilingShader_TilingShader } from "./webgl/TilingShader";
 "use strict";
-var core = require('../core'),
-    tempPoint = new core.Point(),
-    Texture = require('../core/textures/Texture'),
-    CanvasTinter = require('../core/sprites/canvas/CanvasTinter'),
-    TilingShader = require('./webgl/TilingShader'),
-    tempArray = new Float32Array(4);
+var tempPoint = new core_core.Point(), tempArray = new Float32Array(4);
 /**
  * A tiling sprite is a fast way of rendering a tiling image
  *
@@ -17,14 +17,14 @@ var core = require('../core'),
  */
 function TilingSprite(texture, width, height)
 {
-    core.Sprite.call(this, texture);
+    core_core.Sprite.call(this, texture);
 
     /**
      * The scaling of the image that is being tiled
      *
      * @member {PIXI.Point}
      */
-    this.tileScale = new core.Point(1,1);
+    this.tileScale = new core_core.Point(1,1);
 
 
     /**
@@ -32,7 +32,7 @@ function TilingSprite(texture, width, height)
      *
      * @member {PIXI.Point}
      */
-    this.tilePosition = new core.Point(0,0);
+    this.tilePosition = new core_core.Point(0,0);
 
     ///// private
 
@@ -58,16 +58,15 @@ function TilingSprite(texture, width, height)
      * @member {PIXI.TextureUvs}
      * @private
      */
-    this._uvs = new core.TextureUvs();
+    this._uvs = new core_core.TextureUvs();
 
     this._canvasPattern = null;
 
     this._glDatas = [];
 }
 
-TilingSprite.prototype = Object.create(core.Sprite.prototype);
+TilingSprite.prototype = Object.create(core_core.Sprite.prototype);
 TilingSprite.prototype.constructor = TilingSprite;
-module.exports = TilingSprite;
 
 
 Object.defineProperties(TilingSprite.prototype, {
@@ -138,8 +137,8 @@ TilingSprite.prototype._renderWebGL = function (renderer)
     if(!glData)
     {
         glData = {
-            shader:new TilingShader(gl),
-            quad:new core.Quad(gl)
+            shader:new TilingShader_TilingShader(gl),
+            quad:new core_core.Quad(gl)
         };
 
         this._glDatas[renderer.CONTEXT_UID] = glData;
@@ -189,7 +188,7 @@ TilingSprite.prototype._renderWebGL = function (renderer)
 
     var color = tempArray;
 
-    core.utils.hex2rgb(this.tint, color);
+    core_core.utils.hex2rgb(this.tint, color);
     color[3] = this.worldAlpha;
 
     glData.shader.uniforms.uColor = color;
@@ -227,7 +226,7 @@ TilingSprite.prototype._renderCanvas = function (renderer)
     if(!this._canvasPattern)
     {
         // cut an object from a spritesheet..
-        var tempCanvas = new core.CanvasRenderTarget(texture._frame.width, texture._frame.height);
+        var tempCanvas = new core_core.CanvasRenderTarget(texture._frame.width, texture._frame.height);
 
         // Tint the tiling sprite
         if (this.tint !== 0xFFFFFF)
@@ -236,7 +235,7 @@ TilingSprite.prototype._renderCanvas = function (renderer)
             {
                 this.cachedTint = this.tint;
 
-                this.tintedTexture = CanvasTinter.getTintedTexture(this, this.tint);
+                this.tintedTexture = CanvasTinter_CanvasTinter.getTintedTexture(this, this.tint);
             }
             tempCanvas.context.drawImage(this.tintedTexture, 0, 0);
         }
@@ -390,7 +389,7 @@ TilingSprite.prototype.containsPoint = function( point )
  *
  */
 TilingSprite.prototype.destroy = function () {
-    core.Sprite.prototype.destroy.call(this);
+    core_core.Sprite.prototype.destroy.call(this);
 
     this.tileScale = null;
     this._tileScaleOffset = null;
@@ -411,7 +410,7 @@ TilingSprite.prototype.destroy = function () {
  */
 TilingSprite.from = function (source,width,height)
 {
-    return new TilingSprite(Texture.from(source),width,height);
+    return new TilingSprite(Texture_Texture.from(source),width,height);
 };
 
 
@@ -429,7 +428,7 @@ TilingSprite.from = function (source,width,height)
  */
 TilingSprite.fromFrame = function (frameId,width,height)
 {
-    var texture = core.utils.TextureCache[frameId];
+    var texture = core_core.utils.TextureCache[frameId];
 
     if (!texture)
     {
@@ -453,5 +452,17 @@ TilingSprite.fromFrame = function (frameId,width,height)
  */
 TilingSprite.fromImage = function (imageId, width, height, crossorigin, scaleMode)
 {
-    return new TilingSprite(core.Texture.fromImage(imageId, crossorigin, scaleMode),width,height);
+    return new TilingSprite(core_core.Texture.fromImage(imageId, crossorigin, scaleMode),width,height);
 };
+
+/**
+ * A tiling sprite is a fast way of rendering a tiling image
+ *
+ * @class
+ * @extends PIXI.Sprite
+ * @memberof PIXI.extras
+ * @param texture {PIXI.Texture} the texture of the tiling sprite
+ * @param width {number}  the width of the tiling sprite
+ * @param height {number} the height of the tiling sprite
+ */
+export { mod_TilingSprite as TilingSprite };

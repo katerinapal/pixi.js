@@ -55,4 +55,7 @@ var accessibleTarget = {
 
 };
 
-module.exports = accessibleTarget;
+var mod_accessibleTarget;
+
+mod_accessibleTarget = accessibleTarget;
+export { mod_accessibleTarget as accessibleTarget };

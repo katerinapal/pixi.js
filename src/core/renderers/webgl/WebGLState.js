@@ -1,5 +1,6 @@
+var mod_WebGLState = WebGLState;
+import {     mapWebGLBlendModesToPixi as mapWebGLBlendModesToPixi_mapWebGLBlendModesToPixi, } from "./utils/mapWebGLBlendModesToPixi";
 "use strict";
-var mapWebGLBlendModesToPixi = require('./utils/mapWebGLBlendModesToPixi');
 
 /**
  * A WebGL state machines
@@ -55,7 +56,7 @@ function WebGLState(gl)
     this.attribState = {tempAttribState:new Array(this.maxAttribs),
         attribState:new Array(this.maxAttribs)};
 
-    this.blendModes = mapWebGLBlendModesToPixi(gl);
+    this.blendModes = mapWebGLBlendModesToPixi_mapWebGLBlendModesToPixi(gl);
 
     // check we have vao..
     this.nativeVaoExtension = (
@@ -279,4 +280,11 @@ WebGLState.prototype.resetToDefault = function()
     this.setState(this.defaultState);
 };
 
-module.exports = WebGLState;
+/**
+ * A WebGL state machines
+ *
+ * @memberof PIXI
+ * @class
+ * @param gl {WebGLRenderingContext} The current WebGL rendering context
+ */
+export { mod_WebGLState as WebGLState };

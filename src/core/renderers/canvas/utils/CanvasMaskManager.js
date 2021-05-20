@@ -1,5 +1,6 @@
+var mod_CanvasMaskManager = CanvasMaskManager;
+import { CONST as const_CONST } from "../../../const";
 "use strict";
-var CONST = require('../../../const');
 /**
  * A set of functions used to handle masking.
  *
@@ -12,7 +13,6 @@ function CanvasMaskManager(renderer)
 }
 
 CanvasMaskManager.prototype.constructor = CanvasMaskManager;
-module.exports = CanvasMaskManager;
 
 /**
  * This method adds it to the current stack of masks.
@@ -66,7 +66,7 @@ CanvasMaskManager.prototype.renderGraphicsShape = function (graphics)
         var data = graphics.graphicsData[i];
         var shape = data.shape;
 
-        if (data.type === CONST.SHAPES.POLY)
+        if (data.type === const_CONST.SHAPES.POLY)
         {
 
             var points = shape.points;
@@ -85,18 +85,18 @@ CanvasMaskManager.prototype.renderGraphicsShape = function (graphics)
             }
 
         }
-        else if (data.type === CONST.SHAPES.RECT)
+        else if (data.type === const_CONST.SHAPES.RECT)
         {
             context.rect(shape.x, shape.y, shape.width, shape.height);
             context.closePath();
         }
-        else if (data.type === CONST.SHAPES.CIRC)
+        else if (data.type === const_CONST.SHAPES.CIRC)
         {
             // TODO - need to be Undefined!
             context.arc(shape.x, shape.y, shape.radius, 0, 2 * Math.PI);
             context.closePath();
         }
-        else if (data.type === CONST.SHAPES.ELIP)
+        else if (data.type === const_CONST.SHAPES.ELIP)
         {
 
             // ellipse code taken from: http://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas
@@ -122,7 +122,7 @@ CanvasMaskManager.prototype.renderGraphicsShape = function (graphics)
             context.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
             context.closePath();
         }
-        else if (data.type === CONST.SHAPES.RREC)
+        else if (data.type === const_CONST.SHAPES.RREC)
         {
 
             var rx = shape.x;
@@ -159,3 +159,11 @@ CanvasMaskManager.prototype.popMask = function (renderer)
 };
 
 CanvasMaskManager.prototype.destroy = function () {};
+
+/**
+ * A set of functions used to handle masking.
+ *
+ * @class
+ * @memberof PIXI
+ */
+export { mod_CanvasMaskManager as CanvasMaskManager };

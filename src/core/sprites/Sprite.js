@@ -1,10 +1,11 @@
+var mod_Sprite = Sprite;
+import { indexjs as math } from "../math";
+import { Texture as Texture_Texture } from "../textures/Texture";
+import { Container as Container_Container } from "../display/Container";
+import { utils as utils_utils } from "../utils";
+import { CONST as const_CONST } from "../const";
 "use strict";
-var math = require('../math'),
-    Texture = require('../textures/Texture'),
-    Container = require('../display/Container'),
-    utils = require('../utils'),
-    CONST = require('../const'),
-    tempPoint = new math.Point();
+var tempPoint = new math.Point();
 
 /**
  * The Sprite object is the base for all textured objects that are rendered to the screen
@@ -22,7 +23,7 @@ var math = require('../math'),
  */
 function Sprite(texture)
 {
-    Container.call(this);
+    Container_Container.call(this);
 
     /**
      * The anchor sets the origin point of the texture.
@@ -75,7 +76,7 @@ function Sprite(texture)
      * @default PIXI.BLEND_MODES.NORMAL
      * @see PIXI.BLEND_MODES
      */
-    this.blendMode = CONST.BLEND_MODES.NORMAL;
+    this.blendMode = const_CONST.BLEND_MODES.NORMAL;
 
     /**
      * The shader that will be used to render the sprite. Set to null to remove a current shader.
@@ -94,7 +95,7 @@ function Sprite(texture)
     this.cachedTint = 0xFFFFFF;
 
     // call texture setter
-    this.texture = texture || Texture.EMPTY;
+    this.texture = texture || Texture_Texture.EMPTY;
 
     /**
      * this is used to store the vertex data of the sprite (basically a quad)
@@ -113,9 +114,8 @@ function Sprite(texture)
 }
 
 // constructor
-Sprite.prototype = Object.create(Container.prototype);
+Sprite.prototype = Object.create(Container_Container.prototype);
 Sprite.prototype.constructor = Sprite;
-module.exports = Sprite;
 
 Object.defineProperties(Sprite.prototype, {
     /**
@@ -131,7 +131,7 @@ Object.defineProperties(Sprite.prototype, {
         },
         set: function (value)
         {
-            var sign = utils.sign(this.scale.x) || 1;
+            var sign = utils_utils.sign(this.scale.x) || 1;
             this.scale.x = sign * value / this.texture.orig.width;
             this._width = value;
         }
@@ -150,7 +150,7 @@ Object.defineProperties(Sprite.prototype, {
         },
         set: function (value)
         {
-            var sign = utils.sign(this.scale.y) || 1;
+            var sign = utils_utils.sign(this.scale.y) || 1;
             this.scale.y = sign * value / this.texture.orig.height;
             this._height = value;
         }
@@ -219,12 +219,12 @@ Sprite.prototype._onTextureUpdate = function ()
     // so if _width is 0 then width was not set..
     if (this._width)
     {
-        this.scale.x = utils.sign(this.scale.x) * this._width / this.texture.orig.width;
+        this.scale.x = utils_utils.sign(this.scale.x) * this._width / this.texture.orig.width;
     }
 
     if (this._height)
     {
-        this.scale.y = utils.sign(this.scale.y) * this._height / this.texture.orig.height;
+        this.scale.y = utils_utils.sign(this.scale.y) * this._height / this.texture.orig.height;
     }
 };
 
@@ -414,7 +414,7 @@ Sprite.prototype.getLocalBounds = function (rect)
     }
     else
     {
-        return Container.prototype.getLocalBounds.call(this, rect);
+        return Container_Container.prototype.getLocalBounds.call(this, rect);
     }
 
 };
@@ -459,7 +459,7 @@ Sprite.prototype.containsPoint = function( point )
  */
 Sprite.prototype.destroy = function (options)
 {
-    Container.prototype.destroy.call(this, options);
+    Container_Container.prototype.destroy.call(this, options);
 
     this.anchor = null;
 
@@ -486,7 +486,7 @@ Sprite.prototype.destroy = function (options)
  */
 Sprite.from = function (source)
 {
-    return new Sprite(Texture.from(source));
+    return new Sprite(Texture_Texture.from(source));
 };
 
 /**
@@ -499,7 +499,7 @@ Sprite.from = function (source)
  */
 Sprite.fromFrame = function (frameId)
 {
-    var texture = utils.TextureCache[frameId];
+    var texture = utils_utils.TextureCache[frameId];
 
     if (!texture)
     {
@@ -521,5 +521,21 @@ Sprite.fromFrame = function (frameId)
  */
 Sprite.fromImage = function (imageId, crossorigin, scaleMode)
 {
-    return new Sprite(Texture.fromImage(imageId, crossorigin, scaleMode));
+    return new Sprite(Texture_Texture.fromImage(imageId, crossorigin, scaleMode));
 };
+
+/**
+ * The Sprite object is the base for all textured objects that are rendered to the screen
+ *
+ * A sprite can be created directly from an image like this:
+ *
+ * ```js
+ * var sprite = new PIXI.Sprite.fromImage('assets/image.png');
+ * ```
+ *
+ * @class
+ * @extends PIXI.Container
+ * @memberof PIXI
+ * @param texture {PIXI.Texture} The texture for this sprite
+ */
+export { mod_Sprite as Sprite };

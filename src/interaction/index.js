@@ -1,3 +1,6 @@
+import { InteractionData as InteractionData_InteractionData } from "./InteractionData";
+import { InteractionManager as InteractionManager_InteractionManager } from "./InteractionManager";
+import { interactiveTarget as interactiveTarget_interactiveTarget } from "./interactiveTarget";
 "use strict";
 /**
  * @file        Main export of the PIXI interactions library
@@ -9,8 +12,10 @@
 /**
  * @namespace PIXI.interaction
  */
-module.exports = {
-    InteractionData:    require('./InteractionData'),
-    InteractionManager: require('./InteractionManager'),
-    interactiveTarget:  require('./interactiveTarget')
+mod_indexjs = {
+    InteractionData:    InteractionData_InteractionData,
+    InteractionManager: InteractionManager_InteractionManager,
+    interactiveTarget:  interactiveTarget_interactiveTarget
 };
+var mod_indexjs;
+export { mod_indexjs as indexjs };

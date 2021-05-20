@@ -86,4 +86,7 @@ var interactiveTarget = {
     _touchDown: false
  };
 
-module.exports = interactiveTarget;
+var mod_interactiveTarget;
+
+mod_interactiveTarget = interactiveTarget;
+export { mod_interactiveTarget as interactiveTarget };

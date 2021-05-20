@@ -1,10 +1,11 @@
+var mod_Texture = Texture;
+import { BaseTexture as BaseTexture_BaseTexture } from "./BaseTexture";
+import { VideoBaseTexture as VideoBaseTexture_VideoBaseTexture } from "./VideoBaseTexture";
+import { TextureUvs as TextureUvs_TextureUvs } from "./TextureUvs";
+import ext_EventEmitter from "eventemitter3";
+import { indexjs as math } from "../math";
+import { utils as utils_utils } from "../utils";
 "use strict";
-var BaseTexture = require('./BaseTexture'),
-    VideoBaseTexture = require('./VideoBaseTexture'),
-    TextureUvs = require('./TextureUvs'),
-    EventEmitter = require('eventemitter3'),
-    math = require('../math'),
-    utils = require('../utils');
 
 /**
  * A texture stores the information that represents an image or part of an image. It cannot be added
@@ -28,7 +29,7 @@ var BaseTexture = require('./BaseTexture'),
  */
 function Texture(baseTexture, frame, orig, trim, rotate)
 {
-    EventEmitter.call(this);
+    ext_EventEmitter.call(this);
 
     /**
      * Does this Texture have any frame data assigned to it?
@@ -138,9 +139,8 @@ function Texture(baseTexture, frame, orig, trim, rotate)
     this._updateID = 0;
 }
 
-Texture.prototype = Object.create(EventEmitter.prototype);
+Texture.prototype = Object.create(ext_EventEmitter.prototype);
 Texture.prototype.constructor = Texture;
-module.exports = Texture;
 
 Object.defineProperties(Texture.prototype, {
     /**
@@ -288,9 +288,9 @@ Texture.prototype.destroy = function (destroyBase)
         {
             // delete the texture if it exists in the texture cache..
             // this only needs to be removed if the base texture is actually destoryed too..
-            if(utils.TextureCache[this.baseTexture.imageUrl])
+            if(utils_utils.TextureCache[this.baseTexture.imageUrl])
             {
-                delete utils.TextureCache[this.baseTexture.imageUrl];
+                delete utils_utils.TextureCache[this.baseTexture.imageUrl];
             }
 
             this.baseTexture.destroy();
@@ -332,7 +332,7 @@ Texture.prototype._updateUvs = function ()
 {
     if (!this._uvs)
     {
-        this._uvs = new TextureUvs();
+        this._uvs = new TextureUvs_TextureUvs();
     }
 
     this._uvs.set(this._frame, this.baseTexture, this.rotate);
@@ -352,12 +352,12 @@ Texture.prototype._updateUvs = function ()
  */
 Texture.fromImage = function (imageUrl, crossorigin, scaleMode)
 {
-    var texture = utils.TextureCache[imageUrl];
+    var texture = utils_utils.TextureCache[imageUrl];
 
     if (!texture)
     {
-        texture = new Texture(BaseTexture.fromImage(imageUrl, crossorigin, scaleMode));
-        utils.TextureCache[imageUrl] = texture;
+        texture = new Texture(BaseTexture_BaseTexture.fromImage(imageUrl, crossorigin, scaleMode));
+        utils_utils.TextureCache[imageUrl] = texture;
     }
 
     return texture;
@@ -373,7 +373,7 @@ Texture.fromImage = function (imageUrl, crossorigin, scaleMode)
  */
 Texture.fromFrame = function (frameId)
 {
-    var texture = utils.TextureCache[frameId];
+    var texture = utils_utils.TextureCache[frameId];
 
     if (!texture)
     {
@@ -393,7 +393,7 @@ Texture.fromFrame = function (frameId)
  */
 Texture.fromCanvas = function (canvas, scaleMode)
 {
-    return new Texture(BaseTexture.fromCanvas(canvas, scaleMode));
+    return new Texture(BaseTexture_BaseTexture.fromCanvas(canvas, scaleMode));
 };
 
 /**
@@ -412,7 +412,7 @@ Texture.fromVideo = function (video, scaleMode)
     }
     else
     {
-        return new Texture(VideoBaseTexture.fromVideo(video, scaleMode));
+        return new Texture(VideoBaseTexture_VideoBaseTexture.fromVideo(video, scaleMode));
     }
 };
 
@@ -426,7 +426,7 @@ Texture.fromVideo = function (video, scaleMode)
  */
 Texture.fromVideoUrl = function (videoUrl, scaleMode)
 {
-    return new Texture(VideoBaseTexture.fromUrl(videoUrl, scaleMode));
+    return new Texture(VideoBaseTexture_VideoBaseTexture.fromUrl(videoUrl, scaleMode));
 };
 
 /**
@@ -443,7 +443,7 @@ Texture.from = function (source)
     //TODO pass in scale mode?
     if(typeof source === 'string')
     {
-        var texture = utils.TextureCache[source];
+        var texture = utils_utils.TextureCache[source];
 
         if (!texture)
         {
@@ -467,9 +467,9 @@ Texture.from = function (source)
     {
         return Texture.fromVideo(source);
     }
-    else if(source instanceof BaseTexture)
+    else if(source instanceof BaseTexture_BaseTexture)
     {
-        return new Texture(BaseTexture);
+        return new Texture(BaseTexture_BaseTexture);
     }
     else
     {
@@ -488,7 +488,7 @@ Texture.from = function (source)
  */
 Texture.addTextureToCache = function (texture, id)
 {
-    utils.TextureCache[id] = texture;
+    utils_utils.TextureCache[id] = texture;
 };
 
 /**
@@ -500,10 +500,10 @@ Texture.addTextureToCache = function (texture, id)
  */
 Texture.removeTextureFromCache = function (id)
 {
-    var texture = utils.TextureCache[id];
+    var texture = utils_utils.TextureCache[id];
 
-    delete utils.TextureCache[id];
-    delete utils.BaseTextureCache[id];
+    delete utils_utils.TextureCache[id];
+    delete utils_utils.BaseTextureCache[id];
 
     return texture;
 };
@@ -515,9 +515,31 @@ Texture.removeTextureFromCache = function (id)
  * @static
  * @constant
  */
-Texture.EMPTY = new Texture(new BaseTexture());
+Texture.EMPTY = new Texture(new BaseTexture_BaseTexture());
 Texture.EMPTY.destroy = function() {};
 Texture.EMPTY.on = function() {};
 Texture.EMPTY.once = function() {};
 Texture.EMPTY.emit = function() {};
+
+/**
+ * A texture stores the information that represents an image or part of an image. It cannot be added
+ * to the display list directly. Instead use it as the texture for a Sprite. If no frame is provided then the whole image is used.
+ *
+ * You can directly create a texture from an image and then reuse it multiple times like this :
+ *
+ * ```js
+ * var texture = PIXI.Texture.fromImage('assets/image.png');
+ * var sprite1 = new PIXI.Sprite(texture);
+ * var sprite2 = new PIXI.Sprite(texture);
+ * ```
+ *
+ * @class
+ * @memberof PIXI
+ * @param baseTexture {PIXI.BaseTexture} The base texture source to create the texture from
+ * @param [frame] {PIXI.Rectangle} The rectangle frame of the texture to show
+ * @param [orig] {PIXI.Rectangle} The area of original texture
+ * @param [trim] {PIXI.Rectangle} Trimmed rectangle of original texture
+ * @param [rotate] {number} indicates how the texture was rotated by texture packer. See {@link PIXI.GroupD8}
+ */
+export { mod_Texture as Texture };
 

@@ -15,4 +15,7 @@ var getMaxKernelSize = function(gl)
     return kernelSize;
 };
 
-module.exports = getMaxKernelSize;
+var mod_getMaxKernelSize;
+
+mod_getMaxKernelSize = getMaxKernelSize;
+export { mod_getMaxKernelSize as getMaxKernelSize };

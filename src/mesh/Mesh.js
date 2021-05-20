@@ -1,9 +1,9 @@
+var mod_Mesh = Mesh;
+import { core as core_core } from "../core";
+import ext_glCore from "pixi-gl-core";
+import { MeshShader as Shader } from "./webgl/MeshShader";
 "use strict";
-var core = require('../core'),
-    glCore = require('pixi-gl-core'),
-    Shader = require('./webgl/MeshShader'),
-    tempPoint = new core.Point(),
-    tempPolygon = new core.Polygon();
+var tempPoint = new core_core.Point(), tempPolygon = new core_core.Polygon();
 
 /**
  * Base mesh class
@@ -18,7 +18,7 @@ var core = require('../core'),
  */
 function Mesh(texture, vertices, uvs, indices, drawMode)
 {
-    core.Container.call(this);
+    core_core.Container.call(this);
 
     /**
      * The texture of the Mesh
@@ -69,7 +69,7 @@ function Mesh(texture, vertices, uvs, indices, drawMode)
      * @default PIXI.BLEND_MODES.NORMAL
      * @see PIXI.BLEND_MODES
      */
-    this.blendMode = core.BLEND_MODES.NORMAL;
+    this.blendMode = core_core.BLEND_MODES.NORMAL;
 
     /**
      * Triangles in canvas mode are automatically antialiased, use this value to force triangles to overlap a bit with each other.
@@ -109,9 +109,8 @@ function Mesh(texture, vertices, uvs, indices, drawMode)
 }
 
 // constructor
-Mesh.prototype = Object.create(core.Container.prototype);
+Mesh.prototype = Object.create(core_core.Container.prototype);
 Mesh.prototype.constructor = Mesh;
-module.exports = Mesh;
 
 Object.defineProperties(Mesh.prototype, {
     /**
@@ -157,10 +156,10 @@ Object.defineProperties(Mesh.prototype, {
      */
     tint: {
         get: function() {
-            return core.utils.rgb2hex(this.tintRgb);
+            return core_core.utils.rgb2hex(this.tintRgb);
         },
         set: function(value) {
-            this.tintRgb = core.utils.hex2rgb(value, this.tintRgb);
+            this.tintRgb = core_core.utils.hex2rgb(value, this.tintRgb);
         }
     }
 });
@@ -184,17 +183,17 @@ Mesh.prototype._renderWebGL = function (renderer)
     {
         glData = {
             shader:new Shader(gl),
-            vertexBuffer:glCore.GLBuffer.createVertexBuffer(gl, this.vertices, gl.STREAM_DRAW),
-            uvBuffer:glCore.GLBuffer.createVertexBuffer(gl, this.uvs, gl.STREAM_DRAW),
-            indexBuffer:glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW),
+            vertexBuffer:ext_glCore.GLBuffer.createVertexBuffer(gl, this.vertices, gl.STREAM_DRAW),
+            uvBuffer:ext_glCore.GLBuffer.createVertexBuffer(gl, this.uvs, gl.STREAM_DRAW),
+            indexBuffer:ext_glCore.GLBuffer.createIndexBuffer(gl, this.indices, gl.STATIC_DRAW),
             // build the vao object that will render..
-            vao:new glCore.VertexArrayObject(gl),
+            vao:new ext_glCore.VertexArrayObject(gl),
             dirty:this.dirty,
             indexDirty:this.indexDirty
         };
 
         // build the vao object that will render..
-        glData.vao = new glCore.VertexArrayObject(gl)
+        glData.vao = new ext_glCore.VertexArrayObject(gl)
         .addIndex(glData.indexBuffer)
         .addAttribute(glData.vertexBuffer, glData.shader.attributes.aVertexPosition, gl.FLOAT, false, 2 * 4, 0)
         .addAttribute(glData.uvBuffer, glData.shader.attributes.aTextureCoord, gl.FLOAT, false, 2 * 4, 0);
@@ -500,3 +499,16 @@ Mesh.DRAW_MODES = {
     TRIANGLE_MESH: 0,
     TRIANGLES: 1
 };
+
+/**
+ * Base mesh class
+ * @class
+ * @extends PIXI.Container
+ * @memberof PIXI.mesh
+ * @param texture {PIXI.Texture} The texture to use
+ * @param [vertices] {Float32Array} if you want to specify the vertices
+ * @param [uvs] {Float32Array} if you want to specify the uvs
+ * @param [indices] {Uint16Array} if you want to specify the indices
+ * @param [drawMode] {number} the drawMode, can be any of the Mesh.DRAW_MODES consts
+ */
+export { mod_Mesh as Mesh };

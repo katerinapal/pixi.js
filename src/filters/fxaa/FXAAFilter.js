@@ -1,6 +1,7 @@
+var mod_FXAAFilter = FXAAFilter;
+import { core as core_core } from "../../core";
+import ext_glslify_glslify from "glslify";
 "use strict";
-var core = require('../../core');
-var glslify  = require('glslify');
 
 /**
  *
@@ -18,17 +19,30 @@ var glslify  = require('glslify');
 function FXAAFilter()
 {
     //TODO - needs work
-    core.Filter.call(this,
+    core_core.Filter.call(this,
 
         // vertex shader
-        glslify('./fxaa.vert'),
+        ext_glslify_glslify('./fxaa.vert'),
         // fragment shader
-        glslify('./fxaa.frag')
+        ext_glslify_glslify('./fxaa.frag')
     );
 
 }
 
-FXAAFilter.prototype = Object.create(core.Filter.prototype);
+FXAAFilter.prototype = Object.create(core_core.Filter.prototype);
 FXAAFilter.prototype.constructor = FXAAFilter;
 
-module.exports = FXAAFilter;
+/**
+ *
+ * Basic FXAA implementation based on the code on geeks3d.com with the
+ * modification that the texture2DLod stuff was removed since it's
+ * unsupported by WebGL.
+ *
+ * @see https://github.com/mitsuhiko/webgl-meincraft
+ *
+ * @class
+ * @extends PIXI.Filter
+ * @memberof PIXI
+ *
+ */
+export { mod_FXAAFilter as FXAAFilter };

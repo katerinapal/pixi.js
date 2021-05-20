@@ -1,8 +1,9 @@
+var mod_BlurXFilter = BlurXFilter;
+import { core as core_core } from "../../core";
+import { generateVertBlurSource as generateBlurVertSource } from "./generateBlurVertSource";
+import { generateFragBlurSource as generateBlurFragSource } from "./generateBlurFragSource";
+import { getMaxKernelSize as getMaxBlurKernelSize } from "./getMaxBlurKernelSize";
 "use strict";
-var core = require('../../core');
-var generateBlurVertSource  = require('./generateBlurVertSource');
-var generateBlurFragSource  = require('./generateBlurFragSource');
-var getMaxBlurKernelSize    = require('./getMaxBlurKernelSize');
 
 /**
  * The BlurXFilter applies a horizontal Gaussian blur to an object.
@@ -16,7 +17,7 @@ function BlurXFilter(strength, quality, resolution)
     var vertSrc = generateBlurVertSource(5, true);
     var fragSrc = generateBlurFragSource(5);
 
-    core.Filter.call(this,
+    core_core.Filter.call(this,
         // vertex shader
         vertSrc,
         // fragment shader
@@ -34,9 +35,8 @@ function BlurXFilter(strength, quality, resolution)
 
 }
 
-BlurXFilter.prototype = Object.create(core.Filter.prototype);
+BlurXFilter.prototype = Object.create(core_core.Filter.prototype);
 BlurXFilter.prototype.constructor = BlurXFilter;
-module.exports = BlurXFilter;
 
 BlurXFilter.prototype.apply = function (filterManager, input, output, clear)
 {
@@ -122,3 +122,12 @@ Object.defineProperties(BlurXFilter.prototype, {
         }
     }
 });
+
+/**
+ * The BlurXFilter applies a horizontal Gaussian blur to an object.
+ *
+ * @class
+ * @extends PIXI.Filter
+ * @memberof PIXI.filters
+ */
+export { mod_BlurXFilter as BlurXFilter };

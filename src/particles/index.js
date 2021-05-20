@@ -1,3 +1,5 @@
+import { ParticleContainer as ParticleContainer_ParticleContainer } from "./ParticleContainer";
+import { ParticleRenderer as webglParticleRenderer_ParticleRenderer } from "./webgl/ParticleRenderer";
 "use strict";
 /**
  * @file        Main export of the PIXI extras library
@@ -9,7 +11,9 @@
 /**
  * @namespace PIXI.particles
  */
-module.exports = {
-	ParticleContainer:           require('./ParticleContainer'),
-    ParticleRenderer: 			 require('./webgl/ParticleRenderer')
+mod_indexjs = {
+	ParticleContainer:           ParticleContainer_ParticleContainer,
+    ParticleRenderer: 			 webglParticleRenderer_ParticleRenderer
 };
+var mod_indexjs;
+export { mod_indexjs as indexjs };

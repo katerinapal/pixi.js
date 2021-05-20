@@ -1,10 +1,11 @@
+var mod_CanvasRenderer = CanvasRenderer;
+import { SystemRenderer as SystemRenderer_SystemRenderer } from "../SystemRenderer";
+import { CanvasMaskManager as CanvasMaskManager_CanvasMaskManager } from "./utils/CanvasMaskManager";
+import { CanvasRenderTarget as CanvasRenderTarget_CanvasRenderTarget } from "./utils/CanvasRenderTarget";
+import {     mapCanvasBlendModesToPixi as mapCanvasBlendModesToPixi_mapCanvasBlendModesToPixi, } from "./utils/mapCanvasBlendModesToPixi";
+import { utils as utils_utils } from "../../utils";
+import { CONST as const_CONST } from "../../const";
 "use strict";
-var SystemRenderer = require('../SystemRenderer'),
-    CanvasMaskManager = require('./utils/CanvasMaskManager'),
-    CanvasRenderTarget = require('./utils/CanvasRenderTarget'),
-    mapCanvasBlendModesToPixi = require('./utils/mapCanvasBlendModesToPixi'),
-    utils = require('../../utils'),
-    CONST = require('../../const');
 
 /**
  * The CanvasRenderer draws the scene and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
@@ -29,9 +30,9 @@ function CanvasRenderer(width, height, options)
 {
     options = options || {};
 
-    SystemRenderer.call(this, 'Canvas', width, height, options);
+    SystemRenderer_SystemRenderer.call(this, 'Canvas', width, height, options);
 
-    this.type = CONST.RENDERER_TYPE.CANVAS;
+    this.type = const_CONST.RENDERER_TYPE.CANVAS;
 
     /**
      * The canvas 2d context that everything is drawn with.
@@ -53,7 +54,7 @@ function CanvasRenderer(width, height, options)
      *
      * @member {PIXI.CanvasMaskManager}
      */
-    this.maskManager = new CanvasMaskManager(this);
+    this.maskManager = new CanvasMaskManager_CanvasMaskManager(this);
 
     /**
      * The canvas property used to set the canvas smoothing property.
@@ -84,7 +85,7 @@ function CanvasRenderer(width, height, options)
 
     this.initPlugins();
 
-    this.blendModes = mapCanvasBlendModesToPixi();
+    this.blendModes = mapCanvasBlendModesToPixi_mapCanvasBlendModesToPixi();
     this._activeBlendMode = null;
 
     this.context = null;
@@ -94,10 +95,9 @@ function CanvasRenderer(width, height, options)
 }
 
 // constructor
-CanvasRenderer.prototype = Object.create(SystemRenderer.prototype);
+CanvasRenderer.prototype = Object.create(SystemRenderer_SystemRenderer.prototype);
 CanvasRenderer.prototype.constructor =  CanvasRenderer;
-module.exports = CanvasRenderer;
-utils.pluginTarget.mixin(CanvasRenderer);
+utils_utils.pluginTarget.mixin(CanvasRenderer);
 
 
 /**
@@ -128,7 +128,7 @@ CanvasRenderer.prototype.render = function (displayObject, renderTexture, clear,
         if(!renderTexture._canvasRenderTarget)
         {
 
-            renderTexture._canvasRenderTarget = new CanvasRenderTarget(renderTexture.width, renderTexture.height, renderTexture.resolution);
+            renderTexture._canvasRenderTarget = new CanvasRenderTarget_CanvasRenderTarget(renderTexture.width, renderTexture.height, renderTexture.resolution);
             renderTexture.source = renderTexture._canvasRenderTarget.canvas;
             renderTexture.valid = true;
         }
@@ -177,7 +177,7 @@ CanvasRenderer.prototype.render = function (displayObject, renderTexture, clear,
 
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.globalAlpha = 1;
-    context.globalCompositeOperation = this.blendModes[CONST.BLEND_MODES.NORMAL];
+    context.globalCompositeOperation = this.blendModes[const_CONST.BLEND_MODES.NORMAL];
 
     if (navigator.isCocoonJS && this.view.screencanvas)
     {
@@ -230,7 +230,7 @@ CanvasRenderer.prototype.destroy = function (removeView)
     this.destroyPlugins();
 
     // call the base destroy
-    SystemRenderer.prototype.destroy.call(this, removeView);
+    SystemRenderer_SystemRenderer.prototype.destroy.call(this, removeView);
 
     this.context = null;
 
@@ -252,13 +252,34 @@ CanvasRenderer.prototype.destroy = function (removeView)
  */
 CanvasRenderer.prototype.resize = function (width, height)
 {
-    SystemRenderer.prototype.resize.call(this, width, height);
+    SystemRenderer_SystemRenderer.prototype.resize.call(this, width, height);
 
     //reset the scale mode.. oddly this seems to be reset when the canvas is resized.
     //surely a browser bug?? Let pixi fix that for you..
     if(this.smoothProperty)
     {
-        this.rootContext[this.smoothProperty] = (CONST.SCALE_MODES.DEFAULT === CONST.SCALE_MODES.LINEAR);
+        this.rootContext[this.smoothProperty] = (const_CONST.SCALE_MODES.DEFAULT === const_CONST.SCALE_MODES.LINEAR);
     }
 
 };
+
+/**
+ * The CanvasRenderer draws the scene and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
+ * Don't forget to add the CanvasRenderer.view to your DOM or you will not see anything :)
+ *
+ * @class
+ * @memberof PIXI
+ * @extends PIXI.SystemRenderer
+ * @param [width=800] {number} the width of the canvas view
+ * @param [height=600] {number} the height of the canvas view
+ * @param [options] {object} The optional renderer parameters
+ * @param [options.view] {HTMLCanvasElement} the canvas to use as a view, optional
+ * @param [options.transparent=false] {boolean} If the render view is transparent, default false
+ * @param [options.autoResize=false] {boolean} If the render view is automatically resized, default false
+ * @param [options.antialias=false] {boolean} sets antialias (only applicable in chrome at the moment)
+ * @param [options.resolution=1] {number} The resolution / device pixel ratio of the renderer. The resolution of the renderer retina would be 2.
+ * @param [options.clearBeforeRender=true] {boolean} This sets if the CanvasRenderer will clear the canvas or
+ *      not before the new render pass.
+ * @param [options.roundPixels=false] {boolean} If true Pixi will Math.floor() x/y values when rendering, stopping pixel interpolation.
+ */
+export { mod_CanvasRenderer as CanvasRenderer };

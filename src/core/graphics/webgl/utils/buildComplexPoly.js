@@ -1,5 +1,5 @@
+import { utils as utils_utils } from "../../../utils";
 "use strict";
-var utils = require('../../../utils');
 
 
 
@@ -27,7 +27,7 @@ var buildComplexPoly = function (graphicsData, webGLData)
     var indices = webGLData.indices;
     webGLData.points = points;
     webGLData.alpha = graphicsData.fillAlpha;
-    webGLData.color = utils.hex2rgb(graphicsData.fillColor);
+    webGLData.color = utils_utils.hex2rgb(graphicsData.fillColor);
 
     // calclate the bounds..
     var minX = Infinity;
@@ -70,4 +70,8 @@ var buildComplexPoly = function (graphicsData, webGLData)
 
 
 
-module.exports = buildComplexPoly;
+var encapsulated_buildComplexPoly;
+
+
+
+encapsulated_buildComplexPoly = buildComplexPoly;

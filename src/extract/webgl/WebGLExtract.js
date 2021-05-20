@@ -1,6 +1,7 @@
+var mod_WebGLExtract = WebGLExtract;
+import { core as core_core } from "../../core";
 "use strict";
-var core = require('../../core'),
-    tempRect = new core.Rectangle();
+var tempRect = new core_core.Rectangle();
 
 /**
  * The extract manager provides functionality to export content from the renderers
@@ -16,7 +17,6 @@ function WebGLExtract(renderer)
 
 
 WebGLExtract.prototype.constructor = WebGLExtract;
-module.exports = WebGLExtract;
 
 /**
  * Will return a HTML Image of the target
@@ -57,7 +57,7 @@ WebGLExtract.prototype.canvas = function ( target )
 
     if(target)
     {
-        if(target instanceof core.RenderTexture)
+        if(target instanceof core_core.RenderTexture)
         {
             renderTexture = target;
         }
@@ -92,7 +92,7 @@ WebGLExtract.prototype.canvas = function ( target )
     var width = frame.width * resolution;
     var height = frame.height * resolution;
 
-   	var canvasBuffer = new core.CanvasRenderTarget(width, height);
+   	var canvasBuffer = new core_core.CanvasRenderTarget(width, height);
 
     if(textureBuffer)
     {
@@ -139,7 +139,7 @@ WebGLExtract.prototype.pixels = function ( target )
 
     if(target)
     {
-        if(target instanceof core.RenderTexture)
+        if(target instanceof core_core.RenderTexture)
         {
             renderTexture = target;
         }
@@ -193,4 +193,12 @@ WebGLExtract.prototype.destroy = function ()
     this.renderer = null;
 };
 
-core.WebGLRenderer.registerPlugin('extract', WebGLExtract);
+core_core.WebGLRenderer.registerPlugin('extract', WebGLExtract);
+
+/**
+ * The extract manager provides functionality to export content from the renderers
+ * @class
+ * @memberof PIXI
+ * @param renderer {PIXI.WebGLRenderer} A reference to the current renderer
+ */
+export { mod_WebGLExtract as WebGLExtract };

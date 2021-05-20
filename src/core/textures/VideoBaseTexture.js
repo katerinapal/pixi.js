@@ -1,6 +1,7 @@
+var mod_VideoBaseTexture = VideoBaseTexture;
+import { BaseTexture as BaseTexture_BaseTexture } from "./BaseTexture";
+import { utils as utils_utils } from "../utils";
 "use strict";
-var BaseTexture = require('./BaseTexture'),
-    utils = require('../utils');
 
 /**
  * A texture of a [playing] Video.
@@ -45,7 +46,7 @@ function VideoBaseTexture(source, scaleMode)
         source.complete = true;
     }
 
-    BaseTexture.call(this, source, scaleMode);
+    BaseTexture_BaseTexture.call(this, source, scaleMode);
 
     /**
      * Should the base texture automatically update itself, set to true by default
@@ -71,9 +72,8 @@ function VideoBaseTexture(source, scaleMode)
     this.__loaded = false;
 }
 
-VideoBaseTexture.prototype = Object.create(BaseTexture.prototype);
+VideoBaseTexture.prototype = Object.create(BaseTexture_BaseTexture.prototype);
 VideoBaseTexture.prototype.constructor = VideoBaseTexture;
-module.exports = VideoBaseTexture;
 
 /**
  * The internal update loop of the video base texture, only runs when autoUpdate is set to true
@@ -155,11 +155,11 @@ VideoBaseTexture.prototype.destroy = function ()
 {
     if (this.source && this.source._pixiId)
     {
-        delete utils.BaseTextureCache[ this.source._pixiId ];
+        delete utils_utils.BaseTextureCache[ this.source._pixiId ];
         delete this.source._pixiId;
     }
 
-    BaseTexture.prototype.destroy.call(this);
+    BaseTexture_BaseTexture.prototype.destroy.call(this);
 };
 
 /**
@@ -174,15 +174,15 @@ VideoBaseTexture.fromVideo = function (video, scaleMode)
 {
     if (!video._pixiId)
     {
-        video._pixiId = 'video_' + utils.uid();
+        video._pixiId = 'video_' + utils_utils.uid();
     }
 
-    var baseTexture = utils.BaseTextureCache[video._pixiId];
+    var baseTexture = utils_utils.BaseTextureCache[video._pixiId];
 
     if (!baseTexture)
     {
         baseTexture = new VideoBaseTexture(video, scaleMode);
-        utils.BaseTextureCache[ video._pixiId ] = baseTexture;
+        utils_utils.BaseTextureCache[ video._pixiId ] = baseTexture;
     }
 
     return baseTexture;
@@ -240,3 +240,33 @@ function createSource(path, type)
 
     return source;
 }
+
+/**
+ * A texture of a [playing] Video.
+ *
+ * Video base textures mimic Pixi BaseTexture.from.... method in their creation process.
+ *
+ * This can be used in several ways, such as:
+ *
+ * ```js
+ * var texture = PIXI.VideoBaseTexture.fromUrl('http://mydomain.com/video.mp4');
+ *
+ * var texture = PIXI.VideoBaseTexture.fromUrl({ src: 'http://mydomain.com/video.mp4', mime: 'video/mp4' });
+ *
+ * var texture = PIXI.VideoBaseTexture.fromUrls(['/video.webm', '/video.mp4']);
+ *
+ * var texture = PIXI.VideoBaseTexture.fromUrls([
+ *     { src: '/video.webm', mime: 'video/webm' },
+ *     { src: '/video.mp4', mime: 'video/mp4' }
+ * ]);
+ * ```
+ *
+ * See the ["deus" demo](http://www.goodboydigital.com/pixijs/examples/deus/).
+ *
+ * @class
+ * @extends PIXI.BaseTexture
+ * @memberof PIXI
+ * @param source {HTMLVideoElement} Video source
+ * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
+ */
+export { mod_VideoBaseTexture as VideoBaseTexture };

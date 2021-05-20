@@ -1,5 +1,5 @@
+import { indexjs as math } from "../../../math";
 "use strict";
-var math = require('../../../math');
 
 /*
  * Calculates the mapped matrix
@@ -77,8 +77,10 @@ var calculateSpriteMatrix = function (outputMatrix, filterArea, textureSize, spr
     return mappedMatrix;
 };
 
-module.exports = {
+mod_filterTransformsjs = {
     calculateScreenSpaceMatrix:calculateScreenSpaceMatrix,
     calculateNormalizedScreenSpaceMatrix:calculateNormalizedScreenSpaceMatrix,
     calculateSpriteMatrix:calculateSpriteMatrix
 };
+var mod_filterTransformsjs;
+export { mod_filterTransformsjs as filterTransformsjs };

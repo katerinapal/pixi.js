@@ -1,5 +1,6 @@
+var mod_TransformBase = TransformBase;
+import { indexjs as math } from "../math";
 "use strict";
-var math = require('../math');
 
 
 /**
@@ -66,4 +67,10 @@ TransformBase.prototype.updateWorldTransform = TransformBase.prototype.updateTra
 
 TransformBase.IDENTITY = new TransformBase();
 
-module.exports = TransformBase;
+/**
+ * Generic class to deal with traditional 2D matrix transforms
+ *
+ * @class
+ * @memberof PIXI
+ */
+export { mod_TransformBase as TransformBase };

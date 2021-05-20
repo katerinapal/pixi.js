@@ -1,3 +1,4 @@
+var mod_GraphicsData = GraphicsData;
 "use strict";
 /**
  * A GraphicsData object.
@@ -68,7 +69,6 @@ function GraphicsData(lineWidth, lineColor, lineAlpha, fillColor, fillAlpha, fil
 }
 
 GraphicsData.prototype.constructor = GraphicsData;
-module.exports = GraphicsData;
 
 /**
  * Creates a new GraphicsData object with the same values as this one.
@@ -104,3 +104,18 @@ GraphicsData.prototype.destroy = function () {
     this.shape = null;
     this.holes = null;
 };
+
+/**
+ * A GraphicsData object.
+ *
+ * @class
+ * @memberof PIXI
+ * @param lineWidth {number} the width of the line to draw
+ * @param lineColor {number} the color of the line to draw
+ * @param lineAlpha {number} the alpha of the line to draw
+ * @param fillColor {number} the color of the fill
+ * @param fillAlpha {number} the alpha of the fill
+ * @param fill      {boolean} whether or not the shape is filled with a colour
+ * @param shape     {PIXI.Circle|PIXI.Rectangle|PIXI.Ellipse|PIXI.Polygon} The shape object to draw.
+ */
+export { mod_GraphicsData as GraphicsData };

@@ -1,8 +1,9 @@
+import ext_resourceloader from "resource-loader";
+import { core as core_core } from "../core";
+import { indexjs as extras } from "../extras";
+import ext_path_path from "path";
 "use strict";
-var Resource = require('resource-loader').Resource,
-    core = require('../core'),
-    extras = require('../extras'),
-    path = require('path');
+var Resource = ext_resourceloader.Resource;
 
 
 function parse(resource, texture) {
@@ -22,7 +23,7 @@ function parse(resource, texture) {
     {
         var charCode = parseInt(letters[i].getAttribute('id'), 10);
 
-        var textureRect = new core.Rectangle(
+        var textureRect = new core_core.Rectangle(
             parseInt(letters[i].getAttribute('x'), 10) + texture.frame.x,
             parseInt(letters[i].getAttribute('y'), 10) + texture.frame.y,
             parseInt(letters[i].getAttribute('width'), 10),
@@ -34,7 +35,7 @@ function parse(resource, texture) {
             yOffset: parseInt(letters[i].getAttribute('yoffset'), 10),
             xAdvance: parseInt(letters[i].getAttribute('xadvance'), 10),
             kerning: {},
-            texture: new core.Texture(texture.baseTexture, textureRect)
+            texture: new core_core.Texture(texture.baseTexture, textureRect)
 
         };
     }
@@ -61,7 +62,7 @@ function parse(resource, texture) {
 }
 
 
-module.exports = function ()
+var mod_anonymus = function ()
 {
     return function (resource, next)
     {
@@ -81,7 +82,7 @@ module.exports = function ()
             return next();
         }
 
-        var xmlUrl = !resource.isDataUrl ? path.dirname(resource.url) : '';
+        var xmlUrl = !resource.isDataUrl ? ext_path_path.dirname(resource.url) : '';
 
         if (resource.isDataUrl) {
             if (xmlUrl === '.') {
@@ -105,9 +106,9 @@ module.exports = function ()
         }
         
         var textureUrl = xmlUrl + resource.data.getElementsByTagName('page')[0].getAttribute('file');
-        if (core.utils.TextureCache[textureUrl]) {
+        if (core_core.utils.TextureCache[textureUrl]) {
             //reuse existing texture
-            parse(resource, core.utils.TextureCache[textureUrl]);
+            parse(resource, core_core.utils.TextureCache[textureUrl]);
             next();
         }
         else {
@@ -124,3 +125,69 @@ module.exports = function ()
         }
     };
 };
+
+
+mod_anonymus = function ()
+{
+    return function (resource, next)
+    {
+        // skip if no data or not xml data
+        if (!resource.data || !resource.isXml)
+        {
+            return next();
+        }
+
+        // skip if not bitmap font data, using some silly duck-typing
+        if (
+            resource.data.getElementsByTagName('page').length === 0 ||
+            resource.data.getElementsByTagName('info').length === 0 ||
+            resource.data.getElementsByTagName('info')[0].getAttribute('face') === null
+            )
+        {
+            return next();
+        }
+
+        var xmlUrl = !resource.isDataUrl ? ext_path_path.dirname(resource.url) : '';
+
+        if (resource.isDataUrl) {
+            if (xmlUrl === '.') {
+                xmlUrl = '';
+            }
+
+            if (this.baseUrl && xmlUrl) {
+                // if baseurl has a trailing slash then add one to xmlUrl so the replace works below
+                if (this.baseUrl.charAt(this.baseUrl.length - 1) === '/') {
+                    xmlUrl += '/';
+                }
+
+                // remove baseUrl from xmlUrl
+                xmlUrl = xmlUrl.replace(this.baseUrl, '');
+            }
+        }
+        
+        // if there is an xmlUrl now, it needs a trailing slash. Ensure that it does if the string isn't empty.
+        if (xmlUrl && xmlUrl.charAt(xmlUrl.length - 1) !== '/') {
+            xmlUrl += '/';
+        }
+        
+        var textureUrl = xmlUrl + resource.data.getElementsByTagName('page')[0].getAttribute('file');
+        if (core_core.utils.TextureCache[textureUrl]) {
+            //reuse existing texture
+            parse(resource, core_core.utils.TextureCache[textureUrl]);
+            next();
+        }
+        else {
+            var loadOptions = {
+                crossOrigin: resource.crossOrigin,
+                loadType: Resource.LOAD_TYPE.IMAGE,
+                metadata: resource.metadata.imageMetadata
+            };
+            // load the texture for the font
+            this.add(resource.name + '_image', textureUrl, loadOptions, function (res) {
+                parse(resource, res.texture);
+                next();
+            });
+        }
+    };
+};
+export { mod_anonymus as bitmapFontParser };

@@ -1,20 +1,17 @@
+var mod_Graphics = Graphics;
+import { Container as Container_Container } from "../display/Container";
+import { RenderTexture as RenderTexture_RenderTexture } from "../textures/RenderTexture";
+import { Texture as Texture_Texture } from "../textures/Texture";
+import { GraphicsData as GraphicsData_GraphicsData } from "./GraphicsData";
+import { Sprite as Sprite_Sprite } from "../sprites/Sprite";
+import { indexjs as math } from "../math";
+import { CONST as const_CONST } from "../const";
+import { utils as utils_utils } from "../utils";
+import { Bounds as Bounds_Bounds } from "../display/Bounds";
+import { bezierCurveTo as bezierCurveTo_bezierCurveTo } from "./utils/bezierCurveTo";
+import { CanvasRenderer as CanvasRenderer_CanvasRenderer } from "../renderers/canvas/CanvasRenderer";
 "use strict";
-var Container = require('../display/Container'),
-    RenderTexture = require('../textures/RenderTexture'),
-    Texture = require('../textures/Texture'),
-    GraphicsData = require('./GraphicsData'),
-    Sprite = require('../sprites/Sprite'),
-    math = require('../math'),
-    CONST = require('../const'),
-    utils = require('../utils'),
-    Bounds = require('../display/Bounds'),
-    bezierCurveTo = require('./utils/bezierCurveTo'),
-    CanvasRenderer = require('../renderers/canvas/CanvasRenderer'),
-    canvasRenderer,
-    tempMatrix = new math.Matrix(),
-    tempPoint = new math.Point(),
-    tempColor1 = new Float32Array(4),
-    tempColor2 = new Float32Array(4);
+var canvasRenderer, tempMatrix = new math.Matrix(), tempPoint = new math.Point(), tempColor1 = new Float32Array(4), tempColor2 = new Float32Array(4);
 
 /**
  * The Graphics class contains methods used to draw primitive shapes such as lines, circles and
@@ -26,7 +23,7 @@ var Container = require('../display/Container'),
  */
 function Graphics()
 {
-    Container.call(this);
+    Container_Container.call(this);
 
     /**
      * The alpha value used when filling the Graphics object.
@@ -84,7 +81,7 @@ function Graphics()
      * @default PIXI.BLEND_MODES.NORMAL;
      * @see PIXI.BLEND_MODES
      */
-    this.blendMode = CONST.BLEND_MODES.NORMAL;
+    this.blendMode = const_CONST.BLEND_MODES.NORMAL;
 
     /**
      * Current path
@@ -123,7 +120,7 @@ function Graphics()
      * @member {PIXI.Rectangle}
      * @private
      */
-    this._localBounds = new Bounds();
+    this._localBounds = new Bounds_Bounds();
 
     /**
      * Used to detect if the graphics object has changed. If this is set to true then the graphics
@@ -181,9 +178,8 @@ function Graphics()
 Graphics._SPRITE_TEXTURE = null;
 
 // constructor
-Graphics.prototype = Object.create(Container.prototype);
+Graphics.prototype = Object.create(Container_Container.prototype);
 Graphics.prototype.constructor = Graphics;
-module.exports = Graphics;
 
 /**
  * Creates a new Graphics object with the same values as this one.
@@ -373,7 +369,7 @@ Graphics.prototype.bezierCurveTo = function (cpX, cpY, cpX2, cpY2, toX, toY)
 
     points.length -= 2;
 
-    bezierCurveTo(fromX, fromY, cpX, cpY, cpX2, cpY2, toX, toY, points);
+    bezierCurveTo_bezierCurveTo(fromX, fromY, cpX, cpY, cpX2, cpY2, toX, toY, points);
 
     this.dirty++;
 
@@ -692,7 +688,7 @@ Graphics.prototype.clear = function ()
  * @returns {boolean}
  */
 Graphics.prototype.isFastRect = function() {
-    return this.graphicsData.length === 1 && this.graphicsData[0].shape.type === CONST.SHAPES.RECT && !this.graphicsData[0].lineWidth;
+    return this.graphicsData.length === 1 && this.graphicsData[0].shape.type === const_CONST.SHAPES.RECT && !this.graphicsData[0].lineWidth;
 };
 
 /**
@@ -730,7 +726,7 @@ Graphics.prototype._renderSpriteRect = function (renderer)
     {
         if(!Graphics._SPRITE_TEXTURE)
         {
-            Graphics._SPRITE_TEXTURE = RenderTexture.create(10, 10);
+            Graphics._SPRITE_TEXTURE = RenderTexture_RenderTexture.create(10, 10);
 
             var currentRenderTarget = renderer._activeRenderTarget;
             renderer.bindRenderTexture(Graphics._SPRITE_TEXTURE);
@@ -738,19 +734,19 @@ Graphics.prototype._renderSpriteRect = function (renderer)
             renderer.bindRenderTarget(currentRenderTarget);
         }
 
-        this._spriteRect = new Sprite(Graphics._SPRITE_TEXTURE);
+        this._spriteRect = new Sprite_Sprite(Graphics._SPRITE_TEXTURE);
     }
     if (this.tint === 0xffffff) {
         this._spriteRect.tint = this.graphicsData[0].fillColor;
     } else {
         var t1 = tempColor1;
         var t2 = tempColor2;
-        utils.hex2rgb(this.graphicsData[0].fillColor, t1);
-        utils.hex2rgb(this.tint, t2);
+        utils_utils.hex2rgb(this.graphicsData[0].fillColor, t1);
+        utils_utils.hex2rgb(this.tint, t2);
         t1[0] *= t2[0];
         t1[1] *= t2[1];
         t1[2] *= t2[2];
-        this._spriteRect.tint = utils.rgb2hex(t1);
+        this._spriteRect.tint = utils_utils.rgb2hex(t1);
     }
     this._spriteRect.alpha = this.graphicsData[0].fillAlpha;
     this._spriteRect.worldAlpha = this.worldAlpha * this._spriteRect.alpha;
@@ -866,7 +862,7 @@ Graphics.prototype.updateLocalBounds = function ()
             var lineWidth = data.lineWidth;
             shape = data.shape;
 
-            if (type === CONST.SHAPES.RECT || type === CONST.SHAPES.RREC)
+            if (type === const_CONST.SHAPES.RECT || type === const_CONST.SHAPES.RREC)
             {
                 x = shape.x - lineWidth/2;
                 y = shape.y - lineWidth/2;
@@ -879,7 +875,7 @@ Graphics.prototype.updateLocalBounds = function ()
                 minY = y < minY ? y : minY;
                 maxY = y + h > maxY ? y + h : maxY;
             }
-            else if (type === CONST.SHAPES.CIRC)
+            else if (type === const_CONST.SHAPES.CIRC)
             {
                 x = shape.x;
                 y = shape.y;
@@ -892,7 +888,7 @@ Graphics.prototype.updateLocalBounds = function ()
                 minY = y - h < minY ? y - h : minY;
                 maxY = y + h > maxY ? y + h : maxY;
             }
-            else if (type === CONST.SHAPES.ELIP)
+            else if (type === const_CONST.SHAPES.ELIP)
             {
                 x = shape.x;
                 y = shape.y;
@@ -961,11 +957,11 @@ Graphics.prototype.drawShape = function (shape)
 
     this.currentPath = null;
 
-    var data = new GraphicsData(this.lineWidth, this.lineColor, this.lineAlpha, this.fillColor, this.fillAlpha, this.filling, shape);
+    var data = new GraphicsData_GraphicsData(this.lineWidth, this.lineColor, this.lineAlpha, this.fillColor, this.fillAlpha, this.filling, shape);
 
     this.graphicsData.push(data);
 
-    if (data.type === CONST.SHAPES.POLY)
+    if (data.type === const_CONST.SHAPES.POLY)
     {
         data.shape.closed = data.shape.closed || this.filling;
         this.currentPath = data;
@@ -982,11 +978,11 @@ Graphics.prototype.generateCanvasTexture = function(scaleMode, resolution)
 
     var bounds = this.getLocalBounds();
 
-    var canvasBuffer = new RenderTexture.create(bounds.width * resolution, bounds.height * resolution);
+    var canvasBuffer = new RenderTexture_RenderTexture.create(bounds.width * resolution, bounds.height * resolution);
 
     if(!canvasRenderer)
     {
-        canvasRenderer = new CanvasRenderer();
+        canvasRenderer = new CanvasRenderer_CanvasRenderer();
     }
 
     tempMatrix.tx = -bounds.x;
@@ -994,7 +990,7 @@ Graphics.prototype.generateCanvasTexture = function(scaleMode, resolution)
 
     canvasRenderer.render(this, canvasBuffer, false, tempMatrix);
 
-    var texture = Texture.fromCanvas(canvasBuffer.baseTexture._canvasRenderTarget.canvas, scaleMode);
+    var texture = Texture_Texture.fromCanvas(canvasBuffer.baseTexture._canvasRenderTarget.canvas, scaleMode);
     texture.baseTexture.resolution = resolution;
 
     return texture;
@@ -1029,7 +1025,7 @@ Graphics.prototype.addHole = function()
  */
 Graphics.prototype.destroy = function ()
 {
-    Container.prototype.destroy.apply(this, arguments);
+    Container_Container.prototype.destroy.apply(this, arguments);
 
     // destroy each of the GraphicsData objects
     for (var i = 0; i < this.graphicsData.length; ++i) {
@@ -1053,3 +1049,13 @@ Graphics.prototype.destroy = function ()
     this._webgl = null;
     this._localBounds = null;
 };
+
+/**
+ * The Graphics class contains methods used to draw primitive shapes such as lines, circles and
+ * rectangles to the display, and to color and fill them.
+ *
+ * @class
+ * @extends PIXI.Container
+ * @memberof PIXI
+ */
+export { mod_Graphics as Graphics };

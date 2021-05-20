@@ -1,3 +1,5 @@
+import { accessibleTarget as accessibleTarget_accessibleTarget } from "./accessibleTarget";
+import { AccessibilityManager as AccessibilityManager_AccessibilityManager } from "./AccessibilityManager";
 "use strict";
 /**
  * @file        Main export of the PIXI accessibility library
@@ -9,7 +11,9 @@
 /**
  * @namespace PIXI.AccessibilityManager
  */
-module.exports = {
-    accessibleTarget:     require('./accessibleTarget'),
-    AccessibilityManager: require('./AccessibilityManager')
+mod_indexjs = {
+    accessibleTarget:     accessibleTarget_accessibleTarget,
+    AccessibilityManager: AccessibilityManager_AccessibilityManager
 };
+var mod_indexjs;
+export { mod_indexjs as indexjs };

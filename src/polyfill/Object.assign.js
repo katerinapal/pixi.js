@@ -1,3 +1,4 @@
+import ext_objectassign from "object-assign";
 "use strict";
 // References:
 // https://github.com/sindresorhus/object-assign
@@ -5,5 +6,5 @@
 
 if (!Object.assign)
 {
-    Object.assign = require('object-assign');
+    Object.assign = ext_objectassign;
 }

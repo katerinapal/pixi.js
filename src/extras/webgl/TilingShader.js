@@ -1,6 +1,7 @@
+var mod_TilingShader = TilingShader;
+import { Shader as Shader_Shader } from "../../core/Shader";
+import ext_glslify_glslify from "glslify";
 "use strict";
-var Shader = require('../../core/Shader');
-var glslify  = require('glslify');
 
 /**
  * @class
@@ -10,14 +11,21 @@ var glslify  = require('glslify');
  */
 function TilingShader(gl)
 {
-    Shader.call(this,
+    Shader_Shader.call(this,
         gl,
-        glslify('./tilingSprite.vert'),
-        glslify('./tilingSprite.frag')
+        ext_glslify_glslify('./tilingSprite.vert'),
+        ext_glslify_glslify('./tilingSprite.frag')
     );
 }
 
-TilingShader.prototype = Object.create(Shader.prototype);
+TilingShader.prototype = Object.create(Shader_Shader.prototype);
 TilingShader.prototype.constructor = TilingShader;
-module.exports = TilingShader;
+
+/**
+ * @class
+ * @extends PIXI.Shader
+ * @memberof PIXI.mesh
+ * @param gl {PIXI.Shader} The WebGL shader manager this shader works for.
+ */
+export { mod_TilingShader as TilingShader };
 

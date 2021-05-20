@@ -1,6 +1,6 @@
+import { buildLine as buildLine_buildLine } from "./buildLine";
+import { utils as utils_utils } from "../../../utils";
 "use strict";
-var buildLine = require('./buildLine'),
-    utils = require('../../../utils');
 
 /**
  * Builds a rectangle to draw
@@ -25,7 +25,7 @@ var buildRectangle = function (graphicsData, webGLData)
 
     if (graphicsData.fill)
     {
-        var color = utils.hex2rgb(graphicsData.fillColor);
+        var color = utils_utils.hex2rgb(graphicsData.fillColor);
         var alpha = graphicsData.fillAlpha;
 
         var r = color[0] * alpha;
@@ -65,10 +65,13 @@ var buildRectangle = function (graphicsData, webGLData)
                   x, y];
 
 
-        buildLine(graphicsData, webGLData);
+        buildLine_buildLine(graphicsData, webGLData);
 
         graphicsData.points = tempPoints;
     }
 };
 
-module.exports = buildRectangle;
+var mod_buildRectangle;
+
+mod_buildRectangle = buildRectangle;
+export { mod_buildRectangle as buildRectangle };

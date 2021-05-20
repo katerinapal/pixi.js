@@ -1,8 +1,9 @@
+import ext_pixiglcore from "pixi-gl-core";
+import { CONST as const_CONST } from "../../const";
+import { RenderTarget as RenderTarget_RenderTarget } from "./utils/RenderTarget";
+import { utils as utils_utils } from "../../utils";
 "use strict";
-var GLTexture = require('pixi-gl-core').GLTexture,
-    CONST = require('../../const'),
-    RenderTarget = require('./utils/RenderTarget'),
-	utils = require('../../utils');
+var GLTexture = ext_pixiglcore.GLTexture;
 
 /**
  * Helper class to create a webGL Texture
@@ -67,7 +68,7 @@ TextureManager.prototype.updateTexture = function(texture)
     {
         if(isRenderTexture)
         {
-            var renderTarget = new RenderTarget(this.gl, texture.width, texture.height, texture.scaleMode, texture.resolution);
+            var renderTarget = new RenderTarget_RenderTarget(this.gl, texture.width, texture.height, texture.scaleMode, texture.resolution);
             renderTarget.resize(texture.width, texture.height);
             texture._glRenderTargets[this.renderer.CONTEXT_UID] = renderTarget;
             glTexture = renderTarget.texture;
@@ -93,11 +94,11 @@ TextureManager.prototype.updateTexture = function(texture)
                 glTexture.enableMipmap();
             }
 
-            if(texture.wrapMode === CONST.WRAP_MODES.CLAMP)
+            if(texture.wrapMode === const_CONST.WRAP_MODES.CLAMP)
             {
                 glTexture.enableWrapClamp();
             }
-            else if(texture.wrapMode === CONST.WRAP_MODES.REPEAT)
+            else if(texture.wrapMode === const_CONST.WRAP_MODES.REPEAT)
             {
                 glTexture.enableWrapRepeat();
             }
@@ -111,7 +112,7 @@ TextureManager.prototype.updateTexture = function(texture)
             glTexture.enableWrapClamp();
         }
 
-        if(texture.scaleMode === CONST.SCALE_MODES.NEAREST)
+        if(texture.scaleMode === const_CONST.SCALE_MODES.NEAREST)
         {
             glTexture.enableNearestScaling();
         }
@@ -164,7 +165,7 @@ TextureManager.prototype.destroyTexture = function(texture, skipRemove)
         {
             var i = this._managedTextures.indexOf(texture);
             if (i !== -1) {
-                utils.removeItems(this._managedTextures, i, 1);
+                utils_utils.removeItems(this._managedTextures, i, 1);
             }
         }
     }
@@ -203,4 +204,7 @@ TextureManager.prototype.destroy = function()
     this._managedTextures = null;
 };
 
-module.exports = TextureManager;
+var mod_TextureManager;
+
+mod_TextureManager = TextureManager;
+export { mod_TextureManager as TextureManager };

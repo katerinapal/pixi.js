@@ -22,7 +22,9 @@
      this.uint32View = new Uint32Array(this.vertices);
  };
 
- module.exports = Buffer;
+ var mod_Buffer;
+
+ mod_Buffer = Buffer;
 
  Buffer.prototype.destroy = function(){
    this.vertices = null;
@@ -30,3 +32,4 @@
    this.uvs = null;
    this.colors  = null;
  };
+ export { mod_Buffer as Buffer };

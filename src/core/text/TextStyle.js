@@ -1,6 +1,7 @@
+var mod_TextStyle = TextStyle;
+import { CONST as const_CONST } from "../const";
+import { utils as utils_utils } from "../utils";
 "use strict";
-var CONST = require('../const'),
-    utils = require('../utils');
 
 /**
  * A TextStyle Object decorates a Text Object. It can be shared between
@@ -45,7 +46,6 @@ function TextStyle(style)
 }
 
 TextStyle.prototype.constructor = TextStyle;
-module.exports = TextStyle;
 
 // Default settings. Explained in the constructor.
 TextStyle.prototype._defaults = {
@@ -57,7 +57,7 @@ TextStyle.prototype._defaults = {
     dropShadowColor: '#000000',
     dropShadowDistance: 5,
     fill: 'black',
-    fillGradientType: CONST.TEXT_GRADIENT.LINEAR_VERTICAL,
+    fillGradientType: const_CONST.TEXT_GRADIENT.LINEAR_VERTICAL,
     fontFamily: 'Arial',
     fontSize: 26,
     fontStyle: 'normal',
@@ -476,7 +476,7 @@ function getColor(color)
 {
     if (typeof color === 'number')
     {
-        return utils.hex2string(color);
+        return utils_utils.hex2string(color);
     }
     else if (Array.isArray(color))
     {
@@ -484,10 +484,48 @@ function getColor(color)
         {
             if (typeof color[i] === 'number')
             {
-                color[i] = utils.hex2string(color[i]);
+                color[i] = utils_utils.hex2string(color[i]);
             }
         }
     }
 
     return color;
 }
+
+/**
+ * A TextStyle Object decorates a Text Object. It can be shared between
+ * multiple Text objects. Changing the style will update all text objects using it.
+ *
+ * @class
+ * @memberof PIXI
+ * @param [style] {object} The style parameters
+ * @param [style.align='left'] {string} Alignment for multiline text ('left', 'center' or 'right'), does not affect single line text
+ * @param [style.breakWords=false] {boolean} Indicates if lines can be wrapped within words, it needs wordWrap to be set to true
+ * @param [style.dropShadow=false] {boolean} Set a drop shadow for the text
+ * @param [style.dropShadowAngle=Math.PI/6] {number} Set a angle of the drop shadow
+ * @param [style.dropShadowBlur=0] {number} Set a shadow blur radius
+ * @param [style.dropShadowColor='#000000'] {string} A fill style to be used on the dropshadow e.g 'red', '#00FF00'
+ * @param [style.dropShadowDistance=5] {number} Set a distance of the drop shadow
+ * @param [style.fill='black'] {string|string[]|number|number[]|CanvasGradient|CanvasPattern} A canvas fillstyle that will be used on the
+ *      text e.g 'red', '#00FF00'. Can be an array to create a gradient eg ['#000000','#FFFFFF'] @see {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle|MDN}
+ * @param [style.fillGradientType=PIXI.TEXT_GRADIENT.LINEAR_VERTICAL] {number} If fills styles are supplied, this can change the type/direction of the gradient. See {@link PIXI.TEXT_GRADIENT} for possible values
+ * @param [style.fontFamily='Arial'] {string} The font family
+ * @param [style.fontSize=26] {number|string} The font size (as a number it converts to px, but as a string, equivalents are '26px','20pt','160%' or '1.6em')
+ * @param [style.fontStyle='normal'] {string} The font style ('normal', 'italic' or 'oblique')
+ * @param [style.fontVariant='normal'] {string} The font variant ('normal' or 'small-caps')
+ * @param [style.fontWeight='normal'] {string} The font weight ('normal', 'bold', 'bolder', 'lighter' and '100', '200', '300', '400', '500', '600', '700', 800' or '900')
+ * @param [style.letterSpacing=0] {number} The amount of spacing between letters, default is 0
+ * @param [style.lineHeight] {number} The line height, a number that represents the vertical space that a letter uses
+ * @param [style.lineJoin='miter'] {string} The lineJoin property sets the type of corner created, it can resolve
+ *      spiked text issues. Default is 'miter' (creates a sharp corner).
+ * @param [style.miterLimit=10] {number} The miter limit to use when using the 'miter' lineJoin mode. This can reduce
+ *      or increase the spikiness of rendered text.
+ * @param [style.padding=0] {number} Occasionally some fonts are cropped on top or bottom. Adding some padding will
+ *      prevent this from happening by adding padding to the top and bottom of text height.
+ * @param [style.stroke='black'] {string|number} A canvas fillstyle that will be used on the text stroke e.g 'blue', '#FCFF00'
+ * @param [style.strokeThickness=0] {number} A number that represents the thickness of the stroke. Default is 0 (no stroke)
+ * @param [style.textBaseline='alphabetic'] {string} The baseline of the text that is rendered.
+ * @param [style.wordWrap=false] {boolean} Indicates if word wrap should be used
+ * @param [style.wordWrapWidth=100] {number} The width at which text will wrap, it needs wordWrap to be set to true
+ */
+export { mod_TextStyle as TextStyle };

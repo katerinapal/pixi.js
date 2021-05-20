@@ -1,3 +1,4 @@
+var mod_ObservablePoint = ObservablePoint;
 "use strict";
 /**
  * The Point object represents a location in a two-dimensional coordinate system, where x represents
@@ -21,7 +22,6 @@ function ObservablePoint(cb, scope, x, y)
 }
 
 ObservablePoint.prototype.constructor = ObservablePoint;
-module.exports = ObservablePoint;
 
 
 
@@ -99,3 +99,17 @@ ObservablePoint.prototype.copy = function (point)
         this.cb.call(this.scope);
     }
 };
+
+/**
+ * The Point object represents a location in a two-dimensional coordinate system, where x represents
+ * the horizontal axis and y represents the vertical axis.
+ * An observable point is a point that triggers a callback when the point's position is changed.
+ *
+ * @class
+ * @memberof PIXI
+ * @param cb {Function} callback when changed
+ * @param scope {Object} owner of callback
+ * @param [x=0] {number} position of the point on the x axis
+ * @param [y=0] {number} position of the point on the y axis
+ */
+export { mod_ObservablePoint as ObservablePoint };
